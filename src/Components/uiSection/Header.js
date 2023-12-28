@@ -1,11 +1,12 @@
 import React from "react";
-import logo from "../images/Ellipse 1.svg";
-import search_logo from "../images/search-normal.svg";
-import circle from "../images/Group 1000002822.svg";
-import bell_icon from "../images/Notification.svg";
-import Flag_icon from "../images/United.svg";
-import down_icon from "../images/chevron-down.svg";
-import user_pic from "../images/photo.svg";
+
+import logo from "../../images/Ellipse 1.svg";
+import search_logo from "../../images/search-normal.svg";
+import circle from "../../images/Group 1000002822.svg";
+import bell_icon from "../../images/Notification.svg";
+import Flag_icon from "../../images/United.svg";
+import down_icon from "../../images/chevron-down.svg";
+import user_pic from "../../images/photo.svg";
 
 const Header = () => {
   return (

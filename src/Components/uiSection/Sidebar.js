@@ -1,10 +1,11 @@
 import React from "react";
-import Home_Icon from "../images/category-2.svg";
-import Resources_Icon from "../images/book-saved.svg";
-import Favorites_Icon from "../images/book-saved.svg";
-import Search_Icon from "../images/search-normal.svg";
-import help_Icon from "../images/message-question.svg";
-import question_Icon from "../images/Question.svg"
+// import Home_Icon from "../images/category-2.svg";
+import Home_Icon from "../../images/category-2.svg";
+import Resources_Icon from "../../images/book-saved.svg";
+import Favorites_Icon from "../../images/book-saved.svg";
+import Search_Icon from "../../images/search-normal.svg";
+import help_Icon from "../../images/message-question.svg";
+import question_Icon from "../../images/Question.svg";
 const Sidebar = () => {
   return (
     <>
@@ -38,10 +39,18 @@ const Sidebar = () => {
         </div>
 
         <div className=" flex items-center justify-normal flex-col mt-[160px] ">
-        <img className="w-[60px] h-[60px]" src={question_Icon} alt="Help Icon" />
-          <img className="relative bottom-[35px] w-[18px] h-[18px] flex justify-normal items-center flex-shrink-0" src={help_Icon} alt="Help Icon" />
-          <h1 className='text-blue-500 font-poppins text-center text-xs font-medium w-[56px] h-[18px] relative bottom-5'>
-          Help
+          <img
+            className="w-[60px] h-[60px]"
+            src={question_Icon}
+            alt="Help Icon"
+          />
+          <img
+            className="relative bottom-[35px] w-[18px] h-[18px] flex justify-normal items-center flex-shrink-0"
+            src={help_Icon}
+            alt="Help Icon"
+          />
+          <h1 className="text-blue-500 font-poppins text-center text-xs font-medium w-[56px] h-[18px] relative bottom-5">
+            Help
           </h1>
         </div>
       </div>

@@ -1,20 +1,18 @@
 import React from "react";
-import Home from "./Components/Home";
-import Header from "./Components/Header";
-import Sidebar from "./Components/Sidebar";
-import Footer from "./Components/Footer";
+import Home from "./Components/uiSection/Home";
+import Header from "./Components/uiSection/Header";
+import Sidebar from "./Components/uiSection/Sidebar";
+import Footer from "./Components/uiSection/Footer";
 import { Outlet } from "react-router-dom";
-
 
 const AppLayout = () => {
   return (
     <>
-     <Header />
+      <Header />
       <Sidebar />
       <Footer />
     </>
   );
 };
-
 
 export default AppLayout;
