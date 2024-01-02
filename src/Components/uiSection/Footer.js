@@ -96,7 +96,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <Button handleBackToTop={handleBackToTop} />
+          <Button handleBackToTop={handleBackToTop} title={"Back on Top"} />
         </div>
       </div>
       <div className=" h-[117px] bg-[#0B3775] flex flex-shrink-0 text-white justify-normal items-center fill-white">

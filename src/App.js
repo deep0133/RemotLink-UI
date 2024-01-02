@@ -1,5 +1,5 @@
 import React from "react";
-import Home from "./Components/uiSection/Home";
+import Home from "./Components/uiGroup/home";
 import Header from "./Components/uiSection/Header";
 import Sidebar from "./Components/uiSection/Sidebar";
 import Footer from "./Components/uiSection/Footer";
@@ -9,7 +9,10 @@ const AppLayout = () => {
   return (
     <>
       <Header />
-      <Sidebar />
+      <div className=" flex">
+        <Sidebar />
+        <Home />
+      </div>
       <Footer />
     </>
   );

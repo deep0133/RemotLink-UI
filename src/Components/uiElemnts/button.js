@@ -1,7 +1,7 @@
 import React from "react";
 import btn_icon from "../uiElemnts/button";
 
-const Button = ({ handleBackToTop }) => {
+const Button = ({ handleBackToTop, title }) => {
   return (
     <div>
       <button
@@ -10,7 +10,7 @@ const Button = ({ handleBackToTop }) => {
       >
         <img src={btn_icon} alt="Back top icon" className="" />
         <h1 className="text-white font-Poppins text-base relative bottom-[33px] ">
-          Back to Top
+          {title}
         </h1>
       </button>
     </div>
