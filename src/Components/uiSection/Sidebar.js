@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 // import Home_Icon from "../images/category-2.svg";
 import Home_Icon from "../../images/category-2.svg";
 import Resources_Icon from "../../images/book-saved.svg";
@@ -10,13 +11,14 @@ const Sidebar = () => {
   return (
     <>
       <div className="w-[96px]  flex flex-shrink-0 flex-col items-center p-4 border border-solid border-color-p3   shadow-md no-scrollbar ">
-        <div className="w-[42px] h-[42px] flex items-center justify-center flex-col mt-[22px]  ">
-          <img className="pb-[7px]" src={Home_Icon} alt="Home Icon" />
-          <h1 className="text-blue-500 text-center font-poppins text-[10px] font-semibold">
-            Home
-          </h1>
-        </div>
-
+        <Link to="/Home">
+          <div className="w-[42px] h-[42px] flex items-center justify-center flex-col mt-[22px]  ">
+            <img className="pb-[7px]" src={Home_Icon} alt="Home Icon" />
+            <h1 className="text-blue-500 text-center font-poppins text-[10px] font-semibold">
+              Home
+            </h1>
+          </div>
+        </Link>
         <div className="w-[42px] h-[42px] flex items-center justify-center flex-col mt-[22px]">
           <img className="pb-[7px]" src={Resources_Icon} alt="Resources Icon" />
           <h1 className="text-gray-600 text-center font-poppins text-xs font-medium">
@@ -30,13 +32,14 @@ const Sidebar = () => {
             My Favorites
           </h1>
         </div>
-
-        <div className="w-[42px] h-[42px] flex items-center justify-center flex-col  mt-[29px]">
-          <img className="pb-[7px]" src={Search_Icon} alt="Search Icon" />
-          <h1 className="text-gray-600 text-center font-poppins text-xs font-medium">
-            Search
-          </h1>
-        </div>
+        <Link to="/searchview">
+          <div className="w-[42px] h-[42px] flex items-center justify-center flex-col  mt-[29px]">
+            <img className="pb-[7px]" src={Search_Icon} alt="Search Icon" />
+            <h1 className="text-gray-600 text-center font-poppins text-xs font-medium">
+              Search
+            </h1>
+          </div>
+        </Link>
 
         <div className=" flex items-center justify-normal flex-col mt-[160px] ">
           <img
