@@ -241,7 +241,7 @@ function Home() {
           <h1 className=" text-[#A3AED0] text-[15px] font-normal leading-[28px] font-Poppins">
             Discover Fresh Perspectives with Our Newly Added Resources
           </h1>
-          <div className=" border  w-[567px] flex justify-between mt-5  items-center px-6 py-1 rounded-[8px]">
+          <div className=" border  w-[550px] flex justify-between mt-5  items-center px-2 py-1 rounded-[8px]">
             <span className=" bg-[#1F5095] text-white rounded-[8px] p-2 text-[14px]">
               EBooks
             </span>
