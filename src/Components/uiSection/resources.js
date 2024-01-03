@@ -203,10 +203,10 @@ function Resources() {
                 </p>
               </div>
               <div className=" flex flex-col">
-                <img src={firstimg} alt="firstimg" className="h-[120px]" />
-                <img src={secondimg} alt="secindimg" className="h-[120px]" />
-                <img src={thirdimg} alt="thirdimg" className="h-[120px]" />
-                <img src={fourthimg} alt="fourthimg" className="h-[120px]" />
+                <img src={firstimg} alt="firstimg" className="h-[150px]" />
+                <img src={secondimg} alt="secindimg" className="h-[150px]" />
+                <img src={thirdimg} alt="thirdimg" className="h-[150px]" />
+                <img src={fourthimg} alt="fourthimg" className="h-[150px]" />
               </div>
             </div>
           </div>
