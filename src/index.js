@@ -6,6 +6,7 @@ import AppLayout from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Landinglayout from "./Components/Landingpage/Landinglayout";
 import SearchView from "./Components/uiSection/searchView";
+import Resources from "./Components/uiSection/resources";
 
 const appRouter = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/searchview",
     element: <SearchView />,
+  },
+  {
+    path: "/resources",
+    element: <Resources />,
   },
 ]);
 

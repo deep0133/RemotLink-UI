@@ -19,12 +19,18 @@ const Sidebar = () => {
             </h1>
           </div>
         </Link>
-        <div className="w-[42px] h-[42px] flex items-center justify-center flex-col mt-[22px]">
-          <img className="pb-[7px]" src={Resources_Icon} alt="Resources Icon" />
-          <h1 className="text-gray-600 text-center font-poppins text-xs font-medium">
-            Resources
-          </h1>
-        </div>
+        <Link to="/resources">
+          <div className="w-[42px] h-[42px] flex items-center justify-center flex-col mt-[22px]">
+            <img
+              className="pb-[7px]"
+              src={Resources_Icon}
+              alt="Resources Icon"
+            />
+            <h1 className="text-gray-600 text-center font-poppins text-xs font-medium">
+              Resources
+            </h1>
+          </div>
+        </Link>
 
         <div className="w-[42px] h-[42px] flex items-center justify-center flex-col  mt-[22px]">
           <img className="pb-[7px]" src={Favorites_Icon} alt="Favorites Icon" />

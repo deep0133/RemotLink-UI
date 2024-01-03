@@ -4,7 +4,7 @@ import Button from "../uiElemnts/button";
 import get_started from "../../images/black button.png";
 import { useState } from "react";
 import cardimage from "../../images/Rectangle 25.png";
-import newimg from "../../images/Rectangle 550.png";
+import newimg from "../../images/economic.png";
 import bookmarkicon from "../../images/Group 1000002939.png";
 
 import firstimg from "../../images/Rectangle 33.png";
