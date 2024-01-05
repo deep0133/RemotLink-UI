@@ -1,6 +1,7 @@
 import React from "react";
 import nameLogo from "../../images/Ellipse 13.png";
 import lightning from "../../images/lightning.png";
+import bookmarkicon2 from "../../images/Vector.png";
 
 function Table() {
   const tableMap = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -49,21 +50,25 @@ function Table() {
                     <td class="text-sm text-gray-900 font-light  py-4 whitespace-nowrap">
                       Medical Journals
                     </td>
-                    <td class="text-sm  font-light  py-4 whitespace-nowrap ">
-                      <div className=" border w-[74px] h-[30px]  rounded-md flex flex-row items-center justify-center ">
-                        <span className="text-[#3076D8] font-medium text-[14px] mr-2">
-                          Start{" "}
-                        </span>
+                    <td class="font-light  py-4 whitespace-nowrap ">
+                      <div className=" border w-[74px] h-[30px] text-[#3076D8] text-[14px] rounded-md flex flex-row  justify-center items-center ">
+                        {/* <span className="text-[#3076D8] font-medium text-[14px] mr-2"></span> */}
+                        Start{" "}
                         <img
                           src={lightning}
-                          className=" w-[16px] h-[20px] mr-2 "
+                          className=" w-[20px] h-[20px] mt-[6px] "
                           alt="namelogo"
-                        />{" "}
+                        />
                       </div>
                     </td>
 
                     <td class="text-sm text-gray-900 font-light  py-4 whitespace-nowrap">
-                      Marked
+                      <div className=" mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center">
+                        <img
+                          src={bookmarkicon2}
+                          className=" w-[10px] h-[12px]"
+                        />{" "}
+                      </div>
                     </td>
                     <td class="text-sm text-gray-900 font-light  py-4 whitespace-nowrap">
                       24 January 2023

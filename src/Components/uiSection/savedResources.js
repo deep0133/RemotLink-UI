@@ -3,7 +3,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 
-import bookIcon from "../../images/book.png";
+import bookIcon from "../../images/Group 1000003119.png";
 import cardimg from "../../images/economic.png";
 import bookmarkicon from "../../images/Group 1000002939.png";
 import book from "../../images/Group.png";
@@ -14,17 +14,18 @@ import bookmarkicon2 from "../../images/Vector.png";
 import sort from "../../images/sort.png";
 import candel from "../../images/candle.png";
 import arrowdown from "../../images/Vector (Stroke).png";
-import firstimg from "../../images/Group 1000003079.png";
-import secondimg from "../../images/Group 1000003080.png";
-import thirdimg from "../../images/Group 1000003081.png";
-import fourthimg from "../../images/Group 1000003082.png";
+import doubleprev from "../../images/First.png";
+import singleprev from "../../images/Prev.png";
+import doublenext from "../../images/Last.png";
+import singlenext from "../../images/Next.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Table from "../uiElemnts/table";
+import repeat from "../../images/repeat.png";
 
-function Resources() {
+function SavedResources() {
   const href = window.location.pathname;
-  const [activeTab, setActiveTab] = useState("catalogue");
+  const [activeTab, setActiveTab] = useState("Resources");
 
   const arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
   const arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13];
@@ -36,6 +37,7 @@ function Resources() {
       <Header />
       <div className=" flex">
         <Sidebar />
+
         <span className=" flex flex-col w-[100%] ">
           <span
             className=" flex items-center  sm:px-8  px-3 justify-between"
@@ -54,86 +56,60 @@ function Resources() {
               </div>
 
               <span className=" whitespace-nowrap text-[#1F5095] font-semibold text-[15px]">
-                Explore the Resources Catalogue
-              </span>
-            </div>
-            <div>
-              <span className=" whitespace-nowrap text-[#1F5095]  text-[14px] border-b border-[#1F5095] mr-4">
-                Show A to Z Resources
-              </span>
-              <span className=" whitespace-nowrap text-[#BEBEBE]  text-[12px]">
-                Show A to Z Resources
+                Saved Resources
               </span>
             </div>
           </span>
           <div className="   px-[60px]  border-b">
-            <div className=" flex w-[35%]  justify-around ">
+            <div className=" flex w-[25%]  justify-around ">
               <div
-                onClick={() => setActiveTab("catalogue")}
+                onClick={() => setActiveTab("Resources")}
                 className={` ${
-                  activeTab == "catalogue"
+                  activeTab == "Resources"
                     ? "border-b-2 border-[#1F5095]"
                     : "text-[#454545] text-[14px] font-Poppins font-semibold opacity-[40%]"
                 } pt-8 pb-3 pl-3 pr-3  text-[#1F5095] text-[14px] font-Poppins font-semibold cursor-pointer`}
               >
-                Catalogue
+                Resources
               </div>
 
               <div
                 className={` ${
-                  activeTab == "site"
+                  activeTab == "Databases"
                     ? "border-b-2 border-[#1F5095]"
                     : "text-[#454545] text-[14px] font-Poppins font-semibold opacity-[40%]"
                 } pt-8 pb-3 pl-3 pr-3  text-[#1F5095] text-[14px] font-Poppins font-semibold cursor-pointer`}
-                onClick={() => setActiveTab("site")}
+                onClick={() => setActiveTab("Databases")}
               >
-                Sites / Databases
-              </div>
-
-              <div className=" pt-8 pb-3 pl-3 pr-3  text-[#454545] text-[14px] font-Poppins font-semibold opacity-[40%] cursor-pointer">
-                Library / OPAC
+                Databases
               </div>
             </div>
           </div>
-          {activeTab === "catalogue" && (
+
+          {activeTab === "Resources" && (
             <>
+              <span className="sm:px-8  px-3 mt-8">
+                <div className=" text-[12px] text-[#B3B3B3] font-medium leading-[20px] mb-2">
+                  Select Type
+                </div>
+                <div className=" border  w-[550px] flex justify-between  items-center px-2 py-1 rounded-[8px]">
+                  <span className=" bg-[#1F5095] text-white rounded-[8px] p-2 text-[14px]">
+                    EJournals
+                  </span>
+                  <span className="text-[14px]"> EBooks</span>
+
+                  <span className="text-[14px]">Research Paper</span>
+                  <span className="text-[14px]">Newsletter</span>
+                  <span className="text-[14px]">Newsletter</span>
+                </div>
+              </span>
               <div className="p-4 sm:p-10  bg-white">
-                <h1 className=" text-[#1F5095] text-[23px]  font-semibold">
-                  Popular Databases to cater you work research needs
-                </h1>
-                <p className=" text-[#A3AED0] mt-2 text-[14px]">
-                  A curated collection of academic journals and research papers
-                </p>
-              </div>
-              <div className="bg-[#221FB9/0.2] mt-4  flex  flex-wrap px-8">
-                {arr1.map((e) => (
-                  <div className=" w-[196px] h-[188px] flex flex-col border p-2 rounded-[5px] mr-[15px] mb-2">
-                    <img
-                      src={cardimg}
-                      alt="cardimg"
-                      className=" w-[177px] h-[110px] "
-                    />
-                    <div className=" mt-4 flex items-center ">
-                      <span className=" w-[137px] h-[37px] flex justify-center items-center border text-[13px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]">
-                        Economic Outlook
-                      </span>
-                      <img
-                        src={bookmarkicon}
-                        className=" ml-4  w-[32px] h-[32px]  "
-                        alt="bookmark-icon"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="p-4 sm:p-10  bg-white">
-                <h1 className=" text-[#1F5095] text-[23px]  font-semibold">
-                  Trending Resources throughout
-                </h1>
                 <div className=" flex justify-between mt-4">
-                  <p className=" text-[#A3AED0] mt-2 text-[14px]">
-                    A curated collection of academic journals and research
-                    papers
+                  <p className=" text-[#A3AED0] mt-2 text-[18px] font-semibold leading-[28px]">
+                    Total saved resources :{" "}
+                    <span className=" text-[#1F5095] font-semibold text-[20px]">
+                      70
+                    </span>
                   </p>
                   <div className=" flex">
                     <div className="px-2 h-[43px] w-[131px] rounded-[5px] border border-solid border-[#221FB9/0.14] mr-4 flex justify-around items-center">
@@ -224,85 +200,52 @@ function Resources() {
                     </div>
                   ))}
                 </div>
-                <div className="  mt-6">
-                  <div className="p-4 sm:p-10  bg-white">
-                    <h1 className=" text-[#1F5095] text-[23px]  font-semibold">
-                      E-NEWSPAPERS AND MAGAZINES
-                    </h1>
+              </div>
+              {/* pagination part to be rendered dinimically  */}
+              {/* <div className=" flex justify-center  mt-6">
+                <div className=" rounded-full  ml-2 flex justify-center text-white  border p-[12px]">
+                  <img src={doubleprev} alt="doubleprev" />
+                </div>
+                <div className=" rounded-full  ml-2  flex justify-center text-white border p-[12px]">
+                  <img src={singleprev} alt="singleprev" />
+                </div>
+                {page.map((e) => (
+                  <div className=" rounded-full  ml-2 flex justify-center border  ">
+                    <button className="p-[10px] ">{e}</button>
+                  </div>
+                ))}
+                <div className=" rounded-full  ml-2 flex justify-center text-white  border p-[12px]">
+                  <img src={singlenext} alt="doubleprev" />
+                </div>
+                <div className=" rounded-full  ml-2  flex justify-center text-white border p-[12px]">
+                  <img src={doublenext} alt="singleprev" />
+                </div>
+              </div> */}
+            </>
+          )}
+          {activeTab == "Databases" && (
+            <>
+              <div className=" flex justify-between mt-4 px-8">
+                <p className=" text-[#A3AED0] mt-2 text-[18px] font-semibold leading-[28px]">
+                  Total saved resources :{" "}
+                  <span className=" text-[#1F5095] font-semibold text-[20px]">
+                    70
+                  </span>
+                </p>
+              </div>
+              <div className="p-4 sm:p-10  bg-white flex flex-row justify-between">
+                <div>
+                  <h1 className=" text-[#1F5095] text-[23px]  font-semibold">
+                    Check your saved databases
+                  </h1>
+                  <div className=" flex justify-between mt-2">
                     <p className=" text-[#A3AED0] mt-2 text-[14px]">
                       A curated collection of academic journals and research
                       papers
                     </p>
                   </div>
-                  <div className=" flex flex-col">
-                    <img src={firstimg} alt="firstimg" className="h-[150px]" />
-                    <img
-                      src={secondimg}
-                      alt="secindimg"
-                      className="h-[150px]"
-                    />
-                    <img src={thirdimg} alt="thirdimg" className="h-[150px]" />
-                    <img
-                      src={fourthimg}
-                      alt="fourthimg"
-                      className="h-[150px]"
-                    />
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-          {activeTab == "site" && (
-            <>
-              <div className="p-4 sm:p-10  bg-white">
-                <h1 className=" text-[#1F5095] text-[23px]  font-semibold">
-                  Popular Databases to cater you work research needs
-                </h1>
-                <p className=" text-[#A3AED0] mt-2 text-[14px]">
-                  A curated collection of academic journals and research papers
-                </p>
-              </div>
-              <div className="bg-[#221FB9/0.2] mt-4  flex  flex-wrap px-8">
-                {arr2.map((e) => (
-                  <div className=" w-[196px] h-[188px] flex flex-col border p-2 rounded-[5px] mr-[15px] mb-2">
-                    <img
-                      src={cardimg}
-                      alt="cardimg"
-                      className=" w-[177px] h-[110px] "
-                    />
-                    <div className=" mt-4 flex items-center ">
-                      <span className=" w-[137px] h-[37px] flex justify-center items-center border text-[13px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]">
-                        Economic Outlook
-                      </span>
-                      <img
-                        src={bookmarkicon}
-                        className=" ml-4  w-[32px] h-[32px]  "
-                        alt="bookmark-icon"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="p-4 sm:p-10  bg-white">
-                <h1 className=" text-[#1F5095] text-[23px]  font-semibold">
-                  Get the acces to all databases here
-                </h1>
-                <div className=" flex justify-between mt-2">
-                  <p className=" text-[#A3AED0] mt-2 text-[14px]">
-                    A curated collection of academic journals and research
-                    papers
-                  </p>
                 </div>
                 <div className="  flex justify-between mt-6">
-                  <div className="px-2 h-[43px] w-[156px] rounded-[5px] border border-solid border-[#221FB9/0.14] mr-4 flex justify-around items-center">
-                    <span>New Category</span>
-                    <img
-                      src={arrowdown}
-                      className=" w-[10px] h-[7px]"
-                      alt="arrowdown"
-                    />
-                  </div>
-
                   <div className=" flex ">
                     <div>
                       <input
@@ -310,6 +253,14 @@ function Resources() {
                         className=" w-[367px] h-[43px] border mr-4  rounded-[5px] px-4 placeholder:text-[14px] opacity-[70%]"
                         placeholder="Search any title"
                       />
+                    </div>
+                    <div className="px-2 h-[43px] w-[105px] rounded-[5px] border border-solid border-[#221FB9/0.14] mr-4 flex  justify-center items-center bg-[#3674CB]">
+                      <img
+                        src={repeat}
+                        className=" w-[18px] h-[18px] mr-2"
+                        alt="arrowdown"
+                      />
+                      <span className=" text-white">Basic</span>
                     </div>
                     <div className="px-2 h-[43px] w-[131px] rounded-[5px] border border-solid border-[#221FB9/0.14] mr-4 flex justify-around items-center">
                       <img
@@ -340,8 +291,28 @@ function Resources() {
                   </div>
                 </div>
               </div>
-              <div className=" px-10 mb-6">
-                <Table />
+              <div className=" px-[35px] mb-6">
+                <div className="bg-[#221FB9/0.2] mt-4  flex  flex-wrap ">
+                  {arr1.map((e) => (
+                    <div className=" w-[196px] h-[188px] flex flex-col border p-2 rounded-[5px] mr-[15px] mb-2">
+                      <img
+                        src={cardimg}
+                        alt="cardimg"
+                        className=" w-[177px] h-[110px] "
+                      />
+                      <div className=" mt-4 flex items-center ">
+                        <span className=" w-[137px] h-[37px] flex justify-center items-center border text-[13px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]">
+                          Economic Outlook
+                        </span>
+                        <img
+                          src={bookmarkicon}
+                          className=" ml-4  w-[32px] h-[32px]  "
+                          alt="bookmark-icon"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </>
           )}
@@ -352,4 +323,4 @@ function Resources() {
   );
 }
 
-export default Resources;
+export default SavedResources;
