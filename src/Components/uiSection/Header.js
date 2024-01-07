@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useState } from "react";
 import logo from "../../images/Ellipse 1.svg";
 import search_logo from "../../images/search-normal.svg";
 import circle from "../../images/Group 1000002822.svg";
@@ -7,8 +7,19 @@ import bell_icon from "../../images/Notification.svg";
 import Flag_icon from "../../images/United.svg";
 import down_icon from "../../images/chevron-down.svg";
 import user_pic from "../../images/photo.svg";
+import { Link } from "react-router-dom";
+import profileIcon from "../../images/user-square.png";
+import bookIcon from "../../images/Group 1000003119.png";
+import messagequestion from "../../images/message-question.png";
+import teacher from "../../images/teacher.png";
+import logout from "../../images/logout.png";
 
 const Header = () => {
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
   return (
     <>
       <div className="w-[1440px] h-[35px] bg-blue-900 flex items-center justify-evenly">
@@ -78,13 +89,95 @@ const Header = () => {
             className="w-[20px] h-[20px] flex-shrink-0"
           />
         </div>
-        <div className="pr-[15px] pl-[25px] ">
+
+        <div
+          className="pr-[15px] pl-[25px] relative  "
+          onClick={toggleDropdown}
+        >
           <img
             src={user_pic}
             alt="UserPicture"
-            className="w-[38px] h-[38px] flex-shrink-0 rounded-[38px]"
+            className="w-[38px] h-[38px] flex-shrink-0 rounded-full"
           />
+          {showDropdown && (
+            <div className="absolute top-[56px] left-[-30px] mt-2  z-40 border border-solid border-gray-200 rounded-md shadow-md bg-white">
+              <div className="p-4 h-[250px] w-[220px]">
+                <Link to="/profile">
+                  <div className=" flex items-center justify-start mb-6">
+                    <span className=" mr-3">
+                      {" "}
+                      <img
+                        src={profileIcon}
+                        alt="icons"
+                        className=" w-[22px] h-[22px]"
+                      />
+                    </span>
+                    <span className=" text-sm font-medium  text-[#6F6C90]">
+                      My Profile
+                    </span>
+                  </div>
+                </Link>
+
+                <Link to="/savedresources">
+                  <div className=" flex items-center justify-start mb-6">
+                    <span className=" mr-3">
+                      {" "}
+                      <img
+                        src={bookIcon}
+                        alt="icons"
+                        className=" w-[22px] h-[22px]"
+                      />
+                    </span>
+                    <span className=" text-sm font-medium  text-[#6F6C90]">
+                      Saved Resources
+                    </span>
+                  </div>
+                </Link>
+                <div className=" flex items-center justify-start mb-6">
+                  <span className=" mr-3">
+                    {" "}
+                    <img
+                      src={messagequestion}
+                      alt="icons"
+                      className=" w-[22px] h-[22px]"
+                    />
+                  </span>
+                  <span className=" text-sm font-medium  text-[#6F6C90]">
+                    Help Center
+                  </span>
+                </div>
+                <div className=" flex items-center justify-start mb-4">
+                  <span className=" mr-3">
+                    {" "}
+                    <img
+                      src={teacher}
+                      alt="icons"
+                      className=" w-[22px] h-[22px]"
+                    />
+                  </span>
+                  <span className=" text-sm font-medium  text-[#6F6C90]">
+                    Tutorial
+                  </span>
+                </div>
+                <hr />
+                <div className=" flex items-center justify-start mt-4">
+                  <span className=" mr-3">
+                    {" "}
+                    <img
+                      src={logout}
+                      alt="icons"
+                      className=" w-[22px] h-[22px]"
+                    />
+                  </span>
+                  <span className=" text-sm font-medium  text-[#E1735B]">
+                    Sign out
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
+
         <div className="pr-[80px]">
           <h3 className="text-blue-gray-900 font-poppins text-[13px] font-semibold leading-6">
             Hi Alex{" "}

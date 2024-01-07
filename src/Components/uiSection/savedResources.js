@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Table from "../uiElemnts/table";
 import repeat from "../../images/repeat.png";
+import favIcon from "../../images/book.png";
 
 function SavedResources() {
   const href = window.location.pathname;
@@ -48,16 +49,33 @@ function SavedResources() {
             }}
           >
             <div className=" flex items-center">
-              <div
-                className=" p-3 rounded-full   bg-gray-100 mr-2 "
-                //   style={{ border: "1px solid grey" }}
-              >
-                <img src={bookIcon} className=" h-5 w-5 " alt="book-icon" />
-              </div>
+              {activeTab === "Resources" ? (
+                <>
+                  <div
+                    className=" p-3 rounded-full   bg-gray-100 mr-2 "
+                    //   style={{ border: "1px solid grey" }}
+                  >
+                    <img src={bookIcon} className=" h-5 w-5 " alt="book-icon" />
+                  </div>
 
-              <span className=" whitespace-nowrap text-[#1F5095] font-semibold text-[15px]">
-                Saved Resources
-              </span>
+                  <span className=" whitespace-nowrap text-[#1F5095] font-semibold text-[15px]">
+                    Saved Resources
+                  </span>
+                </>
+              ) : (
+                <>
+                  <div
+                    className=" p-3 rounded-full   bg-gray-100 mr-2 "
+                    //   style={{ border: "1px solid grey" }}
+                  >
+                    <img src={favIcon} className=" h-5 w-5 " alt="book-icon" />
+                  </div>
+
+                  <span className=" whitespace-nowrap text-[#1F5095] font-semibold text-[15px]">
+                    My Favorites
+                  </span>
+                </>
+              )}
             </div>
           </span>
           <div className="   px-[60px]  border-b">

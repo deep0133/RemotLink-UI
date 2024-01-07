@@ -8,6 +8,7 @@ import Landinglayout from "./Components/Landingpage/Landinglayout";
 import SearchView from "./Components/uiSection/searchView";
 import Resources from "./Components/uiSection/resources";
 import SavedResources from "./Components/uiSection/savedResources";
+import Profile from "./Components/uiSection/profile";
 
 const appRouter = createBrowserRouter([
   {
@@ -28,8 +29,12 @@ const appRouter = createBrowserRouter([
     element: <Resources />,
   },
   {
-    path: "/resources/saved",
+    path: "/savedresources",
     element: <SavedResources />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
 ]);
 
