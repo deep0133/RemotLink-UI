@@ -98,7 +98,7 @@ function Profile() {
             {activeTab == "Profileoverview" && (
               <div className=" px-[50px] py-6">
                 <div className=" flex  justify-between">
-                  <div className=" border h-[186px]  py-6 pl-10 pr-24  w-[50%] mr-4 rounded-lg">
+                  <div className=" border h-[186px]  py-6 pl-10 pr-24  w-[50%] mr-4 rounded-lg bg-[#F9F9FE]">
                     <h1 className=" text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-8">
                       Personal Details
                     </h1>
@@ -130,7 +130,7 @@ function Profile() {
                       </div>
                     </div>
                   </div>
-                  <div className=" border h-[186px]  py-6 pl-10 pr-24  w-[50%] mr-4 rounded-lg">
+                  <div className=" border h-[186px]  py-6 pl-10 pr-24  w-[50%] mr-4 rounded-lg bg-[#F9F9FE]">
                     <h1 className=" text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-8">
                       Academic Details
                     </h1>
@@ -164,7 +164,7 @@ function Profile() {
                   </div>
                 </div>
                 <div className=" flex  justify-between mt-4">
-                  <div className=" border h-[272px]  py-6 pl-10 pr-24  w-[50%] mr-4 rounded-lg">
+                  <div className=" border h-[272px]  py-6 pl-10 pr-24  w-[50%] mr-4 rounded-lg bg-[#F9F9FE]">
                     <h1 className=" text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-8">
                       Location and Address
                     </h1>
@@ -186,7 +186,7 @@ function Profile() {
                       </div>
                     </div>
                   </div>
-                  <div className=" border h-[272px]  py-6 pl-10  w-[50%] mr-4 rounded-lg">
+                  <div className=" border h-[272px]  py-6 pl-10  w-[50%] mr-4 rounded-lg bg-[#F9F9FE]">
                     <h1 className=" text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-12">
                       Social Media Handles
                     </h1>
