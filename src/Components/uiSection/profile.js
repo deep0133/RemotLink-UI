@@ -10,7 +10,7 @@ import facebookicon from "../../images/Facebook.png";
 import instagramicon from "../../images/Instagrm.png";
 import xicon from "../../images/X.png";
 import linkedinicon from "../../images/linkedin.png";
-import AccountSettings from "../uiGroup/accountSettings";
+import AccountSettings from "./Accountsettings/accountSettings";
 
 function Profile() {
   const [activeTab, setActiveTab] = useState("Profileoverview");
@@ -253,8 +253,7 @@ function Profile() {
               </div>
             )}
             {activeTab == "Accountsettings" && (
-              <div className=" px-[50px] py-6">
-                {" "}
+              <div className=" px-[50px] py-10">
                 <AccountSettings />
               </div>
             )}
