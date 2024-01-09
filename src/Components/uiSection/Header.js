@@ -13,10 +13,10 @@ import bookIcon from "../../images/Group 1000003119.png";
 import messagequestion from "../../images/message-question.png";
 import teacher from "../../images/teacher.png";
 import logout from "../../images/logout.png";
-
+import whitebell from "../../images/whitenotif.png";
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
-
+  const href = window.location.pathname;
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
@@ -62,17 +62,27 @@ const Header = () => {
             className="w-[20px] h-[20px]"
           />
         </div>
-
-        <div className="flex justify-center items-center pr-[11px]">
-          <img
-            src={circle}
-            alt="ciricle wrapper"
-            className="relative left-9 top-2"
-          />
-          <div className=" w-[20px] h-[20px] flex justify-center items-center relative left-[-14px] top-1  p-[1.667px] px-[2.917px]">
-            <img src={bell_icon} alt="ciricle wrapper" />
+        <Link to="/notifications">
+          <div
+            className={`flex justify-center items-center border rounded-full p-3
+            ${href.includes("notifications") ? "bg-[#4477bf]" : ""}
+             `}
+          >
+            {href.includes("notifications") ? (
+              <img
+                src={whitebell}
+                alt="ciricle wrapper"
+                className=" w-[20px] h-[20px]"
+              />
+            ) : (
+              <img
+                src={bell_icon}
+                alt="ciricle wrapper"
+                className=" w-[20px] h-[20px]"
+              />
+            )}
           </div>
-        </div>
+        </Link>
 
         <div className="w-[121px] h-[38px] flex  flex-shrink-0 justify-evenly items-center rounded-[20px] border border-solid border-blue-500 border-opacity-10 bg-white shadow-md ">
           <img

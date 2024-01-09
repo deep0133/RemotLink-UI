@@ -9,6 +9,7 @@ import SearchView from "./Components/uiSection/searchView";
 import Resources from "./Components/uiSection/resources";
 import SavedResources from "./Components/uiSection/savedResources";
 import Profile from "./Components/uiSection/profile";
+import Notifications from "./Components/uiSection/notifications";
 
 const appRouter = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    path: "/notifications",
+    element: <Notifications />,
   },
 ]);
 

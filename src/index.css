@@ -16,6 +16,14 @@
   border-radius: 20px;
 }
 
+.notif::-webkit-scrollbar {
+  width: 4px;
+}
+.notif::-webkit-scrollbar-thumb {
+  background-color: #b7b7df;
+  border-radius: 20px;
+}
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
