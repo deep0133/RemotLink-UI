@@ -85,7 +85,7 @@ function Home() {
         </div>
       </div>
       <div className="mt-5 px-10 ">
-        <div className="h-[423px] border p-8 w-[1272px] flex overflow-scroll">
+        <div className="h-[423px] border p-8 w-[1272px] flex overflow-scroll no-scrollbar ">
           {arr.map((e) => (
             <div className=" w-[276px] h-[358px]  border font-Poppins mr-3">
               <img src={cardimage} alt="card-view" className=" h-[143px]" />
@@ -209,7 +209,7 @@ function Home() {
           </button>
         </div>
         <div className="mt-5 ">
-          <div className="h-[423px] border p-8 w-[1272px] flex overflow-scroll">
+          <div className="h-[423px] border p-8 w-[1272px] flex overflow-scroll no-scrollbar">
             {arr.map((e) => (
               <div className=" w-[276px] h-[358px]  border font-Poppins mr-3">
                 <img src={cardimage} alt="card-view" className=" h-[143px]" />
@@ -254,7 +254,7 @@ function Home() {
         </div>
 
         <div className="mt-5 ">
-          <div className="h-[423px] border p-8 w-[1272px] flex overflow-scroll">
+          <div className="h-[423px] border p-8 w-[1272px] flex overflow-scroll no-scrollbar">
             {arr.map((e) => (
               <div className=" w-[276px] h-[358px]  border font-Poppins mr-3">
                 <img src={cardimage} alt="card-view" className=" h-[143px]" />
@@ -288,7 +288,7 @@ function Home() {
           </h1>
         </div>
 
-        <div className="mt-5  flex flex-row w-[1272px] overflow-scroll mb-4">
+        <div className="mt-5  flex flex-row w-[1272px] overflow-scroll mb-4 no-scrollbar">
           <div className=" relative">
             <img
               src={firstimg}

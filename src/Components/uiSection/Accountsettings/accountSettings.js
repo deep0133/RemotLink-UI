@@ -10,7 +10,7 @@ function AccountSettings() {
   const [activeTab, setActiveTab] = useState("personal");
   return (
     <div className=" flex justify-start">
-      <div className=" flex flex-col mr-[140px] ml-4 ">
+      <div className=" flex flex-col mr-[100px] ml-4 ">
         <button
           className={`${
             activeTab == "personal"

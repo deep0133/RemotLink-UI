@@ -91,7 +91,7 @@ const Header = () => {
         </div>
 
         <div
-          className="pr-[15px] pl-[25px] relative  "
+          className="pr-[15px] pl-[25px] relative cursor-pointer "
           onClick={toggleDropdown}
         >
           <img
