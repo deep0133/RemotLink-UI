@@ -10,6 +10,7 @@ import Resources from "./Components/uiSection/resources";
 import SavedResources from "./Components/uiSection/savedResources";
 import Profile from "./Components/uiSection/profile";
 import Notifications from "./Components/uiSection/notifications";
+import HelpAndSupport from "./Components/uiSection/helpAndSupport";
 
 const appRouter = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/notifications",
     element: <Notifications />,
+  },
+  {
+    path: "/help",
+    element: <HelpAndSupport />,
   },
 ]);
 

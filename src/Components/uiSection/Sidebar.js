@@ -46,22 +46,23 @@ const Sidebar = () => {
             </h1>
           </div>
         </Link>
-
-        <div className=" flex items-center justify-normal flex-col mt-[160px] ">
-          <img
-            className="w-[60px] h-[60px]"
-            src={question_Icon}
-            alt="Help Icon"
-          />
-          <img
-            className="relative bottom-[35px] w-[18px] h-[18px] flex justify-normal items-center flex-shrink-0"
-            src={help_Icon}
-            alt="Help Icon"
-          />
-          <h1 className="text-blue-500 font-poppins text-center text-xs font-medium w-[56px] h-[18px] relative bottom-5">
-            Help
-          </h1>
-        </div>
+        <Link to="/help">
+          <div className=" flex items-center justify-normal flex-col mt-[160px] ">
+            <img
+              className="w-[60px] h-[60px]"
+              src={question_Icon}
+              alt="Help Icon"
+            />
+            <img
+              className="relative bottom-[35px] w-[18px] h-[18px] flex justify-normal items-center flex-shrink-0"
+              src={help_Icon}
+              alt="Help Icon"
+            />
+            <h1 className="text-blue-500 font-poppins text-center text-xs font-medium w-[56px] h-[18px] relative bottom-5">
+              Help
+            </h1>
+          </div>
+        </Link>
       </div>
     </>
   );
