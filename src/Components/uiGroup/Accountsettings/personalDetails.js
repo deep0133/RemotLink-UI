@@ -16,7 +16,7 @@ function PersonalDetails() {
       </div>
       <div className=" flex justify-between flex-row mt-4">
         <div className=" flex flex-col">
-          <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054]">
+          <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054] mb-2">
             First Name
           </h3>
           <input
@@ -26,7 +26,7 @@ function PersonalDetails() {
           />
         </div>
         <div className=" flex flex-col ml-4">
-          <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054]">
+          <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054] mb-2">
             Last Name
           </h3>
           <input
@@ -37,7 +37,7 @@ function PersonalDetails() {
         </div>
       </div>
       <div className=" flex flex-col mt-6">
-        <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054]">
+        <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054] mb-2">
           Email
         </h3>
         <input
@@ -47,7 +47,7 @@ function PersonalDetails() {
         />
       </div>
       <div className=" flex flex-col mt-6">
-        <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054]">
+        <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054] mb-2">
           Phone
         </h3>
         <input
@@ -57,7 +57,7 @@ function PersonalDetails() {
         />
       </div>
       <div className=" flex flex-col mt-6">
-        <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054]">
+        <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054] mb-2">
           Description
         </h3>
         <input
