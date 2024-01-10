@@ -1,19 +1,10 @@
 import React from "react";
-import btn_icon from "../uiElemnts/button";
 
 const Button = ({ handleBackToTop, title }) => {
   return (
-    <div>
-      <button
-        className="relative top-[200px] right-[40px]"
-        onClick={handleBackToTop}
-      >
-        <img src={btn_icon} alt="Back top icon" className="" />
-        <h1 className="text-white font-Poppins text-base relative bottom-[33px] ">
-          {title}
-        </h1>
-      </button>
-    </div>
+    <button className="px-4 py-2 border text-white" onClick={handleBackToTop}>
+      {title}
+    </button>
   );
 };
 

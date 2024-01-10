@@ -7,7 +7,10 @@ import help_Icon from "../../images/message-question.svg";
 import uparrow from "../../images/uparrow.svg";
 import downarrow from "../../images/downarrow.svg";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
-
+import mailIcon from "../../images/mail.svg";
+import userIcon from "../../images/user-octagon.svg";
+import messageIcon from "../../images/envelope.svg";
+import phoneIcon from "../../images/phone-ring.svg";
 function HelpAndSupport() {
   const [expandedBoxes, setExpandedBoxes] = useState([
     false,
@@ -46,7 +49,7 @@ function HelpAndSupport() {
                 </div>
 
                 <span className=" whitespace-nowrap text-[#1F5095] font-semibold text-[15px]">
-                  Explore the Resources Catalogue
+                  Help and Support
                 </span>
               </div>
             </span>
@@ -99,8 +102,130 @@ function HelpAndSupport() {
                 </div>
               </div>
             </section>
-            <div className="py-6 px-10  bg-gray-50 ">
-              <div className="flex "></div>
+
+            <div className="flex  justify-between px-[100px] py-[70px]">
+              <div className=" w-[50%]">
+                <div>
+                  <h1 className=" text-[28px] font-semibold leading-[48px] text-[#1F5095]">
+                    Library Details
+                  </h1>
+                  <p className=" text-[15px] font-normal leading-[24px] text-[#A3AED0] w-[573px] mt-6">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eius tempor incididunt ut labore et dolore magna aliqua.
+                    Ut enim adiqua minim veniam quis nostrud exercitation
+                    ullamco
+                  </p>
+                </div>
+                <div className=" mt-10">
+                  <div className="flex items-center mb-4">
+                    <div className=" p-4 bg-gray-50 flex justify-center items-center mr-4">
+                      <img
+                        src={userIcon}
+                        alt="user-icon"
+                        className="w-[29px] h-[29px]"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className=" text-[#111928] text-[18px] font-semibold font-Poppins leading-[26px]">
+                        Librarian{" "}
+                      </span>
+                      <span className=" text-[#637381] text-[16px] font-normal ">
+                        Alex Richards{" "}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center mb-4">
+                    <div className=" p-4 bg-gray-50 flex justify-center items-center mr-4">
+                      <img
+                        src={userIcon}
+                        alt="user-icon"
+                        className="w-[29px] h-[29px]"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className=" text-[#111928] text-[18px] font-semibold font-Poppins leading-[26px]">
+                        Phone Number
+                      </span>
+                      <span className=" text-[#637381] text-[16px] font-normal ">
+                        (+91)81 414 257 9980
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center mb-4">
+                    <div className=" p-4 bg-gray-50 flex justify-center items-center mr-4">
+                      <img
+                        src={userIcon}
+                        alt="user-icon"
+                        className="w-[29px] h-[29px]"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className=" text-[#111928] text-[18px] font-semibold font-Poppins leading-[26px]">
+                        Email Address
+                      </span>
+                      <span className=" text-[#637381] text-[16px] font-normal ">
+                        info@yourdomain.com
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className=" w-[50%]">
+                <div className=" flex flex-col mt-6">
+                  <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054] mb-2">
+                    Email
+                  </h3>
+                  <div className=" relative">
+                    <input
+                      type="text"
+                      className=" border  w-full placeholder:text-[#667085] placeholder:text-[15px] placeholder: font-normal focus:outline-none"
+                      style={{ padding: "10px 40px" }}
+                      placeholder="olivia@untitledui.com"
+                    />
+                    <img
+                      src={mailIcon}
+                      alt="mail-icon"
+                      className=" absolute top-[15px] left-[10px]"
+                    />
+                  </div>
+                </div>
+                <div className=" flex flex-col mt-6">
+                  <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054] mb-2">
+                    Subject
+                  </h3>
+                  <input
+                    type="text"
+                    className=" border  w-auto placeholder:text-[#667085] placeholder:text-[15px] placeholder: font-normal focus:outline-none"
+                    style={{ padding: "10px 14px 10px 14px" }}
+                    placeholder="Regarding ebook access"
+                  />
+                </div>
+                <div className=" flex flex-col mt-6">
+                  <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054] mb-2">
+                    Write your query here
+                  </h3>
+                  <textarea
+                    type="text"
+                    className=" border  w-auto focus:outline-none"
+                    style={{ padding: "10px 14px 10px 14px" }}
+                    rows={5}
+                  />
+                </div>
+                <div className=" flex mt-6 items-center">
+                  <input
+                    type="checkbox"
+                    className=" border  w-auto mr-2"
+                    style={{ padding: "10px 14px 10px 14px" }}
+                    rows={5}
+                  />
+                  <p className=" text-[14px] font-medium  font-Poppins text-[##667085] ">
+                    By clicking this box you agree to share your details
+                  </p>
+                </div>
+                <button className=" bg-[#3674CB] w-full h-[48px] rounded-md mt-8 font-semibold text-[13px] font-Poppins leading-5  text-white">
+                  Send Query
+                </button>
+              </div>
             </div>
           </span>
         </div>

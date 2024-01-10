@@ -33,7 +33,7 @@ const Footer = () => {
   };
   return (
     <>
-      <div className=" h-[593px] bg-[#3674CB] ">
+      <div className=" h-[500px] bg-[#3674CB] ">
         <div className="flex flex-shrink-0 justify-normal items-center text-white pt-[108px]  pl-[160px] ">
           <ul className="flex flex-shrink-0 items-start justify-between flex-col">
             <li>
@@ -95,7 +95,8 @@ const Footer = () => {
               <li className="pb-[11px]">Opeodenics</li>
             </ul>
           </div>
-
+        </div>
+        <div className=" flex  justify-end mt-8 px-[200px] ">
           <Button handleBackToTop={handleBackToTop} title={"Back on Top"} />
         </div>
       </div>
