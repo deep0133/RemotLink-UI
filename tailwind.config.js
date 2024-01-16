@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const { createThemes } = require("tw-colors");
-const daisyui = require("daisyui");
+// const daisyui = require("daisyui");
 
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./node_modules/flowbite/**/*.js"],
@@ -20,7 +20,6 @@ module.exports = {
     },
   },
   plugins: [
-    daisyui,
     createThemes({
       light: {
         primary: "#FFFFFF",
