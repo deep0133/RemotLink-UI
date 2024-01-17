@@ -9,8 +9,11 @@ const AppLayout = () => {
   return (
     <>
       <Header />
-      <div className=" flex">
+      <div className="hidden sm:flex">
         <Sidebar />
+        <Home />
+      </div>
+      <div className="sm:hidden">
         <Home />
       </div>
       <Footer />
