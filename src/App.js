@@ -7,7 +7,7 @@ import { Outlet } from "react-router-dom";
 
 const AppLayout = () => {
   return (
-    <>
+    <div>
       <Header />
       <div className="hidden sm:flex">
         <Sidebar />
@@ -17,7 +17,7 @@ const AppLayout = () => {
         <Home />
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

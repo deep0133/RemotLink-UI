@@ -14,6 +14,7 @@ import thirdimg from "../../images/Rectangle 35.png";
 function Home() {
   const [active, setActive] = useState("week");
   const arr = [1, 2, 3, 4, 5];
+  const arr3 = [1, 2, 3];
   const arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13];
 
   const box = {
@@ -140,7 +141,7 @@ function Home() {
           <div className="text-[26px] font-semibold font-Poppins text-[#1F5095] my-4 sm:whitespace-nowrap">
             Embark on a Quest for Knowledge
           </div>
-          <p className=" w-[414px] text-[14px]  font-Poppins text-[#5C78D0] leading-[26px] mt-8">
+          <p className="w-auto sm:w-auto text-[14px]  font-Poppins text-[#5C78D0] leading-[26px] mt-8">
             Our extensive catalog spans a diverse spectrum of subjects, from the
             foundational to the advanced, from arts to sciences. Immerse
             yourself in the world of knowledge, with subjects meticulously
@@ -179,12 +180,12 @@ function Home() {
           </div>
         </div>
         {/* for mobile */}
-        <div className="sm:hidden flex flex-wrap justify-between items-start w-full mt-8 px-10 sm:px-8">
+        <div className="sm:hidden  mt-4  flex  flex-wrap sm:py-6 sm:px-10 justify-center">
           {arr2.map((e, index) => (
             <span
               key={index}
-              className={`w-[135px] h-[55px] border rounded-[5px] mb-3 flex justify-center items-center text-[#1F5095] text-[17px] leading-[26px] font-medium ${
-                index === 0 ? " text-white bg-[#1F5095] " : ""
+              className={`w-[135px] h-[55px] border rounded-[5px] mb-3 ml-2 flex justify-center items-center text-[#1F5095] text-[17px] leading-[26px] font-medium ${
+                index === 0 ? "text-white bg-[#1F5095]" : ""
               }`}
             >
               Health
@@ -200,7 +201,7 @@ function Home() {
           <h1 className=" text-[#A3AED0] text-[15px] font-normal leading-[28px] font-Poppins">
             A curated collection of academic journals and research papers
           </h1>
-          <div className=" flex justify-end sm:block ">
+          <div className=" flex justify-end sm:block mt-4 ">
             <button className="h-[43px] w-[131px] rounded-[5px] border border-solid border-[#221FB9/0.14]">
               Show More
             </button>
@@ -209,7 +210,7 @@ function Home() {
       </div>
       <div className="bg-[#221FB9/0.2] mt-4  flex  flex-wrap sm:py-6 sm:px-10">
         {arr1.map((e) => (
-          <div className=" w-[121px] h-[122px] sm:w-[196px] sm:h-[188px] flex flex-col border p-2 rounded-[5px] mr-[15px] mb-2">
+          <div className=" w-[115px] h-[122px] sm:w-[196px] sm:h-[188px] flex flex-col border p-2 rounded-[5px] mr-[15px] mb-2">
             <img
               src={newimg}
               alt="cardimg"
@@ -335,13 +336,13 @@ function Home() {
           </h1>
         </div>
       </div>
-
-      <div className=" mt-5 sm:px-10 sm:flex flex-row w-[1272px] overflow-scroll mb-4 no-scrollbar px-6">
-        <div className=" relative">
+      {/* {for web} */}
+      <div className="hidden mt-5 sm:px-10 sm:flex flex-row w-auto overflow-scroll mb-4 no-scrollbar">
+        <div className=" relative mr-4">
           <img
             src={firstimg}
             alt="firstimg"
-            className="h-[302px] w-[347px] sm:h-[470px] sm:w-[583px] rounded-[5px] mr-2 bg-gradient-to-b from-black to-#221FB9 "
+            className="h-[302px]  w-[347px] sm:h-[470px] sm:w-[583px] rounded-[5px] mr-2 bg-gradient-to-b from-black to-#221FB9 "
           />
           <div className=" absolute left-4 bottom-[50px] sm:left-[90px] flex flex-col">
             <span className=" text-white  font-Poppins  font-semibold text-[18px]  w-[280px] sm:text-[22px] leading-[26px]">
@@ -387,6 +388,27 @@ function Home() {
             </div>
           </span>
         </div>
+      </div>
+      {/* for mobile */}
+      <div className=" sm:hidden p-4">
+        {arr3.map(() => (
+          <div className=" relative mb-3">
+            <img
+              src={firstimg}
+              alt="firstimg"
+              className="h-auto  w-auto sm:h-[470px] sm:w-[583px] rounded-[5px] mr-2 bg-gradient-to-b from-black to-#221FB9 "
+            />
+            <div className=" absolute left-4 bottom-[50px] sm:left-[90px] flex flex-col">
+              <span className=" text-white  font-Poppins  font-semibold text-[18px]  w-[280px] sm:text-[22px] leading-[26px]">
+                Cambridge Series on Human-Computer Interaction
+              </span>
+              <span className=" text-[#FFFFFF] font-Poppins text-[15px] leading-[26px] opacity-[50%]  font-normal">
+                {" "}
+                Published By : Stanford Life , 15/01/2005
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
