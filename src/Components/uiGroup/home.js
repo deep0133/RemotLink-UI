@@ -156,7 +156,7 @@ function Home() {
             {box.one.map((e, index) => (
               <span
                 key={index}
-                className={`w-[161px] h-[55px] border rounded-[5px] mb-3 flex justify-center items-center text-[#1F5095] text-[17px] leading-[26px] font-medium ${
+                className={`w-[161px] h-[55px] border rounded-[5px] mb-3 mr-4 flex justify-center items-center text-[#1F5095] text-[17px] leading-[26px] font-medium ${
                   index === 0 ? " text-white bg-[#1F5095] " : ""
                 }`}
               >
@@ -166,7 +166,7 @@ function Home() {
           </div>
           <div className=" flex flex-col">
             {box.two.map((e) => (
-              <span className=" w-[161px] h-[55px] border  rounded-[5px] mb-3  flex justify-center items-center text-[#1F5095] text-[17px] leading-[26px] font-medium">
+              <span className=" w-[161px] h-[55px] border  rounded-[5px] mb-3 mr-4  flex justify-center items-center text-[#1F5095] text-[17px] leading-[26px] font-medium">
                 {e}
               </span>
             ))}
@@ -208,7 +208,7 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="bg-[#221FB9/0.2] mt-4  flex  flex-wrap sm:py-6 sm:px-10">
+      <div className="bg-[#221FB9/0.2] mt-4  flex  flex-wrap sm:py-6 sm:justify-center">
         {arr1.map((e) => (
           <div className=" w-[115px] h-[122px] sm:w-[196px] sm:h-[188px] flex flex-col border p-2 rounded-[5px] mr-[15px] mb-2">
             <img
