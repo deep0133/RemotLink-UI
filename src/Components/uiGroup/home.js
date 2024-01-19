@@ -208,9 +208,9 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="bg-[#221FB9/0.2] mt-4  flex  flex-wrap sm:py-6 justify-center">
+      <div className="bg-[#221FB9/0.2] mt-4  flex  flex-wrap sm:py-6 sm:px-10 sm:justify-normal justify-center">
         {arr1.map((e) => (
-          <div className=" w-[115px] h-[122px] sm:w-[196px] sm:h-[188px] flex flex-col border p-2 rounded-[5px] mr-2 mb-2">
+          <div className=" w-[115px] h-[122px] sm:w-[210px] sm:h-[188px] flex flex-col border p-2 rounded-[5px] mr-2 mb-2">
             <img
               src={newimg}
               alt="cardimg"
