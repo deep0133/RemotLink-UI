@@ -1,24 +1,32 @@
 import React from "react";
-import Home from "./Components/uiGroup/home";
-import Header from "./Components/uiSection/Header";
-import Sidebar from "./Components/uiSection/Sidebar";
-import Footer from "./Components/uiSection/Footer";
-import { Outlet } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-const AppLayout = () => {
+import Landinglayout from "./Components/Landingpage/Landinglayout";
+import Homepage from "./Components/uiSection/homepage";
+import SearchView from "./Components/uiSection/searchView";
+import Resources from "./Components/uiSection/resources";
+import SavedResources from "./Components/uiSection/savedResources";
+import Profile from "./Components/uiSection/profile";
+import Notifications from "./Components/uiSection/notifications";
+import HelpAndSupport from "./Components/uiSection/helpAndSupport";
+// import Dashboard from "./Components/mobile/dashboard";
+
+function App() {
   return (
-    <div>
-      <Header />
-      <div className="hidden sm:flex">
-        <Sidebar />
-        <Home />
-      </div>
-      <div className="sm:hidden">
-        <Home />
-      </div>
-      <Footer />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Landinglayout />} />
+        <Route path="/Home" element={<Homepage />} />
+        <Route path="/searchview" element={<SearchView />} />
+        <Route path="/resources" element={<Resources />} />
+        <Route path="/savedresources" element={<SavedResources />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/help" element={<HelpAndSupport />} />
+        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+      </Routes>
+    </Router>
   );
-};
+}
 
-export default AppLayout;
+export default App;
