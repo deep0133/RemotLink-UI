@@ -8,7 +8,6 @@ function Homepage() {
     <div>
       <Header />
       <div className="hidden sm:flex">
-        <Sidebar />
         <Home />
       </div>
       <div className="sm:hidden">

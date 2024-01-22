@@ -19,8 +19,8 @@ function Notifications() {
         <Header />
         <div className=" flex">
           <Sidebar />
-          <div className="flex  justify-center py-10 px-[100px]">
-            <div className="  h-[518px] w-[1169px] flex justify-between p-4 border rounded-xl ">
+          <div className="flex  justify-center py-10  items-center w-full">
+            <div className="  h-[518px] flex justify-between p-4 border rounded-xl ">
               <div className=" w-[30%]    ">
                 <h1 className="  font-bold text-[14px] leading-5 flex items-center p-2 border-b-[3px] border-[#1F5095] w-fit">
                   <img
