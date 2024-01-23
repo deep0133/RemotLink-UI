@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useEffect } from "react";
 import logo from "../../images/logo-bird.png";
 import search_logo from "../../images/search-normal.svg";
 import circle from "../../images/Group 1000002822.svg";
@@ -15,12 +16,38 @@ import teacher from "../../images/teacher.png";
 import logout from "../../images/logout.png";
 import whitebell from "../../images/whitenotif.png";
 import menu from "../../images/menu.svg";
+import cross from "../../images/Cross.svg";
+import home from "../../images/Home.svg";
+import book from "../../images/book.png";
+import help_Icon from "../../images/message-question-white.svg";
+import question_Icon from "../../images/Question.svg";
+
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const href = window.location.pathname;
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
+  const [navVisibility, setNavVisibility] = useState(false);
+
+  const handleNavToggle = () => {
+    setNavVisibility(!navVisibility);
+  };
+
+  const closeNav = () => {
+    setNavVisibility(false);
+  };
+
+  useEffect(() => {
+    if (navVisibility) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "visible";
+    }
+    return () => {
+      document.body.style.overflow = "visible";
+    };
+  }, [navVisibility]);
   const arr = [1, 2, 3];
   return (
     <>
@@ -203,8 +230,11 @@ const Header = () => {
       {/* mobile header */}
       <div className="flex sm:hidden   items-center justify-between px-6 py-4">
         <div className=" flex">
-          <div className=" border rounded-full flex items-center justify-center p-3 mr-2 ">
-            <img src={menu} alt=" menu icon" />
+          <div
+            className=" border rounded-full flex items-center justify-center p-4 mr-2  relative"
+            onClick={handleNavToggle}
+          >
+            <img src={`${navVisibility ? cross : menu} `} alt=" menu icon" />
           </div>
           <div className="">
             <img src={logo} alt="logo" className="" />
@@ -213,7 +243,7 @@ const Header = () => {
         <div className=" flex items-center ">
           <Link to="/notifications">
             <div
-              className={`flex justify-center items-center border rounded-full p-3 mr-2
+              className={`flex justify-center items-center border rounded-full p-4 mr-2
             ${href.includes("notifications") ? "bg-[#4477bf]" : ""}
              `}
             >
@@ -232,7 +262,7 @@ const Header = () => {
               )}
             </div>
           </Link>
-          <div className=" border rounded-full flex items-center justify-center p-3 mr-2">
+          <div className=" border rounded-full flex items-center justify-center p-4 mr-2">
             <img
               src={search_logo}
               alt="Search logo"
@@ -325,6 +355,117 @@ const Header = () => {
           </div>
         </div>
       </div>
+      {navVisibility && (
+        <div
+          style={{
+            position: "fixed",
+            top: navVisibility ? "113px" : "-100%",
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "white",
+            boxShadow: "2px 0px 5px rgba(0, 0, 0, 0.5)",
+            zIndex: 200,
+            transition: "top 0.3s ease-out",
+            overflow: "hidden",
+          }}
+          onClick={closeNav}
+        >
+          <div className=" w-full bg-white  z-50  py-14 px-4 ">
+            {/* Your navigation links go here */}
+            <div className="">
+              <Link to="/home">
+                <div
+                  className={`flex items-center justify-start   rounded-lg px-[20px] py-[20px]  mb-2 ${
+                    href.includes("home") ? "bg-[#3674CB] text-white" : ""
+                  }`}
+                >
+                  <span className=" mr-3">
+                    {" "}
+                    <img
+                      src={home}
+                      alt="icons"
+                      className=" w-[22px] h-[22px]"
+                    />
+                  </span>
+                  <span className=" text-sm font-medium ">Home</span>
+                </div>
+              </Link>
+
+              <Link to="/resources">
+                <div
+                  className={`flex items-center justify-start   rounded-lg px-[20px] py-[20px]  mb-2 ${
+                    href.includes("resource") ? "bg-[#3674CB] text-white" : ""
+                  }`}
+                >
+                  <span className=" mr-3">
+                    {" "}
+                    <img
+                      src={book}
+                      alt="icons"
+                      className=" w-[22px] h-[22px]   bg-white"
+                    />
+                  </span>
+                  <span className=" text-sm font-medium  ">
+                    Resources and Sites
+                  </span>
+                </div>
+              </Link>
+              <div className=" flex items-center justify-start  rounded-lg px-[20px] py-[20px] mb-2">
+                <span className=" mr-3">
+                  {" "}
+                  <img
+                    src={bookIcon}
+                    alt="icons"
+                    className=" w-[22px] h-[22px]"
+                  />
+                </span>
+                <span className=" text-sm font-medium  ">My Favorites</span>
+              </div>
+              <Link to={"/searchview"}>
+                <div
+                  className={`flex items-center justify-start   rounded-lg px-[20px] py-[20px]  mb-2 ${
+                    href.includes("searchview") ? "bg-[#3674CB] text-white" : ""
+                  }`}
+                >
+                  <span className=" mr-3">
+                    {" "}
+                    <img
+                      src={search_logo}
+                      alt="icons"
+                      className=" w-[22px] h-[22px]"
+                    />
+                  </span>
+                  <span className=" text-sm font-medium ">
+                    Search Catalogue
+                  </span>
+                </div>
+              </Link>
+              {/* bottom part */}
+              <div className=" flex  mt-[130px] bg-[#3674CB] h-[203px] rounded-lg relative">
+                <Link to="/help">
+                  <div className=" flex items-center justify-center bg-[#3674CB] font-bold w-[48px] h-[51px] border-2 rounded-full absolute top-[-25px] left-3  ">
+                    <img
+                      className="w-[24px] h-[24px]"
+                      src={help_Icon}
+                      alt="Help Icon"
+                    />
+                  </div>
+                  <p className=" mt-10 p-4 text-white text-[12px] font-medium leading-4 font-Poppins">
+                    Having Trouble in Learning. Please contact us for more
+                    questions.
+                  </p>
+                  <div className="mx-4 mt-[13px] b ">
+                    <button className="bg-white px-6 py-2 rounded-lg font-medium  text-[#3674CB]">
+                      Go To Help Center
+                    </button>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
