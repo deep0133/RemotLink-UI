@@ -10,7 +10,10 @@ import question_Icon from "../../images/Question.svg";
 const Sidebar = () => {
   return (
     <>
-      <div className="w-[96px]  flex flex-shrink-0 flex-col items-center p-4 border border-solid border-color-p3   shadow-md no-scrollbar ">
+      <div
+        className="w-[96px]  flex flex-shrink-0 flex-col items-center p-4 border border-solid border-color-p3   shadow-md no-scrollbar "
+        style={{ height: "100%" }}
+      >
         <Link to="/Home">
           <div className="w-[42px] h-[42px] flex items-center justify-center flex-col mt-[22px]  ">
             <img className="pb-[7px]" src={Home_Icon} alt="Home Icon" />

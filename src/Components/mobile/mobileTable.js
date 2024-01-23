@@ -1,9 +1,10 @@
 import React from "react";
 import nameLogo from "../../images/Ellipse 13.png";
+
 import lightning from "../../images/lightning.png";
 import bookmarkicon2 from "../../images/Vector.png";
 
-function Table() {
+function MobileTable() {
   const tableMap = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
     <div class="flex flex-col">
@@ -13,7 +14,10 @@ function Table() {
             <table class="min-w-full">
               <thead class=" border-b text-[#A3AED0] text-[14px]">
                 <tr>
-                  <th scope="col" class="text-sm font-medium  py-4 text-left">
+                  <th
+                    scope="col"
+                    class="text-sm font-medium  py-4 w-[15%] text-left"
+                  >
                     No
                   </th>
                   <th scope="col" class="text-sm font-medium   py-4 text-left">
@@ -25,33 +29,29 @@ function Table() {
                   <th scope="col" class="text-sm font-medium   py-4 text-left">
                     Live Server
                   </th>
-                  <th scope="col" class="text-sm font-medium   py-4 text-left">
-                    My Favorite
-                  </th>
-                  <th scope="col" class="text-sm font-medium   py-4 text-left">
-                    Last Access Date
-                  </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="font-medium">
                 {tableMap.map((e) => (
                   <tr class="bg-white  transition duration-300 ease-in-out hover:bg-gray-100">
                     <td class=" text-[#85A900] py-4 whitespace-nowrap text-sm font-medium  ">
                       #1
                     </td>
-                    <td class="text-sm text-gray-900 py-4 whitespace-nowrap flex flex-row items-center font-medium">
+                    <td class="text-sm text-gray-900 py-4 whitespace-nowrap flex flex-row font-medium">
                       <img
                         src={nameLogo}
-                        className=" w-[25px] h-[25px] mr-2  "
+                        className=" w-[25px] h-[25px] mr-2 "
                         alt="namelogo"
-                      />{" "}
-                      DVL Medical
+                      />
+                      <div className=" flex items-center">DVL Medical</div>
                     </td>
-                    <td class="text-sm text-gray-900  py-4 whitespace-nowrap font-medium">
-                      Medical Journals
+                    <td class="text-sm text-gray-900 py-4 whitespace-nowrap font-medium">
+                      <div className=" flex  items-center mb-1">
+                        Medical Jou...
+                      </div>
                     </td>
                     <td class="font-light  py-4 whitespace-nowrap ">
-                      <div className=" border w-[74px] h-[30px] text-[#3076D8] text-[14px] rounded-md flex flex-row  justify-center items-center font-medium ">
+                      <div className=" border w-[74px] h-[30px] text-[#3076D8] text-[14px] rounded-md flex flex-row  justify-center items-center ">
                         {/* <span className="text-[#3076D8] font-medium text-[14px] mr-2"></span> */}
                         Start{" "}
                         <img
@@ -60,18 +60,6 @@ function Table() {
                           alt="namelogo"
                         />
                       </div>
-                    </td>
-
-                    <td class="text-sm text-gray-900 font-light  py-4 whitespace-nowrap">
-                      <div className=" mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center font-medium">
-                        <img
-                          src={bookmarkicon2}
-                          className=" w-[10px] h-[12px]"
-                        />{" "}
-                      </div>
-                    </td>
-                    <td class="text-sm text-gray-900 font-light  py-4 whitespace-nowrap font-medium">
-                      24 January 2023
                     </td>
                   </tr>
                 ))}
@@ -84,4 +72,4 @@ function Table() {
   );
 }
 
-export default Table;
+export default MobileTable;
