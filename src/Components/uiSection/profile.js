@@ -167,8 +167,8 @@ function Profile() {
                       </div>
                     </div>
                   </div>
-
-                  <div className=" border h-[237px] sm:h-[186px] p-4 sm:py-6 sm:pl-10 sm:pr-24  sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE]">
+                  {/* academic details for web view  */}
+                  <div className="hidden sm:block border h-[237px] sm:h-[186px] p-4 sm:py-6 sm:pl-10 sm:pr-24  sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE]">
                     <h1 className=" text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-8">
                       Academic Details
                     </h1>
@@ -186,7 +186,7 @@ function Profile() {
                           Batch Year
                         </span>
                         <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2 ">
-                          2014 -------2018
+                          2014
                         </span>
                       </div>
                       <div className="flex flex-col">
@@ -197,6 +197,39 @@ function Profile() {
                           Computer Science
                         </span>
                       </div>
+                    </div>
+                  </div>
+
+                  {/*  academic details for web view*/}
+                  <div className="sm:hidden grid grid-cols-1 sm:grid-cols-2 gap-1 border h-[237px] sm:h-[186px] p-4 sm:py-6 sm:pl-10 sm:pr-24 sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE]">
+                    <div className="col-span-2 mb-8">
+                      <h1 className="text-[#1F5095] text-[18px] leading-[20px] font-semibold">
+                        Academic Details
+                      </h1>
+                    </div>
+                    <div className="flex flex-col mb-4">
+                      <span className="text-[14px] font-medium text-[#A0A0A0] font-Poppins">
+                        College
+                      </span>
+                      <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-2">
+                        IIT Bombay
+                      </span>
+                    </div>
+                    <div className="flex flex-col mb-4 mr-[43px]">
+                      <span className="text-[14px] font-medium text-[#A0A0A0] font-Poppins">
+                        Batch Year
+                      </span>
+                      <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-2 ">
+                        2014
+                      </span>
+                    </div>
+                    <div className="flex flex-col col-span-2">
+                      <span className="text-[14px] font-medium text-[#A0A0A0] font-Poppins">
+                        Course Name
+                      </span>
+                      <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-2">
+                        Computer Science
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -291,7 +324,7 @@ function Profile() {
 
                   {/* mobile view social mdeai icon  */}
 
-                  <div className="sm:hidden block mt-4 sm:mt-0 border sm:h-[272px] h-[327px]  p-4 sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE]">
+                  <div className="sm:hidden block mt-4 sm:mt-0 border sm:h-[272px] h-[327px]  p-4  rounded-lg bg-[#F9F9FE]">
                     <h1 className=" text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-12">
                       Social Media Handles
                     </h1>
@@ -305,7 +338,7 @@ function Profile() {
                           />
                         </div>
                         <div>
-                          <div className="w-[250px] sm:w-[194px] h-[44px] border rounded-md  text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
+                          <div className="w-[265px] sm:w-[194px] h-[44px] border rounded-md  text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
                             @Alex0239
                           </div>
                         </div>
@@ -319,7 +352,7 @@ function Profile() {
                           />
                         </div>
                         <div>
-                          <div className="w-[250px] sm:w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
+                          <div className="w-[265px] sm:w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
                             @Alex0239
                           </div>
                         </div>
@@ -333,7 +366,7 @@ function Profile() {
                           />
                         </div>
                         <div>
-                          <div className="w-[250px] sm:w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
+                          <div className="w-[265px] sm:w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
                             @Alex0239
                           </div>
                         </div>
@@ -347,7 +380,7 @@ function Profile() {
                           />
                         </div>
                         <div>
-                          <div className="w-[250px] sm:w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
+                          <div className="w-[265px] sm:w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
                             @Alex0239
                           </div>
                         </div>
