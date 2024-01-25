@@ -187,3 +187,7 @@
 .bg-img {
   background-image: url("./images/profilebg.png");
 }
+
+.bg-img-mobile {
+  background-image: url("./images/mobileprofile.svg");
+}

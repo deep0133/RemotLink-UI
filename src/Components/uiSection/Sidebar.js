@@ -11,7 +11,7 @@ const Sidebar = () => {
   return (
     <>
       <div
-        className="w-[96px]  flex flex-shrink-0 flex-col items-center p-4 border border-solid border-color-p3   shadow-md no-scrollbar "
+        className="w-[96px] flex flex-col items-center p-4 border border-solid shadow-md no-scrollbar "
         style={{ height: "100%" }}
       >
         <Link to="/Home">

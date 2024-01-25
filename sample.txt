@@ -1,0 +1,36 @@
+   <span className=" flex">
+                      <div className="px-2 h-[43px] sm:w-[105px] w-[110px] rounded-[5px] border border-solid border-[#221FB9/0.14] mr-4 flex  justify-center items-center bg-[#3674CB]">
+                        <img
+                          src={repeat}
+                          className=" w-[18px] h-[18px] mr-2"
+                          alt="arrowdown"
+                        />
+                        <span className=" text-white">Basic</span>
+                      </div>
+                      <div className="px-2 h-[43px] sm:w-[131px] w-[110px] rounded-[5px] border border-solid border-[#221FB9/0.14] mr-4 flex justify-around items-center">
+                        <img
+                          src={sort}
+                          className=" w-[16px] h-[16px]"
+                          alt="sorticon"
+                        />
+                        <span>Sort By: </span>
+                        <img
+                          src={arrowdown}
+                          className=" w-[10px] h-[7px]"
+                          alt="arrowdown"
+                        />
+                      </div>
+                      <div className="px-2 h-[43px] sm:w-[131px] w-[110px] rounded-[5px] border border-solid border-[#221FB9/0.14] flex justify-around items-center">
+                        <img
+                          src={candel}
+                          className=" w-[16px] h-[16px]"
+                          alt="candel"
+                        />
+                        <span>Filter</span>
+                        <img
+                          src={arrowdown}
+                          className=" w-[10px] h-[7px]"
+                          alt="arrowdown"
+                        />
+                      </div>
+                    </span>

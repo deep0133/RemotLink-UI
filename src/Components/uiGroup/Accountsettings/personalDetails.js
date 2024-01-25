@@ -23,6 +23,7 @@ function PersonalDetails() {
             type="text"
             className=" border w-[298px]"
             style={{ padding: "10px 14px 10px 14px" }}
+            value={"Ravi"}
           />
         </div>
         <div className=" flex flex-col ml-4">
@@ -33,6 +34,7 @@ function PersonalDetails() {
             type="text"
             className=" border w-[298px]"
             style={{ padding: "10px 14px 10px 14px" }}
+            value={"Mehra"}
           />
         </div>
       </div>
@@ -44,6 +46,7 @@ function PersonalDetails() {
           type="text"
           className=" border  w-auto"
           style={{ padding: "10px 14px 10px 14px" }}
+          value={"Ravi@gmail.com"}
         />
       </div>
       <div className=" flex flex-col mt-6">
@@ -54,16 +57,21 @@ function PersonalDetails() {
           type="text"
           className=" border  w-auto"
           style={{ padding: "10px 14px 10px 14px" }}
+          value={"+912756281919"}
         />
       </div>
       <div className=" flex flex-col mt-6">
         <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054] mb-2">
           Description
         </h3>
-        <input
+        <textarea
           type="text"
-          className=" border  w-auto"
+          className=" border  w-auto focus:outline-none"
           style={{ padding: "10px 14px 10px 14px" }}
+          rows={3}
+          value={
+            "  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit perferendis corrupti voluptatibus magnam aspernatur nemo, quis repellat cum vero sapiente?"
+          }
         />
       </div>
 

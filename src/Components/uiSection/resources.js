@@ -5,10 +5,10 @@ import Footer from "./Footer";
 
 import bookIcon from "../../images/book.png";
 import cardimg from "../../images/economic.png";
-import bookmarkicon from "../../images/Group 1000002939.png";
 import book from "../../images/Group.png";
-import icon from "../../images/gr.png";
 import arrow from "../../images/arrow-up.png";
+import icon from "../../images/gr.png";
+import bookmarkicon from "../../images/Group 1000002939.png";
 import linkicon from "../../images/Group 1000002938.png";
 import bookmarkicon2 from "../../images/Vector.png";
 import sort from "../../images/sort.png";
@@ -285,6 +285,9 @@ function Resources() {
                     </div>
                   ))}
                 </div>
+                {/* <div className=" mt-4">
+                  <Pagination pageno={page} />
+                </div> */}
                 <div className="  mt-6">
                   <div className="p-4 sm:p-10  bg-white">
                     <h1 className=" text-[#1F5095] text-[23px]  font-semibold">
@@ -309,9 +312,6 @@ function Resources() {
                       className="h-[150px]"
                     />
                   </div>
-                </div>
-                <div>
-                  <Pagination pageno={page} />
                 </div>
               </div>
             </>

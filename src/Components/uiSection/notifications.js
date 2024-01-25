@@ -18,10 +18,12 @@ function Notifications() {
       <>
         <Header />
         <div className=" flex">
-          <Sidebar />
+          <span className=" md:block hidden">
+            <Sidebar />
+          </span>
           <div className="flex  justify-center py-10  items-center w-full">
-            <div className="  h-[518px] flex justify-between p-4 border rounded-xl ">
-              <div className=" w-[30%]    ">
+            <div className=" h-auto sm:h-[518px] flex justify-between p-4 sm:border rounded-xl  flex-col sm:flex-row">
+              <div className=" w-auto sm:w-[30%]">
                 <h1 className="  font-bold text-[14px] leading-5 flex items-center p-2 border-b-[3px] border-[#1F5095] w-fit">
                   <img
                     src={announce}
@@ -31,7 +33,7 @@ function Notifications() {
                   <span className="text-[#1F5095] ">Announcements</span>{" "}
                 </h1>
 
-                <ul class="list-disc ml-4 pl-6  mt-4 overflow-y-scroll notif h-[400px] ">
+                <ul class="list-disc ml-4 pl-6  mt-4 overflow-y-scroll h-[400px] ">
                   {arr1.map((e) => (
                     <li class="text-red-500 text-[22px] p-2 border-b ">
                       <span class="text-[#4B4B4B]  text-[14px] font-medium ">
@@ -42,7 +44,7 @@ function Notifications() {
                   ))}
                 </ul>
               </div>
-              <div className=" w-[30%] h-[450px]  ">
+              <div className=" w-auto sm:w-[30%] sm:h-[450px] sm:mt-0 mt-6 ">
                 <h1 className="font-bold text-[14px] leading-5 flex items-center py-2 pl-2 pr-6 border-b-[3px] border-[#1F5095] w-fit">
                   <img
                     src={news}
@@ -51,7 +53,7 @@ function Notifications() {
                   />
                   <span className="text-[#1F5095] ">Latest News</span>{" "}
                 </h1>
-                <div class="mt-4 overflow-y-scroll notif h-[400px] ">
+                <div class="mt-4 overflow-y-scroll notif sm:h-[400px] ">
                   {arr3.map((e) => (
                     <div className=" h-[34px] bg-[#F6F6F6] mb-2 px-4 flex items-center justify-between rounded-[9px]">
                       <div>The Hindu</div>
@@ -64,7 +66,7 @@ function Notifications() {
                   ))}
                 </div>
               </div>
-              <div className=" w-[30%] h-[450px]">
+              <div className=" w-auto sm:w-[30%] h-[450px]">
                 <h1 className="font-bold text-[14px] leading-5 flex   items-center p-2 border-b-[3px] border-[#1F5095] w-fit">
                   <img
                     src={links}

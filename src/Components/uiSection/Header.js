@@ -228,7 +228,7 @@ const Header = () => {
       </div>
 
       {/* mobile header */}
-      <div className="flex sm:hidden   items-center justify-between px-6 py-4">
+      <div className="flex sm:hidden   items-center justify-between px-6 py-4 shadow-md">
         <div className=" flex">
           <div
             className=" border rounded-full flex items-center justify-center p-4 mr-2  relative"

@@ -30,7 +30,9 @@ function HelpAndSupport() {
       <>
         <Header />
         <div className=" flex">
-          <Sidebar />
+          <span className=" hidden sm:block">
+            <Sidebar />
+          </span>
           <span className=" flex flex-col w-[100%] ">
             <span
               className=" flex items-center  sm:px-8  px-3 justify-between"
@@ -63,7 +65,7 @@ function HelpAndSupport() {
                 </p>
               </div>
             </div>
-            <section className="py-6 px-10  bg-gray-50 mt-12">
+            <section className="py-6 sm:px-10  bg-gray-50 mt-12">
               <div className="accordion">
                 <div className="flex flex-wrap">
                   {[0, 1, 2, 3, 4].map((index) => (
@@ -103,13 +105,13 @@ function HelpAndSupport() {
               </div>
             </section>
 
-            <div className="flex  justify-between px-[100px] py-[70px]">
-              <div className=" w-[50%]">
+            <div className="flex  justify-between px-4 py-10 sm:px-[100px] sm:py-[70px]  flex-col sm:flex-row ">
+              <div className=" sm:w-[50%]">
                 <div>
                   <h1 className=" text-[28px] font-semibold leading-[48px] text-[#1F5095]">
                     Library Details
                   </h1>
-                  <p className=" text-[15px] font-normal leading-[24px] text-[#A3AED0] w-[573px] mt-6">
+                  <p className=" text-[15px] font-normal leading-[24px] text-[#A3AED0] sm:w-[573px] mt-6">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                     do eius tempor incididunt ut labore et dolore magna aliqua.
                     Ut enim adiqua minim veniam quis nostrud exercitation
@@ -137,7 +139,7 @@ function HelpAndSupport() {
                   <div className="flex items-center mb-4">
                     <div className=" p-4 bg-gray-50 flex justify-center items-center mr-4">
                       <img
-                        src={userIcon}
+                        src={phoneIcon}
                         alt="user-icon"
                         className="w-[29px] h-[29px]"
                       />
@@ -154,7 +156,7 @@ function HelpAndSupport() {
                   <div className="flex items-center mb-4">
                     <div className=" p-4 bg-gray-50 flex justify-center items-center mr-4">
                       <img
-                        src={userIcon}
+                        src={messageIcon}
                         alt="user-icon"
                         className="w-[29px] h-[29px]"
                       />
@@ -170,7 +172,7 @@ function HelpAndSupport() {
                   </div>
                 </div>
               </div>
-              <div className=" w-[50%]">
+              <div className=" sm:w-[50%]">
                 <div className=" flex flex-col mt-6">
                   <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054] mb-2">
                     Email

@@ -33,7 +33,7 @@ const Footer = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   return (
-    <div className=" mt-1 text-white">
+    <div className=" text-white">
       <div className=" h-auto bg-[#3674CB] sm:px-[200px] px-20 py-10  ">
         <div className=" sm:flex  sm:justify-between flex-row ">
           <div>
