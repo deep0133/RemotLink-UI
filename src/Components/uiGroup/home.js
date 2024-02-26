@@ -19,7 +19,12 @@ import Favorites_Icon from "../../images/book-saved.svg";
 import Search_Icon from "../../images/search-normal.svg";
 import help_Icon from "../../images/message-question.svg";
 import question_Icon from "../../images/Question.svg";
+
+import Service from "../Webservices/http";
+
 function Home() {
+  const services = new Service();
+
   const [active, setActive] = useState("week");
   const arr = [1, 2, 3, 4, 5];
   const arr3 = [1, 2, 3];
