@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Service from "../Webservices/http";
+const Login = () => {
+  const services = new Service();
 
-const Login = ({ loginStatus }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
@@ -11,19 +13,16 @@ const Login = ({ loginStatus }) => {
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
-      navigate("/");
+      navigate("/home");
     }
   }, [navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     var login_info = { email, password };
     setIsPending(true);
-    fetch("https://stage1.remotlink.com/api/websitehh/login/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(login_info),
-    })
+    await services
+      .post("api/website/login/", login_info)
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -34,13 +33,11 @@ const Login = ({ loginStatus }) => {
       .then((data) => {
         setIsPending(false);
         localStorage.setItem("access_token", data["access_token"]);
-
         localStorage.setItem("refresh_token", data["refresh_token"]);
-        window.location.reload();
+        navigate("/home");
       })
       .catch((err) => {
         if (err.name === "AbortError") {
-          // console.log("Aborted Fetch");
         } else {
           setIsPending(false);
           setError(err.message);
@@ -84,13 +81,7 @@ const Login = ({ loginStatus }) => {
                 className="w-full border border-gray-300 rounded p-2"
               />
             </div>
-            <div className="form-group">
-              {/* <label className="checkbox-container">
-                Remember Me
-                <input type="checkbox" className="ml-2" />
-                <span className="checkmark"></span>
-              </label> */}
-            </div>
+            <div className="form-group"></div>
             <div className="form-group">
               {error && <p className="text-red-500">{error}</p>}
             </div>
@@ -116,9 +107,9 @@ const Login = ({ loginStatus }) => {
           </form>
           <p className="text-center">
             Forgot Password?{" "}
-            <a href="#" className="text-blue-500">
+            <Link href="#" className="text-blue-500">
               Click Here.
-            </a>{" "}
+            </Link>{" "}
           </p>
         </div>
       </div>

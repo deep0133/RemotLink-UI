@@ -24,12 +24,12 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route
+        {/* <Route
           path="/"
           element={
             loginStatus ? <Navigate to="/home" /> : <Navigate to="/login" />
           }
-        />
+        /> */}
         <Route path="/" element={<Landinglayout />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Homepage />} />
