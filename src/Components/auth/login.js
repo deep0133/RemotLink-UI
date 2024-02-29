@@ -21,29 +21,27 @@ const Login = () => {
     e.preventDefault();
     var login_info = { email, password };
     setIsPending(true);
-    await services
-      .post("api/website/login/", login_info)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw Error("Authentication Fail");
-        }
-      })
-      .then((data) => {
+
+    try {
+      const res = await services.post("api/website/login/", login_info);
+
+      if (res.ok) {
+        const data = await res.json();
         setIsPending(false);
-        localStorage.setItem("access_token", data["access_token"]);
-        localStorage.setItem("refresh_token", data["refresh_token"]);
+        localStorage.setItem("access_token", data.access);
+        localStorage.setItem("refresh_token", data.refresh);
         navigate("/home");
-      })
-      .catch((err) => {
-        if (err.name === "AbortError") {
-        } else {
-          setIsPending(false);
-          setError(err.message);
-          // console.log(err.message);
-        }
-      });
+      } else {
+        throw new Error("Authentication Fail");
+      }
+    } catch (err) {
+      if (err.name === "AbortError") {
+      } else {
+        setIsPending(false);
+        setError(err.message);
+        console.error(err);
+      }
+    }
   };
 
   return (
