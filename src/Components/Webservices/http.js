@@ -4,6 +4,8 @@ const headers = {
   Authorization: "Bearer " + localStorage.getItem("access_token"),
 };
 
+console.log("token", "Bearer " + localStorage.getItem("access_token"));
+
 function joinURL(baseURL, url) {
   return `${baseURL}/${url}`;
 }

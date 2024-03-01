@@ -2,7 +2,7 @@ import React from "react";
 import home_image from "../../images/Rectangle 5.png";
 import Button from "../uiElemnts/button";
 import get_started from "../../images/black button.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import cardimage from "../../images/Rectangle 25.png";
 import newimg from "../../images/economic.png";
 import bookmarkicon from "../../images/Group 1000002939.png";
@@ -26,6 +26,7 @@ function Home() {
   const services = new Service();
 
   const [active, setActive] = useState("week");
+
   const arr = [1, 2, 3, 4, 5];
   const arr3 = [1, 2, 3];
   const arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13];
@@ -43,6 +44,7 @@ function Home() {
     three: ["Dermatalogy", "  Neurology", "  Dermatalogy", "Neurology"],
   };
   const arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17];
+
   return (
     <div className="sm:flex">
       {/* sidenav bar */}

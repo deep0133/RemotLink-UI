@@ -17,29 +17,67 @@ const Login = () => {
     }
   }, [navigate]);
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   var login_info = { email, password };
+  //   setIsPending(true);
+
+  //   try {
+  //     const res = await services.post("api/website/login/", login_info);
+
+  //     if (res.ok) {
+  //       const data = await res.json();
+  //       setIsPending(false);
+  //       localStorage.setItem("access_token", data.access);
+  //       localStorage.setItem("refresh_token", data.refresh);
+  //       navigate("/home");
+  //     } else {
+  //       throw new Error("Authentication Fail");
+  //     }
+  //   } catch (err) {
+  //     if (err.name === "AbortError") {
+  //     } else {
+  //       setIsPending(false);
+  //       setError(err.message);
+  //       console.error(err);
+  //     }
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     var login_info = { email, password };
     setIsPending(true);
-
     try {
-      const res = await services.post("api/website/login/", login_info);
+      const response = await fetch(
+        "https://stage1.remotlink.com/api/website/login/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(login_info),
+        }
+      );
 
-      if (res.ok) {
-        const data = await res.json();
-        setIsPending(false);
-        localStorage.setItem("access_token", data.access);
-        localStorage.setItem("refresh_token", data.refresh);
-        navigate("/home");
-      } else {
-        throw new Error("Authentication Fail");
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
+
+      const data = await response.json();
+
+      setIsPending(false);
+      console.log(data);
+
+      localStorage.setItem("access_token", data.access);
+      localStorage.setItem("refresh_token", data.refresh);
+
+      navigate("/home");
     } catch (err) {
       if (err.name === "AbortError") {
+        // console.log("Aborted Fetch");
       } else {
         setIsPending(false);
         setError(err.message);
-        console.error(err);
+        // console.log(err.message);
       }
     }
   };

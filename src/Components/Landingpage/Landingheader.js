@@ -1,10 +1,11 @@
 import React from "react";
 import lgn_icon from "../../images/Group 2323.svg";
 import anmnt_icon from "../../images/notification-status.svg";
-
+import CheckLoginStatus from "../auth/loginStatus";
 import { Link } from "react-router-dom";
 
 const Landingheader = () => {
+  const { loginStatus } = CheckLoginStatus();
   return (
     <>
       <div className="w-full min-h-[52px]  bg-[#1F1B25] light:bg-secondary flex  items-center justify-between overflow-y-scroll no-scrollbar">
@@ -23,7 +24,7 @@ const Landingheader = () => {
               <img src={lgn_icon} alt="login icon" />
 
               <h1 className="hidden lg:block text-white font-AnekLatin light:font-Outfit purple:font-Sora text-base purple:text-[13px] font-normal leading-5 capitalize ml-3 whitespace-nowrap ">
-                Login Now
+                {loginStatus ? "Logged In" : "  Login Now"}
               </h1>
             </div>
           </Link>

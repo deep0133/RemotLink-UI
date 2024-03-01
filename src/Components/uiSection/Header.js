@@ -21,9 +21,15 @@ import home from "../../images/Home.svg";
 import book from "../../images/book.png";
 import help_Icon from "../../images/message-question-white.svg";
 import question_Icon from "../../images/Question.svg";
+import { useNavigate } from "react-router-dom";
+import Service from "../Webservices/http";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const services = new Service();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [userdetail, setUserdetail] = useState("");
+
   const href = window.location.pathname;
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -49,6 +55,28 @@ const Header = () => {
     };
   }, [navVisibility]);
   const arr = [1, 2, 3];
+
+  const handleLogout = () => {
+    console.log("yhasdjkh");
+    localStorage.clear();
+    navigate("/");
+  };
+
+  const fetchUserdetails = async function () {
+    try {
+      const data = await services.get("api/website/settings/");
+      setUserdetail(data.user_data);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserdetails();
+  }, []);
+
+  console.log("user", userdetail);
+
   return (
     <>
       <div className="hidden sm:flex w-auto h-[35px] bg-blue-900 items-center justify-evenly">
@@ -199,7 +227,10 @@ const Header = () => {
                   </span>
                 </div>
                 <hr />
-                <div className=" flex items-center justify-start mt-4">
+                <div
+                  className=" flex items-center justify-start mt-4"
+                  onClick={handleLogout}
+                >
                   <span className=" mr-3">
                     {" "}
                     <img
@@ -222,7 +253,7 @@ const Header = () => {
             Hi Alex{" "}
           </h3>
           <h6 className="text-blue-gray-700 font-poppins text-[12px] font-normal leading-5">
-            alex0901@xd.com
+            {userdetail.email}
           </h6>
         </div>
       </div>
