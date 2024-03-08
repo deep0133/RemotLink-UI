@@ -62,20 +62,16 @@ const Header = () => {
     navigate("/");
   };
 
-  const fetchUserdetails = async function () {
-    try {
-      const data = await services.get("api/website/settings/");
-      setUserdetail(data.user_data);
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    }
+  const retrieveUserData = () => {
+    var storedData = localStorage.getItem("userdata");
+    var retrievedObject = JSON.parse(storedData);
+    setUserdetail(retrievedObject);
   };
-
   useEffect(() => {
-    fetchUserdetails();
+    retrieveUserData();
   }, []);
 
-  console.log("user", userdetail);
+  console.log(userdetail);
 
   return (
     <>
@@ -253,7 +249,7 @@ const Header = () => {
             Hi Alex{" "}
           </h3>
           <h6 className="text-blue-gray-700 font-poppins text-[12px] font-normal leading-5">
-            {userdetail.email}
+            {userdetail?.email}
           </h6>
         </div>
       </div>

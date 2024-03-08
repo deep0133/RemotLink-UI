@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Service from "../Webservices/http";
-const Login = () => {
-  const services = new Service();
+import { Link, json, useNavigate } from "react-router-dom";
 
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,33 +13,6 @@ const Login = () => {
       navigate("/home");
     }
   }, [navigate]);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   var login_info = { email, password };
-  //   setIsPending(true);
-
-  //   try {
-  //     const res = await services.post("api/website/login/", login_info);
-
-  //     if (res.ok) {
-  //       const data = await res.json();
-  //       setIsPending(false);
-  //       localStorage.setItem("access_token", data.access);
-  //       localStorage.setItem("refresh_token", data.refresh);
-  //       navigate("/home");
-  //     } else {
-  //       throw new Error("Authentication Fail");
-  //     }
-  //   } catch (err) {
-  //     if (err.name === "AbortError") {
-  //     } else {
-  //       setIsPending(false);
-  //       setError(err.message);
-  //       console.error(err);
-  //     }
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,8 +37,9 @@ const Login = () => {
       setIsPending(false);
       console.log(data);
 
-      localStorage.setItem("access_token", data.access);
-      localStorage.setItem("refresh_token", data.refresh);
+      localStorage.setItem("access_token", data.token.access);
+      localStorage.setItem("refresh_token", data.token.refresh);
+      localStorage.setItem("userdata", JSON.stringify(data.user));
 
       navigate("/home");
     } catch (err) {
