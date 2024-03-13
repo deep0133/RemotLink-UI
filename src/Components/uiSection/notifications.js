@@ -34,7 +34,7 @@ function Notifications() {
     fetchData();
   }, []);
 
-  console.log(notificationdata);
+  // console.log(notificationdata);
 
   return (
     <div>
@@ -124,7 +124,14 @@ function Notifications() {
                         className="flex  ml-4 p-[10px] border-b cursor-pointer"
                       >
                         <img src={youtubeicon} alt="youtube-icon" />
-                        <span className="ml-2">{e?.body}</span>
+                        <a
+                          href={e?.link}
+                          className="ml-2"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Link to {e?.title || "resource"}
+                        </a>
                       </div>
                     ))}
                 </div>
