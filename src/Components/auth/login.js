@@ -35,7 +35,7 @@ const Login = () => {
       const data = await response.json();
 
       setIsPending(false);
-      console.log(data);
+      // console.log(data);
 
       localStorage.setItem("access_token", data.token.access);
       localStorage.setItem("refresh_token", data.token.refresh);

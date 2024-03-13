@@ -4,7 +4,7 @@ import profilepic from "../../images/Profilepic.png";
 
 function Mobileaccountsettings() {
   const [accountsetting, setAccountsetting] = useState("PersonalDetails");
-  console.log(accountsetting);
+  // console.log(accountsetting);
   const [isPasswordVisiblenew, setIsPasswordVisiblenew] = useState(false);
   const [isPasswordVisibleconfirm, setIsPasswordVisibleconfirm] =
     useState(false);

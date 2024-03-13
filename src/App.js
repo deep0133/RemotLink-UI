@@ -20,7 +20,7 @@ import Login from "./Components/auth/login";
 function App() {
   const { loginStatus } = CheckLoginStatus();
 
-  console.log(loginStatus);
+  // console.log(loginStatus);
   return (
     <Router>
       <Routes>

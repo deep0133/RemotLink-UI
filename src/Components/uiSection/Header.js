@@ -57,7 +57,7 @@ const Header = () => {
   const arr = [1, 2, 3];
 
   const handleLogout = () => {
-    console.log("yhasdjkh");
+    // console.log("yhasdjkh");
     localStorage.clear();
     navigate("/");
   };
@@ -71,7 +71,7 @@ const Header = () => {
     retrieveUserData();
   }, []);
 
-  console.log(userdetail);
+  // console.log(userdetail);
 
   return (
     <>
