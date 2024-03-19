@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
@@ -12,9 +12,34 @@ import xicon from "../../images/X.png";
 import linkedinicon from "../../images/linkedin.png";
 import AccountSettings from "./Accountsettings/accountSettings";
 import Mobileaccountsettings from "../mobile/mobileaccountsettings";
+import Service from "../Webservices/http";
 
 function Profile() {
   const [activeTab, setActiveTab] = useState("Profileoverview");
+  const [userDetails, setUserDetails] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const services = new Service();
+
+  const userDetailFetch = async () => {
+    try {
+      const response = await services
+        .get("api/user/current-user")
+        .then((res) => setUserDetails(res));
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      setError("Failed to fetch user details. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    userDetailFetch();
+  }, []);
+
+  console.log("llll", userDetails);
+
   return (
     <div>
       <>
@@ -59,17 +84,17 @@ function Profile() {
                 />
                 <div className=" flex flex-col  mt-8">
                   <span className="mb-[6px] text-[22px] font-semibold leading-[20px]">
-                    Sushant Jadhav
+                    {userDetails?.first_name} {userDetails?.last_name}
                   </span>
                   <span className="mb-4 text-[15px] font-medium leading-[20px]">
-                    Write a description regardng you anything you can write
+                    {userDetails?.description}
                   </span>
                   <span className=" flex  items-center">
                     {" "}
                     <span>
                       <img src={mappin} alt="mappin" />
                     </span>
-                    <span className=" ml-2"> Maharashtra , India</span>
+                    <span className=" ml-2"> {userDetails?.address}</span>
                   </span>
                 </div>
               </div>
@@ -88,17 +113,17 @@ function Profile() {
                 />
                 <div className=" flex flex-col">
                   <span className="mb-[6px] text-[22px] font-semibold leading-[20px]">
-                    Sushant Jadhav
+                    {userDetails?.first_name} {userDetails?.last_name}
                   </span>
                   <span className="mb-4 text-[15px] font-medium leading-[20px]">
-                    Write a description regardng you anything you can write
+                    {userDetails?.description}
                   </span>
                   <span className=" flex  items-center">
                     {" "}
                     <span>
                       <img src={mappin} alt="mappin" />
                     </span>
-                    <span className=" ml-2"> Maharashtra , India</span>
+                    <span className=" ml-2"> {userDetails?.address}</span>
                   </span>
                 </div>
               </div>
@@ -145,7 +170,7 @@ function Profile() {
                           Name
                         </span>
                         <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2">
-                          Sushant Jadhav
+                          {userDetails?.first_name} {userDetails?.last_name}
                         </span>
                       </div>
                       <div className="flex flex-col">
@@ -154,7 +179,7 @@ function Profile() {
                           Email
                         </span>
                         <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2">
-                          sushant@xd.com
+                          {userDetails?.email}
                         </span>
                       </div>
                       <div className="flex flex-col mt-4 sm:mt-0">
@@ -162,7 +187,7 @@ function Profile() {
                           Phone number
                         </span>
                         <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2">
-                          +91 99993333388
+                          {userDetails?.phone_number}
                         </span>
                       </div>
                     </div>
@@ -178,7 +203,7 @@ function Profile() {
                           College
                         </span>
                         <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2">
-                          IIT Bombay
+                          {userDetails?.institution?.name}
                         </span>
                       </div>
                       <div className="flex flex-col mb-4">
@@ -186,7 +211,7 @@ function Profile() {
                           Batch Year
                         </span>
                         <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2 ">
-                          2014
+                          {userDetails?.batch || "-"}
                         </span>
                       </div>
                       <div className="flex flex-col">
@@ -194,7 +219,7 @@ function Profile() {
                           Course Name
                         </span>
                         <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-2">
-                          Computer Science
+                          {userDetails?.course}
                         </span>
                       </div>
                     </div>
@@ -212,7 +237,7 @@ function Profile() {
                         College
                       </span>
                       <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-2">
-                        IIT Bombay
+                        {userDetails?.institution?.name}
                       </span>
                     </div>
                     <div className="flex flex-col mb-4 mr-[43px]">
@@ -220,7 +245,7 @@ function Profile() {
                         Batch Year
                       </span>
                       <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-2 ">
-                        2014
+                        {userDetails?.batch || "-"}
                       </span>
                     </div>
                     <div className="flex flex-col col-span-2">
@@ -228,7 +253,7 @@ function Profile() {
                         Course Name
                       </span>
                       <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-2">
-                        Computer Science
+                        {userDetails?.course || "-"}
                       </span>
                     </div>
                   </div>
@@ -244,14 +269,13 @@ function Profile() {
                           Address
                         </span>
                         <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-3">
-                          Room No.306, 3rd Floor Varunalaya Ph-II, Jhandewalan,
-                          Karol Bagh, New Delhi, Delhi 110005
+                          {userDetails?.address}
                         </span>
                         <span className=" text-[14px] font-medium text-[#A0A0A0] font-Poppins mt-4">
                           State and Country
                         </span>
                         <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-3">
-                          Delhi , India
+                          {userDetails?.country + userDetails?.state || "-"}
                         </span>
                       </div>
                     </div>
@@ -273,7 +297,7 @@ function Profile() {
                         </div>
                         <div>
                           <div className=" w-[194px] h-[44px] border rounded-md  text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
-                            @Alex0239
+                            {userDetails?.instagram || "-"}
                           </div>
                         </div>
                       </div>
@@ -287,7 +311,7 @@ function Profile() {
                         </div>
                         <div>
                           <div className=" w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
-                            @Alex0239
+                            {userDetails?.twitter || "-"}
                           </div>
                         </div>
                       </div>
@@ -301,7 +325,7 @@ function Profile() {
                         </div>
                         <div>
                           <div className=" w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
-                            @Alex0239
+                            {userDetails?.linkedin || "-"}
                           </div>
                         </div>
                       </div>
@@ -315,7 +339,7 @@ function Profile() {
                         </div>
                         <div>
                           <div className=" w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
-                            @Alex0239
+                            {userDetails?.facebook || "-"}
                           </div>
                         </div>
                       </div>
@@ -339,7 +363,7 @@ function Profile() {
                         </div>
                         <div>
                           <div className="w-[265px] sm:w-[194px] h-[44px] border rounded-md  text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
-                            @Alex0239
+                            {userDetails?.instagram || "-"}
                           </div>
                         </div>
                       </div>
@@ -353,7 +377,7 @@ function Profile() {
                         </div>
                         <div>
                           <div className="w-[265px] sm:w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
-                            @Alex0239
+                            {userDetails?.twitter || "-"}
                           </div>
                         </div>
                       </div>
@@ -367,7 +391,7 @@ function Profile() {
                         </div>
                         <div>
                           <div className="w-[265px] sm:w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
-                            @Alex0239
+                            {userDetails?.linkedin || "-"}
                           </div>
                         </div>
                       </div>
@@ -381,7 +405,7 @@ function Profile() {
                         </div>
                         <div>
                           <div className="w-[265px] sm:w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]">
-                            @Alex0239
+                            {userDetails?.facebook || "-"}
                           </div>
                         </div>
                       </div>

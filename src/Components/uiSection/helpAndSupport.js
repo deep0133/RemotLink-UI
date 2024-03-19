@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
@@ -18,12 +18,40 @@ function HelpAndSupport() {
     false,
     false,
   ]);
+  const [faqs, setFaqs] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchFaqs = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("https://stage1.remotlink.com/api/faq/");
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch FAQs");
+      }
+      const data = await response.json();
+      setFaqs(data.results);
+    } catch (error) {
+      console.error("Error fetching FAQs:", error);
+      setError("Failed to fetch FAQs. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFaqs();
+  }, []);
 
   const toggleBox = (index) => {
     const newExpandedBoxes = [...expandedBoxes];
     newExpandedBoxes[index] = !newExpandedBoxes[index];
     setExpandedBoxes(newExpandedBoxes);
   };
+  // const liobraryDetailsFetch=async()=>{
+  //   const Library
+  // }
 
   return (
     <div>
@@ -68,39 +96,45 @@ function HelpAndSupport() {
             <section className="py-6 sm:px-10  bg-gray-50 mt-12">
               <div className="accordion">
                 <div className="flex flex-wrap">
-                  {[0, 1, 2, 3, 4].map((index) => (
-                    <div key={index} className="w-[570px] p-3 ">
-                      <div className=" bg-white ">
-                        <div
-                          className={`flex items-center px-8 min-h-[105px] py-2 `}
-                          onClick={() => toggleBox(index)}
-                        >
-                          {expandedBoxes[index] ? (
-                            <img src={uparrow} className=" mr-4" />
-                          ) : (
-                            <img src={downarrow} className=" mr-4" />
-                          )}
-                          <div>
-                            <div className=" text-[#111928] text-[18px]  font-semibold font-Poppins leading-[26px] mb-4 mt-4 ">
-                              {" "}
-                              How long we deliver your first blog post?
-                            </div>
-                            {expandedBoxes[index] && (
-                              <div className="accordion-content">
-                                <div className=" rounded-md text-[#637381] font-normal ">
-                                  It takes 2-3 weeks to get your first blog post
+                  {loading ? (
+                    <p className="text-[#A3AED0] text-[16px] font-normal">
+                      Loading...
+                    </p>
+                  ) : (
+                    faqs.map((faq, index) => (
+                      <div key={faq.id} className="w-[570px] p-3 ">
+                        <div className=" bg-white ">
+                          <div
+                            className={`flex items-center px-8 min-h-[105px] py-2 `}
+                            onClick={() => toggleBox(index)}
+                          >
+                            {expandedBoxes[index] ? (
+                              <img src={uparrow} alt="" className=" mr-4" />
+                            ) : (
+                              <img src={downarrow} alt="" className=" mr-4" />
+                            )}
+                            <div>
+                              <div className=" text-[#111928] text-[18px]  font-semibold font-Poppins leading-[26px] mb-4 mt-4 ">
+                                {faq.question}
+                              </div>
+                              {expandedBoxes[index] && (
+                                <div className="accordion-content">
+                                  <div className=" rounded-md text-[#637381] font-normal ">
+                                    {/* It takes 2-3 weeks to get your first blog post
                                   ready. That includes the in-depth research &
                                   creation of your monthly content marketing
                                   strategy that we do before writing your first
-                                  blog post, Ipsum available .
+                                  blog post, Ipsum available . */}
+                                    {faq.answer}
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               </div>
             </section>

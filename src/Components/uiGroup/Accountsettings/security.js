@@ -1,10 +1,32 @@
 import React from "react";
 import { useState } from "react";
+import Service from "../../Webservices/http";
 
 function Security() {
   const [isPasswordVisiblenew, setIsPasswordVisiblenew] = useState(false);
+  const [isPasswordVisibleOld, setIsPasswordVisibleOld] = useState(false);
   const [isPasswordVisibleconfirm, setIsPasswordVisibleconfirm] =
     useState(false);
+
+  const [formData, setFormData] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const services = new Service();
+  const togglePasswordVisibilityOld = () => {
+    setIsPasswordVisibleOld((prevState) => !prevState);
+  };
 
   function togglePasswordVisibilitynew() {
     setIsPasswordVisiblenew((prevState) => !prevState);
@@ -12,6 +34,20 @@ function Security() {
   function togglePasswordVisibilityconfirm() {
     setIsPasswordVisibleconfirm((prevState) => !prevState);
   }
+  const handleSubmitPassword = async (e) => {
+    e.preventDefault();
+    if (formData.newPassword !== formData.confirmPassword) {
+      setError("New passwords don't match");
+      return;
+    }
+    try {
+      const res = services.post("api/user/change-password/", formData);
+      console.log(res);
+    } catch (error) {
+      console.error("Error:", error.response.data);
+      setError(error.response.data.message);
+    }
+  };
 
   return (
     <div className=" flex flex-col">
@@ -21,14 +57,18 @@ function Security() {
         </h3>
         <div className=" relative">
           <input
-            type="text"
+            type={isPasswordVisibleOld ? "text" : "password"}
             placeholder="Password"
             className=" border  w-[667px] bg-white focus:outline-none"
             style={{ padding: "10px 14px 10px 14px" }}
-            value={"old@password"}
-            readOnly
+            value={formData.oldPassword}
+            name="oldPassword"
+            onChange={handleChange}
           />
-          <button className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600">
+          <button
+            className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
+            onClick={togglePasswordVisibilityOld}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -56,6 +96,9 @@ function Security() {
             placeholder="Password"
             className=" border  w-[667px] bg-white focus:outline-none"
             style={{ padding: "10px 14px 10px 14px" }}
+            value={formData.newPassword}
+            name="newPassword"
+            onChange={handleChange}
           />
           <button
             className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
@@ -100,6 +143,7 @@ function Security() {
           </button>
         </div>
       </div>
+      {error && <div style={{ color: "red" }}>{error}</div>}
       <div className=" flex flex-col mt-6">
         <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054] mb-2">
           Confirm Password
@@ -110,6 +154,9 @@ function Security() {
             placeholder="Password"
             className=" border  w-[667px] bg-white focus:outline-none"
             style={{ padding: "10px 14px 10px 14px" }}
+            onChange={handleChange}
+            value={formData.confirmPassword}
+            name="confirmPassword"
           />
           <button
             className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
@@ -157,7 +204,10 @@ function Security() {
 
       <div className=" flex justify-end mt-6 items-center">
         <div className=" p-1  bg-slate-200 mr-4 rounded-lg">
-          <button className=" border h-[36px] w-[117px] bg-[#3674CB] text-white text-[12px] font-semibold leading-5 rounded-lg ">
+          <button
+            className=" border h-[36px] w-[117px] bg-[#3674CB] text-white text-[12px] font-semibold leading-5 rounded-lg "
+            onClick={handleSubmitPassword}
+          >
             Save Changes
           </button>
         </div>
