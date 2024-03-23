@@ -11,13 +11,13 @@ export default function AdminRoutes() {
   return (
     <PageLayout>
       <Routes>
-        <Route path='admin/' element={<Dashboard />} />
-        <Route path='admin/category/*' element={<Category />} />
-        <Route path='admin/users/*' element={<User />} />
-        <Route path='admin/sites/*' element={<Site />} />
-        <Route path='admin/reports/*' element={<Reports />} />
-        <Route path='admin/notifications/*' element={<Notifications />} />
-        <Route path='admin/institution/*' element={<Institution />} />
+        <Route path='/' element={<Dashboard />} />
+        <Route path='/category/*' element={<Category />} />
+        <Route path='/users/*' element={<User />} />
+        <Route path='/sites/*' element={<Site />} />
+        <Route path='/reports/*' element={<Reports />} />
+        <Route path='/notifications/*' element={<Notifications />} />
+        <Route path='/institution/*' element={<Institution />} />
       </Routes>
     </PageLayout>
   );
