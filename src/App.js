@@ -23,7 +23,7 @@ function App() {
 
   // console.log(loginStatus);
   return (
-    <Router>
+    <Router basename='/'>
       <Routes>
         {/* <Route
           path="/"
