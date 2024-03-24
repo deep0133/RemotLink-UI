@@ -8,9 +8,33 @@ import Elipse from "../../images/Ellipse 24.svg";
 import btn_icon from "../../images/Group 427318227.svg";
 import Button from "../uiElemnts/button";
 import blank from "../../images/blankimg.svg";
+import Service from "../Webservices/http";
 
 const Footer = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [institutionDetails, setInstitutionDetails] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const services = new Service();
+
+  const institutionDetailFetch = async () => {
+    try {
+      const response = await services
+        .get("api/institution/detail")
+        .then((res) => setInstitutionDetails(res));
+    } catch (error) {
+      console.error("Error fetching FAQs:", error);
+      setError("Failed to fetch FAQs. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    institutionDetailFetch();
+  }, []);
+
+  // console.log(institutionDetails, ";;;");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,10 +63,11 @@ const Footer = () => {
           <div>
             <img src={blank} alt="" className=" w-[57px] h-[76px]" />
             <h3 className=" text-white font-Poppins font-bold text-[18px] uppercase mt-6">
-              Indian Institute of Technology <br /> Bombay
+              {institutionDetails?.name}
             </h3>
             <p className="sm:mt-6 mt-6 font-normal text-white font-Poppins sm:font-medium sm:text-[18px] text-[15px] sm:leading-8 leading-[25px]  border-b p-2">
-              Official Institute Library to access Digital material
+              {/* Official Institute Library to access Digital material */}
+              {institutionDetails?.tagline}
             </p>
           </div>
           <div className="flex items-start flex-col  sm:ml-10 mt-10 sm:mt-0">
@@ -52,15 +77,16 @@ const Footer = () => {
             <ul className="flex  flex-col">
               <li>
                 <p className="leading-6 w-[240px] mt-[19px] ">
-                  The Principal Swargiya Dadasaheb Kalmegh Smruti Dental College
-                  & Hospital Wanadongari - Wadhamna Road, Hingna Nagpur - 441110
-                  Maharashtra, India
+                  {institutionDetails?.address}
                 </p>
               </li>
               <li className="flex leading-5 mt-[19px]">
-                9178525763 : 9178525763
+                {institutionDetails?.phone_number} :{" "}
+                {institutionDetails?.second_phone_number}
               </li>
-              <li className="leading-5 mt-[19px]">sdddhch@sdmail.com</li>
+              <li className="leading-5 mt-[19px]">
+                {institutionDetails?.email}
+              </li>
             </ul>
           </div>
           {/* for web quick link and categories line 49- 75*/}

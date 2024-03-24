@@ -11,6 +11,7 @@ import mailIcon from "../../images/mail.svg";
 import userIcon from "../../images/user-octagon.svg";
 import messageIcon from "../../images/envelope.svg";
 import phoneIcon from "../../images/phone-ring.svg";
+import Service from "../Webservices/http";
 function HelpAndSupport() {
   const [expandedBoxes, setExpandedBoxes] = useState([
     false,
@@ -21,7 +22,8 @@ function HelpAndSupport() {
   const [faqs, setFaqs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const [labDetails, setLabDetails] = useState("");
+  const services = new Service();
   const fetchFaqs = async () => {
     setLoading(true);
     try {
@@ -43,6 +45,26 @@ function HelpAndSupport() {
   useEffect(() => {
     fetchFaqs();
   }, []);
+
+  const labDetailsFetch = async () => {
+    setLoading(true);
+    try {
+      const response = await services
+        .get("api/institution/library/1/")
+        .then((res) => setLabDetails(res));
+    } catch (error) {
+      console.error("Error fetching FAQs:", error);
+      setError("Failed to fetch FAQs. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    labDetailsFetch();
+  }, []);
+
+  console.log(labDetails, "jjj");
 
   const toggleBox = (index) => {
     const newExpandedBoxes = [...expandedBoxes];
@@ -140,72 +162,79 @@ function HelpAndSupport() {
             </section>
 
             <div className="flex  justify-between px-4 py-10 sm:px-[100px] sm:py-[70px]  flex-col sm:flex-row ">
-              <div className=" sm:w-[50%]">
-                <div>
-                  <h1 className=" text-[28px] font-semibold leading-[48px] text-[#1F5095]">
-                    Library Details
-                  </h1>
-                  <p className=" text-[15px] font-normal leading-[24px] text-[#A3AED0] sm:w-[573px] mt-6">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eius tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim adiqua minim veniam quis nostrud exercitation
-                    ullamco
-                  </p>
+              {loading ? (
+                <p className="text-[#A3AED0] text-[16px] font-normal">
+                  Loading...
+                </p>
+              ) : (
+                <div className=" sm:w-[50%]">
+                  <div>
+                    <h1 className=" text-[28px] font-semibold leading-[48px] text-[#1F5095]">
+                      Library Details
+                    </h1>
+                    <p className=" text-[15px] font-normal leading-[24px] text-[#A3AED0] sm:w-[573px] mt-6">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eius tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim adiqua minim veniam quis nostrud
+                      exercitation ullamco
+                    </p>
+                  </div>
+                  <div className=" mt-10">
+                    <div className="flex items-center mb-4">
+                      <div className=" p-4 bg-gray-50 flex justify-center items-center mr-4">
+                        <img
+                          src={userIcon}
+                          alt="user-icon"
+                          className="w-[29px] h-[29px]"
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className=" text-[#111928] text-[18px] font-semibold font-Poppins leading-[26px]">
+                          Librarian{" "}
+                        </span>
+                        <span className=" text-[#637381] text-[16px] font-normal ">
+                          {labDetails?.librarian_name}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center mb-4">
+                      <div className=" p-4 bg-gray-50 flex justify-center items-center mr-4">
+                        <img
+                          src={phoneIcon}
+                          alt="user-icon"
+                          className="w-[29px] h-[29px]"
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className=" text-[#111928] text-[18px] font-semibold font-Poppins leading-[26px]">
+                          Phone Number
+                        </span>
+                        <span className=" text-[#637381] text-[16px] font-normal ">
+                          {labDetails?.librarian_phone_number}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center mb-4">
+                      <div className=" p-4 bg-gray-50 flex justify-center items-center mr-4">
+                        <img
+                          src={messageIcon}
+                          alt="user-icon"
+                          className="w-[29px] h-[29px]"
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className=" text-[#111928] text-[18px] font-semibold font-Poppins leading-[26px]">
+                          Email Address
+                        </span>
+                        <span className=" text-[#637381] text-[16px] font-normal ">
+                          {labDetails?.librarian_email}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className=" mt-10">
-                  <div className="flex items-center mb-4">
-                    <div className=" p-4 bg-gray-50 flex justify-center items-center mr-4">
-                      <img
-                        src={userIcon}
-                        alt="user-icon"
-                        className="w-[29px] h-[29px]"
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className=" text-[#111928] text-[18px] font-semibold font-Poppins leading-[26px]">
-                        Librarian{" "}
-                      </span>
-                      <span className=" text-[#637381] text-[16px] font-normal ">
-                        Alex Richards{" "}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <div className=" p-4 bg-gray-50 flex justify-center items-center mr-4">
-                      <img
-                        src={phoneIcon}
-                        alt="user-icon"
-                        className="w-[29px] h-[29px]"
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className=" text-[#111928] text-[18px] font-semibold font-Poppins leading-[26px]">
-                        Phone Number
-                      </span>
-                      <span className=" text-[#637381] text-[16px] font-normal ">
-                        (+91)81 414 257 9980
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <div className=" p-4 bg-gray-50 flex justify-center items-center mr-4">
-                      <img
-                        src={messageIcon}
-                        alt="user-icon"
-                        className="w-[29px] h-[29px]"
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className=" text-[#111928] text-[18px] font-semibold font-Poppins leading-[26px]">
-                        Email Address
-                      </span>
-                      <span className=" text-[#637381] text-[16px] font-normal ">
-                        info@yourdomain.com
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              )}
+
               <div className=" sm:w-[50%]">
                 <div className=" flex flex-col mt-6">
                   <h3 className=" text-[14px] font-medium  font-Poppins text-[#344054] mb-2">

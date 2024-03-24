@@ -237,7 +237,7 @@ function Profile() {
                         College
                       </span>
                       <span className="text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-2">
-                        {userDetails?.institution?.name}
+                        {userDetails?.institution?.name || "-"}
                       </span>
                     </div>
                     <div className="flex flex-col mb-4 mr-[43px]">
