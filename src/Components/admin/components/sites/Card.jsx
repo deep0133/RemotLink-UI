@@ -30,38 +30,22 @@ const Card = ({ data, path }) => {
         {data?.length > 0
           ? data.map((val, index) => {
               return (
-                <div
-                  key={index}
-                  style={
-                    index === 1
-                      ? {
-                          border: "1px solid rgba(90, 53, 255, 0.10)",
-                          borderRadius: 5,
-                          boxShadow:
-                            "0px 8px 40px 0px rgba(112, 144, 176, 0.13)",
-                        }
-                      : null
-                  }
-                  className='card flex-1 flex p-2'
-                >
-                  <div className='grid grid-cols-10 w-full '>
-                    <h3 className='text-indigo-900 col-span-1 text-sm font-medium font-Poppins leading-7'>
+                <div key={index} className='card list flex-1 flex p-2'>
+                  <div className='grid grid-cols-10 w-full gap-5 '>
+                    <h3 className='text-indigo-900 line-clamp-1 col-span-1 text-sm font-medium font-Poppins leading-7'>
                       {val.name}
                     </h3>
-                    <div className='text-indigo-900 col-span-4 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.url}
+                    <div className='text-indigo-900 line-clamp-1 col-span-4 flex-1 text-sm font-medium font-Poppins leading-7'>
+                      {val.base_url}
                     </div>
-                    <div className='text-indigo-900 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.desc}
+                    <div className='text-indigo-900 line-clamp-1 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
+                      {val.description}
                     </div>
-                    <div className='text-indigo-900 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.category}
+                    <div className='text-indigo-900 line-clamp-1 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
+                      {val.category?.name}
                     </div>
-                    <div className='action flex items-center gap-3'>
-                      <Link
-                        to={`/admin/category/edit/${path}/${val.id}`}
-                        className='cursor-pointer'
-                      >
+                    <div className='action flex items-center line-clamp-1 gap-3'>
+                      <Link to={`${path}/${val.id}`} className='cursor-pointer'>
                         <EditICon />
                       </Link>
                       <div className='cursor-pointer'>

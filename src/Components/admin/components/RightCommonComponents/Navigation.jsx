@@ -1,4 +1,4 @@
-import RightMenu from "../RightMenu";
+import RightMenu from "../Dashboard/RightMenu";
 
 export default function Navigation({ data }) {
   return (

@@ -1,9 +1,22 @@
 import { useEffect, useState } from "react";
 
+const selectRandomMessage = (messages) => {
+  try {
+    console.log("selecting random messages...", messages);
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    const selectedMessage = messages[randomIndex].message;
+    return selectedMessage;
+  } catch (error) {
+    console.log("ERROR in MEssage :", error);
+    return "Strong people don’t put others down. they lift them up.";
+  }
+};
+
 export default function useFetch() {
   const [fetchLoading, setFetchLoading] = useState(false);
   const [resources, setResources] = useState([]);
   const [allSites, setAllSites] = useState([]);
+  const [messages, setMessages] = useState([]);
 
   const [searchSite, setSearchSite] = useState("");
   const [searchLoader, setSearchLoader] = useState(false);
@@ -153,19 +166,48 @@ export default function useFetch() {
     }
   };
 
+  const handleFetchMessages = async () => {
+    let json;
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(
+        `https://stage1.remotlink.com/api/message/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      json = await response.json();
+      setMessages(json.results);
+      return selectRandomMessage(json.results);
+    } catch (error) {
+      console.log("Error : ", error);
+      return "Error While Fetching Data from DB";
+    }
+  };
+
   return {
     fetchLoading,
     resources,
     searchSite,
-    setSearchSite,
     searchLoader,
     allSites,
     setAllSites,
+    setSearchSite,
     handleFetchLikes,
     handleFetchResources,
     handleFetchProxyAPI,
     handleFetchAllSites,
     createProxyAPI,
     handleSearchSite,
+    handleFetchMessages,
   };
 }

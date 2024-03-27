@@ -1,6 +1,23 @@
+import { useState } from "react";
 import { EditICon } from "../../assets/constants";
+import { LuLoader2 } from "react-icons/lu";
 
-const AddSection = ({ edit, type1, type2, type3, type4, values }) => {
+const AddSection = ({
+  edit,
+  type1,
+  type2,
+  type3,
+  type4,
+  siteData,
+  addFunctionHandler,
+  loading = false,
+  submitText,
+}) => {
+  const [type_1, setType1] = useState(siteData ? siteData?.name : "");
+  const [type_2, setType2] = useState(siteData ? siteData?.base_url : "");
+  const [type_3, setType3] = useState(siteData ? siteData?.category?.name : "");
+  const [type_4, setType4] = useState(siteData ? siteData?.description : "");
+
   return (
     <div
       style={{
@@ -27,8 +44,10 @@ const AddSection = ({ edit, type1, type2, type3, type4, values }) => {
             }}
             className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
             type='text'
-            placeholder=''
-            defaultValue={values[0]}
+            value={type_1}
+            onChange={(e) => {
+              setType1(e.target.value);
+            }}
           />
         </div>
 
@@ -39,9 +58,11 @@ const AddSection = ({ edit, type1, type2, type3, type4, values }) => {
           <input
             style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
             className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            type='email'
-            placeholder=''
-            defaultValue={values[1]}
+            type='text'
+            value={type_2}
+            onChange={(e) => {
+              setType2(e.target.value);
+            }}
           />
         </div>
 
@@ -52,9 +73,11 @@ const AddSection = ({ edit, type1, type2, type3, type4, values }) => {
           <input
             style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
             className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            type='tel'
-            placeholder=''
-            defaultValue={values[2]}
+            type='text'
+            value={type_3}
+            onChange={(e) => {
+              setType3(e.target.value);
+            }}
           />
         </div>
 
@@ -62,14 +85,17 @@ const AddSection = ({ edit, type1, type2, type3, type4, values }) => {
           <label htmlFor='desc text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             {type4}
           </label>
-          <div
+          <textarea
+            rows={"auto"}
             style={{
               border: "1px solid rgba(34, 31, 185, 0.14)",
             }}
-            className='w-[492px] h-36 px-3.5 py-2.5  text-gray-900 text-sm font-medium font-Poppins leading-7 bg-white rounded-[5px]'
-          >
-            {values[3]}
-          </div>
+            value={type_4}
+            onChange={(e) => {
+              setType4(e.target.value);
+            }}
+            className='w-[492px] h-36 px-3.5 py-2.5 focus:outline-none text-gray-900 text-sm font-medium font-Poppins leading-7 bg-white rounded-[5px]'
+          ></textarea>
         </div>
       </div>
 
@@ -77,8 +103,20 @@ const AddSection = ({ edit, type1, type2, type3, type4, values }) => {
         <button className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'>
           Cancel
         </button>
-        <button className='w-[118px] px-[18px] py-2.5 bg-violet-800 rounded-[5px] border border-violet-800 text-white text-[13px] font-medium font-Poppins leading-normal'>
-          Save Details
+        <button
+          disabled={loading}
+          onClick={() => {
+            addFunctionHandler(type_1, type_2, type_3, type_4);
+          }}
+          className='min-w-[118px] w-max shrink-0 px-[18px] py-2.5 bg-violet-800 rounded-[5px] border border-violet-800 text-white text-[13px] font-medium font-Poppins leading-normal'
+        >
+          {loading ? (
+            <div className='animate-spin w-fit mx-auto'>
+              <LuLoader2 />
+            </div>
+          ) : (
+            submitText
+          )}
         </button>
       </div>
     </div>

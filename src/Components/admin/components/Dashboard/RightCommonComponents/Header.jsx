@@ -3,9 +3,10 @@ import { ChevlonIcon } from "../../../assets/constants";
 export default function Header({ icon, title, subTitle }) {
   return (
     <div className='flex w-full px-5 items-center border-b pb-4'>
-      <div className='h-8 w-8 p-1 mr-1 brightness-150 rounded-full bg-[#6218C0] flex justify-center items-center'>
-        {icon}
+      <div className='h-8 w-8 p-1 mr-1 rounded-full bg-opacity-80 bg-[#6218C0] flex justify-center items-center'>
+        <div className='opacity-100 brightness-150'>{icon}</div>
       </div>
+
       <div className='flex gap-1'>
         {subTitle && (
           <h3

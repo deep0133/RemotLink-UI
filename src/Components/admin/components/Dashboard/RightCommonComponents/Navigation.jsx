@@ -1,4 +1,4 @@
-import RightMenu from "../RightMenu";
+import RightMenu from "../RightMenu.jsx";
 
 export default function Navigation({ data, selected }) {
   return (

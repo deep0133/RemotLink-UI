@@ -1,31 +1,31 @@
+import React from "react";
+import Header from "../../components/Dashboard/RightCommonComponents/Header";
+import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
+import Hero from "../../components/category/Hero";
 import {
   CalenderIcon,
   ChevlonIcon,
-  DeleteIcon,
   ExportIcon,
   FilterIcon,
   ReportIcon,
   SortIcon,
 } from "../../assets/constants";
-import Header from "../../components/Dashboard/RightCommonComponents/Header";
-import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
-import Hero from "../../components/category/Hero";
-import { ReportsRightMenu, SiteUsageListData } from "../../data";
+import { ReportsRightMenu, UserReportsData } from "../../data";
 
-export default function SiteUsages() {
+export default function UserReports() {
   return (
     <>
       <Header icon={<ReportIcon />} title={"Reports"} />
       <Navigation data={ReportsRightMenu} />
       <Hero
-        name={"Site Usage Reports"}
-        description={`Manage the site usage reports here.`}
+        name={"User Reports"}
+        description={`Manage the user reports here.`}
         icon={<ExportIcon />}
         btnText={`Export`}
         btnLink={""}
       />
       <Buttons />
-      <SiteUsageList data={SiteUsageListData} />
+      <UserLogList data={UserReportsData} path={""} />
     </>
   );
 }
@@ -85,7 +85,7 @@ const Buttons = () => {
   );
 };
 
-const SiteUsageList = ({ data }) => {
+const UserLogList = ({ data, path }) => {
   return (
     <div
       style={{
@@ -99,19 +99,19 @@ const SiteUsageList = ({ data }) => {
           Number
         </div>
         <div className='text-slate-400 col-span-2 text-sm font-medium font-Poppins leading-normal'>
-          Site
+          Name
         </div>
         <div className='text-slate-400 -ml-0.5 col-span-3 text-sm font-medium font-Poppins leading-normal'>
-          Site URL
+          Email
         </div>
         <div className='text-slate-400 col-span-2 -ml-1 text-sm font-medium font-Poppins leading-normal'>
-          Category
+          Session Started on
         </div>
-        <div className='text-slate-400 text-center col-span-2 -ml-1.5 text-sm font-medium font-Poppins leading-normal'>
-          Access Count
+        <div className='text-slate-400 col-span-2 -ml-1.5 text-sm font-medium font-Poppins leading-normal'>
+          Session Ended on
         </div>
-        <div className='text-slate-400 text-center  col-span-2 text-sm -ml-1.5 font-medium font-Poppins leading-normal'>
-          Action
+        <div className='text-slate-400 col-span-2 text-sm -ml-1.5 font-medium font-Poppins leading-normal'>
+          IP Address
         </div>
       </div>
       <div className='card-container flex-1 w-full max-h-[380px] overflow-auto'>
@@ -137,26 +137,19 @@ const SiteUsageList = ({ data }) => {
                       {index + 1}
                     </div>
                     <div className='text-indigo-900 col-span-2 text-sm font-medium font-Poppins leading-7'>
-                      {val.site}
+                      {val.name}
                     </div>
                     <div className='text-indigo-900 col-span-3 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.siteUrl}
+                      {val.email}
                     </div>
                     <div className='text-indigo-900 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.category}
-                    </div>
-
-                    <div className='flex justify-center col-span-2'>
-                      <div className=' px-2 py-0.5 w-8 h-8 shrink-0 bg-indigo-500 bg-opacity-10 rounded-2xl justify-center items-center inline-flex'>
-                        <div className='text-center text-indigo-500 text-xs font-medium font-Inter leading-[18px]'>
-                          {val.accessCount}
-                        </div>
-                      </div>
+                      {val.sessionStarted}
                     </div>
                     <div className='text-indigo-900 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      <div className=' mx-auto w-fit'>
-                        <DeleteIcon />
-                      </div>
+                      {val.sessionEnded}
+                    </div>
+                    <div className='text-indigo-900 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
+                      {val.ip}
                     </div>
                   </div>
                 </div>

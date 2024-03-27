@@ -2,7 +2,8 @@ import { LogoIcon } from "../assets/constants";
 import { sidebarData } from "../data";
 import { DonaldTrump } from "../assets/images/index";
 import { NavLink, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function PageLayout({ children }) {
   return (
     <section className='max-w-[1440px] min-w-[90rem] overflow-auto mx-auto min-h-[100lvh] relative bg-white flex '>
@@ -25,6 +26,7 @@ export default function PageLayout({ children }) {
         </div>
       </div>
       <div className='right flex-1 py-8 pl-1'>{children}</div>
+      <ToastContainer />
     </section>
   );
 }

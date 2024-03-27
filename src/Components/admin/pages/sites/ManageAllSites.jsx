@@ -3,10 +3,11 @@ import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import { SitesIcon } from "../../assets/constants";
 import SearchFilter from "../../components/category/SearchFilter";
-import { ManageSiteData } from "../../data";
+// import { ManageSiteData } from "../../data";
 import Card from "../../components/sites/Card";
 
-export default function ManageAllSites() {
+export default function ManageAllSites({ siteData }) {
+  // const { siteData } = useFetch();
   return (
     <>
       <Header icon={<SitesIcon />} title={"Sites"} />
@@ -15,18 +16,10 @@ export default function ManageAllSites() {
         description={`Manage the site here`}
         icon={<SitesIcon />}
         btnText={`Add Site`}
-        btnLink={""}
+        btnLink={"/admin/sites/add/site"}
       />
       <SearchFilter />
-      <Card
-        data={ManageSiteData}
-        path={"Hello".toLowerCase()}
-        type1={"Name"}
-        type2={"Site URL"}
-        type3={"Description"}
-        type4={"Category"}
-        type5={"Action"}
-      />
+      <Card data={siteData} path={"/admin/sites/edit/site"} />
     </>
   );
 }

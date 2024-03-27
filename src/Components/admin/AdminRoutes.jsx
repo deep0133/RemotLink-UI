@@ -4,9 +4,10 @@ import { Routes, Route } from "react-router-dom";
 import Category from "./pages/category/Category";
 import User from "./pages/users/User";
 import Reports from "./pages/reports/Reports";
-import Notifications from "./pages/Notifications";
+import Notifications from "./pages/notification/Notifications";
 import Institution from "./pages/Institution";
 import Site from "./pages/sites/Site";
+import "./style.css";
 export default function AdminRoutes() {
   return (
     <PageLayout>

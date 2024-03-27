@@ -3,9 +3,14 @@ import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import SearchFilter from "../../components/category/SearchFilter";
 import Card from "../../components/user/Card";
-import { ManageUserData } from "../../data";
+import useDelete from "../../hooks/useDelete";
 
-export default function ManageUser() {
+export default function ManageUser({ data, fetchLoading }) {
+  const { deleteUserLoading, handleDeleteUser } = useDelete();
+
+  const deleteUserHandle = (id) => {
+    handleDeleteUser("api/user/delete/" + id + "/");
+  };
   return (
     <>
       <Header icon={<UsersIcon />} title={"Users"} />
@@ -17,17 +22,16 @@ export default function ManageUser() {
         btnText={`Add User`}
         btnText2={`Bulk Add User`}
         btnCount={2}
-        btnLink={""}
+        btnLink={"/admin/users/add/user"}
+        btnLink2={"/admin/users/bulkuser"}
       />
       <SearchFilter />
       <Card
-        data={ManageUserData}
-        path={"Hello".toLowerCase()}
-        type1={"Name"}
-        type2={"Email"}
-        type3={"Phone Number"}
-        type4={"Category"}
-        type5={"Action"}
+        data={data}
+        path={"/admin/users/edit/user"}
+        fetchLoading={fetchLoading}
+        deleteUserHandle={deleteUserHandle}
+        deleteUserLoading={deleteUserLoading}
       />
     </>
   );

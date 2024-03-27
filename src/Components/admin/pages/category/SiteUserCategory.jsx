@@ -5,7 +5,15 @@ import { CategroyRightMenu } from "../../data";
 import Hero from "../../components/category/Hero";
 import CategoryList from "../../components/category/CategoryList";
 import SearchFilter from "../../components/category/SearchFilter";
-export default function SiteUserCategory({ data, title, name }) {
+export default function SiteUserCategory({
+  data,
+  title,
+  name,
+  deleteApi,
+  btnLink,
+  deleteLoading,
+  handleDelete,
+}) {
   return (
     <>
       <Header icon={<CategoryIcon />} title={title} subTitle={"Categor"} />
@@ -15,10 +23,16 @@ export default function SiteUserCategory({ data, title, name }) {
         description={`Manage the ${name.toLowerCase()} categories here`}
         icon={<UsersIcon />}
         btnText={`Add ${name.toLowerCase()} Category`}
-        btnLink={""}
+        btnLink={btnLink}
       />
       <SearchFilter />
-      <CategoryList data={data} path={name.toLowerCase()} />
+      <CategoryList
+        data={data}
+        path={name.toLowerCase()}
+        deleteApi={deleteApi}
+        loading={deleteLoading}
+        handleDelete={handleDelete}
+      />
     </>
   );
 }

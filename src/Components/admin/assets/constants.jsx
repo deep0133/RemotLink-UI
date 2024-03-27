@@ -747,23 +747,23 @@ export function ExportIcon() {
       <path
         d='M6.75 8.24995V12.75L8.25 11.25'
         stroke='#6218C0'
-        stroke-width='1.5'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
       <path
         d='M6.74805 12.75L5.24805 11.25'
         stroke='#6218C0'
-        stroke-width='1.5'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
       <path
         d='M16.502 7.49994V11.2499C16.502 14.9999 15.002 16.4999 11.252 16.4999H6.75195C3.00195 16.4999 1.50195 14.9999 1.50195 11.2499V6.74994C1.50195 2.99994 3.00195 1.49994 6.75195 1.49994H10.502'
         stroke='#6218C0'
-        stroke-width='1.5'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
       <path
         d='M16.502 7.49994H13.502C11.252 7.49994 10.502 6.74994 10.502 4.49994V1.49994L16.502 7.49994Z'
@@ -775,3 +775,140 @@ export function ExportIcon() {
     </svg>
   );
 }
+
+export function CalenderIcon() {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='20'
+      height='20'
+      viewBox='0 0 20 20'
+      fill='none'
+    >
+      <path
+        d='M6.6665 1.66667V4.16667'
+        stroke='#292D32'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M13.3335 1.66667V4.16667'
+        stroke='#292D32'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M2.9165 7.575H17.0832'
+        stroke='#292D32'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M17.5 7.08333V14.1667C17.5 16.6667 16.25 18.3333 13.3333 18.3333H6.66667C3.75 18.3333 2.5 16.6667 2.5 14.1667V7.08333C2.5 4.58333 3.75 2.91667 6.66667 2.91667H13.3333C16.25 2.91667 17.5 4.58333 17.5 7.08333Z'
+        stroke='#292D32'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M9.99607 11.4167H10.0036'
+        stroke='#292D32'
+        strokeWidth='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M6.91209 11.4167H6.91957'
+        stroke='#292D32'
+        strokeWidth='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M6.91209 13.9167H6.91957'
+        stroke='#292D32'
+        strokeWidth='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+    </svg>
+  );
+}
+
+export const EmailIcon = () => {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='22'
+      height='22'
+      viewBox='0 0 22 22'
+      fill='none'
+    >
+      <path
+        d='M15.4766 18.4376H6.72656C4.10156 18.4376 2.35156 17.1251 2.35156 14.0626V7.93756C2.35156 4.87506 4.10156 3.56256 6.72656 3.56256H15.4766C18.1016 3.56256 19.8516 4.87506 19.8516 7.93756V14.0626C19.8516 17.1251 18.1016 18.4376 15.4766 18.4376Z'
+        stroke='#103E7E'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M15.4766 8.375L12.7378 10.5625C11.8366 11.28 10.3578 11.28 9.45656 10.5625L6.72656 8.375'
+        stroke='#103E7E'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+    </svg>
+  );
+};
+
+export const PhoneIcon = () => {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='19'
+      height='18'
+      viewBox='0 0 19 18'
+      fill='none'
+    >
+      <path
+        d='M17.5776 14.064C17.5776 14.352 17.5136 14.648 17.3776 14.936C17.2416 15.224 17.0656 15.496 16.8336 15.752C16.4416 16.184 16.0096 16.496 15.5216 16.696C15.0416 16.896 14.5216 17 13.9616 17C13.1456 17 12.2736 16.808 11.3536 16.416C10.4336 16.024 9.51356 15.496 8.60156 14.832C7.68156 14.16 6.80956 13.416 5.97756 12.592C5.15356 11.76 4.40956 10.888 3.74556 9.976C3.08956 9.064 2.56156 8.152 2.17756 7.248C1.79356 6.336 1.60156 5.464 1.60156 4.632C1.60156 4.088 1.69756 3.568 1.88956 3.088C2.08156 2.6 2.38556 2.152 2.80956 1.752C3.32156 1.248 3.88156 1 4.47356 1C4.69756 1 4.92156 1.048 5.12156 1.144C5.32956 1.24 5.51356 1.384 5.65756 1.592L7.51356 4.208C7.65756 4.408 7.76156 4.592 7.83356 4.768C7.90556 4.936 7.94556 5.104 7.94556 5.256C7.94556 5.448 7.88956 5.64 7.77756 5.824C7.67356 6.008 7.52156 6.2 7.32956 6.392L6.72156 7.024C6.63356 7.112 6.59356 7.216 6.59356 7.344C6.59356 7.408 6.60156 7.464 6.61756 7.528C6.64156 7.592 6.66556 7.64 6.68156 7.688C6.82556 7.952 7.07356 8.296 7.42556 8.712C7.78556 9.128 8.16956 9.552 8.58556 9.976C9.01756 10.4 9.43356 10.792 9.85756 11.152C10.2736 11.504 10.6176 11.744 10.8896 11.888C10.9296 11.904 10.9776 11.928 11.0336 11.952C11.0976 11.976 11.1616 11.984 11.2336 11.984C11.3696 11.984 11.4736 11.936 11.5616 11.848L12.1696 11.248C12.3696 11.048 12.5616 10.896 12.7456 10.8C12.9296 10.688 13.1136 10.632 13.3136 10.632C13.4656 10.632 13.6256 10.664 13.8016 10.736C13.9776 10.808 14.1616 10.912 14.3616 11.048L17.0096 12.928C17.2176 13.072 17.3616 13.24 17.4496 13.44C17.5296 13.64 17.5776 13.84 17.5776 14.064Z'
+        stroke='#103E7E'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+      />
+    </svg>
+  );
+};
+
+export const LocationIcon = () => {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='16'
+      height='18'
+      viewBox='0 0 16 18'
+      fill='none'
+    >
+      <path
+        d='M7.89994 10.1463C9.27879 10.1463 10.3966 9.02849 10.3966 7.64964C10.3966 6.27079 9.27879 5.15302 7.89994 5.15302C6.5211 5.15302 5.40332 6.27079 5.40332 7.64964C5.40332 9.02849 6.5211 10.1463 7.89994 10.1463Z'
+        stroke='#103E7E'
+        strokeWidth='1.5'
+      />
+      <path
+        d='M1.19425 6.1933C2.77065 -0.736432 13.0372 -0.72843 14.6056 6.2013C15.5258 10.2663 12.9972 13.7072 10.7806 15.8357C9.17225 17.3881 6.62761 17.3881 5.01121 15.8357C2.80266 13.7072 0.274023 10.2583 1.19425 6.1933Z'
+        stroke='#103E7E'
+        strokeWidth='1.5'
+      />
+    </svg>
+  );
+};

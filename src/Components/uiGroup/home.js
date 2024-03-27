@@ -20,11 +20,9 @@ import Search_Icon from "../../images/search-normal.svg";
 import help_Icon from "../../images/message-question.svg";
 import question_Icon from "../../images/Question.svg";
 
-import Service from "../Webservices/http";
+import useFetch from "../../hooks/useFetch";
 
 function Home() {
-  const services = new Service();
-
   const [active, setActive] = useState("week");
 
   const arr = [1, 2, 3, 4, 5];
@@ -44,6 +42,23 @@ function Home() {
     three: ["Dermatalogy", "  Neurology", "  Dermatalogy", "Neurology"],
   };
   const arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17];
+
+  const [randomMessage, setRandomMessage] = useState("");
+
+  const { handleFetchMessages } = useFetch();
+
+  // Random Message Getting
+  useEffect(() => {
+    const callingRandomMesg = async () => {
+      try {
+        const randomMsg = await handleFetchMessages();
+        setRandomMessage(randomMsg);
+      } catch (error) {
+        console.log("error :", error);
+      }
+    };
+    callingRandomMesg();
+  }, []);
 
   return (
     <div className='sm:flex'>
@@ -115,8 +130,9 @@ function Home() {
               Welcome Back to Library
             </p> */}
               </li>
-              <li className='flex border-2 border-yellow-400 text-white font-poppins  font-normal text-[15px] leading-relaxed w-[323px]'>
-                Strong people don’t put others down. they lift them up.
+              <li className='flex text-white font-poppins  font-normal text-[15px] leading-relaxed w-[323px]'>
+                {/* Strong people don’t put others down. they lift them up. */}
+                {randomMessage}
               </li>
               <li className=' '>
                 <button className=' rounded-md mt-6 h-[53px] w-[131px] bg-[#36201B] text-white '>

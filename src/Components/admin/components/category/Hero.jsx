@@ -1,4 +1,5 @@
-// import { AddSiteIcon } from "../../assets/constants";
+import { useNavigate } from "react-router-dom";
+
 const Hero = ({
   name,
   description,
@@ -8,7 +9,9 @@ const Hero = ({
   btnText,
   btnText2,
   btnLink,
+  btnLink2,
 }) => {
+  const navigate = useNavigate();
   return (
     <div className='px-3 flex justify-between items-start py-5'>
       <div>
@@ -22,6 +25,9 @@ const Hero = ({
       <div className='flex gap-3'>
         {btnText && (
           <button
+            onClick={() => {
+              navigate(btnLink);
+            }}
             style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
             className='border-2  px-5 h-[43px] justify-center rounded-[5px] items-center gap-2 flex'
           >
@@ -33,6 +39,9 @@ const Hero = ({
         )}
         {btnCount === 2 && (
           <button
+            onClick={() => {
+              navigate(btnLink2);
+            }}
             style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
             className='border-2 px-5 h-[43px] justify-center rounded-[5px] items-center gap-2 flex'
           >

@@ -2,8 +2,20 @@ import { SitesIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import AddSection from "../../components/RightCommonComponents/AddSection";
 import Hero from "../../components/category/Hero";
+import useAdd from "../../hooks/useAdd";
 
 export default function AddUser() {
+  const { handleAddNewSite } = useAdd();
+
+  const addFunctionHandler = (d1, d2, d3, d4) => {
+    handleAddNewSite("api/sites/categories/add/", {
+      name: d1,
+      url: d2,
+      category: d3,
+      description: d4,
+    });
+  };
+
   return (
     <>
       <Header icon={<SitesIcon />} title={"Add Sites"} subTitle={"Sites"} />
@@ -18,12 +30,8 @@ export default function AddUser() {
         type2={"Site URL"}
         type3={"Category"}
         type4={"Description"}
-        values={[
-          "Steve Rogers",
-          "steverogers@gmail.com",
-          "+91-8989858974",
-          "Bandra Kurla Complex, Siddharath Nagar, Vakola, Vicinity, Mumbai, Maharashtra 400055",
-        ]}
+        submitText={"Save Site"}
+        addFunctionHandler={addFunctionHandler}
       />
     </>
   );
