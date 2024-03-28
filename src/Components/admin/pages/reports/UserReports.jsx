@@ -10,9 +10,16 @@ import {
   ReportIcon,
   SortIcon,
 } from "../../assets/constants";
-import { ReportsRightMenu, UserReportsData } from "../../data";
+import { ReportsRightMenu } from "../../data";
+import { formatDate } from "../../utils/formateData";
+import { useNavigate } from "react-router-dom";
 
-export default function UserReports() {
+export default function UserReports({ data }) {
+  const navigate = useNavigate();
+
+  const openLogs = (id) => {
+    navigate("/admin/reports/user/login-logs/" + id);
+  };
   return (
     <>
       <Header icon={<ReportIcon />} title={"Reports"} />
@@ -25,7 +32,7 @@ export default function UserReports() {
         btnLink={""}
       />
       <Buttons />
-      <UserLogList data={UserReportsData} path={""} />
+      <UserLogList data={data} openLogs={openLogs} />
     </>
   );
 }
@@ -85,7 +92,8 @@ const Buttons = () => {
   );
 };
 
-const UserLogList = ({ data, path }) => {
+const UserLogList = ({ data, openLogs }) => {
+  // "/admin/reports/user/logs",
   return (
     <div
       style={{
@@ -94,14 +102,14 @@ const UserLogList = ({ data, path }) => {
       }}
       className='rounded-lg p-3 mt-5 ml-3 '
     >
-      <div className='row-1 grid grid-cols-12 w-full px-2 pb-5'>
+      <div className='row-1 grid grid-cols-11 w-full px-2 pb-5 gap-3'>
         <div className='text-slate-400 col-span-1 text-sm font-medium font-Poppins leading-normal'>
           Number
         </div>
         <div className='text-slate-400 col-span-2 text-sm font-medium font-Poppins leading-normal'>
           Name
         </div>
-        <div className='text-slate-400 -ml-0.5 col-span-3 text-sm font-medium font-Poppins leading-normal'>
+        <div className='text-slate-400 -ml-0.5 line-clamp-1 col-span-2 text-sm font-medium font-Poppins leading-normal'>
           Email
         </div>
         <div className='text-slate-400 col-span-2 -ml-1 text-sm font-medium font-Poppins leading-normal'>
@@ -110,7 +118,7 @@ const UserLogList = ({ data, path }) => {
         <div className='text-slate-400 col-span-2 -ml-1.5 text-sm font-medium font-Poppins leading-normal'>
           Session Ended on
         </div>
-        <div className='text-slate-400 col-span-2 text-sm -ml-1.5 font-medium font-Poppins leading-normal'>
+        <div className='text-slate-400 text-center col-span-2 text-sm -ml-1.5 font-medium font-Poppins leading-normal'>
           IP Address
         </div>
       </div>
@@ -120,36 +128,50 @@ const UserLogList = ({ data, path }) => {
               return (
                 <div
                   key={index}
-                  style={
-                    index === 1
-                      ? {
-                          border: "1px solid rgba(90, 53, 255, 0.10)",
-                          borderRadius: 5,
-                          boxShadow:
-                            "0px 8px 40px 0px rgba(112, 144, 176, 0.13)",
-                        }
-                      : null
-                  }
-                  className='card flex-1 flex p-2'
+                  onClick={() => {
+                    openLogs(val.id);
+                  }}
+                  className='card cursor-pointer list flex-1 flex p-2'
                 >
-                  <div className='grid grid-cols-12 w-full '>
+                  <div className='grid grid-cols-11 w-full gap-3'>
                     <div className='text-indigo-900 col-span-1 text-sm font-medium font-Poppins leading-7'>
                       {index + 1}
                     </div>
-                    <div className='text-indigo-900 col-span-2 text-sm font-medium font-Poppins leading-7'>
-                      {val.name}
+                    <div className='text-indigo-900 line-clamp-1 col-span-2 text-sm font-medium font-Poppins leading-7'>
+                      {val.user
+                        ? val.user.first_name
+                          ? val.user.first_name
+                          : "---"
+                        : "---"}{" "}
+                      {val.user
+                        ? val.user.last_name
+                          ? val.user.last_name
+                          : ""
+                        : ""}
                     </div>
-                    <div className='text-indigo-900 col-span-3 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.email}
+                    <div className='text-indigo-900 line-clamp-1 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
+                      {val.user.email ? val.user.email : "---"}
                     </div>
-                    <div className='text-indigo-900 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.sessionStarted}
+                    <div className='text-indigo-900 col-span-2 line-clamp-1 flex-1 text-sm font-medium font-Poppins leading-7'>
+                      {val.sessions.length >= 0 && val.sessions
+                        ? val.sessions[0].login
+                          ? formatDate(val.sessions[0].login)
+                          : "---"
+                        : "---"}
                     </div>
-                    <div className='text-indigo-900 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.sessionEnded}
+                    <div className='text-indigo-900 col-span-2 line-clamp-1 flex-1 text-sm font-medium font-Poppins leading-7'>
+                      {val.sessions && val.sessions.length >= 0
+                        ? val.sessions[0].logout
+                          ? formatDate(val.sessions[0].logout)
+                          : "---"
+                        : "---"}
                     </div>
-                    <div className='text-indigo-900 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.ip}
+                    <div className='text-indigo-900  line-clamp-1 text-center col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
+                      {val.sessions
+                        ? val.sessions[0].ip
+                          ? val.sessions[0].ip
+                          : "---"
+                        : "---"}
                     </div>
                   </div>
                 </div>

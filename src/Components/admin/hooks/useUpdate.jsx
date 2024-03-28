@@ -15,6 +15,9 @@ export default function useUpdate() {
   const [updateUserLoading, setUpdateUserLoading] = useState(false);
   const [updateUserMessage, setUpdateUserMessage] = useState("");
 
+  const [updateSiteLoading, setUpdateSiteLoading] = useState(false);
+  const [updateSiteMessage, setUpdateSiteMessage] = useState("");
+
   const [updateNotificationLoading, setUpdateNotificationLoading] =
     useState(false);
   const [updateNotificationMessage, setUpdateNotificationMessage] =
@@ -99,6 +102,38 @@ export default function useUpdate() {
     }
   };
 
+  const handleUpdateSites = async (api, formData) => {
+    setUpdateSiteLoading(true);
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "multipart/form-data; Boundary=???",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        // Handle error
+        const errorData = await response.json();
+        const errorMessage = errorData.error;
+        throw new Error(
+          `Request failed with status ${response.status}: ${errorMessage}`
+        );
+      }
+      const data = await response.json();
+      setUpdateSiteMessage(data.detail);
+      toast.success("Site Updated Succesfully");
+      navigate("/admin/sites");
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
+    } finally {
+      setUpdateSiteLoading(false);
+    }
+  };
+
   const handleUpdateNotification = async (api, formData) => {
     setUpdateNotificationLoading(true);
     try {
@@ -112,12 +147,17 @@ export default function useUpdate() {
         body: JSON.stringify(formData),
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
       }
       const data = await response.json();
       setUpdateNotificationMessage(data.detail);
+      toast.success("Updated Successfully");
+      navigate("/admin/notifications");
     } catch (err) {
-      console.log("Error :", err);
+      toast.error(err.message);
     } finally {
       setUpdateNotificationLoading(false);
     }
@@ -128,13 +168,16 @@ export default function useUpdate() {
     updateUserCategoryLoading,
     updateUserLoading,
     updateNotificationLoading,
+    updateSiteLoading,
     updateMessage,
     updateUserMessage,
     updateNotificationMessage,
     updateUserCategoryMessage,
+    updateSiteMessage,
     handleUpdate,
     handleUpdateUserCategory,
     handleUpdateUser,
+    handleUpdateSites,
     handleUpdateNotification,
   };
 }

@@ -120,12 +120,17 @@ export default function useAdd() {
         body: JSON.stringify(formData),
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
       }
       const data = await response.json();
       setAddNewSite(data.detail);
+      toast.success(data.detail);
+      navigate("/admin/sites");
     } catch (err) {
-      console.log("Error :", err);
+      toast.error(err.message);
     } finally {
       setAddNewSiteLoading(false);
     }

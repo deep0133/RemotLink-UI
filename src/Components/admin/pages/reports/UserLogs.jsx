@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   CalenderIcon,
   ChevlonIcon,
@@ -10,22 +11,38 @@ import {
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
 import Hero from "../../components/category/Hero";
-import { ReportsRightMenu, UserReportLogssData } from "../../data";
+import { ReportsRightMenu } from "../../data";
+import useFetch from "../../hooks/useFetch";
+import { formatDate } from "../../utils/formateData";
 
 export default function UserLogs() {
+  const { loginLogsLoading, loginLogsData, handleFetctLoginLogs } = useFetch();
+
+  useEffect(() => {
+    const path = window.location.pathname.split("/");
+    const id = path[path.length - 1];
+
+    const apiUrl = `api/report/login-log/${id}`;
+    handleFetctLoginLogs(apiUrl);
+  }, []);
+
+  if (loginLogsLoading) {
+    return <div>Loaidng...</div>;
+  }
+
   return (
     <>
-      <Header icon={<ReportIcon />} title={"Reports"} />
+      <Header icon={<ReportIcon />} title={"User Logs"} subTitle={"Reports"} />
       <Navigation data={ReportsRightMenu} />
       <Hero
-        name={"User Reports"}
-        description={`Manage the user reports here.`}
+        name={"User Login Logs"}
+        description={`Manage the user logs here.`}
         icon={<ExportIcon />}
         btnText={`Export`}
         btnLink={""}
       />
       <Buttons />
-      <UserLogList data={UserReportLogssData} path={""} />
+      {<UserLogList data={loginLogsData} path={""} />}
     </>
   );
 }
@@ -112,35 +129,30 @@ const UserLogList = ({ data, path }) => {
         </div>
       </div>
       <div className='card-container flex-1 w-full max-h-[380px] overflow-auto'>
-        {data?.length > 0
-          ? data.map((val, index) => {
+        {data && data.sessions?.length > 0
+          ? data.sessions.map((session, index) => {
               return (
-                <div
-                  key={index}
-                  style={
-                    index === 1
-                      ? {
-                          border: "1px solid rgba(90, 53, 255, 0.10)",
-                          borderRadius: 5,
-                          boxShadow:
-                            "0px 8px 40px 0px rgba(112, 144, 176, 0.13)",
-                        }
-                      : null
-                  }
-                  className='card flex-1 flex p-2'
-                >
+                <div key={index} className='card list flex-1 flex p-2'>
                   <div className='grid grid-cols-11 w-full '>
                     <div className='text-indigo-900 col-span-1 text-sm font-medium font-Poppins leading-7'>
                       {index + 1}
                     </div>
                     <div className='text-indigo-900 col-span-3 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.sessionStarted}
+                      {session.login
+                        ? session.login
+                          ? formatDate(session.login)
+                          : "---"
+                        : "---"}
                     </div>
                     <div className='text-indigo-900 col-span-3 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.sessionEnded}
+                      {session.logout
+                        ? session.logout
+                          ? formatDate(session.logout)
+                          : "---"
+                        : "---"}
                     </div>
                     <div className='text-indigo-900 col-span-3 text-sm font-medium font-Poppins leading-7'>
-                      {val.ip}
+                      {session.ip}
                     </div>
 
                     <div className='text-indigo-900 col-span-1 flex-1 text-sm font-medium font-Poppins leading-7'>

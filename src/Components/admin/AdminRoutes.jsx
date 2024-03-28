@@ -1,6 +1,6 @@
 import Dashboard from "./pages/Dashboard";
 import PageLayout from "./Layouts/PageLayout";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Category from "./pages/category/Category";
 import User from "./pages/users/User";
 import Reports from "./pages/reports/Reports";
@@ -12,7 +12,9 @@ export default function AdminRoutes() {
   return (
     <PageLayout>
       <Routes>
-        <Route path='/' element={<Dashboard />} />
+        <Route path='/' element={<Navigate to={"/admin/dashboard"} />} />
+
+        <Route path='/dashboard/*' element={<Dashboard />} />
         <Route path='/category/*' element={<Category />} />
         <Route path='/users/*' element={<User />} />
         <Route path='/sites/*' element={<Site />} />

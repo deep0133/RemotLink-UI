@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useFetch from "./useFetch";
 
 export default function useSearch() {
@@ -9,7 +9,6 @@ export default function useSearch() {
 
   const handleSearchSite = async () => {
     try {
-      console.log("search use");
       setSearchLoading(true);
       const token = localStorage.getItem("access_token");
       const response = await fetch(

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EditICon } from "../../assets/constants";
 import { LuLoader2 } from "react-icons/lu";
 
@@ -13,10 +13,17 @@ const AddSection = ({
   loading = false,
   submitText,
 }) => {
-  const [type_1, setType1] = useState(siteData ? siteData?.name : "");
-  const [type_2, setType2] = useState(siteData ? siteData?.base_url : "");
-  const [type_3, setType3] = useState(siteData ? siteData?.category?.name : "");
-  const [type_4, setType4] = useState(siteData ? siteData?.description : "");
+  const [type_1, setType1] = useState("");
+  const [type_2, setType2] = useState("");
+  const [type_3, setType3] = useState();
+  const [type_4, setType4] = useState();
+
+  useEffect(() => {
+    setType1(siteData ? siteData?.name : "");
+    setType2(siteData ? siteData?.base_url : "");
+    setType3(siteData ? siteData?.category?.name : "");
+    setType4(siteData ? siteData?.description : "");
+  }, [siteData]);
 
   return (
     <div

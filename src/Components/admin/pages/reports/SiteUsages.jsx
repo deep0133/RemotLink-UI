@@ -118,20 +118,7 @@ const SiteUsageList = ({ data }) => {
         {data?.length > 0
           ? data.map((val, index) => {
               return (
-                <div
-                  key={index}
-                  style={
-                    index === 1
-                      ? {
-                          border: "1px solid rgba(90, 53, 255, 0.10)",
-                          borderRadius: 5,
-                          boxShadow:
-                            "0px 8px 40px 0px rgba(112, 144, 176, 0.13)",
-                        }
-                      : null
-                  }
-                  className='card flex-1 flex p-2'
-                >
+                <div key={index} className='card list flex-1 flex p-2'>
                   <div className='grid grid-cols-12 w-full '>
                     <div className='text-indigo-900 col-span-1 text-sm font-medium font-Poppins leading-7'>
                       {index + 1}

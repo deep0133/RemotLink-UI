@@ -72,7 +72,7 @@ export default function EditUser({ head_title, data }) {
 
         <div
           style={{
-            boxShadow: "0px 10px 35px 1px rgba(112, 144, 176, 0.10);",
+            boxShadow: "0px 10px 35px 1px rgba(112, 144, 176, 0.10)",
             broder: "1px solid rgba(34, 31, 185, 0.14)",
           }}
         ></div>

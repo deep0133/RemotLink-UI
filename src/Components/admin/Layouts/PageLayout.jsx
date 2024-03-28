@@ -1,4 +1,4 @@
-import { LogoIcon } from "../assets/constants";
+import { LoginIcon, LogoIcon } from "../assets/constants";
 import { sidebarData } from "../data";
 import { DonaldTrump } from "../assets/images/index";
 import { NavLink, useLocation } from "react-router-dom";
@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export default function PageLayout({ children }) {
   return (
-    <section className='max-w-[1440px] min-w-[90rem] overflow-auto mx-auto min-h-[100lvh] relative bg-white flex '>
+    <section className='max-w-[1440px] min-w-[90rem] h-[708px] overflow-hidden mx-auto relative bg-white flex '>
       <div className='left-side-menu h-auto relative w-[254px] bg-white pt-8 pb-6 px-2 flex flex-col justify-between'>
         <div>
           <Header icon={<LogoIcon />} title={"AVAGS DIGITAL SERVICES"} />
@@ -15,13 +15,16 @@ export default function PageLayout({ children }) {
 
         <div className='project-manager bottom-0 px-3 mt-8 flex items-center gap-1'>
           <DonaldTrump />
-          <div className='content '>
-            <h3 className='DonaldTrump text-black text-xs font-semibold font-poppins tracking-tight'>
-              Donald Trump
-            </h3>
-            <p className='ProjectManager text-neutral-500 text-[11px] font-normal font-poppins tracking-tight'>
-              Project Manager
-            </p>
+          <div className='content flex justify-start gap-6 items-center flex-1 '>
+            <div>
+              <h3 className='text-black text-xs font-semibold font-Poppins tracking-tight'>
+                Donald Trump
+              </h3>
+              <p className='text-neutral-500 text-[11px] font-normal font-Poppins tracking-tight'>
+                Project Manager
+              </p>
+            </div>
+            <LoginIcon />
           </div>
         </div>
       </div>
@@ -53,7 +56,7 @@ const SidebarMenu = () => {
             to={val.path}
             key={index}
             className={`item-1 relative flex gap-2 px-6 py-3 items-center bg-white rounded-[5px] ${
-              location?.pathname.includes(val.path)
+              location.pathname.includes(val.path)
                 ? "text-violet-800 shadow"
                 : "text-slate-400"
             }`}

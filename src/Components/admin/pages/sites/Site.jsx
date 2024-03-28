@@ -11,6 +11,7 @@ export default function Site() {
   useEffect(() => {
     handleFetctSites("api/sites/");
   }, []);
+
   return (
     <Routes>
       <Route path={"/"} element={<ManageAllSites siteData={siteData} />} />

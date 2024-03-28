@@ -12,7 +12,7 @@ export const sidebarData = [
   {
     icon: <DashboardIcon />,
     name: "Dashboard",
-    path: "/admin",
+    path: "/admin/dashboard",
   },
   {
     icon: <CategoryIcon />,
@@ -50,22 +50,22 @@ export const DashBoardRightMenu = [
   {
     id: 1,
     name: "Overall",
-    path: "/admin/overall",
+    path: "/admin/dashboard",
   },
   {
     id: 2,
     name: "User Categories",
-    path: "/admin/user",
+    path: "/admin/dashboard/user",
   },
   {
     id: 3,
     name: "Categories",
-    path: "/admin/category",
+    path: "/admin/dashboard/category",
   },
   {
     id: 4,
     name: "e-Resources",
-    path: "/admin/eresource",
+    path: "/admin/dashboard/eresource",
   },
 ];
 
@@ -90,11 +90,6 @@ export const ReportsRightMenu = [
   },
   {
     id: 2,
-    name: "User Logs",
-    path: "/admin/reports/user/logs",
-  },
-  {
-    id: 3,
     name: "Site Usage Reports",
     path: "/admin/reports/site/usage",
   },
@@ -115,225 +110,6 @@ export const NotificationRightMenu = [
     id: 3,
     name: "Important Links",
     path: "/admin/notifications/important-links",
-  },
-];
-
-export const ManageSiteData = [
-  {
-    id: 1,
-    name: "Medical",
-    url: "https://iridescent-zuccutto-b82237.netlify.app",
-    desc: "Lines about the site",
-    category: "Technical",
-  },
-  {
-    id: 2,
-    name: "Medical",
-    url: "https://iridescent-zuccutto-b82237.netlify.app",
-    desc: "Lines about the site",
-    category: "Technical",
-  },
-  {
-    id: 3,
-    name: "Medical",
-    url: "https://iridescent-zuccutto-b82237.netlify.app",
-    desc: "Lines about the site",
-    category: "Technical",
-  },
-  {
-    id: 4,
-    name: "Medical",
-    url: "https://iridescent-zuccutto-b82237.netlify.app",
-    desc: "Lines about the site",
-    category: "Technical",
-  },
-  {
-    id: 5,
-    name: "Medical",
-    url: "https://iridescent-zuccutto-b82237.netlify.app",
-    desc: "Lines about the site",
-    category: "Technical",
-  },
-  {
-    id: 6,
-    name: "Medical",
-    url: "https://iridescent-zuccutto-b82237.netlify.app",
-    desc: "Lines about the site",
-    category: "Technical",
-  },
-  {
-    id: 7,
-    name: "Medical",
-    url: "https://iridescent-zuccutto-b82237.netlify.app",
-    desc: "Lines about the site",
-    category: "Technical",
-  },
-  {
-    id: 8,
-    name: "Medical",
-    url: "https://iridescent-zuccutto-b82237.netlify.app",
-    desc: "Lines about the site",
-    category: "Technical",
-  },
-  {
-    id: 9,
-    name: "Medical",
-    url: "https://iridescent-zuccutto-b82237.netlify.app",
-    desc: "Lines about the site",
-    category: "Technical",
-  },
-  {
-    id: 10,
-    name: "Medical",
-    url: "https://iridescent-zuccutto-b82237.netlify.app",
-    desc: "Lines about the site",
-    category: "Technical",
-  },
-];
-
-export const UserReportsData = [
-  {
-    id: 1,
-    name: "Steve Rogers",
-    email: "steverogers33@gmail.com",
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 2,
-    name: "Alex Humes",
-    email: "alexhumes@gmail.com",
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 3,
-    name: "Viren Sharma",
-    email: "steverogers33@gmail.com",
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 4,
-    name: "Steve Rogers",
-    email: "steverogers33@gmail.com",
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 5,
-    name: "Steve Rogers",
-    email: "steverogers33@gmail.com",
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 6,
-    name: "Steve Rogers",
-    email: "steverogers33@gmail.com",
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 7,
-    name: "Steve Rogers",
-    email: "steverogers33@gmail.com",
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 8,
-    name: "Steve Rogers",
-    email: "steverogers33@gmail.com",
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 9,
-    name: "Steve Rogers",
-    email: "steverogers33@gmail.com",
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 10,
-    name: "Steve Rogers",
-    email: "steverogers33@gmail.com",
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-];
-
-export const UserReportLogssData = [
-  {
-    id: 1,
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 2,
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 3,
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 4,
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 5,
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 6,
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 7,
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 8,
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 9,
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
-  },
-  {
-    id: 10,
-    sessionStarted: "July 13, 2023, 10:29 am.",
-    sessionEnded: "July 13, 2023, 10:29 am.",
-    ip: "43.251.92.230",
   },
 ];
 

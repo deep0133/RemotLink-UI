@@ -54,7 +54,7 @@ const Card = ({
                   <div className='grid grid-cols-10 w-full '>
                     <h3 className='text-indigo-900 col-span-2 text-sm font-medium font-Poppins leading-7'>
                       {val.first_name ? val.first_name : "---"}{" "}
-                      {val.last_name ? val.last_name : "---"}
+                      {val.last_name ? val.last_name : ""}
                     </h3>
                     <div className='text-indigo-900 col-span-3 flex-1 text-sm font-medium font-Poppins leading-7'>
                       {val.email ? val.email : "---"}

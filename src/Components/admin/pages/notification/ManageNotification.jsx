@@ -11,11 +11,36 @@ import { NotificationRightMenu } from "../../data";
 import useDelete from "../../hooks/useDelete";
 import { LuLoader2 } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import sortByCreatedAt from "../../utils/sortByCreatedAt";
+import { useEffect, useState } from "react";
 
 export default function ManageNotification({ data }) {
   const { deleteNotificationLoading, handleDeleteNotification } = useDelete();
   const deleteNotification = async (id) => {
     await handleDeleteNotification("api/announcement/delete/" + id);
+  };
+
+  const [notiData, setNotiData] = useState(data);
+
+  const [sort, setSort] = useState("asc");
+
+  useEffect(() => {
+    setNotiData(data);
+  }, [data]);
+
+  useEffect(() => {
+    setNotiData(() => {
+      return sortByCreatedAt(notiData, sort);
+    });
+  }, [sort]);
+
+  const searchHandler = (val) => {
+    setNotiData((prev) =>
+      data.filter(
+        (obj) =>
+          obj.title && obj.title.toLowerCase().includes(val.toLowerCase())
+      )
+    );
   };
 
   return (
@@ -29,9 +54,9 @@ export default function ManageNotification({ data }) {
         btnText={`Send Notification`}
         btnLink={"/admin/notifications/send"}
       />
-      <SearchFilter />
+      <SearchFilter searchHandler={searchHandler} setSort={setSort} />
       <Card
-        data={data.announcement}
+        data={notiData}
         loading={deleteNotificationLoading}
         deleteNotification={deleteNotification}
       />

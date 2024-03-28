@@ -7,6 +7,12 @@ export default function useDelete() {
   const [deleteUserLoading, setDeleteUserLoading] = useState("");
   const [deleteUserMessage, setDeleteUserMessage] = useState("");
 
+  const [deleteSiteLoading, setDeleteSiteLoading] = useState("");
+  const [deleteSiteMessage, setDeleteSiteMessage] = useState("");
+
+  const [deleteReportLoading, setDeleteReportLoading] = useState("");
+  const [deleteReportMessage, setDeleteReportMessage] = useState("");
+
   const [deleteNotificationLoading, setDeleteNotificationLoading] =
     useState("");
   const [deleteNotificationMessage, setDeleteNotificationMessage] =
@@ -66,6 +72,60 @@ export default function useDelete() {
     }
   };
 
+  const handleDeleteSite = async (api) => {
+    setDeleteSiteLoading(true);
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
+      }
+      const data = await response.json();
+      setDeleteSiteMessage(data.detail);
+      toast.success(data.detail);
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setDeleteSiteLoading(false);
+    }
+  };
+
+  const handleDeleteReport = async (api) => {
+    setDeleteReportLoading(true);
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
+      }
+      const data = await response.json();
+      setDeleteReportMessage(data.detail);
+      toast.success(data.detail);
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setDeleteReportLoading(false);
+    }
+  };
+
   // -----------Notification-----------
   const handleDeleteNotification = async (api) => {
     setDeleteNotificationLoading(true);
@@ -99,10 +159,16 @@ export default function useDelete() {
     deleteMessage,
     deleteNotificationLoading,
     deleteUserLoading,
+    deleteSiteLoading,
+    deleteReportLoading,
     deleteUserMessage,
+    deleteSiteMessage,
+    deleteReportMessage,
     handleDelete,
     handleDeleteNotification,
     deleteNotificationMessage,
     handleDeleteUser,
+    handleDeleteSite,
+    handleDeleteReport,
   };
 }

@@ -21,15 +21,15 @@ export default function Notifications() {
     <Routes>
       <Route
         path={"/"}
-        element={<ManageNotification data={notificationData} />}
+        element={<ManageNotification data={notificationData.announcement} />}
       />
       <Route
         path={"/latest-news"}
-        element={<LatestNews data={notificationData} />}
+        element={<LatestNews data={notificationData.news} />}
       />
       <Route
         path={"/important-links"}
-        element={<ImportantLinks data={notificationData} />}
+        element={<ImportantLinks data={notificationData.links} />}
       />
       <Route
         path={"/send"}

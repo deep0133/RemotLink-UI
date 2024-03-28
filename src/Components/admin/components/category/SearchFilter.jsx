@@ -4,7 +4,7 @@ import {
   SearchIcon,
   SortIcon,
 } from "../../assets/constants";
-const SearchFilter = () => {
+const SearchFilter = ({ searchHandler, setSort }) => {
   return (
     <div className='flex justify-between ml-3'>
       <div
@@ -15,10 +15,16 @@ const SearchFilter = () => {
         <input
           className=' flex-1 focus:outline-none px-2 text-gray-500 text-[13px] font-normal font-Poppins leading-normal '
           placeholder='Search'
+          onChange={(e) => {
+            searchHandler(e.target.value);
+          }}
         />
       </div>
       <div className='filters flex gap-3'>
         <button
+          onClick={() => {
+            setSort((prev) => (prev === "asc" ? "desc" : "asc"));
+          }}
           style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
           className='bg-white gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
         >

@@ -26,7 +26,7 @@ export default function ImportantLinks({ data }) {
       <Navigation data={NotificationRightMenu} />
       <Hero name={"See Latest News"} description={`See Latest News here`} />
       <Card
-        data={data.links}
+        data={data}
         loading={deleteNotificationLoading}
         deleteNotification={deleteNotification}
       />

@@ -28,7 +28,7 @@ export default function LatestNews({ data }) {
       <Navigation data={NotificationRightMenu} />
       <Hero name={"See Latest News"} description={`See Latest News here`} />
       <Card
-        data={data.news}
+        data={data}
         deleteNotification={deleteNotification}
         loading={deleteNotificationLoading}
       />
