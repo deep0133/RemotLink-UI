@@ -106,6 +106,10 @@ export default function useUpdate() {
   const handleUpdateSites = async (api, formData) => {
     setUpdateSiteLoading(true);
     try {
+      console.log(
+        "--------------Data from  sendign to backend ----------",
+        formData
+      );
       const token = localStorage.getItem("access_token");
       const response = await fetch(`https://stage1.remotlink.com/${api}`, {
         method: "PATCH",

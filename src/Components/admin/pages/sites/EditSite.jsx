@@ -11,14 +11,14 @@ import {
 } from "../../assets/constants";
 import { LuLoader2 } from "react-icons/lu";
 import useUpdate from "../../hooks/useUpdate";
+import useFetch from "../../hooks/useFetch";
 
 export default function EditUser({ siteData }) {
   const [data, setData] = useState({});
   const [oldData, setOldData] = useState({});
   const [id, setId] = useState("");
 
-  const { updateSiteMessage, updateSiteLoading, handleUpdateSites } =
-    useUpdate();
+  const { updateSiteLoading, handleUpdateSites } = useUpdate();
   useEffect(() => {
     const url = window.location.pathname.split("/");
     const id = url[url.length - 1];
@@ -156,7 +156,9 @@ const AddSection = ({ siteData, updateFunctionHandler, loading = false }) => {
   useEffect(() => {
     setCurrentData((prev) => {
       return {
-        ...siteData,
+        name: siteData.name,
+        url: siteData.base_url,
+        description: siteData.description,
         category:
           siteData &&
           typeof siteData.category === "object" &&
@@ -168,22 +170,31 @@ const AddSection = ({ siteData, updateFunctionHandler, loading = false }) => {
     });
   }, [siteData]);
 
-  const onImageChangeHandler = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setCurrentData({ ...currentData, image: file });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const onImageChangeHandler = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       setCurrentData({ ...currentData, image: reader.result });
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    const updatedValue = name === "category" ? parseInt(value, 10) : value;
+
     setCurrentData((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
+      return { ...prev, [name]: updatedValue };
     });
   };
+
+  const { categoryData, handleFetctData } = useFetch();
+
+  useEffect(() => {
+    handleFetctData("api/sites/categories");
+  }, []);
 
   return (
     <div
@@ -223,13 +234,13 @@ const AddSection = ({ siteData, updateFunctionHandler, loading = false }) => {
             style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
             className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
             type='text'
-            name='base_url'
-            value={currentData.base_url}
+            name='url'
+            value={currentData.url}
             onChange={onChangeHandler}
           />
         </div>
 
-        <div className='shrink-0 space-y-2'>
+        {/* <div className='shrink-0 space-y-2'>
           <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Site Url
           </label>
@@ -245,20 +256,28 @@ const AddSection = ({ siteData, updateFunctionHandler, loading = false }) => {
               onChange={onImageChangeHandler}
             />
           </div>
-        </div>
+        </div> */}
 
-        <div className='phone-number shrink-0 space-y-2'>
+        <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Category
           </label>
-          <input
+          <select
             style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            type='text'
+            className='w-full focus:outline-none space-y-2 focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
             name='category'
-            value={currentData.category}
-            onChange={onChangeHandler}
-          />
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
+          >
+            <option value={null}>---</option>
+            {categoryData &&
+              categoryData.map((catg, index) => (
+                <option key={index} value={Number(catg.id)}>
+                  {catg.name}
+                </option>
+              ))}
+          </select>
         </div>
 
         <div className='description shrink-0 max-w-[320px] w-full space-y-2 flex flex-col'>
@@ -270,6 +289,7 @@ const AddSection = ({ siteData, updateFunctionHandler, loading = false }) => {
             style={{
               border: "1px solid rgba(34, 31, 185, 0.14)",
             }}
+            name='description'
             value={currentData.description}
             onChange={onChangeHandler}
             className='w-[492px] h-36 px-3.5 py-2.5 focus:outline-none text-gray-900 text-sm font-medium font-Poppins leading-7 bg-white rounded-[5px]'

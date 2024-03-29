@@ -36,8 +36,11 @@ const AddSection = ({ loading, addFunctionHandler }) => {
   const [user, setUser] = useState({});
 
   const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    const updatedValue = name === "category" ? parseInt(value, 10) : value;
+
     setUser((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
+      return { ...prev, [name]: updatedValue };
     });
   };
 
@@ -150,7 +153,7 @@ const AddSection = ({ loading, addFunctionHandler }) => {
             <option value={null}>---</option>
             {userCategoryData &&
               userCategoryData.map((catg, index) => (
-                <option key={index} value={catg.name}>
+                <option key={index} value={catg.id}>
                   {catg.name}
                 </option>
               ))}

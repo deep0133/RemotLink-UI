@@ -43,17 +43,18 @@ const AddSection = ({ addFunctionHandler, loading = false }) => {
       reader.readAsDataURL(file);
     }
   };
-
   const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    const updatedValue = name === "category" ? parseInt(value, 10) : value;
+
     setCurrentData((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
+      return { ...prev, [name]: updatedValue };
     });
   };
-
-  const { userCategoryData, handleFetctUserCategoryData } = useFetch();
+  const { categoryData, handleFetctData } = useFetch();
 
   useEffect(() => {
-    handleFetctUserCategoryData("api/user/category/");
+    handleFetctData("api/sites/categories");
   }, []);
 
   return (
@@ -76,7 +77,9 @@ const AddSection = ({ addFunctionHandler, loading = false }) => {
             type='text'
             name='name'
             value={currentData.name}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
         </div>
 
@@ -90,7 +93,9 @@ const AddSection = ({ addFunctionHandler, loading = false }) => {
             type='text'
             name='url'
             value={currentData.url}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
         </div>
 
@@ -98,15 +103,6 @@ const AddSection = ({ addFunctionHandler, loading = false }) => {
           <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Image
           </label>
-          {/* <input
-            style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            type='text'
-            name='image'
-            value={currentData.image}
-            onChange={onChangeHandler}
-          /> */}
-
           <input
             style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
             className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
@@ -124,12 +120,14 @@ const AddSection = ({ addFunctionHandler, loading = false }) => {
             style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
             className='w-full focus:outline-none space-y-2 focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
             name='category'
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           >
             <option value={null}>---</option>
-            {userCategoryData &&
-              userCategoryData.map((catg, index) => (
-                <option key={index} value={catg.name}>
+            {categoryData &&
+              categoryData.map((catg, index) => (
+                <option key={index} value={Number(catg.id)}>
                   {catg.name}
                 </option>
               ))}
@@ -147,7 +145,9 @@ const AddSection = ({ addFunctionHandler, loading = false }) => {
             }}
             value={currentData.description}
             name='description'
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
             className='w-[492px] px-3.5 py-2.5 focus:outline-none text-gray-900 text-sm font-medium font-Poppins leading-7 bg-white rounded-[5px]'
           ></textarea>
         </div>
