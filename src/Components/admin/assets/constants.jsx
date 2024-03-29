@@ -934,3 +934,37 @@ export const LoginIcon = () => {
     </svg>
   );
 };
+
+export const EducationIcon = () => {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='17'
+      height='18'
+      viewBox='0 0 17 18'
+      fill='none'
+    >
+      <path
+        d='M6.92628 1.42508L2.10939 4.56967C0.5651 5.57785 0.5651 7.83427 2.10939 8.84246L6.92628 11.987C7.79044 12.5551 9.2147 12.5551 10.0789 11.987L14.8717 8.84246C16.408 7.83427 16.408 5.58585 14.8717 4.57767L10.0789 1.43309C9.2147 0.856979 7.79044 0.856979 6.92628 1.42508Z'
+        stroke='#103E7E'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M3.38984 9.86668L3.38184 13.6194C3.38184 14.6356 4.16598 15.7238 5.12616 16.0438L7.67863 16.892C8.11871 17.036 8.84685 17.036 9.29493 16.892L11.8474 16.0438C12.8076 15.7238 13.5917 14.6356 13.5917 13.6194V9.90668'
+        stroke='#103E7E'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M16.0078 11.4029V6.60206'
+        stroke='#103E7E'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+    </svg>
+  );
+};

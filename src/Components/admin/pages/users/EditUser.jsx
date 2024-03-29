@@ -12,6 +12,7 @@ import {
 } from "../../assets/constants";
 import useUpdate from "../../hooks/useUpdate";
 import { LuLoader2 } from "react-icons/lu";
+import useFetch from "../../hooks/useFetch";
 
 export default function EditUser({ head_title, data }) {
   const [hide, setHide] = useState(true);
@@ -28,6 +29,8 @@ export default function EditUser({ head_title, data }) {
     const last = url[url.length - 1];
     setId(last);
 
+    console.log("-----------Data------------");
+
     const founded = data.find((user) => String(user.id) === String(last));
     if (founded) {
       setOldData(founded);
@@ -36,6 +39,7 @@ export default function EditUser({ head_title, data }) {
   }, [data]);
 
   const updateFunctionHandler = () => {
+    console.log("----------Before updating---------- Data Send :", user);
     handleUpdateUser("api/user/update/" + id, user);
   };
 
@@ -143,10 +147,17 @@ const DetailSection = ({ data }) => {
 
 const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
   const onChangeHandler = (e) => {
+    console.log();
     setUser((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
+
+  const { userCategoryData, handleFetctUserCategoryData } = useFetch();
+
+  useEffect(() => {
+    handleFetctUserCategoryData("api/user/category/");
+  }, []);
 
   return (
     <div
@@ -162,9 +173,9 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
         </h3>
       </div>
       <div className='form my-6 grid grid-cols-3 gap-8 '>
-        <div className='name shrink-0 space-y-2'>
-          <label className='name text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Full Name
+        <div className=' shrink-0 space-y-2'>
+          <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+            First Name
           </label>
           <input
             style={{
@@ -174,7 +185,9 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             type='text'
             name='first_name'
             value={user.first_name}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
         </div>
 
@@ -188,7 +201,9 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             type='text'
             name='last_name'
             value={user.last_name}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
         </div>
 
@@ -202,7 +217,9 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             type='text'
             name='email'
             value={user.email}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
         </div>
         <div className='shrink-0 space-y-2'>
@@ -215,7 +232,9 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             type='text'
             name='phone_number'
             value={user.phone_number}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
         </div>
         <div className='shrink-0 space-y-2'>
@@ -227,11 +246,15 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
             name='gender'
             value={user.gender}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           >
             <option value=''>---</option>
             <option value='Male'>Male</option>
             <option value='Female'>Female</option>
+            <option value='Other'>Other</option>
+            <option value='Rather Not to Say'>Rather Not to Say</option>
           </select>
         </div>
         <div className='shrink-0 space-y-2'>
@@ -244,8 +267,29 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             type='text'
             name='description'
             value={user.description}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
+        </div>
+        <div className='shrink-0 space-y-2'>
+          <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+            Category
+          </label>
+          <select
+            style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+            className='w-full focus:outline-none space-y-2 focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+            name='category'
+            onChange={onChangeHandler}
+          >
+            <option value={null}>---</option>
+            {userCategoryData &&
+              userCategoryData.map((catg, index) => (
+                <option key={index} value={catg.name}>
+                  {catg.name}
+                </option>
+              ))}
+          </select>
         </div>
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
@@ -257,7 +301,9 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             type='text'
             name='library_membership_no'
             value={user.library_membership_no}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
         </div>
 
@@ -271,7 +317,9 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             type='text'
             name='batch'
             value={user.batch}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
         </div>
 
@@ -285,7 +333,9 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             type='text'
             name='course'
             value={user.course}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
         </div>
 
@@ -299,7 +349,9 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             type='text'
             name='city'
             value={user.city}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
         </div>
         <div className='shrink-0 space-y-2'>
@@ -312,7 +364,9 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             type='text'
             name='state'
             value={user.state}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
         </div>
         <div className='shrink-0 space-y-2'>
@@ -325,7 +379,9 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             type='text'
             name='pin_code'
             value={user.pin_code}
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
           />
         </div>
 
@@ -340,7 +396,9 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
             }}
             value={user.address}
             name='address'
-            onChange={onChangeHandler}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
             className='w-[492px] h-36 px-3.5 py-2.5 focus:outline-none text-gray-900 text-sm font-medium font-Poppins leading-7 bg-white rounded-[5px]'
           ></textarea>
         </div>

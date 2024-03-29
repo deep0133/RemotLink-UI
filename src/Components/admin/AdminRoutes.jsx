@@ -5,7 +5,7 @@ import Category from "./pages/category/Category";
 import User from "./pages/users/User";
 import Reports from "./pages/reports/Reports";
 import Notifications from "./pages/notification/Notifications";
-import Institution from "./pages/Institution";
+import Institution from "./pages/institution/Institution";
 import Site from "./pages/sites/Site";
 import "./style.css";
 export default function AdminRoutes() {

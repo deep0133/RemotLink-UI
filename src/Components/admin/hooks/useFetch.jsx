@@ -22,6 +22,9 @@ export default function useFetch() {
   const [notificationLoading, setNotificationLoading] = useState(false);
   const [notificationData, setNotificationData] = useState([]);
 
+  const [institutionLoading, setInstitutionLoading] = useState(false);
+  const [institutionData, setInstitutionData] = useState([]);
+
   // Category Fetching....
   const handleFetctData = async (api) => {
     setCetegoryLoading(true);
@@ -199,6 +202,30 @@ export default function useFetch() {
     }
   };
 
+  // Institutions Fatching...
+  const handleFetctInstitution = async (api) => {
+    setInstitutionLoading(true);
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`https://stage1.remotlink.com/` + api, {
+        method: "Get",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      setInstitutionData(data);
+    } catch (err) {
+      console.log("Error :", err);
+    } finally {
+      setInstitutionLoading(false);
+    }
+  };
+
   return {
     categoryLoading,
     userCategoryLoading,
@@ -206,6 +233,7 @@ export default function useFetch() {
     siteLoading,
     notificationLoading,
     reportLoading,
+    institutionLoading,
     loginLogsLoading,
     categoryData,
     userCategoryData,
@@ -216,10 +244,12 @@ export default function useFetch() {
     handleFetctData,
     handleFetctUserCategoryData,
     loginLogsData,
+    institutionData,
     handleFetctUsers,
     handleFetctSites,
     handleFetctNotifications,
     handleFetctReports,
     handleFetctLoginLogs,
+    handleFetctInstitution,
   };
 }
