@@ -8,18 +8,17 @@ import Hero from "../../components/category/Hero";
 import SearchFilter from "../../components/category/SearchFilter";
 import Navigation from "../../components/RightCommonComponents/Navigation";
 import { NotificationRightMenu } from "../../data";
-import useDelete from "../../hooks/useDelete";
 import { LuLoader2 } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import sortByCreatedAt from "../../utils/sortByCreatedAt";
 import { useEffect, useState } from "react";
-
-export default function ManageNotification({ data }) {
-  const { deleteNotificationLoading, handleDeleteNotification } = useDelete();
-  const deleteNotification = async (id) => {
-    await handleDeleteNotification("api/announcement/delete/" + id);
-  };
-
+import Loading from "../../components/Loader/Loader";
+export default function ManageNotification({
+  data,
+  fetchLoading,
+  deleteNotification,
+  delLoading,
+}) {
   const [notiData, setNotiData] = useState(data);
 
   const [sort, setSort] = useState("asc");
@@ -57,14 +56,15 @@ export default function ManageNotification({ data }) {
       <SearchFilter searchHandler={searchHandler} setSort={setSort} />
       <Card
         data={notiData}
-        loading={deleteNotificationLoading}
+        loading={delLoading}
         deleteNotification={deleteNotification}
+        fetchLoading={fetchLoading}
       />
     </>
   );
 }
 
-const Card = ({ data, loading, deleteNotification }) => {
+const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
   const navigate = useNavigate();
   return (
     <div
@@ -72,7 +72,7 @@ const Card = ({ data, loading, deleteNotification }) => {
         border: "1px solid rgba(34, 31, 185, 0.14)",
         boxShadow: "0px 13px 35px 1px rgba(112, 144, 176, 0.10)",
       }}
-      className={`rounded-lg relative p-3 mt-5 ml-3 ${
+      className={`rounded-lg relative p-3 mt-5 ml-3  max-h-[380px] ${
         loading ? "overflow-hidden" : "overflow-auto"
       }`}
     >
@@ -85,14 +85,17 @@ const Card = ({ data, loading, deleteNotification }) => {
           </div>
         </div>
       )}
-      <div className='row-1 grid grid-cols-10 w-full px-2 pb-5 gap-5'>
+      <div className='row-1 grid grid-cols-12 w-full px-2 pb-5 gap-5'>
         <div className='text-slate-400 col-span-2 text-sm font-medium font-Poppins leading-normal'>
           Name
         </div>
         <div className='text-slate-400 -ml-0.5 col-span-4 text-sm font-medium font-Poppins leading-normal'>
-          Description
+          Link
         </div>
-        <div className='text-slate-400 text-center  -ml-1 col-span-2 text-sm font-medium font-Poppins leading-normal'>
+        <div className='text-slate-400 -ml-1 col-span-2 text-sm font-medium font-Poppins leading-normal'>
+          Created At
+        </div>
+        <div className='text-slate-400 text-sm col-span-2 text-center -ml-1.5 font-medium font-Poppins leading-normal'>
           Active
         </div>
         <div className='text-slate-400 text-sm col-span-2 text-center -ml-1.5 font-medium font-Poppins leading-normal'>
@@ -100,18 +103,23 @@ const Card = ({ data, loading, deleteNotification }) => {
         </div>
       </div>
       <div className='card-container flex-1 w-full max-h-[380px] overflow-auto'>
-        {data?.length > 0
-          ? data.map((val, index) => {
+        {!fetchLoading ? (
+          data && data.length > 0 ? (
+            data.map((val, index) => {
               return (
                 <div key={index} className='card list flex-1 flex p-2'>
-                  <div className='grid grid-cols-10 w-full gap-5 '>
+                  <div className='grid grid-cols-12 w-full gap-5 '>
                     <h3 className='text-indigo-900 line-clamp-1 col-span-2 text-sm font-medium font-Poppins leading-7'>
                       {val.title ? val.title : "---"}
                     </h3>
                     <div className='text-indigo-900 line-clamp-1 col-span-4 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.body ? val.body : "---"}
+                      {val.link ? val.link : "---"}
                     </div>
-                    <div className='text-indigo-900 line-clamp-1 col-span-2 text-center flex-1 text-sm font-medium font-Poppins leading-7'>
+
+                    <div className='text-indigo-900 line-clamp-1 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
+                      {val.created_at ? val.created_at : "---"}
+                    </div>
+                    <div className='text-indigo-900 col-span-2 text-center flex-1 text-sm font-medium font-Poppins leading-7'>
                       <input
                         type='checkbox'
                         name='active'
@@ -143,7 +151,12 @@ const Card = ({ data, loading, deleteNotification }) => {
                 </div>
               );
             })
-          : "No Data Found"}
+          ) : (
+            <div className='text-lg p-3'>No Data Found</div>
+          )
+        ) : (
+          <Loading />
+        )}
       </div>
     </div>
   );

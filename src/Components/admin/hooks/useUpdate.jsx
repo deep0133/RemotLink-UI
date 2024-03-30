@@ -65,7 +65,10 @@ export default function useUpdate() {
         body: JSON.stringify(formData),
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
       }
       const data = await response.json();
       setUpdatUserCategoryeMessage(data.detail);

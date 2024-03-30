@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
 import Hero from "../../components/category/Hero";
@@ -13,8 +13,8 @@ import {
 import { ReportsRightMenu } from "../../data";
 import { formatDate } from "../../utils/formateData";
 import { useNavigate } from "react-router-dom";
-
-export default function UserReports({ data }) {
+import Loading from "../../components/Loader/Loader";
+export default function UserReports({ data, fetchLoading }) {
   const navigate = useNavigate();
 
   const openLogs = (id) => {
@@ -32,35 +32,51 @@ export default function UserReports({ data }) {
         btnLink={""}
       />
       <Buttons />
-      <UserLogList data={data} openLogs={openLogs} />
+      <UserLogList
+        data={data}
+        openLogs={openLogs}
+        fetchLoading={fetchLoading}
+      />
     </>
   );
 }
 
 const Buttons = () => {
+  const [startDate, setStartDate] = useState("08/05/2023");
+  const [endDate, setEndDate] = useState("08/05/2023");
+
+  const handleStartDateChange = (e) => {
+    setStartDate(e.target.value);
+  };
+
+  const handleEndDateChange = (e) => {
+    setEndDate(e.target.value);
+  };
   return (
     <div className='flex justify-end gap-5'>
       <button
         style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
-        className='bg-white gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
+        className='bg-white gap-2 flex flex-row items-center rounded-[5px] px-3 py-2'
       >
         <CalenderIcon />
-        <div>
-          <span className='text-black text-opacity-25 text-[13px] font-medium font-Poppins leading-normal'>
-            From :{" "}
-          </span>
-          <span className='text-black text-[13px] font-medium font-Poppins leading-normal'>
-            08/05/2023{" "}
-          </span>
+        <div className='text-[13px] font-medium font-Poppins leading-normal'>
+          <span className='text-black text-opacity-25'>From : </span>
+          <input
+            type='date'
+            value={startDate}
+            onChange={handleStartDateChange}
+            className='focus:outline-none'
+          />
         </div>
-        <div className='w-1 border-l h-full'></div>
-        <div>
-          <span className='text-black text-opacity-25 text-[13px] font-medium font-Poppins leading-normal'>
-            To :{" "}
-          </span>
-          <span className='text-black text-[13px] font-medium font-Poppins leading-normal'>
-            08/05/2023{" "}
-          </span>
+        <div className='w-1 border-l h-4'></div>
+        <div className='text-[13px] font-medium font-Poppins leading-normal'>
+          <span className='text-black text-opacity-25'>To : </span>
+          <input
+            type='date'
+            value={endDate}
+            onChange={handleEndDateChange}
+            className='focus:outline-none'
+          />
         </div>
       </button>
       <button
@@ -92,8 +108,7 @@ const Buttons = () => {
   );
 };
 
-const UserLogList = ({ data, openLogs }) => {
-  // "/admin/reports/user/logs",
+const UserLogList = ({ data, openLogs, fetchLoading }) => {
   return (
     <div
       style={{
@@ -122,9 +137,10 @@ const UserLogList = ({ data, openLogs }) => {
           IP Address
         </div>
       </div>
-      <div className='card-container flex-1 w-full max-h-[380px] overflow-auto'>
-        {data?.length > 0
-          ? data.map((val, index) => {
+      <div className='card-container w-full max-h-[380px] overflow-auto'>
+        {!fetchLoading ? (
+          data && data.length > 0 ? (
+            data.map((val, index) => {
               return (
                 <div
                   key={index}
@@ -177,7 +193,12 @@ const UserLogList = ({ data, openLogs }) => {
                 </div>
               );
             })
-          : "No Data Found"}
+          ) : (
+            <div className='text-lg p-3'> No Data Found</div>
+          )
+        ) : (
+          <Loading />
+        )}
       </div>
     </div>
   );

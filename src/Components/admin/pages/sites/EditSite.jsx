@@ -10,19 +10,17 @@ import {
   ThreeDots,
 } from "../../assets/constants";
 import { LuLoader2 } from "react-icons/lu";
-import useUpdate from "../../hooks/useUpdate";
 import useFetch from "../../hooks/useFetch";
 
-export default function EditUser({ siteData }) {
+export default function EditUser({ siteData, loading, updateFunctionHandler }) {
   const [data, setData] = useState({});
   const [oldData, setOldData] = useState({});
-  const [id, setId] = useState("");
+  const [myId, setMyId] = useState("");
 
-  const { updateSiteLoading, handleUpdateSites } = useUpdate();
   useEffect(() => {
     const url = window.location.pathname.split("/");
     const id = url[url.length - 1];
-    setId(id);
+    setMyId(id);
 
     if (siteData && siteData.length > 0) {
       const founded = siteData.find((item) => String(item.id) === String(id));
@@ -37,9 +35,9 @@ export default function EditUser({ siteData }) {
     }
   }, [siteData]);
 
-  const updateFunctionHandler = (data) => {
-    handleUpdateSites("api/sites/update/" + id, data);
-  };
+  // const updateFunctionHandler = (data) => {
+  //   handleUpdateSites("api/sites/update/" + id, data);
+  // };
 
   return (
     <>
@@ -78,7 +76,8 @@ export default function EditUser({ siteData }) {
               <AddSection
                 siteData={data}
                 updateFunctionHandler={updateFunctionHandler}
-                loading={updateSiteLoading}
+                loading={loading}
+                id={myId}
               />
             )}
           </div>
@@ -150,7 +149,12 @@ const DetailSection = ({ oldData }) => {
   );
 };
 
-const AddSection = ({ siteData, updateFunctionHandler, loading = false }) => {
+const AddSection = ({
+  siteData,
+  updateFunctionHandler,
+  loading = false,
+  id,
+}) => {
   const [currentData, setCurrentData] = useState({});
 
   useEffect(() => {
@@ -304,7 +308,7 @@ const AddSection = ({ siteData, updateFunctionHandler, loading = false }) => {
         <button
           disabled={loading}
           onClick={() => {
-            updateFunctionHandler(currentData);
+            updateFunctionHandler(id, currentData);
           }}
           className='min-w-[118px] w-max shrink-0 px-[18px] py-2.5 bg-violet-800 rounded-[5px] border border-violet-800 text-white text-[13px] font-medium font-Poppins leading-normal'
         >

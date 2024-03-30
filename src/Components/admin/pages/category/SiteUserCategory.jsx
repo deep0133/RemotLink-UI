@@ -11,10 +11,10 @@ export default function SiteUserCategory({
   data,
   title,
   name,
-  deleteApi,
   btnLink,
   deleteLoading,
-  handleDelete,
+  handleDeleteCategory,
+  fetchLoading,
 }) {
   const [catData, setCatData] = useState(data);
 
@@ -40,7 +40,7 @@ export default function SiteUserCategory({
 
   return (
     <>
-      <Header icon={<CategoryIcon />} title={title} subTitle={"Categor"} />
+      <Header icon={<CategoryIcon />} title={title} subTitle={"Category"} />
       <Navigation data={CategroyRightMenu} />
       <Hero
         name={name + " Category"}
@@ -53,9 +53,9 @@ export default function SiteUserCategory({
       <CategoryList
         data={catData}
         path={name.toLowerCase()}
-        deleteApi={deleteApi}
         loading={deleteLoading}
-        handleDelete={handleDelete}
+        handleDeleteCategory={handleDeleteCategory}
+        fetchLoading={fetchLoading}
       />
     </>
   );

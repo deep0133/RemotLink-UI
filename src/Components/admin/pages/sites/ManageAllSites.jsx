@@ -4,12 +4,14 @@ import Hero from "../../components/category/Hero";
 import { SitesIcon } from "../../assets/constants";
 import SearchFilter from "../../components/category/SearchFilter";
 import Card from "../../components/sites/Card";
-import useDelete from "../../hooks/useDelete";
 import sortByCreatedAt from "../../utils/sortByCreatedAt";
 
-export default function ManageAllSites({ siteData }) {
-  const { deleteSiteLoading, handleDeleteSite } = useDelete();
-
+export default function ManageAllSites({
+  loading,
+  fetchLoading,
+  siteData,
+  deleteSiteHandle,
+}) {
   const [data, setData] = useState(siteData);
 
   const [sort, setSort] = useState("asc");
@@ -32,9 +34,6 @@ export default function ManageAllSites({ siteData }) {
     );
   };
 
-  const deleteSiteHandle = (id) => {
-    handleDeleteSite("api/sites/delete/" + id + "/");
-  };
   return (
     <>
       <Header icon={<SitesIcon />} title={"Sites"} />
@@ -50,7 +49,8 @@ export default function ManageAllSites({ siteData }) {
         data={data}
         path={"/admin/sites/edit/site"}
         deleteSiteHandle={deleteSiteHandle}
-        loading={deleteSiteLoading}
+        loading={loading}
+        fetchLoading={fetchLoading}
       />
     </>
   );

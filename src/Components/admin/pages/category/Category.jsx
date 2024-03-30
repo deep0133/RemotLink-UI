@@ -3,23 +3,25 @@ import SiteUserCategory from "./SiteUserCategory";
 import EditCategory from "./EditCategory";
 import AddCategory from "./AddCategory";
 import useFetch from "../../hooks/useFetch";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useDelete from "../../hooks/useDelete";
 import useUpdate from "../../hooks/useUpdate";
 import useAdd from "../../hooks/useAdd";
 
 export default function Category() {
   const {
+    categoryLoading,
+    userCategoryLoading,
     categoryData,
     handleFetctData,
     userCategoryData,
     handleFetctUserCategoryData,
   } = useFetch();
 
-  const { addMessage } = useAdd();
+  const { addLoading, addMessage, handleAdd } = useAdd();
 
   const { deleteMessage, deleteLoading, handleDelete } = useDelete();
-  const { updateMessage } = useUpdate();
+  const { updateMessage, updateLoading, handleUpdate } = useUpdate();
 
   useEffect(() => {
     handleFetctData("api/sites/categories");
@@ -27,7 +29,7 @@ export default function Category() {
 
   useEffect(() => {
     handleFetctUserCategoryData("api/user/category/");
-  }, []);
+  }, [updateMessage, deleteMessage, updateMessage]);
 
   return (
     <>
@@ -39,10 +41,12 @@ export default function Category() {
               data={categoryData}
               name={"Site"}
               title={"Site Category Details "}
-              deleteApi={"api/sites/categories/delete/"}
               btnLink={"/admin/category/add/sitecategory"}
               deleteLoading={deleteLoading}
-              handleDelete={handleDelete}
+              handleDeleteCategory={(id) => {
+                handleDelete("api/sites/categories/delete/" + id);
+              }}
+              fetchLoading={categoryLoading}
             />
           }
         />
@@ -53,10 +57,12 @@ export default function Category() {
               data={userCategoryData}
               name='User'
               title={"User Category Details "}
-              deleteApi={"api/user/category/delete/"}
               btnLink={"/admin/category/add/usercategory"}
               deleteLoading={deleteLoading}
-              handleDelete={handleDelete}
+              handleDeleteCategory={(id) => {
+                handleDelete("api/user/category/delete/" + id);
+              }}
+              fetchLoading={userCategoryLoading}
             />
           }
         />
@@ -66,9 +72,15 @@ export default function Category() {
             <EditCategory
               title={"Site Category Details"}
               data={categoryData}
-              updateAPI={"api/sites/categories/update/"}
               btnText={"Save Site Category"}
-              navLink={"/admin/category"}
+              handleUpdateCategory={(id, data) => {
+                handleUpdate(
+                  "api/sites/categories/update/" + id,
+                  data,
+                  "/admin/category"
+                );
+              }}
+              updateLoading={updateLoading}
             />
           }
         />
@@ -78,9 +90,15 @@ export default function Category() {
             <EditCategory
               title={"User Category Details"}
               data={userCategoryData}
-              updateAPI={"api/user/category/update/"}
               btnText={"Save Users Category"}
-              navLink={"/admin/category/user"}
+              handleUpdateCategory={(id, data) => {
+                handleUpdate(
+                  "api/user/category/update/" + id,
+                  data,
+                  "/admin/category/user"
+                );
+              }}
+              updateLoading={updateLoading}
             />
           }
         />
@@ -89,11 +107,15 @@ export default function Category() {
           path='/add/sitecategory'
           element={
             <AddCategory
+              data={categoryData}
+              title={"Category"}
               btnLink='/admin/users/bulkuser'
               head_title={"Add Site Category"}
               hero_name={"Add New Site Category"}
-              addAPI={"api/sites/categories/add/"}
               submitText={"Save Site Category"}
+              addFunctionHandler={(formData) => {
+                handleAdd("api/sites/categories/add/", formData);
+              }}
             />
           }
         />
@@ -101,12 +123,16 @@ export default function Category() {
           path='/add/usercategory'
           element={
             <AddCategory
+              data={userCategoryData}
+              title={"Category"}
               btnLink='/admin/users/bulkuser'
               head_title={"Add User Category"}
               hero_name={"Add New User Category"}
-              addAPI={"api/user/category/add/"}
-              extraField={true}
               submitText={"Save Users Category"}
+              addLoading={addLoading}
+              addFunctionHandler={(formData) => {
+                handleAdd("api/user/category/add/", formData);
+              }}
             />
           }
         />

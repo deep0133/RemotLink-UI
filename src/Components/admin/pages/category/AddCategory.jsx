@@ -2,26 +2,21 @@ import { useState } from "react";
 import { BulkUserIcon, CategoryIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
-import useAdd from "../../hooks/useAdd";
 import { LuLoader2 } from "react-icons/lu";
 
 export default function AddCategory({
+  data,
   head_title,
+  title,
   hero_name,
   submitText,
   btnLink = "",
-  addAPI,
-  extraField,
+  addFunctionHandler,
+  addLoading,
 }) {
-  const { addLoading, handleAdd } = useAdd();
-
-  const addFunctionHandler = (category, description) => {
-    handleAdd(addAPI, { category, description });
-  };
-
   return (
     <>
-      <Header icon={<CategoryIcon />} title={head_title} subTitle={"Users"} />
+      <Header icon={<CategoryIcon />} title={head_title} subTitle={title} />
       <Hero
         name={hero_name}
         description={
@@ -32,11 +27,11 @@ export default function AddCategory({
         btnLink={btnLink}
       />
       <AddSection
+        data={data}
         category={"Category"}
         description={"Description"}
         addFunctionHandler={addFunctionHandler}
         loading={addLoading}
-        extraField={extraField}
         submitText={submitText}
       />
     </>
@@ -44,21 +39,20 @@ export default function AddCategory({
 }
 
 const AddSection = ({
-  category,
+  data,
   description,
-  siteData,
   addFunctionHandler,
   loading = false,
   submitText,
-  extraField,
 }) => {
-  const [inputCategory, setInputCategory] = useState(
-    siteData ? siteData?.name : ""
-  );
-  const [inputDescription, setInputDescription] = useState(
-    siteData ? siteData?.description : ""
-  );
-  const [inputParent, setInputParent] = useState("");
+  const [currentData, setCurrentData] = useState({});
+
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setCurrentData((prev) => {
+      return { ...prev, [name]: value };
+    });
+  };
 
   return (
     <div
@@ -68,28 +62,29 @@ const AddSection = ({
       className='border relative px-8 mt-5 bg-white rounded-lg shadow pb-12'
     >
       <div className='form my-6 grid grid-cols-3 gap-8 '>
-        {extraField && (
-          <div className=' shrink-0 space-y-2'>
-            <label className='name text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-              Parent
-            </label>
-            <input
-              style={{
-                border: "1px rgba(34, 31, 185, 0.14) solid",
-              }}
-              className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-              type='text'
-              value={inputParent}
-              onChange={(e) => {
-                setInputParent(e.target.value);
-              }}
-            />
-          </div>
-        )}
+        <div className='parent-category shrink-0 max-w-[320px] space-y-2'>
+          <label htmlFor='parent text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+            Parent Category
+          </label>
+          <select
+            style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
+            name='parent'
+            className='w-full text-indigo-900 focus:outline-none bg-white rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+          >
+            <option value={null}>---</option>
+            {data &&
+              data.map((catg) => {
+                return <option value={catg.id}>{catg.name}</option>;
+              })}
+          </select>
+        </div>
 
-        <div className='name shrink-0 space-y-2'>
+        <div className=' shrink-0 space-y-2'>
           <label className='name text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            {category}
+            Name
           </label>
           <input
             style={{
@@ -97,9 +92,10 @@ const AddSection = ({
             }}
             className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
             type='text'
-            value={inputCategory}
+            name='category'
+            value={currentData.category}
             onChange={(e) => {
-              setInputCategory(e.target.value);
+              onChangeHandler(e);
             }}
           />
         </div>
@@ -113,9 +109,10 @@ const AddSection = ({
             style={{
               border: "1px solid rgba(34, 31, 185, 0.14)",
             }}
-            value={inputDescription}
+            name='description'
+            value={currentData.description}
             onChange={(e) => {
-              setInputDescription(e.target.value);
+              onChangeHandler(e);
             }}
             className='w-[492px] px-3.5 py-2.5 focus:outline-none text-gray-900 text-sm font-medium font-Poppins leading-7 bg-white rounded-[5px]'
           ></textarea>
@@ -129,7 +126,7 @@ const AddSection = ({
         <button
           disabled={loading}
           onClick={() => {
-            addFunctionHandler(inputCategory, inputDescription);
+            addFunctionHandler(currentData);
           }}
           className='min-w-[118px] w-max shrink-0 px-[18px] py-2.5 bg-violet-800 rounded-[5px] border border-violet-800 text-white text-[13px] font-medium font-Poppins leading-normal'
         >

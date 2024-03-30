@@ -7,9 +7,6 @@ export default function useAdd() {
   const [addLoading, setAddLoading] = useState(false);
   const [addMessage, setAddMessage] = useState("");
 
-  const [addUserCategoryLoading, setAddUserCategoryLoading] = useState(false);
-  const [addUserCategoryMessage, setAddUserCategoryMessage] = useState("");
-
   const [addNewUserLoading, setAddNewUserLoading] = useState(false);
   const [addNewUser, setAddNewUser] = useState({});
 
@@ -45,35 +42,6 @@ export default function useAdd() {
       toast.error(err.message);
     } finally {
       setAddLoading(false);
-    }
-  };
-
-  const handleAddUserCategory = async (api, formData) => {
-    setAddUserCategoryLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-      const data = await response.json();
-      setAddUserCategoryMessage(data.detail);
-      toast.success(data.detail);
-      navigate("/admin/category/user");
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setAddUserCategoryLoading(false);
     }
   };
 
@@ -163,17 +131,14 @@ export default function useAdd() {
 
   return {
     addLoading,
-    addUserCategoryLoading,
     addNewUserLoading,
     addNewSiteLoading,
     addNotificationLoading,
     addMessage,
     addNewUser,
-    addUserCategoryMessage,
     addNewSite,
     addNotificationData,
     handleAdd,
-    handleAddUserCategory,
     handleAddNewUser,
     handleAddNewSite,
     handleAddNotification,

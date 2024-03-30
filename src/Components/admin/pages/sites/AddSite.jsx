@@ -2,17 +2,10 @@ import { LuLoader2 } from "react-icons/lu";
 import { SitesIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
-import useAdd from "../../hooks/useAdd";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 
-export default function AddUser() {
-  const { addNewSiteLoading, handleAddNewSite } = useAdd();
-
-  const addFunctionHandler = (data) => {
-    handleAddNewSite("api/sites/add/", data);
-  };
-
+export default function AddUser({ loading, addFunctionHandler }) {
   return (
     <>
       <Header icon={<SitesIcon />} title={"Add Sites"} subTitle={"Sites"} />
@@ -22,10 +15,7 @@ export default function AddUser() {
           "Streamline the process of adding new sites to your system."
         }
       />
-      <AddSection
-        addFunctionHandler={addFunctionHandler}
-        loading={addNewSiteLoading}
-      />
+      <AddSection addFunctionHandler={addFunctionHandler} loading={loading} />
     </>
   );
 }
@@ -33,16 +23,16 @@ export default function AddUser() {
 const AddSection = ({ addFunctionHandler, loading = false }) => {
   const [currentData, setCurrentData] = useState({});
 
-  const onImageChangeHandler = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setCurrentData({ ...currentData, image: reader.result });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const onImageChangeHandler = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       setCurrentData({ ...currentData, image: reader.result });
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     const updatedValue = name === "category" ? parseInt(value, 10) : value;
@@ -99,7 +89,7 @@ const AddSection = ({ addFunctionHandler, loading = false }) => {
           />
         </div>
 
-        <div className='shrink-0 space-y-2'>
+        {/* <div className='shrink-0 space-y-2'>
           <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Image
           </label>
@@ -110,7 +100,7 @@ const AddSection = ({ addFunctionHandler, loading = false }) => {
             name='image'
             onChange={onImageChangeHandler}
           />
-        </div>
+        </div> */}
 
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>

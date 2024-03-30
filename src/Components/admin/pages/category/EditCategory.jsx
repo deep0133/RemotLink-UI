@@ -7,43 +7,51 @@ import {
   ThreeDots,
 } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
-import useUpdate from "../../hooks/useUpdate";
 import { LuLoader2 } from "react-icons/lu";
 export default function EditCategory({
   title,
   data,
-  updateAPI,
-  btnText,
-  navLink,
+  handleUpdateCategory,
+  updateLoading,
 }) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [parent, setParent] = useState("Medical");
-
   const [oldData, setOldData] = useState({});
+
+  const [currentData, setCurrentData] = useState({});
+
+  const [id, setId] = useState("");
 
   useEffect(() => {
     let url = window.location.pathname.split("/");
     const id = url[url.length - 1];
+    setId(id);
     const foundCategory = data.find(
       (category) => category.id.toString() === id.toString()
     );
 
     if (foundCategory) {
-      setName(foundCategory.name);
-      setDescription(foundCategory.description);
-      setOldData({
-        title: foundCategory.name,
+      setCurrentData({
+        name: foundCategory.name,
         description: foundCategory.description,
       });
+      setOldData((prev) => {
+        return {
+          title: foundCategory.name,
+          description: foundCategory.description,
+        };
+      });
+
       if (foundCategory.parent) {
         if (typeof foundCategory.parent === "object") {
-          setParent(foundCategory.parent.name);
+          setCurrentData((prev) => {
+            return { ...prev, parent: foundCategory.parent.name };
+          });
           setOldData((prev) => {
             return { ...prev, parent: foundCategory.parent.name };
           });
         } else if (foundCategory.parent !== null) {
-          setParent(foundCategory.parent);
+          setCurrentData((prev) => {
+            return { ...prev, parent: foundCategory.parent };
+          });
           setOldData((prev) => {
             return { ...prev, parent: foundCategory.parent };
           });
@@ -58,20 +66,19 @@ export default function EditCategory({
       <SiteDetailHero {...{ ...oldData }} />
       <SiteEditSection
         heading={title}
-        name={name}
-        parent={parent}
-        description={description}
-        setName={setName}
-        setDescription={setDescription}
-        updateAPI={updateAPI}
-        btnText={btnText}
-        navLink={navLink}
+        id={id}
+        currentData={currentData}
+        setCurrentData={setCurrentData}
+        data={data}
+        handleUpdateCategory={handleUpdateCategory}
+        updateLoading={updateLoading}
       />
     </>
   );
 }
 
 const SiteDetailHero = ({ title = "---", description = "---" }) => {
+  console.log("old data :", title, description);
   const [hide, setHide] = useState(true);
   return (
     <div
@@ -128,34 +135,28 @@ const SiteDetailHero = ({ title = "---", description = "---" }) => {
 };
 
 const SiteEditSection = ({
+  id,
   heading,
-  name,
-  description,
-  setName,
-  setDescription,
-  parent,
-  updateAPI,
   submitText = "Save Details",
-  navLink,
+  data,
+  currentData,
+  setCurrentData,
+  handleUpdateCategory,
+  updateLoading,
 }) => {
-  const { updateLoading, handleUpdate } = useUpdate();
-
-  const updateCategory = async () => {
-    let url = window.location.pathname.split("/");
-    const id = url[url.length - 1];
-    await handleUpdate(
-      updateAPI + id,
-      {
-        name,
-        description,
-      },
-      navLink
-    );
+  const resetFields = () => {
+    setCurrentData({
+      name: "",
+      description: "",
+      parent: "",
+    });
   };
 
-  const resetFields = () => {
-    setName("");
-    setDescription("");
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setCurrentData((prev) => {
+      return { ...prev, [name]: value };
+    });
   };
 
   return (
@@ -178,10 +179,16 @@ const SiteEditSection = ({
             Parent Category
           </label>
           <select
+            name='parent'
+            onChange={onChangeHandler}
+            value={currentData.parent}
             style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
             className='w-full text-indigo-900 focus:outline-none bg-white rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
           >
-            <option value='medical'>{parent}</option>
+            <option value={null}>---</option>
+            {data.map((catg) => {
+              return <option value={catg.id}>{catg.name}</option>;
+            })}
           </select>
         </div>
 
@@ -194,10 +201,9 @@ const SiteEditSection = ({
             className='w-full focus:outline-none bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
             type='text'
             placeholder='Category'
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
+            name='name'
+            value={currentData.name}
+            onChange={onChangeHandler}
           />
         </div>
 
@@ -211,10 +217,9 @@ const SiteEditSection = ({
               boxShadow: "0px 10px 35px 1px rgba(112, 144, 176, 0.10)",
               border: "1px rgba(34.46, 31.38, 185.50, 0.14) solid",
             }}
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
+            name='description'
+            value={currentData.description}
+            onChange={onChangeHandler}
             className='max-w-[292px] focus:outline-none px-3.5 py-2.5  text-gray-900 text-sm font-medium font-Poppins leading-7 bg-white rounded-[5px]'
           ></textarea>
         </div>
@@ -228,7 +233,9 @@ const SiteEditSection = ({
           Cancel
         </button>
         <button
-          onClick={updateCategory}
+          onClick={() => {
+            handleUpdateCategory(id, currentData);
+          }}
           disabled={updateLoading}
           className={`w-[118px] px-[18px] py-2.5 ${
             updateLoading ? "cursor-not-allowed bg-opacity-75" : ""

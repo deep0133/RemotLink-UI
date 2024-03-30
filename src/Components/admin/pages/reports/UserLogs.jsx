@@ -14,7 +14,7 @@ import Hero from "../../components/category/Hero";
 import { ReportsRightMenu } from "../../data";
 import useFetch from "../../hooks/useFetch";
 import { formatDate } from "../../utils/formateData";
-
+import Loading from "../../components/Loader/Loader";
 export default function UserLogs() {
   const { loginLogsLoading, loginLogsData, handleFetctLoginLogs } = useFetch();
 
@@ -25,10 +25,6 @@ export default function UserLogs() {
     const apiUrl = `api/report/login-log/${id}`;
     handleFetctLoginLogs(apiUrl);
   }, []);
-
-  if (loginLogsLoading) {
-    return <div>Loaidng...</div>;
-  }
 
   return (
     <>
@@ -42,7 +38,13 @@ export default function UserLogs() {
         btnLink={""}
       />
       <Buttons />
-      {<UserLogList data={loginLogsData} path={""} />}
+      {
+        <UserLogList
+          data={loginLogsData}
+          path={""}
+          fetchLoading={loginLogsLoading}
+        />
+      }
     </>
   );
 }
@@ -102,7 +104,7 @@ const Buttons = () => {
   );
 };
 
-const UserLogList = ({ data, path }) => {
+const UserLogList = ({ data, path, fetchLoading }) => {
   return (
     <div
       style={{
@@ -111,7 +113,7 @@ const UserLogList = ({ data, path }) => {
       }}
       className='rounded-lg p-3 mt-5 ml-3 '
     >
-      <div className='row-1 grid grid-cols-11 w-full px-2 pb-5'>
+      <div className='row-1 grid grid-cols-10 w-full px-2 pb-5'>
         <div className='text-slate-400 col-span-1 text-sm font-medium font-Poppins leading-normal'>
           Number
         </div>
@@ -124,16 +126,14 @@ const UserLogList = ({ data, path }) => {
         <div className='text-slate-400 col-span-3 -ml-1 text-sm font-medium font-Poppins leading-normal'>
           IP Address
         </div>
-        <div className='text-slate-400 col-span-1 -ml-1.5 text-sm font-medium font-Poppins leading-normal'>
-          Action
-        </div>
       </div>
       <div className='card-container flex-1 w-full max-h-[380px] overflow-auto'>
-        {data && data.sessions?.length > 0
-          ? data.sessions.map((session, index) => {
+        {!fetchLoading ? (
+          data && data.sessions?.length > 0 ? (
+            data.sessions.map((session, index) => {
               return (
                 <div key={index} className='card list flex-1 flex p-2'>
-                  <div className='grid grid-cols-11 w-full '>
+                  <div className='grid grid-cols-10 w-full '>
                     <div className='text-indigo-900 col-span-1 text-sm font-medium font-Poppins leading-7'>
                       {index + 1}
                     </div>
@@ -154,17 +154,16 @@ const UserLogList = ({ data, path }) => {
                     <div className='text-indigo-900 col-span-3 text-sm font-medium font-Poppins leading-7'>
                       {session.ip}
                     </div>
-
-                    <div className='text-indigo-900 col-span-1 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      <span className='cursor-pointer'>
-                        <DeleteIcon />
-                      </span>
-                    </div>
                   </div>
                 </div>
               );
             })
-          : "No Data Found"}
+          ) : (
+            <div className='text-lg p-3'>No Data Found</div>
+          )
+        ) : (
+          <Loading />
+        )}
       </div>
     </div>
   );

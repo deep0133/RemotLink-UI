@@ -50,15 +50,6 @@ const AddSection = ({ loading, addFunctionHandler }) => {
     handleFetctUserCategoryData("api/user/category/");
   }, []);
 
-  // first_name=first_name,
-  // last_name=last_name,
-  // email=email,
-  // phone_number=phone_number,
-  // institution=institution,
-  // category=category,
-  // library_membership_no=library_membership_no,
-  // course=course,
-
   return (
     <div
       style={{

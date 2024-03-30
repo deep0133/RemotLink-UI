@@ -8,14 +8,14 @@ import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Navigation from "../../components/RightCommonComponents/Navigation";
 import Hero from "../../components/category/Hero";
 import { NotificationRightMenu } from "../../data";
-import useDelete from "../../hooks/useDelete";
 import { LuLoader2 } from "react-icons/lu";
-
-export default function ImportantLinks({ data }) {
-  const { deleteNotificationLoading, handleDeleteNotification } = useDelete();
-  const deleteNotification = async (id) => {
-    await handleDeleteNotification("api/announcement/delete/" + id);
-  };
+import Loading from "../../components/Loader/Loader";
+export default function ImportantLinks({
+  data,
+  fetchLoading,
+  delLoading,
+  deleteNotification,
+}) {
   return (
     <>
       <Header
@@ -27,14 +27,15 @@ export default function ImportantLinks({ data }) {
       <Hero name={"See Latest News"} description={`See Latest News here`} />
       <Card
         data={data}
-        loading={deleteNotificationLoading}
+        loading={delLoading}
         deleteNotification={deleteNotification}
+        fetchLoading={fetchLoading}
       />
     </>
   );
 }
 
-const Card = ({ data, loading, deleteNotification }) => {
+const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
   const navigate = useNavigate();
   return (
     <div
@@ -42,7 +43,9 @@ const Card = ({ data, loading, deleteNotification }) => {
         border: "1px solid rgba(34, 31, 185, 0.14)",
         boxShadow: "0px 13px 35px 1px rgba(112, 144, 176, 0.10)",
       }}
-      className='rounded-lg relative p-3 mt-5 ml-3 overflow-hidden'
+      className={`rounded-lg relative p-3 mt-5 ml-3  max-h-[380px] ${
+        loading ? "overflow-hidden" : "overflow-auto"
+      }`}
     >
       {loading && (
         <div className='absolute w-full h-full backdrop:blur-md '>
@@ -71,8 +74,9 @@ const Card = ({ data, loading, deleteNotification }) => {
         </div>
       </div>
       <div className='card-container flex-1 w-full max-h-[380px] overflow-auto'>
-        {data?.length > 0
-          ? data.map((val, index) => {
+        {!fetchLoading ? (
+          data && data.length > 0 ? (
+            data.map((val, index) => {
               return (
                 <div key={index} className='card list flex-1 flex p-2'>
                   <div className='grid grid-cols-12 w-full gap-5 '>
@@ -118,7 +122,12 @@ const Card = ({ data, loading, deleteNotification }) => {
                 </div>
               );
             })
-          : "No Data Found"}
+          ) : (
+            <div className='text-lg p-3'>No Data Found</div>
+          )
+        ) : (
+          <Loading />
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import { DeleteIcon, EditICon } from "../../assets/constants";
 import { LuLoader2 } from "react-icons/lu";
-const CategoryList = ({ data, path, deleteApi, loading, handleDelete }) => {
+import Loader from "../Loader/Loader.jsx";
+const CategoryList = ({
+  fetchLoading = false,
+  data,
+  path,
+  loading,
+  handleDeleteCategory,
+}) => {
   return (
     <div
       style={{
@@ -33,8 +40,9 @@ const CategoryList = ({ data, path, deleteApi, loading, handleDelete }) => {
         </div>
       )}
 
-      {data?.length > 0
-        ? data.map((val, index) => {
+      {!fetchLoading ? (
+        data.length > 0 ? (
+          data.map((val, index) => {
             return (
               <div
                 key={index}
@@ -58,7 +66,7 @@ const CategoryList = ({ data, path, deleteApi, loading, handleDelete }) => {
                   <div className='cursor-pointer'>
                     <div
                       onClick={() => {
-                        handleDelete(deleteApi + val.id);
+                        handleDeleteCategory(val.id);
                       }}
                     >
                       <DeleteIcon />
@@ -68,7 +76,12 @@ const CategoryList = ({ data, path, deleteApi, loading, handleDelete }) => {
               </div>
             );
           })
-        : "No Data Found"}
+        ) : (
+          <div className='p-5 text-lg'>No Data Found</div>
+        )
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 };

@@ -9,7 +9,13 @@ import { useEffect } from "react";
 import useUpdate from "../../hooks/useUpdate";
 
 export default function Report() {
-  const { reportData, handleFetctReports } = useFetch();
+  const {
+    reportLoading,
+    reportData,
+    handleFetctReports,
+    reportSiteData,
+    handleFetctSiteReports,
+  } = useFetch();
 
   const { addMessage } = useAdd();
 
@@ -21,6 +27,10 @@ export default function Report() {
     handleFetctReports("api/report/user/?start&end");
   }, [deleteMessage, updateMessage, addMessage]);
 
+  useEffect(() => {
+    handleFetctSiteReports("api/report/site/?start&end");
+  }, []);
+
   return (
     <Routes>
       <Route
@@ -30,11 +40,15 @@ export default function Report() {
             data={reportData}
             deleteReportLoading={deleteReportLoading}
             handleDeleteReport={handleDeleteReport}
+            fetchLoading={reportLoading}
           />
         }
       />
       <Route path='/user/login-logs/:id' element={<UserLogs />} />
-      <Route path='/site/usage' element={<SiteUsages />} />
+      <Route
+        path='/site/usage'
+        element={<SiteUsages data={reportSiteData} />}
+      />
     </Routes>
   );
 }

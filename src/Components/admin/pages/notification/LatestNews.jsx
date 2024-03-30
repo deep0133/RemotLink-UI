@@ -8,16 +8,15 @@ import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Navigation from "../../components/RightCommonComponents/Navigation";
 import Hero from "../../components/category/Hero";
 import { NotificationRightMenu } from "../../data";
-import useDelete from "../../hooks/useDelete";
 import { LuLoader2 } from "react-icons/lu";
 // import Navigation from "../../components/RightCommonComponents/Navigation";
-
-export default function LatestNews({ data }) {
-  const { deleteNotificationLoading, handleDeleteNotification } = useDelete();
-
-  const deleteNotification = async (id) => {
-    await handleDeleteNotification("api/announcement/delete/" + id);
-  };
+import Loading from "../../components/Loader/Loader";
+export default function LatestNews({
+  data,
+  fetchLoading,
+  deleteNotification,
+  delLoading,
+}) {
   return (
     <>
       <Header
@@ -30,13 +29,13 @@ export default function LatestNews({ data }) {
       <Card
         data={data}
         deleteNotification={deleteNotification}
-        loading={deleteNotificationLoading}
+        loading={delLoading}
+        fetchLoading={fetchLoading}
       />
     </>
   );
 }
-
-const Card = ({ data, deleteNotification, loading }) => {
+const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
   const navigate = useNavigate();
   return (
     <div
@@ -44,7 +43,9 @@ const Card = ({ data, deleteNotification, loading }) => {
         border: "1px solid rgba(34, 31, 185, 0.14)",
         boxShadow: "0px 13px 35px 1px rgba(112, 144, 176, 0.10)",
       }}
-      className='rounded-lg relative overflow-hidden p-3 mt-5 ml-3 '
+      className={`rounded-lg relative p-3 mt-5 ml-3  max-h-[380px] ${
+        loading ? "overflow-hidden" : "overflow-auto"
+      }`}
     >
       {loading && (
         <div className='absolute w-full h-full backdrop:blur-md '>
@@ -63,7 +64,7 @@ const Card = ({ data, deleteNotification, loading }) => {
           Link
         </div>
         <div className='text-slate-400 -ml-1 col-span-2 text-sm font-medium font-Poppins leading-normal'>
-          Description
+          Description{" "}
         </div>
         <div className='text-slate-400 text-sm col-span-2 text-center -ml-1.5 font-medium font-Poppins leading-normal'>
           Active
@@ -73,8 +74,9 @@ const Card = ({ data, deleteNotification, loading }) => {
         </div>
       </div>
       <div className='card-container flex-1 w-full max-h-[380px] overflow-auto'>
-        {data?.length > 0
-          ? data.map((val, index) => {
+        {!fetchLoading ? (
+          data && data.length > 0 ? (
+            data.map((val, index) => {
               return (
                 <div key={index} className='card list flex-1 flex p-2'>
                   <div className='grid grid-cols-12 w-full gap-5 '>
@@ -88,7 +90,7 @@ const Card = ({ data, deleteNotification, loading }) => {
                     <div className='text-indigo-900 line-clamp-1 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
                       {val.body ? val.body : "---"}
                     </div>
-                    <div className='text-indigo-900 line-clamp-1 col-span-2 text-center flex-1 text-sm font-medium font-Poppins leading-7'>
+                    <div className='text-indigo-900 col-span-2 text-center flex-1 text-sm font-medium font-Poppins leading-7'>
                       <input
                         type='checkbox'
                         name='active'
@@ -100,7 +102,7 @@ const Card = ({ data, deleteNotification, loading }) => {
                       <div
                         onClick={() => {
                           navigate(
-                            "/admin/notifications/news/update/" + val.id
+                            "/admin/notifications/announcement/update/" + val.id
                           );
                         }}
                         className='cursor-pointer'
@@ -120,7 +122,12 @@ const Card = ({ data, deleteNotification, loading }) => {
                 </div>
               );
             })
-          : "No Data Found"}
+          ) : (
+            <div className='text-lg p-3'>No Data Found</div>
+          )
+        ) : (
+          <Loading />
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { DeleteIcon, EditICon } from "../../assets/constants";
 import { LuLoader2 } from "react-icons/lu";
-const Card = ({ data, path, deleteSiteHandle, loading }) => {
+import Loading from "../../components/Loader/Loader";
+const Card = ({ data, path, deleteSiteHandle, loading, fetchLoading }) => {
   return (
     <div
       style={{
@@ -41,8 +42,10 @@ const Card = ({ data, path, deleteSiteHandle, loading }) => {
             </div>
           </div>
         )}
-        {data?.length > 0
-          ? data.map((val, index) => {
+        {!fetchLoading ? (
+          data &&
+          (data.length > 0 ? (
+            data.map((val, index) => {
               return (
                 <div key={index} className='card list flex-1 flex p-2'>
                   <div className='grid grid-cols-10 w-full gap-5 '>
@@ -82,7 +85,12 @@ const Card = ({ data, path, deleteSiteHandle, loading }) => {
                 </div>
               );
             })
-          : "No Data Found"}
+          ) : (
+            <div className='text-lg p-3'>No Data Found</div>
+          ))
+        ) : (
+          <Loading />
+        )}
       </div>
     </div>
   );

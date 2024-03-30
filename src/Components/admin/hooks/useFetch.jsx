@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
 export default function useFetch() {
   const [categoryLoading, setCetegoryLoading] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
@@ -15,6 +14,9 @@ export default function useFetch() {
 
   const [reportLoading, setReportLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
+
+  const [reportSiteLoading, setReportSiteLoading] = useState(false);
+  const [reportSiteData, setReportSiteData] = useState([]);
 
   const [loginLogsLoading, setLoginLogsLoading] = useState(false);
   const [loginLogsData, setLoginLogsData] = useState([]);
@@ -93,14 +95,9 @@ export default function useFetch() {
         );
       }
       const data = await response.json();
-      try {
-        const jsonData = JSON.parse(JSON.stringify(data.results));
-        setUsersData((prev) => [...jsonData]);
-      } catch (error) {
-        console.error("Received data is not valid JSON:", error);
-      }
+      setUsersData(data.results);
     } catch (err) {
-      toast.error(err.message);
+      console.error(err.message);
     } finally {
       setUserLoading(false);
     }
@@ -155,6 +152,30 @@ export default function useFetch() {
   };
 
   // Reports Fatching...
+  const handleFetctSiteReports = async (api) => {
+    setReportSiteLoading(true);
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+        method: "Get",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      setReportSiteData(data);
+    } catch (err) {
+      console.log("Error :", err.message);
+    } finally {
+      setReportSiteLoading(false);
+    }
+  };
+
+  // Login Logs Reports Fatching...
   const handleFetctLoginLogs = async (api) => {
     setLoginLogsLoading(true);
     try {
@@ -191,12 +212,16 @@ export default function useFetch() {
         },
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
       }
       const data = await response.json();
+      console.log(" Notification------------- :", data);
       setNotificationData(data);
     } catch (err) {
-      console.log("Error :", err);
+      console.error("Error :", err);
     } finally {
       setNotificationLoading(false);
     }
@@ -235,11 +260,13 @@ export default function useFetch() {
     reportLoading,
     institutionLoading,
     loginLogsLoading,
+    reportSiteLoading,
     categoryData,
     userCategoryData,
     usersData,
     siteData,
     reportData,
+    reportSiteData,
     notificationData,
     handleFetctData,
     handleFetctUserCategoryData,
@@ -251,5 +278,6 @@ export default function useFetch() {
     handleFetctReports,
     handleFetctLoginLogs,
     handleFetctInstitution,
+    handleFetctSiteReports,
   };
 }
