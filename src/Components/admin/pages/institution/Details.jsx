@@ -13,22 +13,13 @@ import useFetch from "../../hooks/useFetch";
 import useUpdate from "../../hooks/useUpdate";
 import { InstitutionLogo } from "../../assets/images";
 
-export default function Details() {
+export default function Details({ data }) {
   const { institutionData, handleFetctInstitution } = useFetch();
-
-  const { addMessage } = useAdd();
-
-  const { deleteMessage, deleteLoading, handleDelete } = useDelete();
-  const { updateMessage } = useUpdate();
-
-  useEffect(() => {
-    handleFetctInstitution("api/institution/detail");
-  }, [deleteMessage, updateMessage, addMessage]);
 
   return (
     <>
       <Header icon={<InstitutiionIcon />} title={"Institution Details"} />
-      <DetailSection data={institutionData} />
+      <DetailSection data={data} />
       <OtherDetails />
     </>
   );
@@ -43,7 +34,7 @@ const DetailSection = ({ data }) => {
         </div>
         <div>
           <h3 className=' text-violet-800 text-[19px] font-semibold font-Poppins leading-7'>
-            All India Institute of Medical Sciences , Delhi
+            {data.name ? data.name : "---"}
           </h3>
           <p className="text-blue-900 text-sm font-medium font-['Poppins'] leading-7">
             The Master of Public Health (MPH) program offered by Indian
@@ -108,9 +99,11 @@ const DetailSection = ({ data }) => {
           <p className='text-black text-opacity-50 text-[13px] font-normal font-Poppins leading-normal'>
             Address
           </p>
-          <div className='flex gap-2 items-center'>
-            <LocationIcon />
-            <p className='text-blue-900 line-clamp-1 text-sm font-medium font-Poppins leading-7'>
+          <div className='flex gap-2 items-start'>
+            <div className='shrink-0 mt-1.5'>
+              <LocationIcon />
+            </div>
+            <p className='text-blue-900 text-sm font-medium font-Poppins leading-7'>
               {data && data.address ? data.address : "---"}
             </p>
           </div>
@@ -121,5 +114,7 @@ const DetailSection = ({ data }) => {
 };
 
 const OtherDetails = () => {
-  return <div className='border rounded-md bg-[#FBFCFF]'>Other Details</div>;
+  return (
+    <div className='border rounded-md p-3 bg-[#FBFCFF]'>Other Details</div>
+  );
 };

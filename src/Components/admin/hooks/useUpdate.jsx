@@ -23,6 +23,9 @@ export default function useUpdate() {
   const [updateNotificationMessage, setUpdateNotificationMessage] =
     useState("");
 
+  const [updateInstiLoading, setUpdateInstiLoading] = useState(false);
+  const [updateInstinMessage, setUpdatInstiMessage] = useState("");
+
   const handleUpdate = async (api, formData, navLink) => {
     setUpdateLoading(true);
     try {
@@ -109,10 +112,6 @@ export default function useUpdate() {
   const handleUpdateSites = async (api, formData) => {
     setUpdateSiteLoading(true);
     try {
-      console.log(
-        "--------------Data from  sendign to backend ----------",
-        formData
-      );
       const token = localStorage.getItem("access_token");
       const response = await fetch(`https://stage1.remotlink.com/${api}`, {
         method: "PATCH",
@@ -171,21 +170,53 @@ export default function useUpdate() {
     }
   };
 
+  const handleUpdatInstitution = async (api, formData) => {
+    setUpdateInstiLoading(true);
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
+      }
+      const data = await response.json();
+      setUpdatInstiMessage(data.detail);
+      toast.success("Updated Successfully");
+      navigate("/admin/institution");
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setUpdateInstiLoading(false);
+    }
+  };
+
   return {
     updateLoading,
     updateUserCategoryLoading,
     updateUserLoading,
     updateNotificationLoading,
     updateSiteLoading,
+    updateInstiLoading,
     updateMessage,
     updateUserMessage,
     updateNotificationMessage,
     updateUserCategoryMessage,
     updateSiteMessage,
+    updateInstinMessage,
     handleUpdate,
     handleUpdateUserCategory,
     handleUpdateUser,
     handleUpdateSites,
     handleUpdateNotification,
+    handleUpdatInstitution,
   };
 }

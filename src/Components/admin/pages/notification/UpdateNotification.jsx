@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { AvatarIcon, NotificationsIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import { LuLoader2 } from "react-icons/lu";
-import useUpdate from "../../hooks/useUpdate";
-export default function UpdateNotification({ data }) {
-  const { updateNotificationLoading, handleUpdateNotification } = useUpdate();
+export default function UpdateNotification({
+  loading,
+  data,
+  submitNotificationHandler,
+}) {
   const [id, setId] = useState(null);
   const [currentDetail, setCurrentDetail] = useState({
     title: "",
@@ -52,10 +54,6 @@ export default function UpdateNotification({ data }) {
     }
   }, [data]);
 
-  const submitNotificationHandler = () => {
-    handleUpdateNotification("api/announcement/update/" + id, currentDetail);
-  };
-
   const cancelButton = () => {
     setCurrentDetail(oldData);
   };
@@ -70,10 +68,11 @@ export default function UpdateNotification({ data }) {
       <DetailSection {...{ ...oldData }} />
       <NotificationForm
         submitText={"Send Notification"}
+        id={id}
         currentDetail={currentDetail}
         setCurrentDetail={setCurrentDetail}
         submitNotificationHandler={submitNotificationHandler}
-        loading={updateNotificationLoading}
+        loading={loading}
         cancelButton={cancelButton}
       />
     </>
@@ -163,6 +162,7 @@ const DetailSection = ({
 
 const NotificationForm = ({
   submitText,
+  id,
   submitNotificationHandler,
   currentDetail,
   setCurrentDetail,
@@ -276,7 +276,7 @@ const NotificationForm = ({
         <button
           disabled={loading}
           onClick={() => {
-            submitNotificationHandler();
+            submitNotificationHandler(id, currentDetail);
           }}
           className='min-w-[118px] w-max shrink-0 px-[18px] py-2.5 bg-violet-800 rounded-[5px] border border-violet-800 text-white text-[13px] font-medium font-Poppins leading-normal'
         >

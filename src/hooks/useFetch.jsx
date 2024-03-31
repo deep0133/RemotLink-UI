@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 const selectRandomMessage = (messages) => {
   try {
-    console.log("selecting random messages...", messages);
     const randomIndex = Math.floor(Math.random() * messages.length);
     const selectedMessage = messages[randomIndex].message;
     return selectedMessage;

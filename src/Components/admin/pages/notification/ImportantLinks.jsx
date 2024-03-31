@@ -43,7 +43,7 @@ const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
         border: "1px solid rgba(34, 31, 185, 0.14)",
         boxShadow: "0px 13px 35px 1px rgba(112, 144, 176, 0.10)",
       }}
-      className={`rounded-lg relative p-3 mt-5 ml-3  max-h-[380px] ${
+      className={`rounded-lg relative mt-5 ml-3  max-h-[380px] ${
         loading ? "overflow-hidden" : "overflow-auto"
       }`}
     >
@@ -56,7 +56,7 @@ const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
           </div>
         </div>
       )}
-      <div className='row-1 grid grid-cols-12 w-full px-2 pb-5 gap-5'>
+      <div className='row-1 grid grid-cols-12 w-full px-5 py-3 border-b sticky top-0 bg-white gap-5'>
         <div className='text-slate-400 col-span-2 text-sm font-medium font-Poppins leading-normal'>
           Name
         </div>
@@ -73,7 +73,7 @@ const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
           Action
         </div>
       </div>
-      <div className='card-container flex-1 w-full max-h-[380px] overflow-auto'>
+      <div className='card-container flex-1 w-full p-3 overflow-auto'>
         {!fetchLoading ? (
           data && data.length > 0 ? (
             data.map((val, index) => {

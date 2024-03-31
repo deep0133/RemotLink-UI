@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import CheckLoginStatus from "./Components/auth/loginStatus";
 import Landinglayout from "./Components/Landingpage/Landinglayout";
@@ -19,7 +20,7 @@ import AdminRoutes from "./Components/admin/AdminRoutes";
 // import Dashboard from "./Components/mobile/dashboard";
 
 function App() {
-  const { loginStatus } = CheckLoginStatus();
+  const { loginStatus, isAdmin } = CheckLoginStatus();
 
   // console.log(loginStatus);
   return (
@@ -41,7 +42,12 @@ function App() {
         <Route path='/notifications' element={<Notifications />} />
         <Route path='/help' element={<HelpAndSupport />} />
         {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-        <Route path='/admin/*' element={<AdminRoutes />} />
+        <Route
+          path='/admin/*'
+          element={
+            isAdmin === true ? <AdminRoutes /> : <Navigate to={"/login"} />
+          }
+        />
       </Routes>
     </Router>
   );

@@ -5,7 +5,7 @@ import CheckLoginStatus from "../auth/loginStatus";
 import { Link } from "react-router-dom";
 
 const Landingheader = () => {
-  const { loginStatus } = CheckLoginStatus();
+  const { loginStatus, isAdmin } = CheckLoginStatus();
   return (
     <>
       <div className='w-full min-h-[52px]  bg-[#1F1B25] light:bg-secondary flex  items-center justify-between overflow-y-scroll no-scrollbar'>
@@ -19,15 +19,17 @@ const Landingheader = () => {
           </h1>
         </div>
         <div className='flex items-center justify-center'>
-          <Link to={"/admin"}>
-            <div className=' w-16 lg:w-36 h-[52px] bg-[#000000] light:bg-btn flex  items-center justify-center mr-3 md:mr-1 hover:bg-[#0B2E78] focus:ring-4 focus:outline-none focus:ring-blue-300   '>
-              <img src={lgn_icon} alt='login icon' />
+          {isAdmin && (
+            <Link to={"/admin"}>
+              <div className=' w-16 lg:w-36 h-[52px] bg-[#000000] light:bg-btn flex  items-center justify-center mr-3 md:mr-1 hover:bg-[#0B2E78] focus:ring-4 focus:outline-none focus:ring-blue-300   '>
+                <img src={lgn_icon} alt='login icon' />
 
-              <h1 className='hidden lg:block text-white font-AnekLatin light:font-Outfit purple:font-Sora text-base purple:text-[13px] font-normal leading-5 capitalize ml-3 whitespace-nowrap '>
-                {/* {loginStatus ? "Logged In" : "  Login Now"} */} Admin
-              </h1>
-            </div>
-          </Link>
+                <h1 className='hidden lg:block text-white font-AnekLatin light:font-Outfit purple:font-Sora text-base purple:text-[13px] font-normal leading-5 capitalize ml-3 whitespace-nowrap '>
+                  Admin
+                </h1>
+              </div>
+            </Link>
+          )}
           <Link to={"/login"}>
             <div className=' w-16 lg:w-36 h-[52px] bg-[#000000] light:bg-btn flex  items-center justify-center mr-3 md:mr-1 hover:bg-[#0B2E78] focus:ring-4 focus:outline-none focus:ring-blue-300   '>
               <img src={lgn_icon} alt='login icon' />

@@ -3,14 +3,10 @@ import { NotificationsIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import { LuLoader2 } from "react-icons/lu";
-import useAdd from "../../hooks/useAdd";
-export default function SendNotification() {
-  const { addNotificationLoading, handleAddNotification } = useAdd();
-
-  const submitNotificationHandler = (data) => {
-    handleAddNotification("api/announcement/add/", data);
-  };
-
+export default function SendNotification({
+  loading,
+  submitNotificationHandler,
+}) {
   return (
     <>
       <Header
@@ -24,7 +20,7 @@ export default function SendNotification() {
       />
       <NotificationForm
         submitText={"Send Notification"}
-        loading={addNotificationLoading}
+        loading={loading}
         {...{
           submitNotificationHandler,
         }}

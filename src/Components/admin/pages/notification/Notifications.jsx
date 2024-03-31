@@ -8,25 +8,41 @@ import ImportantLinks from "./ImportantLinks";
 import useAdd from "../../hooks/useAdd";
 import UpdateNotification from "./UpdateNotification";
 import useDelete from "../../hooks/useDelete";
+import useUpdate from "../../hooks/useUpdate";
 
 export default function Notifications() {
-  const [currentPage, setCurrentPage] = useState("");
-
-  const location = useLocation();
-
   const { notificationLoading, notificationData, handleFetctNotifications } =
     useFetch();
 
-  const { addNotificationData } = useAdd();
+  const { addNotificationData, addNotificationLoading, handleAddNotification } =
+    useAdd();
 
-  const { deleteNotificationLoading, handleDeleteNotification } = useDelete();
+  const {
+    deleteNotificationLoading,
+    deleteNotificationMessage,
+    handleDeleteNotification,
+  } = useDelete();
+
+  const {
+    updateNotificationLoading,
+    updateNotificationMessage,
+    handleUpdateNotification,
+  } = useUpdate();
 
   useEffect(() => {
     handleFetctNotifications("api/announcement");
-  }, [addNotificationData]);
+  }, [
+    addNotificationData,
+    updateNotificationMessage,
+    deleteNotificationMessage,
+  ]);
 
   const deleteNotification = async (id) => {
     await handleDeleteNotification("api/announcement/delete/" + id);
+  };
+
+  const submitNotificationHandler = (id, data) => {
+    handleUpdateNotification("api/announcement/update/" + id, data);
   };
 
   return (
@@ -57,7 +73,7 @@ export default function Notifications() {
         path={"/important-links"}
         element={
           <ImportantLinks
-            data={notificationData.links}
+            data={notificationData.announcement}
             fetchLoading={notificationLoading}
             deleteNotification={deleteNotification}
             delLoading={deleteNotificationLoading}
@@ -66,19 +82,45 @@ export default function Notifications() {
       />
       <Route
         path={"/send"}
-        element={<SendNotification data={notificationData} />}
+        element={
+          <SendNotification
+            data={notificationData}
+            submitNotificationHandler={(data) => {
+              handleAddNotification("api/announcement/add/", data);
+            }}
+            laoding={addNotificationLoading}
+          />
+        }
       />
       <Route
         path={"/announcement/update/:id"}
-        element={<UpdateNotification data={notificationData} />}
+        element={
+          <UpdateNotification
+            data={notificationData}
+            submitNotificationHandler={submitNotificationHandler}
+            loading={updateNotificationLoading}
+          />
+        }
       />
       <Route
         path={"/news/update/:id"}
-        element={<UpdateNotification data={notificationData} />}
+        element={
+          <UpdateNotification
+            data={notificationData}
+            submitNotificationHandler={submitNotificationHandler}
+            loading={updateNotificationLoading}
+          />
+        }
       />
       <Route
         path={"/link/update/:id"}
-        element={<UpdateNotification data={notificationData} />}
+        element={
+          <UpdateNotification
+            data={notificationData}
+            submitNotificationHandler={submitNotificationHandler}
+            loading={updateNotificationLoading}
+          />
+        }
       />
     </Routes>
   );
