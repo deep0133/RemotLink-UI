@@ -19,10 +19,8 @@ import cross from "../../images/Cross.svg";
 import home from "../../images/Home.svg";
 import book from "../../images/book.png";
 import help_Icon from "../../images/message-question-white.svg";
-import { useNavigate } from "react-router-dom";
 
-const Header = () => {
-  const navigate = useNavigate();
+const Header = ({ logutOutHandler }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [userdetail, setUserdetail] = useState("");
 
@@ -85,12 +83,11 @@ const Header = () => {
   }, [navVisibility]);
   const arr = [1, 2, 3];
 
-  const handleLogout = () => {
-    // console.log("yhasdjkh");
-    localStorage.clear();
-    navigate("/");
-    window.location.reload();
-  };
+  // const handleLogout = () => {
+  //   // console.log("yhasdjkh");
+  //   // localStorage.clear();
+  //   // navigate("/");
+  // };
 
   const retrieveUserData = () => {
     var storedData = localStorage.getItem("userdata");
@@ -130,7 +127,9 @@ const Header = () => {
           className='text-blue-900 font-poppins line-clamp-2 text-base  font-semibold not-italic leading-normal w-[219px] pr-[]
     '
         >
-          {institutionDetails?.name}
+          {institutionDetails.name
+            ? institutionDetails.name
+            : "Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital"}
         </div>
         <div className='flex items-center justify-between rounded-md border border-solid border-gray-200 w-[552px] h-auto p-[14px] px-[28px] gap-[301px] '>
           <input
@@ -186,9 +185,13 @@ const Header = () => {
           onClick={toggleDropdown}
         >
           <img
-            src={user_pic}
+            src={
+              userdetail.profile_photo
+                ? "https://stage1.remotlink.com/" + userdetail.profile_photo
+                : profileIcon
+            }
             alt='UserPicture'
-            className='w-[38px] h-[38px] flex-shrink-0 rounded-full'
+            className='w-[38px] h-[38px] flex-shrink-0 rounded-full object-cover'
           />
           {showDropdown && (
             <div className='absolute top-[56px] left-[-30px] mt-2  z-40 border border-solid border-gray-200 rounded-md shadow-md bg-white'>
@@ -198,9 +201,14 @@ const Header = () => {
                     <span className=' mr-3'>
                       {" "}
                       <img
-                        src={profileIcon}
+                        src={
+                          userdetail.profile_photo
+                            ? "https://stage1.remotlink.com/" +
+                              userdetail.profile_photo
+                            : profileIcon
+                        }
                         alt='icons'
-                        className=' w-[22px] h-[22px]'
+                        className=' w-[22px] h-[22px] object-cover'
                       />
                     </span>
                     <span className=' text-sm font-medium  text-[#6F6C90]'>
@@ -253,7 +261,7 @@ const Header = () => {
                 <hr />
                 <div
                   className=' flex items-center justify-start mt-4'
-                  onClick={handleLogout}
+                  onClick={logutOutHandler}
                 >
                   <span className=' mr-3'>
                     {" "}
@@ -274,10 +282,10 @@ const Header = () => {
 
         <div className='pr-[80px]'>
           <h3 className='text-blue-gray-900 font-poppins text-[13px] font-semibold leading-6'>
-            Hi Alex{" "}
+            Hi {userdetail?.first_name || "Alex"}
           </h3>
           <h6 className='text-blue-gray-700 font-poppins text-[12px] font-normal leading-5'>
-            {userdetail?.email}
+            {userdetail?.email || "alex@gmail.com"}
           </h6>
         </div>
       </div>

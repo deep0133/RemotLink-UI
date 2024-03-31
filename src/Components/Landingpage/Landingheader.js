@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 const Landingheader = () => {
   const { loginStatus, isAdmin } = CheckLoginStatus();
+
   return (
     <>
       <div className='w-full min-h-[52px]  bg-[#1F1B25] light:bg-secondary flex  items-center justify-between overflow-y-scroll no-scrollbar'>

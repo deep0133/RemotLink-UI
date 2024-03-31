@@ -20,6 +20,8 @@ export default function useFetch() {
   const [searchSite, setSearchSite] = useState("");
   const [searchLoader, setSearchLoader] = useState(false);
 
+  const [institutionDetails, setInstitutionDetails] = useState("");
+
   useEffect(() => {
     handleSearchSite();
   }, [searchSite]);
@@ -193,6 +195,29 @@ export default function useFetch() {
     }
   };
 
+  const institutionDetailFetch = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(
+        `https://stage1.remotlink.com/api/institution/detail`,
+        {
+          method: "Get",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      setInstitutionDetails(data);
+    } catch (error) {
+      console.error("Error fetching FAQs:", error.message);
+    }
+  };
+
   return {
     fetchLoading,
     resources,
@@ -208,5 +233,7 @@ export default function useFetch() {
     createProxyAPI,
     handleSearchSite,
     handleFetchMessages,
+    institutionDetails,
+    institutionDetailFetch,
   };
 }

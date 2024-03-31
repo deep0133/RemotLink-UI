@@ -5,24 +5,21 @@ import Categories from "./Categories";
 import Featured from "./Featured";
 import Hero from "./Hero";
 
-const Landinghome = () => {
-  
-  
+const Landinghome = ({ institutionDetails }) => {
   return (
     <>
       <div
-        className="w-full "
-        class="background overflow-y-scroll no-scrollbar"
+        className='w-full '
+        class='background overflow-y-scroll no-scrollbar'
       >
-        <Banner/>
+        <Banner institutionDetails={institutionDetails} />
       </div>
 
-      <div className="w-full h-full  bg-[#06040E] light:bg-primary purple:bg-primary ">
-        
-        <Hero/>
-       <Categories/>
-       <Featured/>
-       <Video/>
+      <div className='w-full h-full  bg-[#06040E] light:bg-primary purple:bg-primary '>
+        <Hero />
+        <Categories />
+        <Featured />
+        <Video />
       </div>
     </>
   );

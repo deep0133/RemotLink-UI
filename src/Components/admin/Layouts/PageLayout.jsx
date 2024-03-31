@@ -4,28 +4,63 @@ import { DonaldTrump } from "../assets/images/index";
 import { NavLink, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from "react";
+import useLogout from "../../../hooks/useLogout";
 export default function PageLayout({ children }) {
+  const [userData, setUserData] = useState(null);
+
+  const { logutOutHandler } = useLogout();
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userdata");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
+
   return (
-    <section className='max-w-[1440px] min-w-[85rem] overflow-hidden mx-auto relative bg-white flex'>
-      <div className='relative'>
-        <div className='left-side-menu w-[254px] h-[708px] sticky top-0 bg-white pt-8 pb-6 px-2 flex flex-col justify-between'>
+    <section className='max-w-[1440px] min-w-[85rem] mx-auto relative bg-white flex'>
+      <div className=''>
+        <div className='left-side-menu w-[254px] sticky top-0 h-[708px] bg-white pt-8 pb-6 px-2 flex flex-col justify-between'>
           <div>
             <Header icon={<LogoIcon />} title={"AVAGS DIGITAL SERVICES"} />
             <SidebarMenu />
           </div>
 
           <div className='project-manager bottom-0 px-3 mt-8 flex items-center gap-1'>
-            <DonaldTrump />
-            <div className='content flex justify-start gap-6 items-center flex-1 '>
+            <DonaldTrump
+              url={
+                userData && userData.profile_photo ? userData.profile_photo : ""
+              }
+            />
+            <div className='content  flex justify-start gap-6 items-center flex-1 '>
               <div>
-                <h3 className='text-black text-xs font-semibold font-Poppins tracking-tight'>
-                  Donald Trump
+                <h3 className='text-black line-clamp-1 text-nowrap text-xs font-semibold font-Poppins tracking-tight'>
+                  {userData
+                    ? userData.first_name
+                      ? userData.first_name
+                      : "Donal"
+                    : "Donal"}{" "}
+                  {userData
+                    ? userData.last_name
+                      ? userData.last_name
+                      : "Trump"
+                    : "Trump"}
                 </h3>
-                <p className='text-neutral-500 text-[11px] font-normal font-Poppins tracking-tight'>
-                  Project Manager
+                <p className='text-neutral-500 line-clamp-1 text-nowrap text-[11px] font-normal font-Poppins tracking-tight'>
+                  {userData
+                    ? userData.email
+                      ? userData.email
+                      : "jainharsh8506@gmail.com"
+                    : "jainharsh8506@gmail.com"}
                 </p>
               </div>
-              <LoginIcon />
+              <div
+                onClick={logutOutHandler}
+                className='cursor-pointer duration-200'
+              >
+                <LoginIcon />
+              </div>
             </div>
           </div>
         </div>

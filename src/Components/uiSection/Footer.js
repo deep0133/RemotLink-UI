@@ -63,11 +63,15 @@ const Footer = () => {
           <div>
             <img src={blank} alt='' className=' w-[57px] h-[76px]' />
             <h3 className=' text-white font-Poppins font-bold text-[18px] uppercase mt-6'>
-              {institutionDetails?.name}
+              {institutionDetails.name
+                ? institutionDetails.name
+                : "Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital"}
             </h3>
             <p className='sm:mt-6 mt-6 font-normal text-white font-Poppins sm:font-medium sm:text-[18px] text-[15px] sm:leading-8 leading-[25px]  border-b p-2'>
               {/* Official Institute Library to access Digital material */}
-              {institutionDetails?.tagline}
+              {institutionDetails.tagline
+                ? institutionDetails.tagline
+                : "Official Institute Library to access Digital material"}
             </p>
           </div>
           <div className='flex items-start flex-col  sm:ml-10 mt-10 sm:mt-0'>
@@ -77,15 +81,24 @@ const Footer = () => {
             <ul className='flex  flex-col'>
               <li>
                 <p className='leading-6 w-[240px] mt-[19px] '>
-                  {institutionDetails?.address}
+                  {institutionDetails.address
+                    ? institutionDetails.address
+                    : "The Principal Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital Wanadongari - Wadhamna Road, Hingna Nagpur - 441110 Maharashtra, India"}
                 </p>
               </li>
               <li className='flex leading-5 mt-[19px]'>
-                {institutionDetails?.phone_number} :{" "}
-                {institutionDetails?.second_phone_number}
+                {institutionDetails.phone_number
+                  ? institutionDetails.phone_number
+                  : "9178525763"}{" "}
+                :{" "}
+                {institutionDetails.second_phone_number
+                  ? institutionDetails.second_phone_number
+                  : "9178525763"}
               </li>
               <li className='leading-5 mt-[19px]'>
-                {institutionDetails?.email}
+                {institutionDetails.email
+                  ? institutionDetails.email
+                  : "sdddhch@sdmail.com"}
               </li>
             </ul>
           </div>
