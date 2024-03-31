@@ -30,7 +30,7 @@ const Landingheader = () => {
               </div>
             </Link>
           )}
-          <Link to={"/login"}>
+          <Link to={loginStatus ? "/home" : "/login"}>
             <div className=' w-16 lg:w-36 h-[52px] bg-[#000000] light:bg-btn flex  items-center justify-center mr-3 md:mr-1 hover:bg-[#0B2E78] focus:ring-4 focus:outline-none focus:ring-blue-300   '>
               <img src={lgn_icon} alt='login icon' />
 

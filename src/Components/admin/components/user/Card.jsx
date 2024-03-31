@@ -46,13 +46,13 @@ const Card = ({
           </div>
         </div>
       )}
-      <div className='card-container flex-1 w-full max-h-[380px] overflow-auto'>
+      <div className='card-container flex-1  px-3 py-2 w-full max-h-[380px] overflow-auto'>
         {!fetchLoading ? (
           Array.isArray(data) &&
           (data.length > 0 ? (
             data.map((val, index) => {
               return (
-                <div key={index} className='card list flex-1 px-5 flex p-2'>
+                <div key={index} className='card list flex-1 flex p-2'>
                   <div className='grid grid-cols-10 w-full '>
                     <h3 className='text-indigo-900 col-span-2 text-sm font-medium font-Poppins leading-7'>
                       {val.first_name ? val.first_name : "---"}{" "}

@@ -15,11 +15,20 @@ const CategoryList = ({
         border: "1px solid rgba(34, 31, 185, 0.14)",
         boxShadow: "0px 13px 35px 1px rgba(112, 144, 176, 0.10)",
       }}
-      className={`rounded-lg relative pt-3 mt-5 ml-3 max-h-[380px] ${
+      className={`rounded-lg relative mt-5 ml-3 max-h-[380px] ${
         loading ? "overflow-hidden" : "overflow-auto"
       }`}
     >
-      <div className='row-1 stick grid grid-cols-8 w-full px-5 pb-3 mb-2 border-b'>
+      {loading && (
+        <div className='absolute w-full h-full max-h-[380px] backdrop:blur-md '>
+          <div className='w-full h-full relative -inset-3 bg-black/10 flex justify-center items-center'>
+            <div className='w-fit animate-spin '>
+              <LuLoader2 />
+            </div>
+          </div>
+        </div>
+      )}
+      <div className='row-1 sticky top-0 grid grid-cols-8 bg-white w-full px-5 py-3 mb-2 border-b'>
         <div className='text-slate-400 col-span-2 text-sm font-medium font-Poppins leading-normal'>
           Name
         </div>
@@ -30,15 +39,6 @@ const CategoryList = ({
           Action
         </div>
       </div>
-      {loading && (
-        <div className='absolute w-full h-full max-h-[380px] backdrop:blur-md '>
-          <div className='w-full h-full relative -inset-3 bg-black/10 flex justify-center items-center'>
-            <div className='w-fit animate-spin '>
-              <LuLoader2 />
-            </div>
-          </div>
-        </div>
-      )}
 
       {!fetchLoading ? (
         data.length > 0 ? (

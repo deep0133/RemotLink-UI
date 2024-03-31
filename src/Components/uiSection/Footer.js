@@ -62,7 +62,7 @@ const Footer = () => {
         <div className=' sm:flex  sm:justify-between flex-row '>
           <div>
             <img src={blank} alt='' className=' w-[57px] h-[76px]' />
-            <h3 className=' text-white font-Poppins border-4 border-yellow-500 font-bold text-[18px] uppercase mt-6'>
+            <h3 className=' text-white font-Poppins font-bold text-[18px] uppercase mt-6'>
               {institutionDetails?.name}
             </h3>
             <p className='sm:mt-6 mt-6 font-normal text-white font-Poppins sm:font-medium sm:text-[18px] text-[15px] sm:leading-8 leading-[25px]  border-b p-2'>

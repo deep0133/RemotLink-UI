@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   Navigate,
-  useNavigate,
 } from "react-router-dom";
 import CheckLoginStatus from "./Components/auth/loginStatus";
 import Landinglayout from "./Components/Landingpage/Landinglayout";
@@ -22,18 +21,24 @@ import AdminRoutes from "./Components/admin/AdminRoutes";
 function App() {
   const { loginStatus, isAdmin } = CheckLoginStatus();
 
-  // console.log(loginStatus);
   return (
     <Router>
       <Routes>
-        {/* <Route
-          path="/"
-          element={
-            loginStatus ? <Navigate to="/home" /> : <Navigate to="/login" />
-          }
-        /> */}
         <Route path='/' element={<Landinglayout />} />
-        <Route path='/login' element={<Login />} />
+        <Route
+          path='/login'
+          element={
+            loginStatus ? (
+              isAdmin ? (
+                <Navigate to={"/admin"} />
+              ) : (
+                <Navigate to={"/home"} />
+              )
+            ) : (
+              <Login />
+            )
+          }
+        />
         <Route path='/home' element={<Homepage />} />
         <Route path='/searchview' element={<SearchView />} />
         <Route path='/resources' element={<Resources />} />
@@ -41,7 +46,6 @@ function App() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/notifications' element={<Notifications />} />
         <Route path='/help' element={<HelpAndSupport />} />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route
           path='/admin/*'
           element={

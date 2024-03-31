@@ -89,6 +89,7 @@ const Header = () => {
     // console.log("yhasdjkh");
     localStorage.clear();
     navigate("/");
+    window.location.reload();
   };
 
   const retrieveUserData = () => {
@@ -99,8 +100,6 @@ const Header = () => {
   useEffect(() => {
     retrieveUserData();
   }, []);
-
-  // console.log(userdetail);
 
   return (
     <>

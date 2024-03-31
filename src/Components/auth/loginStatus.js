@@ -8,6 +8,10 @@ const CheckLoginStatus = () => {
    * Check login Status
    */
   useEffect(() => {
+    updateState();
+  }, []);
+
+  const updateState = () => {
     if (localStorage.getItem("access_token")) {
       setLogin(true);
 
@@ -19,9 +23,9 @@ const CheckLoginStatus = () => {
     } else {
       setLogin(false);
     }
-  }, []);
+  };
 
-  return { loginStatus, isAdmin };
+  return { loginStatus, isAdmin, updateState };
 };
 
 export default CheckLoginStatus;
