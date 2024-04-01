@@ -10,6 +10,7 @@ import Hero from "../../components/category/Hero";
 import { NotificationRightMenu } from "../../data";
 import { LuLoader2 } from "react-icons/lu";
 import Loading from "../../components/Loader/Loader";
+import { formatDate } from "../../utils/formateData";
 export default function ImportantLinks({
   data,
   fetchLoading,
@@ -88,7 +89,7 @@ const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
                     </div>
 
                     <div className='text-indigo-900 line-clamp-1 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.created_at ? val.created_at : "---"}
+                      {val.created_at ? formatDate(val.created_at) : "---"}
                     </div>
                     <div className='text-indigo-900 col-span-2 text-center flex-1 text-sm font-medium font-Poppins leading-7'>
                       <input
@@ -102,7 +103,7 @@ const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
                       <div
                         onClick={() => {
                           navigate(
-                            "/admin/notifications/announcement/update/" + val.id
+                            "/admin/notifications/link/update/" + val.id
                           );
                         }}
                         className='cursor-pointer'

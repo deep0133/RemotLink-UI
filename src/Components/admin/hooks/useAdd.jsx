@@ -35,7 +35,7 @@ export default function useAdd() {
         );
       }
       const data = await response.json();
-      setAddMessage(data.detail);
+      setAddMessage((prev) => !prev);
       toast.success(data.detail);
       navigate("/admin/category");
     } catch (err) {
@@ -65,7 +65,7 @@ export default function useAdd() {
         );
       }
       const data = await response.json();
-      setAddNewUser(data.detail);
+      setAddNewUser((prev) => !prev);
       toast.success(data.detail);
       navigate("/admin/users");
     } catch (err) {
@@ -94,7 +94,7 @@ export default function useAdd() {
         );
       }
       const data = await response.json();
-      setAddNewSite(data.detail);
+      setAddNewSite((prev) => !prev);
       toast.success(data.detail);
       navigate("/admin/sites");
     } catch (err) {
@@ -117,10 +117,14 @@ export default function useAdd() {
         body: JSON.stringify(formData),
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
       }
       const data = await response.json();
-      setAddNotificationData(data.detail);
+      setAddNotificationData((prev) => !prev);
+      toast.success(data.detail);
       navigate("/admin/notifications");
     } catch (err) {
       console.log("Error :", err);

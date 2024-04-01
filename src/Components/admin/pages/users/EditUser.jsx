@@ -10,17 +10,19 @@ import {
   PhoneIcon,
   ThreeDots,
 } from "../../assets/constants";
-import useUpdate from "../../hooks/useUpdate";
 import { LuLoader2 } from "react-icons/lu";
 import useFetch from "../../hooks/useFetch";
 
-export default function EditUser({ head_title, data }) {
+export default function EditUser({
+  head_title,
+  data,
+  updateFunctionHandler,
+  updateUserLoading,
+}) {
   const [hide, setHide] = useState(true);
 
   const [user, setUser] = useState({});
   const [id, setId] = useState("");
-
-  const { updateUserLoading, handleUpdateUser } = useUpdate();
 
   const [oldData, setOldData] = useState({});
 
@@ -29,19 +31,12 @@ export default function EditUser({ head_title, data }) {
     const last = url[url.length - 1];
     setId(last);
 
-    console.log("-----------Data------------");
-
     const founded = data.find((user) => String(user.id) === String(last));
     if (founded) {
       setOldData(founded);
       setUser(founded);
     }
   }, [data]);
-
-  const updateFunctionHandler = () => {
-    console.log("----------Before updating---------- Data Send :", user);
-    handleUpdateUser("api/user/update/" + id, user);
-  };
 
   return (
     <>
@@ -85,6 +80,7 @@ export default function EditUser({ head_title, data }) {
           loading={updateUserLoading}
           submitText={"Save Details"}
           user={user}
+          id={id}
           setUser={setUser}
         />
       </div>
@@ -145,7 +141,7 @@ const DetailSection = ({ data }) => {
   );
 };
 
-const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
+const AddSection = ({ user, setUser, id, loading, updateFunctionHandler }) => {
   const onChangeHandler = (e) => {
     console.log();
     setUser((prev) => {
@@ -411,7 +407,7 @@ const AddSection = ({ user, setUser, loading, updateFunctionHandler }) => {
         <button
           disabled={loading}
           onClick={() => {
-            updateFunctionHandler();
+            updateFunctionHandler(id, user);
           }}
           className='min-w-[118px] w-max shrink-0 px-[18px] py-2.5 bg-violet-800 rounded-[5px] border border-violet-800 text-white text-[13px] font-medium font-Poppins leading-normal'
         >

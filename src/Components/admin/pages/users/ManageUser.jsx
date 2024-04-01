@@ -4,12 +4,14 @@ import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import SearchFilter from "../../components/category/SearchFilter";
 import Card from "../../components/user/Card";
-import useDelete from "../../hooks/useDelete";
 import sortByCreatedAt from "../../utils/sortByCreatedAt";
 
-export default function ManageUser({ data, fetchLoading }) {
-  const { deleteUserLoading, handleDeleteUser } = useDelete();
-
+export default function ManageUser({
+  data,
+  fetchLoading,
+  deleteUserLoading,
+  deleteUserHandle,
+}) {
   const [userData, setUserData] = useState(data);
 
   const [sort, setSort] = useState("asc");
@@ -34,9 +36,6 @@ export default function ManageUser({ data, fetchLoading }) {
     );
   };
 
-  const deleteUserHandle = (id) => {
-    handleDeleteUser("api/user/delete/" + id + "/");
-  };
   return (
     <>
       <Header icon={<UsersIcon />} title={"Users"} />

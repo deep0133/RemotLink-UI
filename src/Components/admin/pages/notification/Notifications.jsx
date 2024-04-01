@@ -1,7 +1,7 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import ManageNotification from "./ManageNotification";
 import SendNotification from "./SendNotification";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import LatestNews from "./LatestNews";
 import ImportantLinks from "./ImportantLinks";
@@ -73,7 +73,7 @@ export default function Notifications() {
         path={"/important-links"}
         element={
           <ImportantLinks
-            data={notificationData.announcement}
+            data={notificationData.links}
             fetchLoading={notificationLoading}
             deleteNotification={deleteNotification}
             delLoading={deleteNotificationLoading}

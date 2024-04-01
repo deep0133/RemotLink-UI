@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
-import { AvatarIcon, NotificationsIcon } from "../../assets/constants";
+import {
+  AvatarIcon,
+  FileIcon,
+  LinkIcon,
+  NotificationsIcon,
+} from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import { LuLoader2 } from "react-icons/lu";
+import { formatDate } from "../../utils/formateData";
+import { IoCreateOutline } from "react-icons/io5";
+import { PiSubtitlesLight } from "react-icons/pi";
 export default function UpdateNotification({
   loading,
   data,
@@ -13,8 +21,7 @@ export default function UpdateNotification({
     body: "",
     active: "",
     link: "",
-    announcement_type: "",
-    created_at: "",
+    announcement_type: "Announcement",
   });
 
   const [oldData, setOldData] = useState({});
@@ -26,9 +33,9 @@ export default function UpdateNotification({
     setId(id);
     let d_type = "";
     if (path.includes("announcement")) d_type = "announcement";
-    else if (path.includes("link")) d_type = "link";
+    else if (path.includes("link")) d_type = "links";
     else d_type = "news";
-    if (data) {
+    if (data && data[d_type]) {
       const founded = data[d_type].find(
         (item) => String(item.id) === String(id)
       );
@@ -39,7 +46,7 @@ export default function UpdateNotification({
           body: founded.body,
           active: founded.active === true ? "true" : "false",
           link: founded.link,
-          announcement_type: founded.announcement_type,
+          announcement_type: d_type,
           created_at: founded.created_at,
         });
         setOldData({
@@ -96,63 +103,85 @@ const DetailSection = ({
         <div className='flex gap-2 items-center'>
           <AvatarIcon />
           <p className='text-[#103E7E] line-clamp-1 font-Poppins text-sm font-medium leading-7'>
-            {announcement_type}
+            {announcement_type
+              ? announcement_type.charAt(0).toUpperCase() +
+                announcement_type.slice(1)
+              : "Unknown Type"}
           </p>
         </div>
       </div>
-      <div className='card'>
-        <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
-          Title
-        </p>
-        <div className='flex gap-2 items-center'>
-          <AvatarIcon />
-          <p className='text-[#103E7E] line-clamp-1 font-Poppins text-sm font-medium leading-7'>
-            {title ? title : "---"}
+      {title ? (
+        <div className='card'>
+          <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
+            Title
           </p>
+          <div className='flex gap-2 items-center'>
+            <PiSubtitlesLight />
+            <p className='text-[#103E7E] line-clamp-1 font-Poppins text-sm font-medium leading-7'>
+              {title}
+            </p>
+          </div>
         </div>
-      </div>
-      <div className='card'>
-        <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
-          Description
-        </p>
-        <div className='flex gap-2 items-center'>
-          <AvatarIcon />
-          <p className='text-[#103E7E] line-clamp-1 font-Poppins text-sm font-medium leading-7'>
-            {body ? body : "---"}
-          </p>
-        </div>
-      </div>
+      ) : (
+        ""
+      )}
 
-      <div className='card'>
-        <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
-          Link
-        </p>
-        <div className='flex gap-2 items-center'>
-          <AvatarIcon />
-          <p className='text-[#103E7E] line-clamp-1 font-Poppins text-sm font-medium leading-7'>
-            {link ? link : "---"}
+      {body ? (
+        <div className='card'>
+          <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
+            Description
           </p>
+          <div className='flex gap-2 items-center'>
+            <FileIcon />
+            <p className='text-[#103E7E] line-clamp-1 font-Poppins text-sm font-medium leading-7'>
+              {body ? body : "---"}
+            </p>
+          </div>
         </div>
-      </div>
-      <div className='card'>
-        <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
-          Active
-        </p>
-        <div className='flex gap-2 items-center'>
-          <AvatarIcon />
-          <p className='text-[#103E7E] line-clamp-1 font-Poppins text-sm font-medium leading-7'>
-            {active ? active : "---"}
+      ) : (
+        ""
+      )}
+
+      {link ? (
+        <div className='card'>
+          <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
+            Link
           </p>
+          <div className='flex gap-2 items-center'>
+            <LinkIcon />
+            <p className='text-[#103E7E] line-clamp-1 font-Poppins text-sm font-medium leading-7'>
+              {link}
+            </p>
+          </div>
         </div>
-      </div>
+      ) : (
+        ""
+      )}
+
+      {active ? (
+        <div className='card'>
+          <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
+            Active
+          </p>
+          <div className='flex gap-2 items-center'>
+            <AvatarIcon />
+            <p className='text-[#103E7E] line-clamp-1 font-Poppins text-sm font-medium leading-7'>
+              {active}
+            </p>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+
       <div className='card'>
         <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
           Created At
         </p>
         <div className='flex gap-2 items-center'>
-          <AvatarIcon />
+          <IoCreateOutline />
           <p className='text-[#103E7E] line-clamp-1 font-Poppins text-sm font-medium leading-7'>
-            {created_at ? created_at : "---"}
+            {created_at ? formatDate(created_at) : "---"}
           </p>
         </div>
       </div>
@@ -172,6 +201,184 @@ const NotificationForm = ({
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setCurrentDetail({ ...currentDetail, [name]: value });
+  };
+
+  const renderInputFields = () => {
+    const type = currentDetail.announcement_type.toLocaleLowerCase();
+    switch (type) {
+      case "announcement":
+        return (
+          <>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Title
+              </label>
+              <input
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                type='text'
+                value={currentDetail.title}
+                name='title'
+                onChange={onChangeHandler}
+              />
+            </div>
+            <div className='email shrink-0 space-y-2'>
+              <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Description
+              </label>
+              <textarea
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                value={currentDetail.body}
+                name='body'
+                onChange={onChangeHandler}
+              ></textarea>
+            </div>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Active
+              </label>
+              <select
+                onChange={onChangeHandler}
+                value={currentDetail.active}
+                name='active'
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+              >
+                <option value=''>---</option>
+                <option value={true}>True</option>
+                <option value={false}>False</option>
+              </select>
+            </div>
+          </>
+        );
+      case "news":
+        return (
+          <>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Title
+              </label>
+              <input
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                type='text'
+                value={currentDetail.title}
+                name='title'
+                onChange={onChangeHandler}
+              />
+            </div>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Link
+              </label>
+              <input
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                type='text'
+                value={currentDetail.link}
+                name='link'
+                onChange={onChangeHandler}
+              />
+            </div>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Active
+              </label>
+              <select
+                onChange={onChangeHandler}
+                value={currentDetail.active}
+                name='active'
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+              >
+                <option value=''>---</option>
+                <option value={true}>True</option>
+                <option value={false}>False</option>
+              </select>
+            </div>
+            <div className='email shrink-0 space-y-2'>
+              <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Description
+              </label>
+              <textarea
+                style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                onChange={onChangeHandler}
+                value={currentDetail.body}
+                name='body'
+              ></textarea>
+            </div>{" "}
+          </>
+        );
+      case "links":
+        return (
+          <>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Title
+              </label>
+              <input
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                type='text'
+                value={currentDetail.title}
+                name='title'
+                onChange={onChangeHandler}
+              />
+            </div>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Link
+              </label>
+              <input
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                type='text'
+                value={currentDetail.link}
+                name='link'
+                onChange={onChangeHandler}
+              />
+            </div>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Active
+              </label>
+              <select
+                onChange={onChangeHandler}
+                value={currentDetail.active}
+                name='active'
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+              >
+                <option value=''>---</option>
+                <option value={true}>True</option>
+                <option value={false}>False</option>
+              </select>
+            </div>
+          </>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
@@ -201,69 +408,7 @@ const NotificationForm = ({
             <option value='announcement'>Announcement</option>
           </select>
         </div>
-        <div className='name shrink-0 space-y-2'>
-          <label className='name text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Title
-          </label>
-          <input
-            style={{
-              border: "1px rgba(34, 31, 185, 0.14) solid",
-            }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            type='text'
-            name='title'
-            value={currentDetail.title}
-            onChange={(e) => onChangeHandler(e)}
-          />
-        </div>
-        <div className='name shrink-0 space-y-2'>
-          <label className='name text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Link
-          </label>
-          <input
-            style={{
-              border: "1px rgba(34, 31, 185, 0.14) solid",
-            }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            type='text'
-            name='link'
-            value={currentDetail.link}
-            onChange={(e) => onChangeHandler(e)}
-          />
-        </div>
-
-        <div className='name shrink-0 space-y-2'>
-          <label className='name text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Active
-          </label>
-          <select
-            onChange={(e) => onChangeHandler(e)}
-            value={currentDetail.active}
-            style={{
-              border: "1px rgba(34, 31, 185, 0.14) solid",
-            }}
-            name='active'
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-          >
-            <option value=''>---</option>
-            <option value={true}>True</option>
-            <option value={false}>False</option>
-          </select>
-        </div>
-
-        <div className='email shrink-0 space-y-2'>
-          <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Description
-          </label>
-          <textarea
-            style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
-            rows={"auto"}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            name='body'
-            value={currentDetail.body}
-            onChange={(e) => onChangeHandler(e)}
-          ></textarea>
-        </div>
+        {renderInputFields()}
       </div>
 
       <div className='btns flex gap-5 flex-1 justify-end'>

@@ -29,7 +29,7 @@ export default function Category() {
 
   useEffect(() => {
     handleFetctUserCategoryData("api/user/category/");
-  }, [updateMessage, deleteMessage, updateMessage]);
+  }, [updateMessage, deleteMessage, addMessage]);
 
   return (
     <>
@@ -113,6 +113,7 @@ export default function Category() {
               head_title={"Add Site Category"}
               hero_name={"Add New Site Category"}
               submitText={"Save Site Category"}
+              addLoading={addLoading}
               addFunctionHandler={(formData) => {
                 handleAdd("api/sites/categories/add/", formData);
               }}

@@ -36,9 +36,188 @@ const NotificationForm = ({
 }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [ann_type, setAnnType] = useState(null);
+  const [ann_type, setAnnType] = useState("Announcement");
   const [active, setActive] = useState(null);
   const [link, setLink] = useState("");
+
+  const renderInputFields = () => {
+    const type = ann_type.toLocaleLowerCase();
+    switch (type) {
+      case "announcement":
+        return (
+          <>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Title
+              </label>
+              <input
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                type='text'
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              />
+            </div>
+            <div className='email shrink-0 space-y-2'>
+              <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Description
+              </label>
+              <textarea
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+              ></textarea>
+            </div>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Active
+              </label>
+              <select
+                onChange={(e) => setActive(e.target.value === "true")}
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+              >
+                <option value=''>---</option>
+                <option value={true}>True</option>
+                <option value={false}>False</option>
+              </select>
+            </div>
+          </>
+        );
+      case "news":
+        return (
+          <>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Title
+              </label>
+              <input
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                type='text'
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              />
+            </div>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Link
+              </label>
+              <input
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                type='text'
+                value={link}
+                onChange={(e) => {
+                  setLink(e.target.value);
+                }}
+              />
+            </div>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Active
+              </label>
+              <select
+                onChange={(e) => setActive(e.target.value === "true")}
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+              >
+                <option value=''>---</option>
+                <option value={true}>True</option>
+                <option value={false}>False</option>
+              </select>
+            </div>
+            <div className='email shrink-0 space-y-2'>
+              <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Description
+              </label>
+              <textarea
+                style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+              ></textarea>
+            </div>{" "}
+          </>
+        );
+      case "links":
+        return (
+          <>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Title
+              </label>
+              <input
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                type='text'
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              />
+            </div>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Link
+              </label>
+              <input
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+                type='text'
+                value={link}
+                onChange={(e) => {
+                  setLink(e.target.value);
+                }}
+              />
+            </div>
+            <div className=' shrink-0 space-y-2'>
+              <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+                Active
+              </label>
+              <select
+                onChange={(e) => setActive(e.target.value === "true")}
+                style={{
+                  border: "1px rgba(34, 31, 185, 0.14) solid",
+                }}
+                className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+              >
+                <option value=''>---</option>
+                <option value={true}>True</option>
+                <option value={false}>False</option>
+              </select>
+            </div>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div
@@ -48,89 +227,26 @@ const NotificationForm = ({
       className='border relative px-8 mt-0 bg-white rounded-lg shadow pb-12'
     >
       <div className='form my-6 grid grid-cols-3 gap-8 '>
-        <div className='name shrink-0 space-y-2'>
-          <label className='name text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+        <div className=' shrink-0 space-y-2'>
+          <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Announcement Type
           </label>
           <select
             onChange={(e) => {
-              console.log(e.target.value);
               setAnnType(e.target.value);
             }}
+            value={ann_type}
             style={{
               border: "1px rgba(34, 31, 185, 0.14) solid",
             }}
             className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
           >
-            <option value=''>---</option>
+            <option value='announcement'>Announcement</option>
             <option value='news'>News</option>
             <option value='links'>Links</option>
-            <option value='announcement'>Announcement</option>
           </select>
         </div>
-        <div className='name shrink-0 space-y-2'>
-          <label className='name text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Title
-          </label>
-          <input
-            style={{
-              border: "1px rgba(34, 31, 185, 0.14) solid",
-            }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            type='text'
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-          />
-        </div>
-        <div className='name shrink-0 space-y-2'>
-          <label className='name text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Link
-          </label>
-          <input
-            style={{
-              border: "1px rgba(34, 31, 185, 0.14) solid",
-            }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            type='text'
-            value={link}
-            onChange={(e) => {
-              setLink(e.target.value);
-            }}
-          />
-        </div>
-
-        <div className='name shrink-0 space-y-2'>
-          <label className='name text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Active
-          </label>
-          <select
-            onChange={(e) => setActive(e.target.value === "true")}
-            style={{
-              border: "1px rgba(34, 31, 185, 0.14) solid",
-            }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-          >
-            <option value=''>---</option>
-            <option value={true}>True</option>
-            <option value={false}>False</option>
-          </select>
-        </div>
-
-        <div className='email shrink-0 space-y-2'>
-          <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Description
-          </label>
-          <textarea
-            style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-          ></textarea>
-        </div>
+        {renderInputFields()}
       </div>
 
       <div className='btns flex gap-5 flex-1 justify-end'>
@@ -145,7 +261,7 @@ const NotificationForm = ({
               body: description,
               active,
               link,
-              announcement_type: ann_type,
+              announcement_type: ann_type.toLocaleLowerCase(),
             });
           }}
           className='min-w-[118px] w-max shrink-0 px-[18px] py-2.5 bg-violet-800 rounded-[5px] border border-violet-800 text-white text-[13px] font-medium font-Poppins leading-normal'

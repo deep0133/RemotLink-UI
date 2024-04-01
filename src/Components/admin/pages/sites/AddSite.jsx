@@ -23,16 +23,16 @@ export default function AddUser({ loading, addFunctionHandler }) {
 const AddSection = ({ addFunctionHandler, loading = false }) => {
   const [currentData, setCurrentData] = useState({});
 
-  // const onImageChangeHandler = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       setCurrentData({ ...currentData, image: reader.result });
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+  const onImageChangeHandler = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setCurrentData({ ...currentData, image: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     const updatedValue = name === "category" ? parseInt(value, 10) : value;
@@ -89,7 +89,7 @@ const AddSection = ({ addFunctionHandler, loading = false }) => {
           />
         </div>
 
-        {/* <div className='shrink-0 space-y-2'>
+        <div className='shrink-0 space-y-2'>
           <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Image
           </label>
@@ -100,7 +100,7 @@ const AddSection = ({ addFunctionHandler, loading = false }) => {
             name='image'
             onChange={onImageChangeHandler}
           />
-        </div> */}
+        </div>
 
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>

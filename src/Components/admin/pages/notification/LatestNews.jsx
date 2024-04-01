@@ -102,7 +102,7 @@ const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
                       <div
                         onClick={() => {
                           navigate(
-                            "/admin/notifications/announcement/update/" + val.id
+                            "/admin/notifications/news/update/" + val.id
                           );
                         }}
                         className='cursor-pointer'

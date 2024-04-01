@@ -7,11 +7,6 @@ export default function useUpdate() {
   const [updateLoading, setUpdateLoading] = useState(false);
   const [updateMessage, setUpdateMessage] = useState("");
 
-  const [updateUserCategoryLoading, setUpdatUserCategoryeLoading] =
-    useState(false);
-  const [updateUserCategoryMessage, setUpdatUserCategoryeMessage] =
-    useState("");
-
   const [updateUserLoading, setUpdateUserLoading] = useState(false);
   const [updateUserMessage, setUpdateUserMessage] = useState("");
 
@@ -26,7 +21,7 @@ export default function useUpdate() {
   const [updateInstiLoading, setUpdateInstiLoading] = useState(false);
   const [updateInstinMessage, setUpdatInstiMessage] = useState("");
 
-  const handleUpdate = async (api, formData, navLink) => {
+  const handleUpdate = async (api, formData) => {
     setUpdateLoading(true);
     try {
       const token = localStorage.getItem("access_token");
@@ -47,38 +42,11 @@ export default function useUpdate() {
       // const data = await response.json();
       setUpdateMessage((prev) => !prev);
       toast.success("Updated Successfully");
-      navigate(navLink);
+      navigate(-1);
     } catch (err) {
       toast.error(err.message);
     } finally {
       setUpdateLoading(false);
-    }
-  };
-
-  const handleUpdateUserCategory = async (api, formData) => {
-    setUpdatUserCategoryeLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-      // const data = await response.json();
-      setUpdatUserCategoryeMessage((prev) => !prev);
-    } catch (err) {
-      console.log("Error :", err);
-    } finally {
-      setUpdatUserCategoryeLoading(false);
     }
   };
 
@@ -98,10 +66,10 @@ export default function useUpdate() {
       if (!response.ok) {
         throw Error(response.statusText);
       }
-      const data = await response.json();
-      setUpdateUserMessage(data.detail);
+      // const data = await response.json();
+      setUpdateUserMessage((prev) => !prev);
       toast.success("User Updated Succesfully");
-      navigate("/admin/users");
+      navigate(-1);
     } catch (err) {
       toast.error(err.message);
     } finally {
@@ -129,10 +97,10 @@ export default function useUpdate() {
           `Request failed with status ${response.status}: ${errorMessage}`
         );
       }
-      const data = await response.json();
-      setUpdateSiteMessage(data.detail);
+      // const data = await response.json();
+      setUpdateSiteMessage((prev) => !prev);
       toast.success("Site Updated Succesfully");
-      navigate("/admin/sites");
+      navigate(-1);
     } catch (err) {
       console.log(err);
       toast.error(err.message);
@@ -159,10 +127,10 @@ export default function useUpdate() {
           errorData.detail || `HTTP error! Status: ${response.status}`
         );
       }
-      const data = await response.json();
-      setUpdateNotificationMessage(data.detail);
+      // const data = await response.json();
+      setUpdateNotificationMessage((prev) => !prev);
       toast.success("Updated Successfully");
-      navigate("/admin/notifications");
+      navigate(-1);
     } catch (err) {
       toast.error(err.message);
     } finally {
@@ -191,7 +159,7 @@ export default function useUpdate() {
       // const data = await response.json();
       setUpdatInstiMessage((prev) => !prev);
       toast.success("Updated Successfully");
-      navigate("/admin/institution");
+      navigate(-1);
     } catch (err) {
       toast.error(err.message);
     } finally {
@@ -201,7 +169,6 @@ export default function useUpdate() {
 
   return {
     updateLoading,
-    updateUserCategoryLoading,
     updateUserLoading,
     updateNotificationLoading,
     updateSiteLoading,
@@ -209,11 +176,9 @@ export default function useUpdate() {
     updateMessage,
     updateUserMessage,
     updateNotificationMessage,
-    updateUserCategoryMessage,
     updateSiteMessage,
     updateInstinMessage,
     handleUpdate,
-    handleUpdateUserCategory,
     handleUpdateUser,
     handleUpdateSites,
     handleUpdateNotification,

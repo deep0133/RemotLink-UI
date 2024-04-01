@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import sortByCreatedAt from "../../utils/sortByCreatedAt";
 import { useEffect, useState } from "react";
 import Loading from "../../components/Loader/Loader";
+import { formatDate } from "../../utils/formateData";
 export default function ManageNotification({
   data,
   fetchLoading,
@@ -90,15 +91,15 @@ const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
           Name
         </div>
         <div className='text-slate-400 -ml-0.5 col-span-4 text-sm font-medium font-Poppins leading-normal'>
-          Link
+          Description
         </div>
         <div className='text-slate-400 -ml-1 col-span-2 text-sm font-medium font-Poppins leading-normal'>
           Created At
         </div>
-        <div className='text-slate-400 text-sm col-span-2 text-center -ml-1.5 font-medium font-Poppins leading-normal'>
+        <div className='text-slate-400 text-sm col-span-3 text-center -ml-1.5 font-medium font-Poppins leading-normal'>
           Active
         </div>
-        <div className='text-slate-400 text-sm col-span-2 text-center -ml-1.5 font-medium font-Poppins leading-normal'>
+        <div className='text-slate-400 text-sm col-span-1 text-center -ml-1.5 font-medium font-Poppins leading-normal'>
           Action
         </div>
       </div>
@@ -113,13 +114,13 @@ const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
                       {val.title ? val.title : "---"}
                     </h3>
                     <div className='text-indigo-900 line-clamp-1 col-span-4 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.link ? val.link : "---"}
+                      {val.body ? val.body : "---"}
                     </div>
 
-                    <div className='text-indigo-900 line-clamp-1 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.created_at ? val.created_at : "---"}
+                    <div className='text-indigo-900 line-clamp-1 col-span-3 flex-1 text-sm font-medium font-Poppins leading-7'>
+                      {val.created_at ? formatDate(val.created_at) : "---"}
                     </div>
-                    <div className='text-indigo-900 col-span-2 text-center flex-1 text-sm font-medium font-Poppins leading-7'>
+                    <div className='text-indigo-900 col-span-1 text-center flex-1 text-sm font-medium font-Poppins leading-7'>
                       <input
                         type='checkbox'
                         name='active'
