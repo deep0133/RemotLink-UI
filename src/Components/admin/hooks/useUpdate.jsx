@@ -44,8 +44,8 @@ export default function useUpdate() {
           errorData.detail || `HTTP error! Status: ${response.status}`
         );
       }
-      const data = await response.json();
-      setUpdateMessage(data);
+      // const data = await response.json();
+      setUpdateMessage((prev) => !prev);
       toast.success("Updated Successfully");
       navigate(navLink);
     } catch (err) {
@@ -73,8 +73,8 @@ export default function useUpdate() {
           errorData.detail || `HTTP error! Status: ${response.status}`
         );
       }
-      const data = await response.json();
-      setUpdatUserCategoryeMessage(data.detail);
+      // const data = await response.json();
+      setUpdatUserCategoryeMessage((prev) => !prev);
     } catch (err) {
       console.log("Error :", err);
     } finally {
@@ -188,8 +188,8 @@ export default function useUpdate() {
           errorData.detail || `HTTP error! Status: ${response.status}`
         );
       }
-      const data = await response.json();
-      setUpdatInstiMessage(data.detail);
+      // const data = await response.json();
+      setUpdatInstiMessage((prev) => !prev);
       toast.success("Updated Successfully");
       navigate("/admin/institution");
     } catch (err) {

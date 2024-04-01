@@ -9,6 +9,12 @@ import useFetch from "../../hooks/useFetch";
 export default function AddUser({ head_title, hero_name }) {
   const { addNewUserLoading, handleAddNewUser } = useAdd();
 
+  const { userCourseData, handleFetctUserCourse } = useFetch();
+
+  useEffect(() => {
+    handleFetctUserCourse("api/user/course/");
+  }, []);
+
   const addFunctionHandler = (data) => {
     handleAddNewUser("api/user/add/", data);
   };
@@ -27,17 +33,19 @@ export default function AddUser({ head_title, hero_name }) {
       <AddSection
         addFunctionHandler={addFunctionHandler}
         loading={addNewUserLoading}
+        course={userCourseData}
       />
     </>
   );
 }
 
-const AddSection = ({ loading, addFunctionHandler }) => {
+const AddSection = ({ loading, addFunctionHandler, course }) => {
   const [user, setUser] = useState({});
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
-    const updatedValue = name === "category" ? parseInt(value, 10) : value;
+    const updatedValue =
+      name === "category" || name === "course" ? parseInt(value, 10) : value;
 
     setUser((prev) => {
       return { ...prev, [name]: updatedValue };
@@ -114,7 +122,7 @@ const AddSection = ({ loading, addFunctionHandler }) => {
             onChange={onChangeHandler}
           />
         </div>
-        <div className='shrink-0 space-y-2'>
+        {/* <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Gender
           </label>
@@ -130,7 +138,7 @@ const AddSection = ({ loading, addFunctionHandler }) => {
             <option value='Other'>Other</option>
             <option value='Rather Not to Say'>Rather Not to Say</option>
           </select>
-        </div>
+        </div> */}
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Category
@@ -168,14 +176,20 @@ const AddSection = ({ loading, addFunctionHandler }) => {
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Course
           </label>
-          <input
+          <select
             style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            type='text'
+            className='w-full focus:outline-none space-y-2 focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
             name='course'
-            value={user.course}
             onChange={onChangeHandler}
-          />
+          >
+            <option value={null}>---</option>
+            {course &&
+              course.map((cors, index) => (
+                <option key={index} value={cors.id}>
+                  {cors.name}
+                </option>
+              ))}
+          </select>
         </div>
       </div>
 

@@ -39,24 +39,6 @@ export default function EditCategory({
           description: foundCategory.description,
         };
       });
-
-      if (foundCategory.parent) {
-        if (typeof foundCategory.parent === "object") {
-          setCurrentData((prev) => {
-            return { ...prev, parent: foundCategory.parent.name };
-          });
-          setOldData((prev) => {
-            return { ...prev, parent: foundCategory.parent.name };
-          });
-        } else if (foundCategory.parent !== null) {
-          setCurrentData((prev) => {
-            return { ...prev, parent: foundCategory.parent };
-          });
-          setOldData((prev) => {
-            return { ...prev, parent: foundCategory.parent };
-          });
-        }
-      }
     }
   }, [data]);
 
@@ -174,26 +156,8 @@ const SiteEditSection = ({
       </div>
 
       <div className='form flex gap-8 my-6 max-w-[700px] flex-wrap'>
-        <div className='parent-category shrink-0 max-w-[320px] space-y-2'>
-          <label htmlFor='parent text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Parent Category
-          </label>
-          <select
-            name='parent'
-            onChange={onChangeHandler}
-            value={currentData.parent}
-            style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
-            className='w-full text-indigo-900 focus:outline-none bg-white rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-          >
-            <option value={null}>---</option>
-            {data.map((catg) => {
-              return <option value={catg.id}>{catg.name}</option>;
-            })}
-          </select>
-        </div>
-
         <div className='name-category shrink-0 max-w-[320px] w-full space-y-2 flex flex-col'>
-          <label htmlFor='parent text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+          <label className='parent text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Name
           </label>
           <input
@@ -208,7 +172,7 @@ const SiteEditSection = ({
         </div>
 
         <div className='description-category shrink-0 max-w-[320px] w-full space-y-2 flex flex-col'>
-          <label htmlFor='parent text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+          <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Description
           </label>
           <textarea

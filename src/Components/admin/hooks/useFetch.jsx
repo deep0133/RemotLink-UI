@@ -9,6 +9,9 @@ export default function useFetch() {
   const [userLoading, setUserLoading] = useState(false);
   const [usersData, setUsersData] = useState([]);
 
+  const [userCourseLoading, setUserCourseLoading] = useState(false);
+  const [userCourseData, setUserCourseData] = useState([]);
+
   const [siteLoading, setSiteLoading] = useState(false);
   const [siteData, setSiteData] = useState([]);
 
@@ -100,6 +103,31 @@ export default function useFetch() {
       console.error(err.message);
     } finally {
       setUserLoading(false);
+    }
+  };
+
+  // User Course Fatching...
+  const handleFetctUserCourse = async (api) => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+        method: "Get",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
+      }
+      const data = await response.json();
+      setUserCourseData(data.results);
+    } catch (err) {
+      console.error(err.message);
     }
   };
 
@@ -272,6 +300,7 @@ export default function useFetch() {
     handleFetctUserCategoryData,
     loginLogsData,
     institutionData,
+    userCourseData,
     handleFetctUsers,
     handleFetctSites,
     handleFetctNotifications,
@@ -279,5 +308,6 @@ export default function useFetch() {
     handleFetctLoginLogs,
     handleFetctInstitution,
     handleFetctSiteReports,
+    handleFetctUserCourse,
   };
 }

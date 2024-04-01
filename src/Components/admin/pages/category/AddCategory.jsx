@@ -49,8 +49,10 @@ const AddSection = ({
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
+
+    const myValue = e.target.name === "parent" ? Number(value) : value;
     setCurrentData((prev) => {
-      return { ...prev, [name]: value };
+      return { ...prev, [name]: myValue };
     });
   };
 

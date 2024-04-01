@@ -36,8 +36,8 @@ export default function useDelete() {
         );
       }
       const data = await response.json();
-      setDeleteMessage(data.detail);
       toast.success(data.detail);
+      setDeleteMessage((prev) => !prev);
     } catch (err) {
       toast.error(err.message);
     } finally {
@@ -63,7 +63,7 @@ export default function useDelete() {
         );
       }
       const data = await response.json();
-      setDeleteUserMessage(data.detail);
+      setDeleteUserMessage((prev) => !prev);
       toast.success(data.detail);
     } catch (err) {
       toast.error(err.message);
@@ -90,7 +90,7 @@ export default function useDelete() {
         );
       }
       const data = await response.json();
-      setDeleteSiteMessage(data.detail);
+      setDeleteSiteMessage((prev) => !prev);
       toast.success(data.detail);
     } catch (err) {
       toast.error(err.message);
@@ -117,7 +117,7 @@ export default function useDelete() {
         );
       }
       const data = await response.json();
-      setDeleteReportMessage(data.detail);
+      setDeleteReportMessage((prev) => !prev);
       toast.success(data.detail);
     } catch (err) {
       toast.error(err.message);
@@ -145,7 +145,7 @@ export default function useDelete() {
         );
       }
       const data = await response.json();
-      setDeleteNotificationMessage(data.detail);
+      setDeleteNotificationMessage((prev) => !prev);
       toast.success(data.detail);
     } catch (err) {
       // console.log("Error :", err);
