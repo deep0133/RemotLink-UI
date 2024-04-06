@@ -21,8 +21,7 @@ export default function useUpdate() {
   const [updateInstiLoading, setUpdateInstiLoading] = useState(false);
   const [updateInstinMessage, setUpdatInstiMessage] = useState("");
 
-  const handleUpdate = async (api, formData) => {
-    setUpdateLoading(true);
+  const request = async (api, formData) => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await fetch(`https://stage1.remotlink.com/${api}`, {
@@ -33,6 +32,15 @@ export default function useUpdate() {
         },
         body: JSON.stringify(formData),
       });
+
+      return response;
+    } catch (error) {}
+  };
+
+  const handleUpdate = async (api, formData) => {
+    setUpdateLoading(true);
+    try {
+      const response = await request(api, formData);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
@@ -128,15 +136,7 @@ export default function useUpdate() {
   const handleUpdateNotification = async (api, formData) => {
     setUpdateNotificationLoading(true);
     try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await request(api, formData);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
@@ -157,22 +157,13 @@ export default function useUpdate() {
   const handleUpdatInstitution = async (api, formData) => {
     setUpdateInstiLoading(true);
     try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await request(api, formData);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`
         );
       }
-      // const data = await response.json();
       setUpdatInstiMessage((prev) => !prev);
       toast.success("Updated Successfully");
       navigate(-1);
