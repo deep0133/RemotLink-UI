@@ -7,7 +7,7 @@ import {
 } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 
-export default function BulkUser() {
+export default function BulkUser({ templateDownload }) {
   return (
     <>
       <Header
@@ -21,7 +21,7 @@ export default function BulkUser() {
         }}
         className='border relative p-8 mx-3 h-full my-5 rounded-md'
       >
-        <HeroSection />
+        <HeroSection templateDownload={templateDownload} />
         <FileUpload />
         <Buttons />
       </div>
@@ -29,13 +29,14 @@ export default function BulkUser() {
   );
 }
 
-const HeroSection = () => {
+const HeroSection = ({ templateDownload }) => {
   return (
     <div className='space-y-2 '>
       <h3 className='text-black pb-2 text-sm font-medium font-Poppins leading-normal tracking-tight'>
         Download file format to add Bulk Users
       </h3>
       <button
+        onClick={templateDownload}
         style={{
           border: "1px solid rgba(34, 31, 185, 0.20)",
         }}

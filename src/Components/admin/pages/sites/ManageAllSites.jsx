@@ -4,35 +4,29 @@ import Hero from "../../components/category/Hero";
 import { SitesIcon } from "../../assets/constants";
 import SearchFilter from "../../components/category/SearchFilter";
 import Card from "../../components/sites/Card";
-import sortByCreatedAt from "../../utils/sortByCreatedAt";
+import Pagination from "../../components/Pagination";
 
 export default function ManageAllSites({
   loading,
   fetchLoading,
   siteData,
   deleteSiteHandle,
+  searchHandler,
+  onPageChange,
+  sortHandler,
+  filterHandler,
 }) {
   const [data, setData] = useState(siteData);
 
-  const [sort, setSort] = useState("asc");
+  const [sort, setSort] = useState("-");
 
   useEffect(() => {
     setData(siteData);
   }, [siteData]);
 
   useEffect(() => {
-    setData(() => {
-      return sortByCreatedAt(data, sort);
-    });
+    sortHandler(sort, "name");
   }, [sort]);
-
-  const searchHandler = (val) => {
-    setData((prev) =>
-      siteData.filter(
-        (obj) => obj.name && obj.name.toLowerCase().includes(val.toLowerCase())
-      )
-    );
-  };
 
   return (
     <>
@@ -44,14 +38,27 @@ export default function ManageAllSites({
         btnText={`Add Site`}
         btnLink={"/admin/sites/add/site"}
       />
-      <SearchFilter searchHandler={searchHandler} setSort={setSort} />
+      <SearchFilter
+        searchHandler={searchHandler}
+        setSort={setSort}
+        filterHandler={filterHandler}
+      />
       <Card
-        data={data}
+        data={data && data.results}
         path={"/admin/sites/edit/site"}
         deleteSiteHandle={deleteSiteHandle}
         loading={loading}
         fetchLoading={fetchLoading}
       />
+      {data && data.count > 0 && (
+        <Pagination
+          previousLink={data && data.previous ? data.previous : null}
+          nextLink={data && data.next ? data.next : null}
+          totalItems={data && data.count ? data.count : 1}
+          itemsPerPage={10}
+          onPageChange={onPageChange}
+        />
+      )}
     </>
   );
 }

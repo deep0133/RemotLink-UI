@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
 import Hero from "../../components/category/Hero";
@@ -9,12 +9,20 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loader/Loader";
 
 import Buttons from "../../components/reports/Buttons";
-export default function UserReports({ data, fetchLoading }) {
+import Pagination from "../../components/Pagination";
+export default function UserReports({
+  data,
+  fetchLoading,
+  onPageChange,
+  fromTo,
+  filterHandler,
+}) {
   const navigate = useNavigate();
 
   const openLogs = (id) => {
     navigate("/admin/reports/user/login-logs/" + id);
   };
+
   return (
     <>
       <Header icon={<ReportIcon />} title={"Reports"} />
@@ -26,83 +34,25 @@ export default function UserReports({ data, fetchLoading }) {
         btnText={`Export`}
         btnLink={""}
       />
-      <Buttons />
+      <Buttons fromTo={fromTo} filterHandler={filterHandler} />
 
       <UserLogList
         data={data}
         openLogs={openLogs}
         fetchLoading={fetchLoading}
       />
+      {data && data.count > 0 && (
+        <Pagination
+          previousLink={data && data.previous ? data.previous : null}
+          nextLink={data && data.next ? data.next : null}
+          totalItems={data && data.count}
+          itemsPerPage={10}
+          onPageChange={onPageChange}
+        />
+      )}
     </>
   );
 }
-
-// const Buttons = () => {
-//   const [startDate, setStartDate] = useState("08/05/2023");
-//   const [endDate, setEndDate] = useState("08/05/2023");
-
-//   const handleStartDateChange = (e) => {
-//     setStartDate(e.target.value);
-//   };
-
-//   const handleEndDateChange = (e) => {
-//     setEndDate(e.target.value);
-//   };
-//   return (
-//     <div className='flex justify-end gap-5'>
-//       <button
-//         style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
-//         className='bg-white gap-2 flex flex-row items-center rounded-[5px] px-3 py-2'
-//       >
-//         <CalenderIcon />
-//         <div className='text-[13px] font-medium font-Poppins leading-normal'>
-//           <span className='text-black text-opacity-25'>From : </span>
-//           <input
-//             type='date'
-//             value={startDate}
-//             onChange={handleStartDateChange}
-//             className='focus:outline-none'
-//           />
-//         </div>
-//         <div className='w-1 border-l h-4'></div>
-//         <div className='text-[13px] font-medium font-Poppins leading-normal'>
-//           <span className='text-black text-opacity-25'>To : </span>
-//           <input
-//             type='date'
-//             value={endDate}
-//             onChange={handleEndDateChange}
-//             className='focus:outline-none'
-//           />
-//         </div>
-//       </button>
-//       <button
-//         style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
-//         className='bg-white gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
-//       >
-//         <SortIcon />
-//         <p className='font-Poppins text-[13px] font-medium leading-6'>
-//           Sort By
-//         </p>
-//         <div className='mt-0.5'>
-//           <ChevlonIcon />
-//         </div>
-//       </button>
-
-//       <button
-//         style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
-//         className='bg-white gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
-//       >
-//         <FilterIcon />
-//         <p className='font-Poppins text-[13px] font-medium leading-6'>
-//           Filter By
-//         </p>
-//         <div className='mt-0.5'>
-//           <ChevlonIcon />
-//         </div>
-//       </button>
-//     </div>
-//   );
-// };
 
 const UserLogList = ({ data, openLogs, fetchLoading }) => {
   return (

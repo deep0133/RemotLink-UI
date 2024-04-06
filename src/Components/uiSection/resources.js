@@ -37,10 +37,11 @@ function Resources() {
     allSites,
     setAllSites,
     handleFetchResources,
-    handleFetchProxyAPI,
+    createProxyAPI,
     handleFetchAllSites,
     searchSite,
     setSearchSite,
+    proxy,
   } = useFetch();
 
   const { status, handleAddToFavourite, handleRemoveToFavourite } =
@@ -165,7 +166,7 @@ function Resources() {
                     >
                       <img
                         onClick={() => {
-                          handleFetchProxyAPI(resource.site);
+                          createProxyAPI(resource.site);
                         }}
                         src={resource.site__image}
                         alt={resource.site__category__name}
@@ -174,7 +175,7 @@ function Resources() {
                       <div className=' mt-4 flex items-center '>
                         <span
                           onClick={() => {
-                            handleFetchProxyAPI(resource.site);
+                            createProxyAPI(resource.site);
                           }}
                           className='w-[73px] p-1 h-[31px] cursor-pointer sm:w-[137px] sm:h-[37px] flex justify-center items-center border sm:text-[13px] text-[8px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]'
                         >
@@ -392,6 +393,7 @@ function Resources() {
               </div>
             </>
           )}
+
           {activeTab == "site" && (
             <>
               <div className='bg-[#221FB9/0.2] mt-4  flex  flex-wrap sm:py-6 sm:px-10 sm:justify-normal justify-center'>
@@ -402,7 +404,7 @@ function Resources() {
                   >
                     <img
                       onClick={() => {
-                        handleFetchProxyAPI(resource.site);
+                        createProxyAPI(resource.site);
                       }}
                       src={resource.site__image}
                       alt={resource.site__category__name}
@@ -411,7 +413,7 @@ function Resources() {
                     <div className=' mt-4 flex items-center '>
                       <span
                         onClick={() => {
-                          handleFetchProxyAPI(resource.site);
+                          createProxyAPI(resource.site);
                         }}
                         className='w-[73px] h-[31px] sm:w-[137px] sm:h-[37px] cursor-pointer flex justify-center items-center border sm:text-[13px] text-[8px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]'
                       >

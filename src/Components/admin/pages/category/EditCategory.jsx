@@ -23,6 +23,7 @@ export default function EditCategory({
   useEffect(() => {
     let url = window.location.pathname.split("/");
     const id = url[url.length - 1];
+    console.log("--------- data -----------", data);
     setId(id);
     const foundCategory = data.find(
       (category) => category.id.toString() === id.toString()
@@ -51,7 +52,6 @@ export default function EditCategory({
         id={id}
         currentData={currentData}
         setCurrentData={setCurrentData}
-        data={data}
         handleUpdateCategory={handleUpdateCategory}
         updateLoading={updateLoading}
       />
@@ -120,7 +120,6 @@ const SiteEditSection = ({
   id,
   heading,
   submitText = "Save Details",
-  data,
   currentData,
   setCurrentData,
   handleUpdateCategory,

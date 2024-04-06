@@ -35,10 +35,6 @@ export default function EditUser({ siteData, loading, updateFunctionHandler }) {
     }
   }, [siteData]);
 
-  // const updateFunctionHandler = (data) => {
-  //   handleUpdateSites("api/sites/update/" + id, data);
-  // };
-
   return (
     <>
       <Header icon={<SitesIcon />} title={"Site Details"} subTitle={"Sites"} />
@@ -156,6 +152,7 @@ const AddSection = ({
   id,
 }) => {
   const [currentData, setCurrentData] = useState({});
+  const [preview, setPreview] = useState(null);
 
   useEffect(() => {
     setCurrentData((prev) => {
@@ -169,21 +166,25 @@ const AddSection = ({
           siteData.category &&
           siteData.category.name
             ? siteData.category.name
-            : "---",
+            : "",
       };
     });
+    if (siteData && siteData.image) {
+      setPreview(siteData.image);
+    }
   }, [siteData]);
 
-  // const onImageChangeHandler = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       setCurrentData({ ...currentData, image: reader.result });
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+  const onImageChangeHandler = (event) => {
+    const file = event.target.files[0];
+    setCurrentData({ ...currentData, image: file });
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -244,13 +245,13 @@ const AddSection = ({
           />
         </div>
 
-        {/* <div className='shrink-0 space-y-2'>
+        <div className='shrink-0 space-y-2'>
           <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Site Url
+            Site Image
           </label>
           <div className='flex gap-2'>
             <div className='img w-10 h-10 overflow-hidden rounded-full border-red-100 p-0.5 flex justify-center items-center border shrink-0'>
-              <img src={currentData.image} className='object-cover' alt='' />
+              <img src={preview} className='object-cover' alt='' />
             </div>
             <input
               style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
@@ -260,7 +261,7 @@ const AddSection = ({
               onChange={onImageChangeHandler}
             />
           </div>
-        </div> */}
+        </div>
 
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
@@ -276,7 +277,8 @@ const AddSection = ({
           >
             <option value={null}>---</option>
             {categoryData &&
-              categoryData.map((catg, index) => (
+              categoryData.results &&
+              categoryData.results.map((catg, index) => (
                 <option key={index} value={Number(catg.id)}>
                   {catg.name}
                 </option>

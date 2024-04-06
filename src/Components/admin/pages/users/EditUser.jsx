@@ -12,7 +12,7 @@ import {
 } from "../../assets/constants";
 import { LuLoader2 } from "react-icons/lu";
 import useFetch from "../../hooks/useFetch";
-
+import { BsGenderMale } from "react-icons/bs";
 export default function EditUser({
   head_title,
   data,
@@ -26,15 +26,39 @@ export default function EditUser({
 
   const [oldData, setOldData] = useState({});
 
+  const [image, setImage] = useState("");
+
   useEffect(() => {
     const url = window.location.pathname.split("/");
     const last = url[url.length - 1];
     setId(last);
 
-    const founded = data.find((user) => String(user.id) === String(last));
+    const founded = data.results.find(
+      (user) => String(user.id) === String(last)
+    );
     if (founded) {
       setOldData(founded);
-      setUser(founded);
+      if (founded.profile_photo) {
+        setImage(founded.profile_photo);
+      }
+      setUser({
+        first_name: founded.first_name,
+        last_name: founded.last_name,
+        phone_number: founded.phone_number,
+        gender: founded.gender,
+        description: founded.description,
+        library_membership_no: founded.library_membership_no,
+        batch: founded.batch,
+        course: founded.course,
+        city: founded.city,
+        state: founded.state,
+        pin_code: founded.pin_code,
+        address: founded.address,
+        facebook: founded.facebook,
+        twitter: founded.twitter,
+        linkedin: founded.linkedin,
+        instagram: founded.instagram,
+      });
     }
   }, [data]);
 
@@ -82,6 +106,8 @@ export default function EditUser({
           user={user}
           id={id}
           setUser={setUser}
+          image={image}
+          setImage={setImage}
         />
       </div>
     </>
@@ -91,7 +117,7 @@ export default function EditUser({
 const DetailSection = ({ data }) => {
   return (
     <div className='border p-8 grid grid-cols-3 relative gap-4 rounded-md bg-[#FBFCFF]'>
-      <div className='card-name'>
+      <div className='card'>
         <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
           First Name
         </p>
@@ -103,7 +129,7 @@ const DetailSection = ({ data }) => {
           </p>
         </div>
       </div>
-      <div className='card-email'>
+      <div className='card'>
         <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
           Email
         </p>
@@ -114,8 +140,7 @@ const DetailSection = ({ data }) => {
           </p>
         </div>
       </div>
-
-      <div className='card-phone'>
+      <div className='card'>
         <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
           Phone Number
         </p>
@@ -126,14 +151,39 @@ const DetailSection = ({ data }) => {
           </p>
         </div>
       </div>
-      <div className='card-address'>
+      <div className='card'>
         <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
-          Address
+          Gender
+        </p>
+        <div className='flex gap-2 items-center'>
+          <BsGenderMale />
+          <p className='text-[#103E7E] font-Poppins text-sm font-medium leading-7'>
+            {data && data.gender ? data.gender : "---"}
+          </p>
+        </div>
+      </div>
+      <div className='card'>
+        <p className='text-black/50 font-Poppins text-[13px] font-normal leading-6'>
+          Category
         </p>
         <div className='flex gap-2 items-center'>
           <LocationIcon />
           <p className='text-[#103E7E] font-Poppins text-sm font-medium leading-7'>
-            {data && data.address ? data.address : "---"}
+            {data && data.category ? data.category?.name : "---"}
+          </p>
+        </div>
+      </div>
+      <div className='card'>
+        <p className='text-black/50 line-clamp-1 font-Poppins text-[13px] font-normal leading-6'>
+          Description
+        </p>
+        <div className='flex gap-2 items-center'>
+          <div className='shrink-0'>
+            {" "}
+            <LocationIcon />
+          </div>
+          <p className='text-[#103E7E] line-clamp-1 font-Poppins text-sm font-medium leading-7'>
+            {data && data.description ? data.description : "---"}
           </p>
         </div>
       </div>
@@ -141,9 +191,16 @@ const DetailSection = ({ data }) => {
   );
 };
 
-const AddSection = ({ user, setUser, id, loading, updateFunctionHandler }) => {
+const AddSection = ({
+  user,
+  setUser,
+  id,
+  loading,
+  updateFunctionHandler,
+  image,
+  setImage,
+}) => {
   const onChangeHandler = (e) => {
-    console.log();
     setUser((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
@@ -154,6 +211,18 @@ const AddSection = ({ user, setUser, id, loading, updateFunctionHandler }) => {
   useEffect(() => {
     handleFetctUserCategoryData("api/user/category/");
   }, []);
+
+  const onImageChangeHandler = (event) => {
+    const file = event.target.files[0];
+    setUser({ ...user, profile_photo: file });
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div
@@ -169,6 +238,24 @@ const AddSection = ({ user, setUser, id, loading, updateFunctionHandler }) => {
         </h3>
       </div>
       <div className='form my-6 grid grid-cols-3 gap-8 '>
+        <div className='shrink-0 space-y-2'>
+          <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+            Site Url
+          </label>
+          <div className='flex gap-2'>
+            <div className='img w-10 h-10 overflow-hidden rounded-full border-red-100 p-0.5 flex justify-center items-center border shrink-0'>
+              <img src={image} className='object-cover' alt='' />
+            </div>
+            <input
+              style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+              className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+              type='file'
+              name='profile_photo'
+              accept='image/*'
+              onChange={onImageChangeHandler}
+            />
+          </div>
+        </div>
         <div className=' shrink-0 space-y-2'>
           <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             First Name
@@ -203,7 +290,7 @@ const AddSection = ({ user, setUser, id, loading, updateFunctionHandler }) => {
           />
         </div>
 
-        <div className='shrink-0 space-y-2'>
+        {/* <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Email
           </label>
@@ -217,7 +304,8 @@ const AddSection = ({ user, setUser, id, loading, updateFunctionHandler }) => {
               onChangeHandler(e);
             }}
           />
-        </div>
+        </div> */}
+
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Phone Number
@@ -233,6 +321,7 @@ const AddSection = ({ user, setUser, id, loading, updateFunctionHandler }) => {
             }}
           />
         </div>
+
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Gender
@@ -253,6 +342,7 @@ const AddSection = ({ user, setUser, id, loading, updateFunctionHandler }) => {
             <option value='Rather Not to Say'>Rather Not to Say</option>
           </select>
         </div>
+
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Description
@@ -268,6 +358,7 @@ const AddSection = ({ user, setUser, id, loading, updateFunctionHandler }) => {
             }}
           />
         </div>
+
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Category
@@ -280,7 +371,8 @@ const AddSection = ({ user, setUser, id, loading, updateFunctionHandler }) => {
           >
             <option value={null}>---</option>
             {userCategoryData &&
-              userCategoryData.map((catg, index) => (
+              userCategoryData.results &&
+              userCategoryData.results.map((catg, index) => (
                 <option key={index} value={catg.name}>
                   {catg.name}
                 </option>
@@ -395,8 +487,69 @@ const AddSection = ({ user, setUser, id, loading, updateFunctionHandler }) => {
             onChange={(e) => {
               onChangeHandler(e);
             }}
-            className='w-[492px] h-36 px-3.5 py-2.5 focus:outline-none text-gray-900 text-sm font-medium font-Poppins leading-7 bg-white rounded-[5px]'
+            className=' px-3.5 py-2.5 focus:outline-none text-gray-900 text-sm font-medium font-Poppins leading-7 bg-white rounded-[5px]'
           ></textarea>
+        </div>
+
+        <div className='shrink-0 space-y-2'>
+          <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+            Facebook
+          </label>
+          <input
+            style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+            type='text'
+            name='facebook'
+            value={user.facebook}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
+          />
+        </div>
+        <div className='shrink-0 space-y-2'>
+          <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+            twitter
+          </label>
+          <input
+            style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+            type='text'
+            name='twitter'
+            value={user.twitter}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
+          />
+        </div>
+        <div className='shrink-0 space-y-2'>
+          <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+            linkedin
+          </label>
+          <input
+            style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+            type='text'
+            name='linkedin'
+            value={user.linkedin}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
+          />
+        </div>
+        <div className='shrink-0 space-y-2'>
+          <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
+            instagram
+          </label>
+          <input
+            style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+            type='text'
+            name='instagram'
+            value={user.instagram}
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
+          />
         </div>
       </div>
 

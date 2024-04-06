@@ -4,37 +4,31 @@ import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import SearchFilter from "../../components/category/SearchFilter";
 import Card from "../../components/user/Card";
-import sortByCreatedAt from "../../utils/sortByCreatedAt";
+import Pagination from "../../components/Pagination";
 
 export default function ManageUser({
   data,
   fetchLoading,
   deleteUserLoading,
   deleteUserHandle,
+  itemsPerPage,
+  totalItems,
+  onPageChange,
+  searchHandler,
+  sortHandler,
+  filterHandler,
 }) {
   const [userData, setUserData] = useState(data);
 
-  const [sort, setSort] = useState("asc");
+  const [sort, setSort] = useState("-");
 
   useEffect(() => {
     setUserData(data);
   }, [data]);
 
   useEffect(() => {
-    setUserData(() => {
-      return sortByCreatedAt(data, sort);
-    });
+    sortHandler(sort, "first_name");
   }, [sort]);
-
-  const searchHandler = (val) => {
-    setUserData((prev) =>
-      data.filter(
-        (obj) =>
-          obj.first_name &&
-          obj.first_name.toLowerCase().includes(val.toLowerCase())
-      )
-    );
-  };
 
   return (
     <>
@@ -51,13 +45,24 @@ export default function ManageUser({
         btnLink2={"/admin/users/bulkuser"}
       />
       {/* <SearchFilter searchHandler={searchHandler} setSort={setSort} /> */}
-      <SearchFilter searchHandler={searchHandler} setSort={setSort} />
+      <SearchFilter
+        searchHandler={searchHandler}
+        setSort={setSort}
+        filterHandler={filterHandler}
+      />
       <Card
-        data={userData}
+        data={userData && userData.results}
         path={"/admin/users/edit/user"}
         fetchLoading={fetchLoading}
         deleteUserHandle={deleteUserHandle}
         deleteUserLoading={deleteUserLoading}
+      />
+      <Pagination
+        previousLink={data && data.previous ? data.previous : null}
+        nextLink={data && data.next ? data.next : null}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        onPageChange={onPageChange}
       />
     </>
   );

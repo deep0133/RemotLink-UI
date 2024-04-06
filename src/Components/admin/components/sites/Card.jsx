@@ -22,20 +22,20 @@ const Card = ({ data, path, deleteSiteHandle, loading, fetchLoading }) => {
           </div>
         </div>
       )}
-      <div className='row-1 sticky top-0 bg-white z-50 px-5 py-3 border-b grid grid-cols-10 w-full pb-5'>
+      <div className='row-1 sticky top-0 bg-white z-20 px-5 py-3 border-b grid grid-cols-10 w-full pb-5'>
         <div className='text-slate-400 col-span-1 text-sm font-medium font-Poppins leading-normal'>
           Name
         </div>
         <div className='text-slate-400 -ml-0.5 col-span-4 text-sm font-medium font-Poppins leading-normal'>
           Site URL
         </div>
-        <div className='text-slate-400 col-span-2 -ml-1 text-sm font-medium font-Poppins leading-normal'>
+        <div className='text-slate-400 col-span-2 text-sm font-medium font-Poppins leading-normal'>
           Description
         </div>
-        <div className='text-slate-400 col-span-2 -ml-1.5 text-sm font-medium font-Poppins leading-normal'>
+        <div className='text-slate-400 col-span-2 text-sm font-medium font-Poppins leading-normal'>
           Category
         </div>
-        <div className='text-slate-400 text-sm -ml-1.5 font-medium font-Poppins leading-normal'>
+        <div className='text-slate-400 text-sm font-medium text-center font-Poppins leading-normal'>
           Action
         </div>
       </div>
@@ -68,7 +68,7 @@ const Card = ({ data, path, deleteSiteHandle, loading, fetchLoading }) => {
                         ? val.category
                         : "---"}
                     </div>
-                    <div className='action flex items-center line-clamp-1 gap-3'>
+                    <div className='action flex items-center justify-center line-clamp-1 gap-3'>
                       <Link to={`${path}/${val.id}`} className='cursor-pointer'>
                         <EditICon />
                       </Link>

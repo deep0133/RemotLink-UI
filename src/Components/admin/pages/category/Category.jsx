@@ -38,15 +38,34 @@ export default function Category() {
           path='/'
           element={
             <SiteUserCategory
-              data={categoryData}
               name={"Site"}
               title={"Site Category Details "}
               btnLink={"/admin/category/add/sitecategory"}
+              data={categoryData}
               deleteLoading={deleteLoading}
+              fetchLoading={categoryLoading}
+              itemsPerPage={10}
+              pagination={true}
               handleDeleteCategory={(id) => {
                 handleDelete("api/sites/categories/delete/" + id);
               }}
-              fetchLoading={categoryLoading}
+              searchHandler={(key) => {
+                handleFetctData("api/sites/categories/" + key);
+              }}
+              onPageChange={(key) => {
+                handleFetctData("api/sites/categories/?" + key);
+              }}
+              totalItems={categoryData && categoryData.count}
+              sortHandler={(order) => {
+                handleFetctData(
+                  "api/sites/categories/?ordering=" + order + "name"
+                );
+              }}
+              filterHandler={(date, type) => {
+                handleFetctData(
+                  "api/sites/categories/?created_at__" + type + "=" + date
+                );
+              }}
             />
           }
         />
@@ -63,6 +82,20 @@ export default function Category() {
                 handleDelete("api/user/category/delete/" + id);
               }}
               fetchLoading={userCategoryLoading}
+              searchHandler={(key) => {
+                handleFetctUserCategoryData("api/user/category/" + key);
+              }}
+              pagination={false}
+              sortHandler={(order) => {
+                handleFetctUserCategoryData(
+                  "api/sites/categories/?ordering=" + order + "name"
+                );
+              }}
+              filterHandler={(date, type) => {
+                handleFetctUserCategoryData(
+                  "api/user/categories/?created_at__" + type + "=" + date
+                );
+              }}
             />
           }
         />
@@ -71,7 +104,7 @@ export default function Category() {
           element={
             <EditCategory
               title={"Site Category Details"}
-              data={categoryData}
+              data={categoryData && categoryData.results}
               btnText={"Save Site Category"}
               handleUpdateCategory={(id, data) => {
                 handleUpdate(
@@ -89,7 +122,7 @@ export default function Category() {
           element={
             <EditCategory
               title={"User Category Details"}
-              data={userCategoryData}
+              data={userCategoryData && userCategoryData.results}
               btnText={"Save Users Category"}
               handleUpdateCategory={(id, data) => {
                 handleUpdate(

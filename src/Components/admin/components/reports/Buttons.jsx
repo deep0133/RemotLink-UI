@@ -1,14 +1,10 @@
 import { useState } from "react";
-import {
-  CalenderIcon,
-  ChevlonIcon,
-  FilterIcon,
-  SortIcon,
-} from "../../assets/constants";
+import { CalenderIcon, ChevlonIcon, FilterIcon } from "../../assets/constants";
 
-const Buttons = () => {
-  const [startDate, setStartDate] = useState("08/05/2023");
-  const [endDate, setEndDate] = useState("08/05/2023");
+const Buttons = ({ fromTo, filterHandler }) => {
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [showDropDown, setShowDropDown] = useState(false);
 
   const handleStartDateChange = (e) => {
     setStartDate(e.target.value);
@@ -17,6 +13,19 @@ const Buttons = () => {
   const handleEndDateChange = (e) => {
     setEndDate(e.target.value);
   };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Month is zero-based, so add 1
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const sortByDate = () => {
+    fromTo(formatDate(startDate), formatDate(endDate));
+  };
+
   return (
     <div className='flex justify-end gap-5'>
       <button
@@ -43,34 +52,75 @@ const Buttons = () => {
             className='focus:outline-none'
           />
         </div>
-      </button>
-      <button
-        style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
-        className='bg-white gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
-      >
-        <SortIcon />
-        <p className='font-Poppins text-[13px] font-medium leading-6'>
-          Sort By
-        </p>
-        <div className='mt-0.5'>
-          <ChevlonIcon />
+
+        <div onClick={sortByDate} className='btn pl-3'>
+          Sort
         </div>
       </button>
 
       <button
+        onClick={() => {
+          setShowDropDown((prev) => !prev);
+        }}
         style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
-        className='bg-white gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
+        className='bg-white relative gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
       >
         <FilterIcon />
         <p className='font-Poppins text-[13px] font-medium leading-6'>
           Filter By
         </p>
-        <div className='mt-0.5'>
+        <div
+          className={`${
+            showDropDown ? "rotate-180" : "rotate-0"
+          } mt-0.5 duration-200`}
+        >
           <ChevlonIcon />
         </div>
+        {showDropDown && <DropDown filterHandler={filterHandler} />}
       </button>
     </div>
   );
 };
 
 export default Buttons;
+
+const DropDown = ({ filterHandler }) => {
+  return (
+    <div className='top-12 absolute right-0 rounded-md z-50 shadow-sm bg-white ring-black ring-opacity-5 focus:outline-none'>
+      <div className=' border text-start text-nowrap'>
+        <h3
+          onClick={() => {
+            filterHandler("", "first_name");
+          }}
+          className='w-full text-[13px] font-medium font-Poppins leading-normal py-3 pl-4 pr-8 hover:cursor-pointer hover:bg-gray-50'
+        >
+          A to Z
+        </h3>
+        <h3
+          onClick={() => {
+            filterHandler("-", "first_name");
+          }}
+          className='w-full text-[13px] font-medium font-Poppins leading-normal py-3 pl-4 pr-8 hover:cursor-pointer hover:bg-gray-50'
+        >
+          Z to A
+        </h3>
+        <h3
+          onClick={() => {
+            filterHandler("", "created_at");
+          }}
+          className='w-full text-[13px] font-medium font-Poppins leading-normal py-3 pl-4 pr-8 hover:cursor-pointer hover:bg-gray-50'
+        >
+          Newest to Oldest
+        </h3>
+        <h3
+          onClick={() => {
+            filterHandler("-", "created_at");
+          }}
+          className='w-full text-[13px] font-medium font-Poppins leading-normal py-3 pl-4 pr-8 hover:cursor-pointer hover:bg-gray-50'
+        >
+          Oldest to Newest
+        </h3>
+      </div>
+    </div>
+  );
+};

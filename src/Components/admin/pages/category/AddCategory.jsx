@@ -78,7 +78,7 @@ const AddSection = ({
           >
             <option value={null}>---</option>
             {data &&
-              data.map((catg) => {
+              data.results.map((catg) => {
                 return <option value={catg.id}>{catg.name}</option>;
               })}
           </select>

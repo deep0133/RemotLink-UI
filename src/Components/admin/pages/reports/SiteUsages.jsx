@@ -1,19 +1,17 @@
-import {
-  CalenderIcon,
-  ChevlonIcon,
-  DeleteIcon,
-  ExportIcon,
-  FilterIcon,
-  ReportIcon,
-  SortIcon,
-} from "../../assets/constants";
+import { DeleteIcon, ExportIcon, ReportIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
+import Pagination from "../../components/Pagination";
 import Hero from "../../components/category/Hero";
 import Buttons from "../../components/reports/Buttons";
 import { ReportsRightMenu } from "../../data";
 
-export default function SiteUsages({ data }) {
+export default function SiteUsages({
+  data,
+  onPageChange,
+  fromTo,
+  filterHandler,
+}) {
   return (
     <>
       <Header icon={<ReportIcon />} title={"Reports"} />
@@ -25,66 +23,20 @@ export default function SiteUsages({ data }) {
         btnText={`Export`}
         btnLink={""}
       />
-      <Buttons />
+      <Buttons fromTo={fromTo} filterHandler={filterHandler} />
       <SiteUsageList data={data} />
+      {data && data.count > 0 && (
+        <Pagination
+          previousLink={data && data.previous ? data.previous : null}
+          nextLink={data && data.next ? data.next : null}
+          totalItems={data && data.count}
+          itemsPerPage={10}
+          onPageChange={onPageChange}
+        />
+      )}
     </>
   );
 }
-
-// const Buttons = () => {
-//   return (
-//     <div className='flex justify-end gap-5'>
-//       <button
-//         style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
-//         className='bg-white gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
-//       >
-//         <CalenderIcon />
-//         <div>
-//           <span className='text-black text-opacity-25 text-[13px] font-medium font-Poppins leading-normal'>
-//             From :{" "}
-//           </span>
-//           <span className='text-black text-[13px] font-medium font-Poppins leading-normal'>
-//             08/05/2023{" "}
-//           </span>
-//         </div>
-//         <div className='w-1 border-l h-full'></div>
-//         <div>
-//           <span className='text-black text-opacity-25 text-[13px] font-medium font-Poppins leading-normal'>
-//             To :{" "}
-//           </span>
-//           <span className='text-black text-[13px] font-medium font-Poppins leading-normal'>
-//             08/05/2023{" "}
-//           </span>
-//         </div>
-//       </button>
-//       <button
-//         style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
-//         className='bg-white gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
-//       >
-//         <SortIcon />
-//         <p className='font-Poppins text-[13px] font-medium leading-6'>
-//           Sort By
-//         </p>
-//         <div className='mt-0.5'>
-//           <ChevlonIcon />
-//         </div>
-//       </button>
-
-//       <button
-//         style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
-//         className='bg-white gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
-//       >
-//         <FilterIcon />
-//         <p className='font-Poppins text-[13px] font-medium leading-6'>
-//           Filter By
-//         </p>
-//         <div className='mt-0.5'>
-//           <ChevlonIcon />
-//         </div>
-//       </button>
-//     </div>
-//   );
-// };
 
 const SiteUsageList = ({ data }) => {
   return (

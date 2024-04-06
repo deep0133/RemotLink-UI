@@ -46,7 +46,7 @@ export default function useFetch() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      setCategoryData(data.results);
+      setCategoryData(data);
     } catch (err) {
       console.log("Error :", err);
     } finally {
@@ -70,7 +70,7 @@ export default function useFetch() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      setUserCategoryData(data.results);
+      setUserCategoryData(data);
     } catch (err) {
       console.log("Error :", err);
     } finally {
@@ -98,7 +98,7 @@ export default function useFetch() {
         );
       }
       const data = await response.json();
-      setUsersData(data.results);
+      setUsersData(data);
     } catch (err) {
       console.error(err.message);
     } finally {
@@ -147,7 +147,7 @@ export default function useFetch() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      setSiteData(data.results);
+      setSiteData(data);
     } catch (err) {
       console.log("Error :", err.message);
     } finally {

@@ -132,7 +132,8 @@ const AddSection = ({ loading, addFunctionHandler, course }) => {
           >
             <option value={null}>---</option>
             {userCategoryData &&
-              userCategoryData.map((catg, index) => (
+              userCategoryData.results &&
+              userCategoryData.results.map((catg, index) => (
                 <option key={index} value={catg.id}>
                   {catg.name}
                 </option>

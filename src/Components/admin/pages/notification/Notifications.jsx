@@ -45,16 +45,40 @@ export default function Notifications() {
     handleUpdateNotification("api/announcement/update/" + id, data);
   };
 
+  // ------------ PAGINATION PENDING ------------
+
   return (
     <Routes>
       <Route
         path={"/"}
         element={
           <ManageNotification
-            data={notificationData.announcement}
+            data={notificationData && notificationData.announcement}
             fetchLoading={notificationLoading}
             deleteNotification={deleteNotification}
             delLoading={deleteNotificationLoading}
+            itemsPerPage={10}
+            totalItems={
+              notificationData &&
+              notificationData.announcement &&
+              notificationData.announcement.length
+            }
+            onPageChange={(key) => {
+              handleFetctNotifications("api/announcement/?" + key);
+            }}
+            searchHandler={(key) => {
+              handleFetctNotifications("api/announcement/" + key);
+            }}
+            sortHandler={(order, type) => {
+              handleFetctNotifications(
+                "api/announcement/?ordering=" + order + type
+              );
+            }}
+            filterHandler={(date, type) => {
+              handleFetctNotifications(
+                "api/announcement/?created_at__" + type + "=" + date
+              );
+            }}
           />
         }
       />
@@ -62,7 +86,7 @@ export default function Notifications() {
         path={"/latest-news"}
         element={
           <LatestNews
-            data={notificationData.news}
+            data={notificationData && notificationData.news}
             fetchLoading={notificationLoading}
             deleteNotification={deleteNotification}
             delLoading={deleteNotificationLoading}
@@ -73,7 +97,7 @@ export default function Notifications() {
         path={"/important-links"}
         element={
           <ImportantLinks
-            data={notificationData.links}
+            data={notificationData && notificationData.links}
             fetchLoading={notificationLoading}
             deleteNotification={deleteNotification}
             delLoading={deleteNotificationLoading}

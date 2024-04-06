@@ -28,7 +28,10 @@ const CategoryList = ({
           </div>
         </div>
       )}
-      <div className='row-1 sticky top-0 grid grid-cols-8 bg-white w-full px-5 py-3 mb-2 border-b'>
+      <div className='row-1 sticky top-0 grid grid-cols-9 bg-white w-full px-5 py-3 mb-2 border-b'>
+        <div className='text-slate-400 col-span-1 text-sm font-medium font-Poppins leading-normal'>
+          #id
+        </div>
         <div className='text-slate-400 col-span-2 text-sm font-medium font-Poppins leading-normal'>
           Name
         </div>
@@ -41,19 +44,22 @@ const CategoryList = ({
       </div>
 
       {!fetchLoading ? (
-        data.length > 0 ? (
+        Array.isArray(data) && data.length > 0 ? (
           data.map((val, index) => {
             return (
               <div
                 key={index}
-                className='card grid list grid-cols-8 mx-2 duration-200'
+                className='card grid list grid-cols-9 mx-2 duration-200'
               >
-                <div className='grid w-full px-3 py-2 col-span-6 grid-cols-6'>
-                  <h3 className='text-indigo-900 col-span-2 basis-44 text-sm font-medium font-Poppins leading-7'>
-                    {val.name}
+                <div className='grid w-full px-3 py-2 col-span-7 grid-cols-7'>
+                  <h3 className='text-indigo-900 col-span-1 basis-44 text-sm font-medium font-Poppins leading-7'>
+                    {val && val.id}
                   </h3>
-                  <div className='text-indigo-900 col-span-4 flex-1 text-sm font-medium font-Poppins leading-7'>
-                    {val.description}
+                  <h3 className='text-indigo-900 line-clamp-1 col-span-2 basis-44 text-sm font-medium font-Poppins leading-7'>
+                    {val && val.name ? val.name : "---"}
+                  </h3>
+                  <div className='text-indigo-900 line-clamp-1 col-span-4 flex-1 text-sm font-medium font-Poppins leading-7'>
+                    {val && val.description ? val.description : "---"}
                   </div>
                 </div>
                 <div className='icons flex px-3 py-2 col-span-2 justify-center items-center gap-3'>

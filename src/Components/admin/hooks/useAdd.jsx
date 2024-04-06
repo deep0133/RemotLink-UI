@@ -49,7 +49,6 @@ export default function useAdd() {
     setAddNewUserLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      // /api/user/add/
       const response = await fetch(`https://stage1.remotlink.com/${api}`, {
         method: "POST",
         headers: {
@@ -60,10 +59,21 @@ export default function useAdd() {
       });
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
+        let errorMessage;
+        if (errorData.values) {
+          // If "values" field exists in errorData, construct error message accordingly
+          const missingFields = Array.isArray(errorData.values)
+            ? errorData.values.join(", ")
+            : errorData.values;
+          errorMessage = `${errorData.error}. Missing fields: ${missingFields}`;
+        } else {
+          // If "values" field does not exist, use the error message directly
+          errorMessage =
+            errorData.error || `HTTP error! Status: ${response.status}`;
+        }
+        throw new Error(errorMessage);
       }
+
       const data = await response.json();
       setAddNewUser((prev) => !prev);
       toast.success(data.detail);
@@ -79,18 +89,24 @@ export default function useAdd() {
     setAddNewSiteLoading(true);
     try {
       const token = localStorage.getItem("access_token");
+
+      const formDataObj = new FormData();
+
+      Object.keys(formData).forEach((key) => {
+        formDataObj.append(key, formData[key]);
+      });
+
       const response = await fetch(`https://stage1.remotlink.com/${api}`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: formDataObj,
       });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
+          errorData.error || `HTTP error! Status: ${response.status}`
         );
       }
       const data = await response.json();

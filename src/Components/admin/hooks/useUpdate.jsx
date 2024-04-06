@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 export default function useUpdate() {
   const navigate = useNavigate();
-  // api/sites/categories/update/3/
+
   const [updateLoading, setUpdateLoading] = useState(false);
   const [updateMessage, setUpdateMessage] = useState("");
 
@@ -39,7 +39,6 @@ export default function useUpdate() {
           errorData.detail || `HTTP error! Status: ${response.status}`
         );
       }
-      // const data = await response.json();
       setUpdateMessage((prev) => !prev);
       toast.success("Updated Successfully");
       navigate(-1);
@@ -53,20 +52,31 @@ export default function useUpdate() {
   const handleUpdateUser = async (api, formData) => {
     setUpdateUserLoading(true);
     try {
-      console.log("update handler :", formData);
       const token = localStorage.getItem("access_token");
+
+      const formDataObj = new FormData();
+
+      Object.keys(formData).forEach((key) => {
+        formDataObj.append(key, formData[key]);
+      });
+
       const response = await fetch(`https://stage1.remotlink.com/${api}`, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: formDataObj,
       });
+
       if (!response.ok) {
-        throw Error(response.statusText);
+        const errorResponse = await response.json();
+        if (errorResponse && typeof errorResponse === "object") {
+          const errorMessage = Object.values(errorResponse).flat().join("\n");
+          throw new Error(errorMessage);
+        } else {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
       }
-      // const data = await response.json();
       setUpdateUserMessage((prev) => !prev);
       toast.success("User Updated Succesfully");
       navigate(-1);
@@ -81,13 +91,19 @@ export default function useUpdate() {
     setUpdateSiteLoading(true);
     try {
       const token = localStorage.getItem("access_token");
+
+      const formDataObj = new FormData();
+
+      Object.keys(formData).forEach((key) => {
+        formDataObj.append(key, formData[key]);
+      });
+
       const response = await fetch(`https://stage1.remotlink.com/${api}`, {
         method: "PATCH",
         headers: {
-          "Content-Type": "multipart/form-data; Boundary=???",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: formDataObj,
       });
       if (!response.ok) {
         // Handle error

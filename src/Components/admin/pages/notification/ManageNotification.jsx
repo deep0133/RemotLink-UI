@@ -10,38 +10,33 @@ import Navigation from "../../components/RightCommonComponents/Navigation";
 import { NotificationRightMenu } from "../../data";
 import { LuLoader2 } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
-import sortByCreatedAt from "../../utils/sortByCreatedAt";
 import { useEffect, useState } from "react";
 import Loading from "../../components/Loader/Loader";
 import { formatDate } from "../../utils/formateData";
+import Pagination from "../../components/Pagination";
 export default function ManageNotification({
   data,
   fetchLoading,
   deleteNotification,
   delLoading,
+  itemsPerPage,
+  totalItems,
+  onPageChange,
+  searchHandler,
+  sortHandler,
+  filterHandler,
 }) {
   const [notiData, setNotiData] = useState(data);
 
-  const [sort, setSort] = useState("asc");
+  const [sort, setSort] = useState("-");
 
   useEffect(() => {
     setNotiData(data);
   }, [data]);
 
   useEffect(() => {
-    setNotiData(() => {
-      return sortByCreatedAt(notiData, sort);
-    });
+    sortHandler(sort, "title");
   }, [sort]);
-
-  const searchHandler = (val) => {
-    setNotiData((prev) =>
-      data.filter(
-        (obj) =>
-          obj.title && obj.title.toLowerCase().includes(val.toLowerCase())
-      )
-    );
-  };
 
   return (
     <>
@@ -54,13 +49,28 @@ export default function ManageNotification({
         btnText={`Send Notification`}
         btnLink={"/admin/notifications/send"}
       />
-      <SearchFilter searchHandler={searchHandler} setSort={setSort} />
+      <SearchFilter
+        searchHandler={searchHandler}
+        setSort={setSort}
+        filterHandler={filterHandler}
+      />
       <Card
         data={notiData}
         loading={delLoading}
         deleteNotification={deleteNotification}
         fetchLoading={fetchLoading}
       />
+      {notiData && notiData.length > 0 && (
+        <Pagination
+          previousLink={
+            notiData && notiData.previous ? notiData.previous : null
+          }
+          nextLink={notiData && notiData.next ? notiData.next : null}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={onPageChange}
+        />
+      )}
     </>
   );
 }

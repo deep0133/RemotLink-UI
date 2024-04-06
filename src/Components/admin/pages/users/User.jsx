@@ -8,6 +8,7 @@ import useDelete from "../../hooks/useDelete";
 import useUpdate from "../../hooks/useUpdate";
 import { useEffect } from "react";
 import useAdd from "../../hooks/useAdd";
+import useDownload from "../../hooks/useDownload";
 
 export default function User() {
   const { userLoading, usersData, handleFetctUsers } = useFetch();
@@ -17,6 +18,8 @@ export default function User() {
     useDelete();
   const { updateUserMessage, updateUserLoading, handleUpdateUser } =
     useUpdate();
+
+  const { templateLoading, handleDownloadTemplate } = useDownload();
 
   useEffect(() => {
     handleFetctUsers("api/user/");
@@ -35,10 +38,35 @@ export default function User() {
               deleteUserHandle={(id) => {
                 handleDeleteUser("api/user/delete/" + id + "/");
               }}
+              itemsPerPage={10}
+              totalItems={usersData && usersData.count}
+              onPageChange={(key) => {
+                handleFetctUsers("api/user/?" + key);
+              }}
+              searchHandler={(key) => {
+                handleFetctUsers("api/user/" + key);
+              }}
+              sortHandler={(order, type) => {
+                handleFetctUsers("api/user/?ordering=" + order + type);
+              }}
+              filterHandler={(date, type) => {
+                handleFetctUsers("api/user/?created_at__" + type + "=" + date);
+              }}
             />
           }
         />
-        <Route path={"/bulkuser"} element={<BulkUser />} />
+        <Route
+          path={"/bulkuser"}
+          element={
+            <BulkUser
+              templateDownload={() => {
+                handleDownloadTemplate(
+                  "api/adminpanel/download-user-template/"
+                );
+              }}
+            />
+          }
+        />
         <Route
           path={"/add/user"}
           element={
@@ -60,7 +88,6 @@ export default function User() {
               data={usersData}
               updateUserLoading={updateUserLoading}
               updateFunctionHandler={(id, data) => {
-                console.log("updtaring user.......", data);
                 handleUpdateUser("api/user/update/" + id, data);
               }}
             />

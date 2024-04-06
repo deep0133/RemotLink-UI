@@ -23,12 +23,15 @@ export default function AddUser({ loading, addFunctionHandler }) {
 const AddSection = ({ addFunctionHandler, loading = false }) => {
   const [currentData, setCurrentData] = useState({});
 
+  const [preview, setPreview] = useState(null);
+
   const onImageChangeHandler = (event) => {
     const file = event.target.files[0];
+    setCurrentData({ ...currentData, image: file });
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setCurrentData({ ...currentData, image: reader.result });
+        setPreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -91,15 +94,20 @@ const AddSection = ({ addFunctionHandler, loading = false }) => {
 
         <div className='shrink-0 space-y-2'>
           <label className='email text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Image
+            Site Image
           </label>
-          <input
-            style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            type='file'
-            name='image'
-            onChange={onImageChangeHandler}
-          />
+          <div className='flex gap-2'>
+            <div className='img w-10 h-10 overflow-hidden rounded-full border-red-100 p-0.5 flex justify-center items-center border shrink-0'>
+              <img src={preview} className='object-cover' alt='' />
+            </div>
+            <input
+              style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+              className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+              type='file'
+              name='image'
+              onChange={onImageChangeHandler}
+            />
+          </div>
         </div>
 
         <div className='shrink-0 space-y-2'>
@@ -116,7 +124,8 @@ const AddSection = ({ addFunctionHandler, loading = false }) => {
           >
             <option value={null}>---</option>
             {categoryData &&
-              categoryData.map((catg, index) => (
+              categoryData.results &&
+              categoryData.results.map((catg, index) => (
                 <option key={index} value={Number(catg.id)}>
                   {catg.name}
                 </option>

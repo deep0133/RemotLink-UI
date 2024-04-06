@@ -24,11 +24,11 @@ export default function Report() {
   const { updateMessage } = useUpdate();
 
   useEffect(() => {
-    handleFetctReports("api/report/user/?start&end");
+    handleFetctReports("api/report/user/");
   }, [deleteMessage, updateMessage, addMessage]);
 
   useEffect(() => {
-    handleFetctSiteReports("api/report/site/?start&end");
+    handleFetctSiteReports("api/report/site/");
   }, []);
 
   return (
@@ -41,13 +41,55 @@ export default function Report() {
             deleteReportLoading={deleteReportLoading}
             handleDeleteReport={handleDeleteReport}
             fetchLoading={reportLoading}
+            fromTo={(std = "", edd = "") => {
+              handleFetctReports(`api/report/user/?start=${std}&end=${edd}`);
+            }}
+            filterHandler={(order, type) => {
+              handleFetctReports(
+                "api/report/user/?ordering=" + order + "" + type
+              );
+            }}
+            onPageChange={(key) => {
+              handleFetctReports("api/report/user/?" + key);
+            }}
           />
         }
       />
-      <Route path='/user/login-logs/:id' element={<UserLogs />} />
+      <Route
+        path='/user/login-logs/:id'
+        element={
+          <UserLogs
+            fromTo={(std = "", edd = "") => {
+              handleFetctReports(`api/report/user/?start=${std}&end=${edd}`);
+            }}
+            filterHandler={(order, type) => {
+              handleFetctReports(
+                "api/report/user/?ordering=" + order + "" + type
+              );
+            }}
+          />
+        }
+      />
       <Route
         path='/site/usage'
-        element={<SiteUsages data={reportSiteData} />}
+        element={
+          <SiteUsages
+            data={reportSiteData}
+            fromTo={(std = "", edd = "") => {
+              handleFetctSiteReports(
+                `api/report/site/?start=${std}&end=${edd}`
+              );
+            }}
+            onPageChange={(key) => {
+              handleFetctSiteReports("api/report/site/?" + key);
+            }}
+            filterHandler={(order, type) => {
+              handleFetctSiteReports(
+                "api/report/site/?ordering=" + order + "" + type
+              );
+            }}
+          />
+        }
       />
     </Routes>
   );

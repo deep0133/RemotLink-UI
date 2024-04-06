@@ -32,6 +32,18 @@ export default function Site() {
               handleDeleteSite("api/sites/delete/" + id + "/");
             }}
             loading={deleteSiteLoading}
+            onPageChange={(key) => {
+              handleFetctSites("api/sites/?" + key);
+            }}
+            searchHandler={(key) => {
+              handleFetctSites("api/sites/" + key);
+            }}
+            sortHandler={(order) => {
+              handleFetctSites("api/sites/?ordering=" + order + "name");
+            }}
+            filterHandler={(date, type) => {
+              handleFetctSites("api/sites/?created_at__" + type + "=" + date);
+            }}
           />
         }
       />
@@ -50,7 +62,7 @@ export default function Site() {
         path={"/edit/site/:id"}
         element={
           <EditSite
-            siteData={siteData}
+            siteData={siteData && siteData.results}
             updateFunctionHandler={(id, data) => {
               handleUpdateSites("api/sites/update/" + id, data);
             }}

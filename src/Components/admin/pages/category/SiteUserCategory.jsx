@@ -6,7 +6,7 @@ import Hero from "../../components/category/Hero";
 import CategoryList from "../../components/category/CategoryList";
 import SearchFilter from "../../components/category/SearchFilter";
 import { useEffect, useState } from "react";
-import sortByCreatedAt from "../../utils/sortByCreatedAt";
+import Pagination from "../../components/Pagination";
 export default function SiteUserCategory({
   data,
   title,
@@ -15,28 +15,25 @@ export default function SiteUserCategory({
   deleteLoading,
   handleDeleteCategory,
   fetchLoading,
+  searchHandler,
+  onPageChange,
+  totalItems,
+  itemsPerPage,
+  pagination,
+  sortHandler,
+  filterHandler,
 }) {
   const [catData, setCatData] = useState(data);
 
-  const [sort, setSort] = useState("asc");
+  const [sort, setSort] = useState("-");
 
   useEffect(() => {
     setCatData(data);
   }, [data]);
 
   useEffect(() => {
-    setCatData(() => {
-      return sortByCreatedAt(data, sort);
-    });
+    sortHandler(sort, "name");
   }, [sort]);
-
-  const searchHandler = (val) => {
-    setCatData((prev) =>
-      data.filter(
-        (obj) => obj.name && obj.name.toLowerCase().includes(val.toLowerCase())
-      )
-    );
-  };
 
   return (
     <>
@@ -49,14 +46,27 @@ export default function SiteUserCategory({
         btnText={`Add ${name.toLowerCase()} Category`}
         btnLink={btnLink}
       />
-      <SearchFilter searchHandler={searchHandler} setSort={setSort} />
+      <SearchFilter
+        searchHandler={searchHandler}
+        setSort={setSort}
+        filterHandler={filterHandler}
+      />
       <CategoryList
-        data={catData}
+        data={catData && catData.results}
         path={name.toLowerCase()}
         loading={deleteLoading}
         handleDeleteCategory={handleDeleteCategory}
         fetchLoading={fetchLoading}
       />
+      {pagination && (
+        <Pagination
+          previousLink={catData && catData.previous ? catData.previous : null}
+          nextLink={catData && catData.next ? catData.next : null}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={onPageChange}
+        />
+      )}
     </>
   );
 }
