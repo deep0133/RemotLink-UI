@@ -21,9 +21,15 @@ export default function SiteUsages({
         description={`Manage the site usage reports here.`}
         icon={<ExportIcon />}
         btnText={`Export`}
-        btnLink={""}
+        btnLink={"api/report/site/?excel"}
+        downloadLink={true}
       />
-      <Buttons fromTo={fromTo} filterHandler={filterHandler} />
+      <Buttons
+        fromTo={fromTo}
+        filterHandler={filterHandler}
+        type1={"site__name"}
+        type2={"access_count"}
+      />
       <SiteUsageList data={data} />
       {data && data.count > 0 && (
         <Pagination

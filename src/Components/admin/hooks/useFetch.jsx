@@ -219,7 +219,7 @@ export default function useFetch() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      setLoginLogsData(data);
+      setLoginLogsData(data[0]);
     } catch (err) {
       console.log("Error :", err);
     } finally {

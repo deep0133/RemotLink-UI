@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CalenderIcon, ChevlonIcon, FilterIcon } from "../../assets/constants";
 
-const Buttons = ({ fromTo, filterHandler }) => {
+const Buttons = ({ fromTo, filterHandler, type1, type2 }) => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
@@ -76,7 +76,9 @@ const Buttons = ({ fromTo, filterHandler }) => {
         >
           <ChevlonIcon />
         </div>
-        {showDropDown && <DropDown filterHandler={filterHandler} />}
+        {showDropDown && (
+          <DropDown filterHandler={filterHandler} type1={type1} type2={type2} />
+        )}
       </button>
     </div>
   );
@@ -84,13 +86,13 @@ const Buttons = ({ fromTo, filterHandler }) => {
 
 export default Buttons;
 
-const DropDown = ({ filterHandler }) => {
+const DropDown = ({ filterHandler, type1, type2 }) => {
   return (
     <div className='top-12 absolute right-0 rounded-md z-50 shadow-sm bg-white ring-black ring-opacity-5 focus:outline-none'>
       <div className=' border text-start text-nowrap'>
         <h3
           onClick={() => {
-            filterHandler("", "first_name");
+            filterHandler("", type1);
           }}
           className='w-full text-[13px] font-medium font-Poppins leading-normal py-3 pl-4 pr-8 hover:cursor-pointer hover:bg-gray-50'
         >
@@ -98,7 +100,7 @@ const DropDown = ({ filterHandler }) => {
         </h3>
         <h3
           onClick={() => {
-            filterHandler("-", "first_name");
+            filterHandler("-", type1);
           }}
           className='w-full text-[13px] font-medium font-Poppins leading-normal py-3 pl-4 pr-8 hover:cursor-pointer hover:bg-gray-50'
         >
@@ -106,7 +108,7 @@ const DropDown = ({ filterHandler }) => {
         </h3>
         <h3
           onClick={() => {
-            filterHandler("", "created_at");
+            filterHandler("", type2);
           }}
           className='w-full text-[13px] font-medium font-Poppins leading-normal py-3 pl-4 pr-8 hover:cursor-pointer hover:bg-gray-50'
         >
@@ -114,7 +116,7 @@ const DropDown = ({ filterHandler }) => {
         </h3>
         <h3
           onClick={() => {
-            filterHandler("-", "created_at");
+            filterHandler("-", type2);
           }}
           className='w-full text-[13px] font-medium font-Poppins leading-normal py-3 pl-4 pr-8 hover:cursor-pointer hover:bg-gray-50'
         >

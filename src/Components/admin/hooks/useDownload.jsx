@@ -4,8 +4,7 @@ import { toast } from "react-toastify";
 export default function useDownload() {
   const [templateLoading, setTemplateLoading] = useState(false);
 
-  const handleDownloadTemplate = async (api, formData) => {
-    setTemplateLoading(true);
+  const request = async (api) => {
     try {
       const token = localStorage.getItem("access_token");
 
@@ -13,10 +12,19 @@ export default function useDownload() {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "de",
         },
       });
+      return response;
+    } catch (error) {
+      console.log("Error");
+      return error;
+    }
+  };
 
+  const handleDownloadTemplate = async (api) => {
+    setTemplateLoading(true);
+    try {
+      const response = await request(api);
       if (!response.ok) {
         const errorResponse = await response.json();
         if (errorResponse && errorResponse.details) {
@@ -30,7 +38,6 @@ export default function useDownload() {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "template.xlsx"); // Adjust filename and extension
       document.body.appendChild(link);
       link.click();
       link.parentNode.removeChild(link);

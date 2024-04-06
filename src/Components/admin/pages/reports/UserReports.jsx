@@ -32,9 +32,15 @@ export default function UserReports({
         description={`Manage the user reports here.`}
         icon={<ExportIcon />}
         btnText={`Export`}
-        btnLink={""}
+        btnLink={"api/report/user/?excel"}
+        downloadLink={true}
       />
-      <Buttons fromTo={fromTo} filterHandler={filterHandler} />
+      <Buttons
+        fromTo={fromTo}
+        filterHandler={filterHandler}
+        type1={"user__first_name"}
+        type2={"sessions__login"}
+      />
 
       <UserLogList
         data={data}
@@ -63,15 +69,18 @@ const UserLogList = ({ data, openLogs, fetchLoading }) => {
       }}
       className='rounded-lg p-3 mt-5 ml-3 '
     >
-      <div className='row-1 grid grid-cols-11 w-full px-2 pb-5 gap-3'>
+      <div className='row-1 grid grid-cols-12 w-full px-2 pb-5 gap-3'>
         <div className='text-slate-400 col-span-1 text-sm font-medium font-Poppins leading-normal'>
           Number
         </div>
-        <div className='text-slate-400 col-span-2 text-sm font-medium font-Poppins leading-normal'>
+        <div className='text-slate-400 line-clamp-1 col-span-2 text-sm font-medium font-Poppins leading-normal'>
           Name
         </div>
         <div className='text-slate-400 -ml-0.5 line-clamp-1 col-span-2 text-sm font-medium font-Poppins leading-normal'>
           Email
+        </div>
+        <div className='text-slate-400 col-span-1 -ml-1 text-sm font-medium font-Poppins leading-normal'>
+          No. of Session
         </div>
         <div className='text-slate-400 col-span-2 -ml-1 text-sm font-medium font-Poppins leading-normal'>
           Session Started on
@@ -80,7 +89,7 @@ const UserLogList = ({ data, openLogs, fetchLoading }) => {
           Session Ended on
         </div>
         <div className='text-slate-400 text-center col-span-2 text-sm -ml-1.5 font-medium font-Poppins leading-normal'>
-          IP Address
+          Last Session IP
         </div>
       </div>
       <div className='card-container w-full max-h-[380px] overflow-auto'>
@@ -95,7 +104,7 @@ const UserLogList = ({ data, openLogs, fetchLoading }) => {
                   }}
                   className='card cursor-pointer list flex-1 flex p-2'
                 >
-                  <div className='grid grid-cols-11 w-full gap-3'>
+                  <div className='grid grid-cols-12 w-full gap-3'>
                     <div className='text-indigo-900 col-span-1 text-sm font-medium font-Poppins leading-7'>
                       {index + 1}
                     </div>
@@ -113,6 +122,9 @@ const UserLogList = ({ data, openLogs, fetchLoading }) => {
                     </div>
                     <div className='text-indigo-900 line-clamp-1 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
                       {val.user.email ? val.user.email : "---"}
+                    </div>
+                    <div className='text-indigo-900 line-clamp-1 col-span-1 flex-1 text-sm font-medium font-Poppins leading-7'>
+                      {val.sessions.length > 0 ? val.sessions.length : "-"}
                     </div>
                     <div className='text-indigo-900 col-span-2 line-clamp-1 flex-1 text-sm font-medium font-Poppins leading-7'>
                       {val.sessions.length >= 0 && val.sessions

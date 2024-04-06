@@ -134,6 +134,7 @@ const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
                       <input
                         type='checkbox'
                         name='active'
+                        readOnly
                         className='accent-blue-600 cursor-pointer'
                         checked={val.active}
                       />

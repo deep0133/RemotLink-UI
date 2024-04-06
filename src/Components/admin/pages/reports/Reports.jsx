@@ -55,21 +55,7 @@ export default function Report() {
           />
         }
       />
-      <Route
-        path='/user/login-logs/:id'
-        element={
-          <UserLogs
-            fromTo={(std = "", edd = "") => {
-              handleFetctReports(`api/report/user/?start=${std}&end=${edd}`);
-            }}
-            filterHandler={(order, type) => {
-              handleFetctReports(
-                "api/report/user/?ordering=" + order + "" + type
-              );
-            }}
-          />
-        }
-      />
+      <Route path='/user/login-logs/:id' element={<UserLogs />} />
       <Route
         path='/site/usage'
         element={

@@ -1,13 +1,5 @@
 import { useEffect } from "react";
-import {
-  CalenderIcon,
-  ChevlonIcon,
-  DeleteIcon,
-  ExportIcon,
-  FilterIcon,
-  ReportIcon,
-  SortIcon,
-} from "../../assets/constants";
+import { ExportIcon, ReportIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
 import Hero from "../../components/category/Hero";
@@ -15,8 +7,7 @@ import { ReportsRightMenu } from "../../data";
 import useFetch from "../../hooks/useFetch";
 import { formatDate } from "../../utils/formateData";
 import Loading from "../../components/Loader/Loader";
-import Buttons from "../../components/reports/Buttons";
-export default function UserLogs({ fromTo, filterHandler }) {
+export default function UserLogs() {
   const { loginLogsLoading, loginLogsData, handleFetctLoginLogs } = useFetch();
 
   useEffect(() => {
@@ -36,85 +27,27 @@ export default function UserLogs({ fromTo, filterHandler }) {
         description={`Manage the user logs here.`}
         icon={<ExportIcon />}
         btnText={`Export`}
-        btnLink={""}
+        btnLink={"api/report/login-log/2/?excel"}
+        downloadLink={true}
       />
-      <Buttons
-        fromTo={(std = "", edd = "") => {
-          handleFetctLoginLogs(`api/report/login-log/?start=${std}&end=${edd}`);
-        }}
-        filterHandler={(order, type) => {
-          handleFetctLoginLogs(
-            "api/report/login-log/?ordering=" + order + "" + type
-          );
-        }}
+      <div className='name-email ml-3 opacity-75'>
+        <h3 className='font-Poppins text-sm '>
+          Name : {loginLogsData && loginLogsData.user?.first_name}{" "}
+          {loginLogsData && loginLogsData.user?.last_name}
+        </h3>
+        <h3 className='font-Poppins text-sm '>
+          Email : {loginLogsData && loginLogsData.user?.email}
+        </h3>
+      </div>
+      <UserLogList
+        data={loginLogsData}
+        path={""}
+        fetchLoading={loginLogsLoading}
       />
-      {
-        <UserLogList
-          data={loginLogsData}
-          path={""}
-          fetchLoading={loginLogsLoading}
-        />
-      }
     </>
   );
 }
-
-// const Buttons = () => {
-//   return (
-//     <div className='flex justify-end gap-5'>
-//       <button
-//         style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
-//         className='bg-white gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
-//       >
-//         <CalenderIcon />
-//         <div>
-//           <span className='text-black text-opacity-25 text-[13px] font-medium font-Poppins leading-normal'>
-//             From :{" "}
-//           </span>
-//           <span className='text-black text-[13px] font-medium font-Poppins leading-normal'>
-//             08/05/2023{" "}
-//           </span>
-//         </div>
-//         <div className='w-1 border-l h-full'></div>
-//         <div>
-//           <span className='text-black text-opacity-25 text-[13px] font-medium font-Poppins leading-normal'>
-//             To :{" "}
-//           </span>
-//           <span className='text-black text-[13px] font-medium font-Poppins leading-normal'>
-//             08/05/2023{" "}
-//           </span>
-//         </div>
-//       </button>
-//       <button
-//         style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
-//         className='bg-white gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
-//       >
-//         <SortIcon />
-//         <p className='font-Poppins text-[13px] font-medium leading-6'>
-//           Sort By
-//         </p>
-//         <div className='mt-0.5'>
-//           <ChevlonIcon />
-//         </div>
-//       </button>
-
-//       <button
-//         style={{ border: "1px solid rgba(34, 31, 185, 0.14)" }}
-//         className='bg-white gap-2 flex flex-row shrink-0 items-center rounded-[5px] px-3 py-2'
-//       >
-//         <FilterIcon />
-//         <p className='font-Poppins text-[13px] font-medium leading-6'>
-//           Filter By
-//         </p>
-//         <div className='mt-0.5'>
-//           <ChevlonIcon />
-//         </div>
-//       </button>
-//     </div>
-//   );
-// };
-
-const UserLogList = ({ data, path, fetchLoading }) => {
+const UserLogList = ({ data, fetchLoading }) => {
   return (
     <div
       style={{
