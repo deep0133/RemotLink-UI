@@ -45,4 +45,6 @@ const navLink = [
   "/admin/reports",
   "/admin/notifications",
   "/admin/institution",
+  "/admin/messages",
+  "/admin/faq",
 ];

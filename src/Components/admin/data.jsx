@@ -7,7 +7,8 @@ import {
   SitesIcon,
   UsersIcon,
 } from "./assets/constants";
-
+import { AiTwotoneMessage } from "react-icons/ai";
+import { FaQuestionCircle } from "react-icons/fa";
 export const sidebarData = [
   {
     icon: <DashboardIcon />,
@@ -43,6 +44,18 @@ export const sidebarData = [
     icon: <InstitutiionIcon />,
     name: "Institutiion Details",
     path: "/admin/institution",
+  },
+
+  {
+    icon: <AiTwotoneMessage />,
+    name: "Messages",
+    path: "/admin/messages",
+  },
+
+  {
+    icon: <FaQuestionCircle />,
+    name: "FAQ",
+    path: "/admin/faq",
   },
 ];
 

@@ -30,7 +30,6 @@ const Hero = ({
         {btnText && (
           <button
             onClick={() => {
-              console.log("----BRUN CLicked ---- :", btnLink);
               if (downloadLink) {
                 handleDownloadTemplate(btnLink);
               } else navigate(btnLink);

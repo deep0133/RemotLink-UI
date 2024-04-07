@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Details from "./Details";
 import useFetch from "../../hooks/useFetch";
-import useAdd from "../../hooks/useAdd";
+// import useAdd from "../../hooks/useAdd";
 import useUpdate from "../../hooks/useUpdate";
 import { useEffect } from "react";
 import Edit from "./Edit";

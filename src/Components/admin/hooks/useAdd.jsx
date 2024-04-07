@@ -4,17 +4,29 @@ import { toast } from "react-toastify";
 export default function useAdd() {
   const navigate = useNavigate();
 
+  // category - site : user
   const [addLoading, setAddLoading] = useState(false);
   const [addMessage, setAddMessage] = useState("");
 
+  // user
   const [addNewUserLoading, setAddNewUserLoading] = useState(false);
   const [addNewUser, setAddNewUser] = useState({});
 
+  // site
   const [addNewSiteLoading, setAddNewSiteLoading] = useState(false);
   const [addNewSite, setAddNewSite] = useState({});
 
+  // notification
   const [addNotificationLoading, setAddNotificationLoading] = useState(false);
   const [addNotificationData, setAddNotificationData] = useState({});
+
+  // message
+  const [messageLoadingMsg, setMessageLoadingMsg] = useState(false);
+  const [messageDataMsg, setMessageDataMsg] = useState("");
+
+  // Faq
+  const [addFaqLoading, setAddFaqLoading] = useState(false);
+  const [faqAddMessage, setFaqAddMessage] = useState("");
 
   const handleAdd = async (api, formData) => {
     setAddLoading(true);
@@ -149,18 +161,81 @@ export default function useAdd() {
     }
   };
 
+  const handleAddMessage = async (api, formData) => {
+    setMessageLoadingMsg(true);
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
+      }
+      const data = await response.json();
+      setMessageDataMsg((prev) => !prev);
+      toast.success(data.detail);
+      navigate("/admin/message");
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setMessageLoadingMsg(false);
+    }
+  };
+
+  const handleAddFaq = async (api, formData) => {
+    setAddFaqLoading(true);
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
+      }
+      setFaqAddMessage((prev) => !prev);
+      toast.success("Faq Added Successfully");
+      navigate(-1);
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setAddFaqLoading(false);
+    }
+  };
+
   return {
     addLoading,
     addNewUserLoading,
     addNewSiteLoading,
     addNotificationLoading,
+    addFaqLoading,
     addMessage,
     addNewUser,
     addNewSite,
     addNotificationData,
+    messageLoadingMsg,
+    messageDataMsg,
+    faqAddMessage,
     handleAdd,
     handleAddNewUser,
     handleAddNewSite,
     handleAddNotification,
+    handleAddMessage,
+    handleAddFaq,
   };
 }

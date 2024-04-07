@@ -21,6 +21,12 @@ export default function useUpdate() {
   const [updateInstiLoading, setUpdateInstiLoading] = useState(false);
   const [updateInstinMessage, setUpdatInstiMessage] = useState("");
 
+  const [updateMessageMsgLoading, setUpdateMessageMsgLoading] = useState(false);
+  const [updateMessageMsgData, setUpdateMessageMsgData] = useState("");
+
+  const [updateFaqLoading, setUpdateFaqLoading] = useState(false);
+  const [updateFaqMessage, setUpdateFaqMessage] = useState("");
+
   const request = async (api, formData) => {
     try {
       const token = localStorage.getItem("access_token");
@@ -157,7 +163,22 @@ export default function useUpdate() {
   const handleUpdatInstitution = async (api, formData) => {
     setUpdateInstiLoading(true);
     try {
-      const response = await request(api, formData);
+      const token = localStorage.getItem("access_token");
+
+      const formDataObj = new FormData();
+
+      Object.keys(formData).forEach((key) => {
+        formDataObj.append(key, formData[key]);
+      });
+
+      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formDataObj,
+      });
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
@@ -174,21 +195,67 @@ export default function useUpdate() {
     }
   };
 
+  const handleUpdateMessageMsg = async (api, formData) => {
+    setUpdateMessageMsgLoading(true);
+    try {
+      const response = await request(api, formData);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
+      }
+      setUpdateMessageMsgData((prev) => !prev);
+      toast.success("Updated Successfully");
+      navigate(-1);
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setUpdateMessageMsgLoading(false);
+    }
+  };
+
+  const handleUpdateFaq = async (api, formData) => {
+    setUpdateFaqLoading(true);
+    try {
+      const response = await request(api, formData);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
+      }
+      setUpdateFaqMessage((prev) => !prev);
+      toast.success("Updated Successfully");
+      navigate(-1);
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setUpdateFaqLoading(false);
+    }
+  };
+
   return {
     updateLoading,
     updateUserLoading,
     updateNotificationLoading,
     updateSiteLoading,
     updateInstiLoading,
+    updateMessageMsgLoading,
+    updateFaqLoading,
     updateMessage,
     updateUserMessage,
     updateNotificationMessage,
     updateSiteMessage,
     updateInstinMessage,
+    updateMessageMsgData,
+    updateFaqMessage,
     handleUpdate,
     handleUpdateUser,
     handleUpdateSites,
     handleUpdateNotification,
     handleUpdatInstitution,
+    handleUpdateMessageMsg,
+    handleUpdateFaq,
   };
 }

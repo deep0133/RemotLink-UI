@@ -8,6 +8,8 @@ import Notifications from "./pages/notification/Notifications";
 import Institution from "./pages/institution/Institution";
 import Site from "./pages/sites/Site";
 import "./style.css";
+import Message from "./pages/message/Message";
+import Faq from "./pages/faq/Faq";
 export default function AdminRoutes() {
   return (
     <PageLayout>
@@ -21,6 +23,8 @@ export default function AdminRoutes() {
         <Route path='/reports/*' element={<Reports />} />
         <Route path='/notifications/*' element={<Notifications />} />
         <Route path='/institution/*' element={<Institution />} />
+        <Route path='/messages/*' element={<Message />} />
+        <Route path='/faq/*' element={<Faq />} />
       </Routes>
     </PageLayout>
   );

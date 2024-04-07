@@ -30,6 +30,12 @@ export default function useFetch() {
   const [institutionLoading, setInstitutionLoading] = useState(false);
   const [institutionData, setInstitutionData] = useState([]);
 
+  const [messageLoading, setMessageLoading] = useState(false);
+  const [messageData, setMessageData] = useState([]);
+
+  const [faqLoading, setFaqLoading] = useState(false);
+  const [faqData, setFaqData] = useState([]);
+
   // Category Fetching....
   const handleFetctData = async (api) => {
     setCetegoryLoading(true);
@@ -144,7 +150,10 @@ export default function useFetch() {
         },
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
       }
       const data = await response.json();
       setSiteData(data);
@@ -279,6 +288,61 @@ export default function useFetch() {
     }
   };
 
+  const handleFetchMessages = async (api) => {
+    try {
+      setMessageLoading(true);
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`https://stage1.remotlink.com/` + api, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
+      }
+
+      const json = await response.json();
+      setMessageData(json);
+    } catch (error) {
+      console.log("Error : ", error.message);
+    } finally {
+      setMessageLoading(false);
+    }
+  };
+  const handleFetchFaq = async (api) => {
+    try {
+      setFaqLoading(true);
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`https://stage1.remotlink.com/` + api, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
+      }
+
+      const json = await response.json();
+      setFaqData(json);
+    } catch (error) {
+      console.log("Error : ", error.message);
+    } finally {
+      setFaqLoading(false);
+    }
+  };
+
   return {
     categoryLoading,
     userCategoryLoading,
@@ -289,6 +353,8 @@ export default function useFetch() {
     institutionLoading,
     loginLogsLoading,
     reportSiteLoading,
+    messageLoading,
+    faqLoading,
     categoryData,
     userCategoryData,
     usersData,
@@ -296,11 +362,13 @@ export default function useFetch() {
     reportData,
     reportSiteData,
     notificationData,
-    handleFetctData,
-    handleFetctUserCategoryData,
     loginLogsData,
     institutionData,
     userCourseData,
+    messageData,
+    faqData,
+    handleFetctData,
+    handleFetctUserCategoryData,
     handleFetctUsers,
     handleFetctSites,
     handleFetctNotifications,
@@ -309,5 +377,7 @@ export default function useFetch() {
     handleFetctInstitution,
     handleFetctSiteReports,
     handleFetctUserCourse,
+    handleFetchMessages,
+    handleFetchFaq,
   };
 }

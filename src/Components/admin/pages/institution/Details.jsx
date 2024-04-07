@@ -13,7 +13,7 @@ export default function Details({ data }) {
     <>
       <Header icon={<InstitutiionIcon />} title={"Institution Details"} />
       <DetailSection data={data} />
-      <OtherDetails />
+      <OtherDetails data={data} />
     </>
   );
 }
@@ -110,20 +110,19 @@ const DetailSection = ({ data }) => {
   );
 };
 
-const OtherDetails = () => {
+const OtherDetails = ({ data }) => {
   return (
     <div className='border rounded-md p-3 bg-[rgb(251,252,255)]'>
       <div className='text-violet-800 border-b border-black pb-2 border-opacity-10 text-[17px] font-semibold font-Poppins leading-[27px]'>
         Other Details
       </div>
-      {/* <div className='w-full opacity-10 mt-2 border border-black'></div> */}
 
       <div className='card-contaner mt-5 grid grid-cols-8 w-full gap-5'>
         <div className='col-span-2 '>
           <h3 className='text-blue-900 mb-4 mx-1 text-sm font-semibold font-Poppins leading-7'>
             Landing Page{" "}
           </h3>
-          <ImageCard title={"Home Background Image"} />
+          <ImageCard title={"Logo"} url={data?.logo} />
         </div>
         <div className='line flex justify-center'>
           <div className='h-full border'></div>
@@ -131,16 +130,16 @@ const OtherDetails = () => {
 
         <div className=' col-span-5 grid grid-cols-3 gap-3'>
           <div className='text-blue-900 col-span-full mb-4 mx-1 text-sm font-semibold font-Poppins leading-7'>
-            User Login Page{" "}
+            Slider Images{" "}
           </div>
           <div className=''>
-            <ImageCard url={""} title={"Login Page 1"} />
+            <ImageCard url={data?.slider1} title={"Slider 1"} />
           </div>
           <div className=''>
-            <ImageCard url={""} title={"Login Page "} />
+            <ImageCard url={data?.slider2} title={"Slider 2 "} />
           </div>
           <div className=''>
-            <ImageCard url={""} title={"Login Page 3"} />
+            <ImageCard url={data?.slider3} title={"Slider 3"} />
           </div>
         </div>
       </div>
@@ -153,7 +152,11 @@ const ImageCard = ({ url, title }) => {
     <>
       <img
         className='object-cover w-full rounded-[5px]'
-        src='https://via.placeholder.com/189x99'
+        src={
+          url
+            ? "https://stage1.remotlink.com" + url
+            : "https://via.placeholder.com/189x99"
+        }
         alt='landing_pape'
       />
       <div className='opacity-80 my-2 ml-1 text-slate-900 text-opacity-90 text-[13px] font-medium font-Poppins leading-normal'>
