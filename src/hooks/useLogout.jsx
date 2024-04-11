@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import readSubdomainFromFile from "../Components/admin/utils/readSubdomainFromFile";
 
 export default function useLogout() {
   const [loading, setLoading] = useState(false);
@@ -11,16 +12,19 @@ export default function useLogout() {
     setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(
-        `https://stage1.remotlink.com/api/website/logout/`,
-        {
-          method: "Get",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const api = `api/website/logout/`;
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      const domain = await readSubdomainFromFile();
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
+        method: "Get",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(

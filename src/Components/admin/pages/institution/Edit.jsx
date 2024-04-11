@@ -3,6 +3,7 @@ import { InstitutiionIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import { LuLoader2 } from "react-icons/lu";
+import generateUrl from "../../utils/urlGenerate";
 
 export default function Edit({ data, updateHandler, loading }) {
   return (
@@ -41,6 +42,8 @@ const EditDetail = ({ data, updateHandler, loading }) => {
     resetAllField();
   }, []);
 
+  const [url, setUrl] = useState(generateUrl());
+
   const resetAllField = () => {
     if (data) {
       setCurrentDetail({
@@ -52,13 +55,12 @@ const EditDetail = ({ data, updateHandler, loading }) => {
         address: data.address,
       });
       setImagesPreview({
-        logo: data?.logo && "https://stage1.remotlink.com" + data.logo,
-        slider1: data?.slider1 && "https://stage1.remotlink.com" + data.slider1,
-        slider2: data?.slider2 && "https://stage1.remotlink.com" + data.slider2,
-        slider3: data?.slider3 && "https://stage1.remotlink.com" + data.slider3,
+        logo: data?.logo && url + data.logo,
+        slider1: data?.slider1 && url + data.slider1,
+        slider2: data?.slider2 && url + data.slider2,
+        slider3: data?.slider3 && url + data.slider3,
         landing_page_image:
-          data?.landing_page_image &&
-          "https://stage1.remotlink.com" + data.landing_page_image,
+          data?.landing_page_image && url + data.landing_page_image,
       });
     }
   };
@@ -89,16 +91,7 @@ const EditDetail = ({ data, updateHandler, loading }) => {
           <label className='name text-slate-700 text-sm font-medium font-Poppins leading-tight'>
             Select Theme
           </label>
-          {/* <input
-            style={{
-              border: "1px rgba(34, 31, 185, 0.14) solid",
-            }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            type='text'
-            name='name'
-            value={currentDetail?.name}
-            onChange={onChangeHandler}
-          /> */}
+
           <select
             name='landing_page_theme'
             onChange={onChangeHandler}

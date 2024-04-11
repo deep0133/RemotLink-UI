@@ -19,6 +19,7 @@ import cross from "../../images/Cross.svg";
 import home from "../../images/Home.svg";
 import book from "../../images/book.png";
 import help_Icon from "../../images/message-question-white.svg";
+import generateUrl from "../admin/utils/urlGenerate";
 
 const Header = ({ logutOutHandler }) => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -26,19 +27,18 @@ const Header = ({ logutOutHandler }) => {
 
   const [institutionDetails, setInstitutionDetails] = useState("");
 
+  const [url, setUrl] = useState(generateUrl());
+
   const institutionDetailFetch = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(
-        `https://stage1.remotlink.com/api/institution/detail`,
-        {
-          method: "Get",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${url}api/institution/detail`, {
+        method: "Get",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -187,7 +187,7 @@ const Header = ({ logutOutHandler }) => {
           <img
             src={
               userdetail.profile_photo
-                ? "https://stage1.remotlink.com/" + userdetail.profile_photo
+                ? url + userdetail.profile_photo
                 : profileIcon
             }
             alt='UserPicture'
@@ -203,8 +203,7 @@ const Header = ({ logutOutHandler }) => {
                       <img
                         src={
                           userdetail.profile_photo
-                            ? "https://stage1.remotlink.com/" +
-                              userdetail.profile_photo
+                            ? url + userdetail.profile_photo
                             : profileIcon
                         }
                         alt='icons'

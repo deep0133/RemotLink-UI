@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import readSubdomainFromFile from "../utils/readSubdomainFromFile";
 export default function useUpdate() {
   const navigate = useNavigate();
 
@@ -27,10 +28,22 @@ export default function useUpdate() {
   const [updateFaqLoading, setUpdateFaqLoading] = useState(false);
   const [updateFaqMessage, setUpdateFaqMessage] = useState("");
 
+  const [subdomain, setSubdomain] = useState("");
+
   const request = async (api, formData) => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +87,16 @@ export default function useUpdate() {
         formDataObj.append(key, formData[key]);
       });
 
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -112,7 +134,16 @@ export default function useUpdate() {
         formDataObj.append(key, formData[key]);
       });
 
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -171,7 +202,16 @@ export default function useUpdate() {
         formDataObj.append(key, formData[key]);
       });
 
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,

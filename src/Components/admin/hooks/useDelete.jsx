@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import readSubdomainFromFile from "../utils/readSubdomainFromFile";
 export default function useDelete() {
   const [deleteLoading, setDeleteLoading] = useState("");
   const [deleteMessage, setDeleteMessage] = useState("");
@@ -24,11 +25,22 @@ export default function useDelete() {
   const [deleteFaqLoading, setDeleteFaqLoading] = useState("");
   const [deleteFaqMsg, setDeleteFaqMsg] = useState("");
 
-  const handleDelete = async (api) => {
-    setDeleteLoading(true);
+  const [subdomain, setSubdomain] = useState("");
+
+  const deleteRequest = async (api, setLoading, setMessage) => {
+    setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -42,177 +54,47 @@ export default function useDelete() {
         );
       }
       const data = await response.json();
+      setMessage((prev) => !prev);
       toast.success(data.detail);
-      setDeleteMessage((prev) => !prev);
     } catch (err) {
       toast.error(err.message);
     } finally {
-      setDeleteLoading(false);
+      setLoading(false);
     }
+  };
+
+  const handleDelete = async (api) => {
+    await deleteRequest(api, setDeleteLoading, setDeleteMessage);
   };
 
   const handleDeleteUser = async (api) => {
-    setDeleteUserLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-      const data = await response.json();
-      setDeleteUserMessage((prev) => !prev);
-      toast.success(data.detail);
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setDeleteUserLoading(false);
-    }
+    await deleteRequest(api, setDeleteUserLoading, setDeleteUserMessage);
   };
 
   const handleDeleteSite = async (api) => {
-    setDeleteSiteLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-      const data = await response.json();
-      setDeleteSiteMessage((prev) => !prev);
-      toast.success(data.detail);
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setDeleteSiteLoading(false);
-    }
+    await deleteRequest(api, setDeleteSiteLoading, setDeleteSiteMessage);
   };
 
   const handleDeleteReport = async (api) => {
-    setDeleteReportLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-      const data = await response.json();
-      setDeleteReportMessage((prev) => !prev);
-      toast.success(data.detail);
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setDeleteReportLoading(false);
-    }
+    await deleteRequest(api, setDeleteReportLoading, setDeleteReportMessage);
   };
 
   const handleDeleteNotification = async (api) => {
-    setDeleteNotificationLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-      const data = await response.json();
-      setDeleteNotificationMessage((prev) => !prev);
-      toast.success(data.detail);
-    } catch (err) {
-      // console.log("Error :", err);
-      toast.error(err.message);
-    } finally {
-      setDeleteNotificationLoading(false);
-    }
+    await deleteRequest(
+      api,
+      setDeleteNotificationLoading,
+      setDeleteNotificationMessage
+    );
   };
 
   const handleDeleteMessageMsg = async (api) => {
-    setDeleteMessageLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-      const data = await response.json();
-      setDeleteMessageMsg((prev) => !prev);
-      toast.success(data.detail);
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setDeleteMessageLoading(false);
-    }
+    await deleteRequest(api, setDeleteMessageLoading, setDeleteMessageMsg);
   };
 
   const handleDeleteFaq = async (api) => {
-    setDeleteFaqLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-      const data = await response.json();
-      setDeleteFaqMsg((prev) => !prev);
-      toast.success(data.detail);
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setDeleteFaqLoading(false);
-    }
+    await deleteRequest(api, setDeleteFaqLoading, setDeleteFaqMsg);
   };
+
   return {
     deleteLoading,
     deleteMessage,

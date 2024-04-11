@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import readSubdomainFromFile from "../utils/readSubdomainFromFile";
 export default function useAdd() {
   const navigate = useNavigate();
 
@@ -28,11 +29,22 @@ export default function useAdd() {
   const [addFaqLoading, setAddFaqLoading] = useState(false);
   const [faqAddMessage, setFaqAddMessage] = useState("");
 
+  const [subdomain, setSubdomain] = useState("");
+
   const handleAdd = async (api, formData) => {
     setAddLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +73,16 @@ export default function useAdd() {
     setAddNewUserLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -108,7 +129,16 @@ export default function useAdd() {
         formDataObj.append(key, formData[key]);
       });
 
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -136,7 +166,16 @@ export default function useAdd() {
     setAddNotificationLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -165,7 +204,16 @@ export default function useAdd() {
     setMessageLoadingMsg(true);
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -194,7 +242,16 @@ export default function useAdd() {
     setAddFaqLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

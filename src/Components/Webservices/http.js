@@ -1,3 +1,5 @@
+import generateUrl from "../admin/utils/urlGenerate";
+
 const headers = {
   Accept: "application/json",
   "Content-type": "application/json",
@@ -7,12 +9,12 @@ const headers = {
 // console.log("token", "Bearer " + localStorage.getItem("access_token"));
 
 function joinURL(baseURL, url) {
-  return `${baseURL}/${url}`;
+  return `${baseURL}${url}`;
 }
 
 class Service {
   constructor() {
-    this.domain = "https://stage1.remotlink.com";
+    this.domain = generateUrl();
   }
 
   request(url, method = "POST", data = null) {

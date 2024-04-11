@@ -1,14 +1,24 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import readSubdomainFromFile from "../utils/readSubdomainFromFile";
 
 export default function useDownload() {
   const [templateLoading, setTemplateLoading] = useState(false);
-
+  const [subdomain, setSubdomain] = useState("");
   const request = async (api) => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

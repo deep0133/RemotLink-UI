@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import generateUrl from "../admin/utils/urlGenerate";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,14 +14,12 @@ const Login = () => {
     const login_info = { email, password };
     setIsPending(true);
     try {
-      const response = await fetch(
-        "https://stage1.remotlink.com/api/website/login/",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(login_info),
-        }
-      );
+      const api = "api/website/login/";
+      const response = await fetch((await generateUrl()) + api, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(login_info),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

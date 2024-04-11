@@ -8,6 +8,7 @@ import {
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import { InstitutionLogo } from "../../assets/images";
 import { useNavigate } from "react-router-dom";
+import generateUrl from "../../utils/urlGenerate";
 export default function Details({ data }) {
   return (
     <>
@@ -152,11 +153,7 @@ const ImageCard = ({ url, title }) => {
     <>
       <img
         className='object-cover w-full rounded-[5px]'
-        src={
-          url
-            ? "https://stage1.remotlink.com" + url
-            : "https://via.placeholder.com/189x99"
-        }
+        src={url ? generateUrl() + url : "https://via.placeholder.com/189x99"}
         alt='landing_pape'
       />
       <div className='opacity-80 my-2 ml-1 text-slate-900 text-opacity-90 text-[13px] font-medium font-Poppins leading-normal'>

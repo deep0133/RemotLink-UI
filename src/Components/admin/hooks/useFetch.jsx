@@ -1,6 +1,8 @@
 import { useState } from "react";
+import subdmonpath from "../../../../src/subdomain.txt";
+import readSubdomainFromFile from "../utils/readSubdomainFromFile";
 export default function useFetch() {
-  const [categoryLoading, setCetegoryLoading] = useState(false);
+  const [categoryLoading, setCetogoryLoading] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
 
   const [userCategoryLoading, setUserCategoryLoading] = useState(false);
@@ -36,311 +38,110 @@ export default function useFetch() {
   const [faqLoading, setFaqLoading] = useState(false);
   const [faqData, setFaqData] = useState([]);
 
-  // Category Fetching....
-  const handleFetctData = async (api) => {
-    setCetegoryLoading(true);
+  const [subdomain, setSubdomain] = useState("");
+
+  //  ------ Fetch Data -------
+  const fetchData = async (api, setLoading, setData, addResult, loginLogs) => {
+    setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "Get",
+
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
+
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
       }
+
       const data = await response.json();
-      setCategoryData(data);
-    } catch (err) {
-      console.log("Error :", err);
+      if (addResult) {
+        setData(data.results);
+      } else if (loginLogs) {
+        setData(data[0]);
+      } else {
+        setData(data);
+      }
+    } catch (error) {
+      console.error("Error :", error);
     } finally {
-      setCetegoryLoading(false);
+      setLoading(false);
     }
   };
 
-  // User Category Fatching...
+  // Category Fetching....
+  const handleFetctData = async (api, addResult = false) => {
+    await fetchData(api, setCetogoryLoading, setCategoryData, addResult);
+  };
+
   const handleFetctUserCategoryData = async (api) => {
-    setUserCategoryLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "Get",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      setUserCategoryData(data);
-    } catch (err) {
-      console.log("Error :", err);
-    } finally {
-      setUserCategoryLoading(false);
-    }
+    await fetchData(api, setUserCategoryLoading, setUserCategoryData);
   };
 
   // Users Fatching...
   const handleFetctUsers = async (api) => {
-    setUserLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "Get",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-      const data = await response.json();
-      setUsersData(data);
-    } catch (err) {
-      console.error(err.message);
-    } finally {
-      setUserLoading(false);
-    }
+    await fetchData(api, setUserLoading, setUsersData);
   };
 
   // User Course Fatching...
   const handleFetctUserCourse = async (api) => {
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "Get",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-      const data = await response.json();
-      setUserCourseData(data.results);
-    } catch (err) {
-      console.error(err.message);
-    }
+    await fetchData(api, setUserCourseLoading, setUserCourseData, true);
   };
 
   // Sites Fatching...
   const handleFetctSites = async (api) => {
-    setSiteLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "Get",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-      const data = await response.json();
-      setSiteData(data);
-    } catch (err) {
-      console.log("Error :", err.message);
-    } finally {
-      setSiteLoading(false);
-    }
+    await fetchData(api, setSiteLoading, setSiteData);
   };
 
   // Reports Fatching...
   const handleFetctReports = async (api) => {
-    setReportLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "Get",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      setReportData(data.results);
-    } catch (err) {
-      console.log("Error :", err.message);
-    } finally {
-      setReportLoading(false);
-    }
+    await fetchData(api, setReportLoading, setReportData, true);
   };
 
   // Reports Fatching...
   const handleFetctSiteReports = async (api) => {
-    setReportSiteLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "Get",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      setReportSiteData(data);
-    } catch (err) {
-      console.log("Error :", err.message);
-    } finally {
-      setReportSiteLoading(false);
-    }
+    await fetchData(api, setReportSiteLoading, setReportSiteData);
   };
 
   // Login Logs Reports Fatching...
   const handleFetctLoginLogs = async (api) => {
-    setLoginLogsLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/` + api, {
-        method: "Get",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      setLoginLogsData(data[0]);
-    } catch (err) {
-      console.log("Error :", err);
-    } finally {
-      setLoginLogsLoading(false);
-    }
+    await fetchData(api, setLoginLogsLoading, setLoginLogsData, false, true);
   };
 
   // Notification Fatching...
   const handleFetctNotifications = async (api) => {
-    setNotificationLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/${api}`, {
-        method: "Get",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-      const data = await response.json();
-      console.log(" Notification------------- :", data);
-      setNotificationData(data);
-    } catch (err) {
-      console.error("Error :", err);
-    } finally {
-      setNotificationLoading(false);
-    }
+    await fetchData(api, setNotificationLoading, setNotificationData);
   };
 
   // Institutions Fatching...
   const handleFetctInstitution = async (api) => {
-    setInstitutionLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/` + api, {
-        method: "Get",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      setInstitutionData(data);
-    } catch (err) {
-      console.log("Error :", err);
-    } finally {
-      setInstitutionLoading(false);
-    }
+    await fetchData(api, setInstitutionLoading, setInstitutionData);
   };
 
+  // Message Fetciing...
   const handleFetchMessages = async (api) => {
-    try {
-      setMessageLoading(true);
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/` + api, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-
-      const json = await response.json();
-      setMessageData(json);
-    } catch (error) {
-      console.log("Error : ", error.message);
-    } finally {
-      setMessageLoading(false);
-    }
+    await fetchData(api, setMessageLoading, setMessageData);
   };
+
+  // Faq Fetching...
   const handleFetchFaq = async (api) => {
-    try {
-      setFaqLoading(true);
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/` + api, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
-      }
-
-      const json = await response.json();
-      setFaqData(json);
-    } catch (error) {
-      console.log("Error : ", error.message);
-    } finally {
-      setFaqLoading(false);
-    }
+    await fetchData(api, setFaqLoading, setFaqData);
   };
 
   return {
@@ -354,6 +155,7 @@ export default function useFetch() {
     loginLogsLoading,
     reportSiteLoading,
     messageLoading,
+    userCourseLoading,
     faqLoading,
     categoryData,
     userCategoryData,

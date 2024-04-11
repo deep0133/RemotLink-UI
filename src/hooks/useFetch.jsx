@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import readSubdomainFromFile from "../Components/admin/utils/readSubdomainFromFile";
 
 const selectRandomMessage = (messages) => {
   try {
@@ -24,6 +25,8 @@ export default function useFetch() {
 
   const [institutionDetails, setInstitutionDetails] = useState("");
 
+  const [subdomain, setSubdomain] = useState("");
+
   useEffect(() => {
     handleSearchSite();
   }, [searchSite]);
@@ -32,21 +35,29 @@ export default function useFetch() {
   const handleFetchLikes = async (id) => {
     setFetchLoading(true);
     try {
+      const api = `api/user/favourites/`;
+
       const token = localStorage.getItem("access_token");
-      const response = await fetch(
-        `https://stage1.remotlink.com/api/user/favourites/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      const data = await response.json();
+      // const data = await response.json();
       // setResources(data.results);
     } catch (err) {
       console.log("Error :", err);
@@ -59,16 +70,24 @@ export default function useFetch() {
     setFetchLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(
-        "https://stage1.remotlink.com/api/report/site/?start&end",
-        {
-          method: "GEt",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const api = "api/report/site/?start&end";
+
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
+        method: "GEt",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -81,76 +100,20 @@ export default function useFetch() {
     }
   };
 
-  // const handleFetchProxyAPI = async (id) => {
-  //   try {
-  //     const token = localStorage.getItem("access_token");
-  //     const response = await fetch(
-  //       `https://stage1.remotlink.com/api/website/create-proxy/${id}`,
-  //       {
-  //         method: "GEt",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     const json = await response.json();
-  //     // window.open(json.proxy_url);
-  //     const proxyUrl = json.proxy_url;
-
-  //     console.log("-------Response URL------------", proxyUrl);
-
-  //     const headers = {
-  //       Authorization: `Bearer ${token}`,
-  //     };
-
-  //     const headersString = Object.keys(headers)
-  //       .map((key) => `${key}: ${headers[key]}`)
-  //       .join("\n");
-
-  //     console.log(headersString);
-
-  //     const newTab = window.open(proxyUrl, "_blank");
-
-  //     console.log("---------NEW TAB----------", newTab);
-
-  //     if (newTab) {
-  //       newTab.document.write(`
-  //         <html>
-  //           <head>
-  //             <title>Authorization</title>
-  //             <script>
-  //               const headers = \`${headersString}\`;
-  //               const lines = headers.split('\\n');
-  //               const xhr = new XMLHttpRequest();
-  //               lines.forEach((line) => {
-  //                 const parts = line.split(': ');
-  //                 if (parts.length === 2) {
-  //                   xhr.setRequestHeader(parts[0], parts[1]);
-  //                 }
-  //               });
-  //             </script>
-  //           </head>
-  //           <body>
-  //             <p>Authorization headers injected. Redirecting...</p>
-  //             <script>
-  //               window.location.href = '${proxyUrl}';
-  //             </script>
-  //           </body>
-  //         </html>
-  //       `);
-  //     } else {
-  //       console.error("Failed to open new tab");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error : ", error);
-  //   }
-  // };
-
   const handleFetchAllSites = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://stage1.remotlink.com/api/sites/`, {
+      const api = "api/sites/";
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -167,16 +130,23 @@ export default function useFetch() {
   const createProxyAPI = async (id) => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(
-        `https://stage1.remotlink.com/api/website/create-proxy/${id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const api = `api/website/create-proxy/${id}`;
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const json = await response.json();
       const proxyUrl = json.proxy_url;
 
@@ -229,17 +199,23 @@ export default function useFetch() {
     try {
       setSearchLoader(true);
       const token = localStorage.getItem("access_token");
-      setSearchSite(searchSite);
-      const response = await fetch(
-        `https://stage1.remotlink.com/api/sites/?search=${searchSite}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const api = `api/sites/?search=${searchSite}`;
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Failed to fetch data");
@@ -259,16 +235,23 @@ export default function useFetch() {
     let json;
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(
-        `https://stage1.remotlink.com/api/message/`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const api = `api/message/`;
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Failed to fetch data");
@@ -286,16 +269,23 @@ export default function useFetch() {
   const institutionDetailFetch = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(
-        `https://stage1.remotlink.com/api/institution/detail`,
-        {
-          method: "Get",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const api = `api/institution/detail`;
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(url + api, {
+        method: "Get",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -317,7 +307,6 @@ export default function useFetch() {
     setSearchSite,
     handleFetchLikes,
     handleFetchResources,
-    // handleFetchProxyAPI,
     handleFetchAllSites,
     createProxyAPI,
     handleSearchSite,
