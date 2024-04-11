@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import menu_icn from "../../images/menu-04.svg";
 import menu_icn2 from "../../images/menu-04-light.svg";
 import menu_icn3 from "../../images/menu-04-purple.svg";
 import books from "../../images/book.svg";
+import generateUrl from "../admin/utils/urlGenerate";
 
 const Banner = ({ institutionDetails }) => {
   const navheading = `text-white light:text-[#0B2E78] purple:text-black font-AnekLatin light:font-Outfit purple:font-Sora text-base font-medium leading-normal pr-[35px] hover:underline light:hover:text-[#0B2E78] light:hover:underline purple:hover:text-[#6F1AB6] purple:hover:underline   `;
+
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    const fetchUrl = async () => {
+      const domain = await generateUrl();
+      setUrl(domain);
+    };
+    fetchUrl();
+  }, []);
+
   return (
     <>
       <div className='w-full h-[103px] lg:h-[69px] border-b border-solid border-white border-opacity-20 bg-opacity-33 bg-[#16131E54] light:bg-brand light:bg-opacity-[68] purple:bg-primary shadow-md backdrop-blur-[8px] flex  items-center justify-between overflow-y-scroll no-scrollbar'>
@@ -13,7 +25,7 @@ const Banner = ({ institutionDetails }) => {
           {institutionDetails.logo ? (
             <img
               className='w-[43px] h-[57.683px]'
-              src={institutionDetails.logo}
+              src={url + institutionDetails.logo}
               alt='banner'
             />
           ) : (

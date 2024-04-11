@@ -5,7 +5,7 @@ import Hero from "../../components/category/Hero";
 import { LuLoader2 } from "react-icons/lu";
 import generateUrl from "../../utils/urlGenerate";
 
-export default function Edit({ data, updateHandler, loading }) {
+export default function Edit({ data, updateHandler, loading, domain }) {
   return (
     <>
       <Header
@@ -17,12 +17,17 @@ export default function Edit({ data, updateHandler, loading }) {
         name={`Edit Detail`}
         description={`Update The details for your institute`}
       />
-      <EditDetail data={data} updateHandler={updateHandler} loading={loading} />
+      <EditDetail
+        data={data}
+        updateHandler={updateHandler}
+        loading={loading}
+        domain={domain}
+      />
     </>
   );
 }
 
-const EditDetail = ({ data, updateHandler, loading }) => {
+const EditDetail = ({ data, updateHandler, loading, domain }) => {
   const [currentDetail, setCurrentDetail] = useState({});
 
   const [imagesPreview, setImagesPreview] = useState({
@@ -42,8 +47,6 @@ const EditDetail = ({ data, updateHandler, loading }) => {
     resetAllField();
   }, []);
 
-  const [url, setUrl] = useState(generateUrl());
-
   const resetAllField = () => {
     if (data) {
       setCurrentDetail({
@@ -55,12 +58,12 @@ const EditDetail = ({ data, updateHandler, loading }) => {
         address: data.address,
       });
       setImagesPreview({
-        logo: data?.logo && url + data.logo,
-        slider1: data?.slider1 && url + data.slider1,
-        slider2: data?.slider2 && url + data.slider2,
-        slider3: data?.slider3 && url + data.slider3,
+        logo: data?.logo && domain + data.logo,
+        slider1: data?.slider1 && domain + data.slider1,
+        slider2: data?.slider2 && domain + data.slider2,
+        slider3: data?.slider3 && domain + data.slider3,
         landing_page_image:
-          data?.landing_page_image && url + data.landing_page_image,
+          data?.landing_page_image && domain + data.landing_page_image,
       });
     }
   };

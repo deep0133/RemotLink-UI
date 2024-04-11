@@ -16,6 +16,7 @@ import banr2 from "../../images/Group 2326.svg";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import generateUrl from "../admin/utils/urlGenerate";
 
 const Landingfooter = ({ institutionDetails }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -39,6 +40,17 @@ const Landingfooter = ({ institutionDetails }) => {
   const handleBackToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    const fetchUrl = async () => {
+      const domain = await generateUrl();
+      setUrl(domain);
+    };
+    fetchUrl();
+  }, []);
+
   return (
     <>
       <div className='w-full h-full bg-[#26222E] light:bg-primary  purple:bg-secondary overflow-y-scroll no-scrollbar '>
@@ -51,20 +63,20 @@ const Landingfooter = ({ institutionDetails }) => {
                     {institutionDetails.logo ? (
                       <img
                         className='w-[57.161px] h-[76.68px]'
-                        src={institutionDetails.logo}
-                        alt=''
+                        src={url + institutionDetails.logo}
+                        alt='instituet'
                       />
                     ) : (
                       <img
                         className='w-[57.161px] h-[76.68px]'
                         src={banr}
-                        alt=''
+                        alt='banner-logo'
                       />
                     )}
                     <img
                       className='w-[67.288px] h-[73.94px] hidden '
                       src={banr2}
-                      alt=''
+                      alt='alt'
                     />
                   </div>
                 </li>

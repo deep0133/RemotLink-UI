@@ -14,7 +14,11 @@ function joinURL(baseURL, url) {
 
 class Service {
   constructor() {
-    this.domain = generateUrl();
+    this.initialize();
+  }
+
+  async initialize() {
+    this.domain = await generateUrl();
   }
 
   request(url, method = "POST", data = null) {

@@ -8,13 +8,12 @@ import {
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import { InstitutionLogo } from "../../assets/images";
 import { useNavigate } from "react-router-dom";
-import generateUrl from "../../utils/urlGenerate";
-export default function Details({ data }) {
+export default function Details({ data, domain }) {
   return (
     <>
       <Header icon={<InstitutiionIcon />} title={"Institution Details"} />
       <DetailSection data={data} />
-      <OtherDetails data={data} />
+      <OtherDetails data={data} domain={domain} />
     </>
   );
 }
@@ -111,7 +110,7 @@ const DetailSection = ({ data }) => {
   );
 };
 
-const OtherDetails = ({ data }) => {
+const OtherDetails = ({ data, domain }) => {
   return (
     <div className='border rounded-md p-3 bg-[rgb(251,252,255)]'>
       <div className='text-violet-800 border-b border-black pb-2 border-opacity-10 text-[17px] font-semibold font-Poppins leading-[27px]'>
@@ -123,7 +122,7 @@ const OtherDetails = ({ data }) => {
           <h3 className='text-blue-900 mb-4 mx-1 text-sm font-semibold font-Poppins leading-7'>
             Landing Page{" "}
           </h3>
-          <ImageCard title={"Logo"} url={data?.logo} />
+          <ImageCard domain={domain} title={"Logo"} path={data?.logo} />
         </div>
         <div className='line flex justify-center'>
           <div className='h-full border'></div>
@@ -134,13 +133,25 @@ const OtherDetails = ({ data }) => {
             Slider Images{" "}
           </div>
           <div className=''>
-            <ImageCard url={data?.slider1} title={"Slider 1"} />
+            <ImageCard
+              domain={domain}
+              path={data?.slider1}
+              title={"Slider 1"}
+            />
           </div>
           <div className=''>
-            <ImageCard url={data?.slider2} title={"Slider 2 "} />
+            <ImageCard
+              domain={domain}
+              path={data?.slider2}
+              title={"Slider 2 "}
+            />
           </div>
           <div className=''>
-            <ImageCard url={data?.slider3} title={"Slider 3"} />
+            <ImageCard
+              domain={domain}
+              path={data?.slider3}
+              title={"Slider 3"}
+            />
           </div>
         </div>
       </div>
@@ -148,12 +159,12 @@ const OtherDetails = ({ data }) => {
   );
 };
 
-const ImageCard = ({ url, title }) => {
+const ImageCard = ({ domain, path, title }) => {
   return (
     <>
       <img
         className='object-cover w-full rounded-[5px]'
-        src={url ? generateUrl() + url : "https://via.placeholder.com/189x99"}
+        src={path ? domain + path : "https://via.placeholder.com/189x99"}
         alt='landing_pape'
       />
       <div className='opacity-80 my-2 ml-1 text-slate-900 text-opacity-90 text-[13px] font-medium font-Poppins leading-normal'>

@@ -27,12 +27,20 @@ const Header = ({ logutOutHandler }) => {
 
   const [institutionDetails, setInstitutionDetails] = useState("");
 
-  const [url, setUrl] = useState(generateUrl());
+  const [domain, setDomain] = useState("");
+
+  useEffect(() => {
+    const fetchUrl = async () => {
+      const url = await generateUrl();
+      setDomain(url);
+    };
+    fetchUrl();
+  }, []);
 
   const institutionDetailFetch = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`${url}api/institution/detail`, {
+      const response = await fetch(`${domain}api/institution/detail`, {
         method: "Get",
         headers: {
           "Content-Type": "application/json",
@@ -83,12 +91,6 @@ const Header = ({ logutOutHandler }) => {
   }, [navVisibility]);
   const arr = [1, 2, 3];
 
-  // const handleLogout = () => {
-  //   // console.log("yhasdjkh");
-  //   // localStorage.clear();
-  //   // navigate("/");
-  // };
-
   const retrieveUserData = () => {
     var storedData = localStorage.getItem("userdata");
     var retrievedObject = JSON.parse(storedData);
@@ -96,6 +98,19 @@ const Header = ({ logutOutHandler }) => {
   };
   useEffect(() => {
     retrieveUserData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchUrl() {
+      try {
+        const generatedUrl = await generateUrl();
+        setDomain(generatedUrl);
+      } catch (error) {
+        console.error("Error fetching URL:", error);
+      }
+    }
+
+    fetchUrl();
   }, []);
 
   return (
@@ -187,7 +202,7 @@ const Header = ({ logutOutHandler }) => {
           <img
             src={
               userdetail.profile_photo
-                ? url + userdetail.profile_photo
+                ? domain + userdetail.profile_photo
                 : profileIcon
             }
             alt='UserPicture'
@@ -203,7 +218,7 @@ const Header = ({ logutOutHandler }) => {
                       <img
                         src={
                           userdetail.profile_photo
-                            ? url + userdetail.profile_photo
+                            ? domain + userdetail.profile_photo
                             : profileIcon
                         }
                         alt='icons'

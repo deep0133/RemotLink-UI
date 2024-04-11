@@ -6,13 +6,12 @@ import Footer from "./Footer";
 import help_Icon from "../../images/message-question.svg";
 import uparrow from "../../images/uparrow.svg";
 import downarrow from "../../images/downarrow.svg";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import mailIcon from "../../images/mail.svg";
 import userIcon from "../../images/user-octagon.svg";
 import messageIcon from "../../images/envelope.svg";
 import phoneIcon from "../../images/phone-ring.svg";
 import Service from "../Webservices/http";
-import generateUrl from "../admin/utils/urlGenerate";
+import readSubdomainFromFile from "../admin/utils/readSubdomainFromFile";
 function HelpAndSupport() {
   const [expandedBoxes, setExpandedBoxes] = useState([
     false,
@@ -26,12 +25,15 @@ function HelpAndSupport() {
   const [labDetails, setLabDetails] = useState("");
   const services = new Service();
 
-  const [url, setUrl] = useState(generateUrl());
   const fetchFaqs = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${url}api/faq/`);
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      const domain = await readSubdomainFromFile();
 
+      const url = "https://" + domain + "." + baseUrl;
+
+      const response = await fetch(`${url}api/faq/`);
       if (!response.ok) {
         throw new Error("Failed to fetch FAQs");
       }
