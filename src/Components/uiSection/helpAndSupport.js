@@ -12,7 +12,7 @@ import messageIcon from "../../images/envelope.svg";
 import phoneIcon from "../../images/phone-ring.svg";
 import Service from "../Webservices/http";
 import readSubdomainFromFile from "../admin/utils/readSubdomainFromFile";
-function HelpAndSupport() {
+function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
   const [expandedBoxes, setExpandedBoxes] = useState([
     false,
     false,
@@ -54,7 +54,7 @@ function HelpAndSupport() {
   const labDetailsFetch = async () => {
     setLoading(true);
     try {
-      const response = await services
+      await services
         .get("api/institution/library/1/")
         .then((res) => setLabDetails(res));
     } catch (error) {
@@ -69,21 +69,16 @@ function HelpAndSupport() {
     labDetailsFetch();
   }, []);
 
-  console.log(labDetails, "jjj");
-
   const toggleBox = (index) => {
     const newExpandedBoxes = [...expandedBoxes];
     newExpandedBoxes[index] = !newExpandedBoxes[index];
     setExpandedBoxes(newExpandedBoxes);
   };
-  // const liobraryDetailsFetch=async()=>{
-  //   const Library
-  // }
 
   return (
     <div>
       <>
-        <Header />
+        <Header {...{ logutOutHandler, institutionDetails, domain }} />
         <div className=' flex'>
           <span className=' hidden sm:block'>
             <Sidebar />
@@ -299,7 +294,7 @@ function HelpAndSupport() {
             </div>
           </span>
         </div>
-        <Footer />
+        <Footer {...{ institutionDetails, domain }} />
       </>
     </div>
   );

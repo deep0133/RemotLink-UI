@@ -24,7 +24,7 @@ import { MdOutlineBookmarkAdded } from "react-icons/md";
 import useFetch from "../../hooks/useFetch";
 import useFavourite from "../../hooks/useFavourite";
 
-function Resources() {
+function Resources({ logutOutHandler, institutionDetails, domain }) {
   const [activeTab, setActiveTab] = useState("catalogue");
 
   var books = [1, 2, 3, 4, 5, 6, 7];
@@ -83,7 +83,7 @@ function Resources() {
 
   return (
     <>
-      <Header />
+      <Header {...{ logutOutHandler, institutionDetails, domain }} />
       <div className=' flex'>
         <span className=' hidden sm:block sm:h-auto'>
           <Sidebar />
@@ -558,7 +558,7 @@ function Resources() {
           )}
         </span>
       </div>
-      <Footer />
+      <Footer {...{ institutionDetails, domain }} />
     </>
   );
 }

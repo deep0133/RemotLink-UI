@@ -13,10 +13,9 @@ import arrowdown from "../../images/Vector (Stroke).png";
 import bookmarkicon2 from "../../images/Vector.png";
 import Pagination from "../uiElemnts/pagination";
 
-import bookmarkicon from "../../images/Group 1000002939.png";
 import linkicon from "../../images/Group 1000002938.png";
 
-function SearchView() {
+function SearchView({ logutOutHandler, institutionDetails, domain }) {
   const [Open, setOpen] = useState(false);
   const btn = ["Search type", "Resource Type", "Databases"];
   const count = [
@@ -45,12 +44,11 @@ function SearchView() {
       btn: "English",
     },
   ];
-  var i = [1, 2, 3];
   var books = [1, 2, 3, 4, 5, 6, 7];
   var page = [1, 2, 3, 4, 5];
   return (
     <>
-      <Header />
+      <Header {...{ logutOutHandler, institutionDetails, domain }} />
       <div className=' flex'>
         <span className=' hidden sm:block'>
           <Sidebar />
@@ -324,7 +322,7 @@ function SearchView() {
           <Journel /> */}
         </span>
       </div>
-      <Footer />
+      <Footer {...{ institutionDetails, domain }} />
     </>
   );
 }
