@@ -148,48 +148,12 @@ export default function useFetch() {
         },
       });
       const json = await response.json();
+
       const proxyUrl = json.proxy_url;
 
       setProxy(proxyUrl);
 
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-
-      const headersString = Object.keys(headers)
-        .map((key) => `${key}: ${headers[key]}`)
-        .join("\n");
-
-      const newTab = window.open();
-
-      if (newTab) {
-        newTab.document.write(`
-          <html>
-            <head>
-              <title>Authorization</title>
-              <script>
-                const headers = \`${headersString}\`;
-                const lines = headers.split('\\n');
-                const xhr = new XMLHttpRequest();
-                lines.forEach((line) => {
-                  const parts = line.split(': ');
-                  if (parts.length === 2) {
-                    xhr.setRequestHeader(parts[0], parts[1]);
-                  }
-                });
-              </script>
-            </head>
-            <body>
-              <p>Authorization headers injected. Redirecting...</p>
-              <script>
-                window.location.href = '${proxyUrl}';
-              </script>
-            </body>
-          </html>
-        `);
-      } else {
-        console.error("Failed to open new tab");
-      }
+      window.open(proxyUrl, "_blank");
     } catch (error) {
       console.log("Error: ", error);
     }
