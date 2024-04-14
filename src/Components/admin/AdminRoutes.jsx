@@ -1,4 +1,4 @@
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import PageLayout from "./Layouts/PageLayout";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Category from "./pages/category/Category";

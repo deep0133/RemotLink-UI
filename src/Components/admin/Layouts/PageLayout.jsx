@@ -100,10 +100,13 @@ const SidebarMenu = () => {
           >
             {val.icon}
             <h3
-              className={`w-full text-sm text-inherit font-medium font-poppins`}
+              className={`w-full  text-sm text-inherit font-medium font-poppins`}
             >
               {val.name}
             </h3>
+            {location.pathname.includes(val.path) && (
+              <div className='w-[5px] h-[26px] shadow-md absolute left-0 bg-violet-800 rounded-tl-[1px] rounded-tr-[10px] rounded-bl-[1px] rounded-br-[10px]' />
+            )}
           </NavLink>
         );
       })}
