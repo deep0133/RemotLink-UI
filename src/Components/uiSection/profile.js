@@ -130,7 +130,7 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
                 <div
                   onClick={() => setActiveTab("Profileoverview")}
                   className={` ${
-                    activeTab == "Profileoverview"
+                    activeTab === "Profileoverview"
                       ? "border-b-2 border-[#1F5095]"
                       : "text-[#454545] text-[14px] font-Poppins font-semibold opacity-[40%]"
                   } pt-8 pb-3 pl-3 pr-3  text-[#1F5095] text-[14px] font-Poppins font-semibold cursor-pointer whitespace-nowrap`}
@@ -140,7 +140,7 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
 
                 <div
                   className={` ${
-                    activeTab == "Accountsettings"
+                    activeTab === "Accountsettings"
                       ? "border-b-2 border-[#1F5095]"
                       : "text-[#454545] text-[14px] font-Poppins font-semibold opacity-[40%]"
                   } pt-8 pb-3 pl-3 pr-3  text-[#1F5095] text-[14px] font-Poppins font-semibold cursor-pointer whitespace-nowrap`}
@@ -150,11 +150,11 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
                 </div>
               </div>
             </div>
-            {activeTab == "Profileoverview" && (
+            {activeTab === "Profileoverview" && (
               <div className='px-4 sm:px-[50px] py-6'>
                 <div className=' flex  justify-between sm:flex-row flex-col'>
-                  <div className=' border h-[237px] sm:h-[186px] p-4 sm:py-6 sm:pl-10 sm:pr-24  sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE] mb-4 sm:mb-0'>
-                    <h1 className=' text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-8'>
+                  <div className=' border-2 p-4 sm:py-6 sm:pl-10 sm:pr-24  sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE] mb-4 sm:mb-0'>
+                    <h1 className=' text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-6'>
                       Personal Details
                     </h1>
                     <div className=' flex justify-between flex-wrap'>
@@ -186,8 +186,8 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
                     </div>
                   </div>
                   {/* academic details for web view  */}
-                  <div className='hidden sm:block border h-[237px] sm:h-[186px] p-4 sm:py-6 sm:pl-10 sm:pr-24  sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE]'>
-                    <h1 className=' text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-8'>
+                  <div className='hidden border-2 sm:block borderr p-4 sm:py-6 sm:pl-10 sm:pr-24  sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE]'>
+                    <h1 className=' text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-6'>
                       Academic Details
                     </h1>
                     <div className='flex justify-between flex-wrap'>
@@ -218,9 +218,9 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
                     </div>
                   </div>
 
-                  {/*  academic details for web view*/}
-                  <div className='sm:hidden grid grid-cols-1 sm:grid-cols-2 gap-1 border h-[237px] sm:h-[186px] p-4 sm:py-6 sm:pl-10 sm:pr-24 sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE]'>
-                    <div className='col-span-2 mb-8'>
+                  {/*  academic details for mobile view*/}
+                  <div className='sm:hidden border-2 grid grid-cols-1 sm:grid-cols-2 gap-1 borderr h-[237px] sm:h-[186px] p-4 sm:py-6 sm:pl-10 sm:pr-24 sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE]'>
+                    <div className='col-span-2 mb-6'>
                       <h1 className='text-[#1F5095] text-[18px] leading-[20px] font-semibold'>
                         Academic Details
                       </h1>
@@ -251,9 +251,9 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
                     </div>
                   </div>
                 </div>
-                <div className=' flex  justify-between mt-4 sm:flex-row flex-col '>
-                  <div className=' border h-[272px]  sm:py-6 sm:pl-10 sm:pr-24 p-4 sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE]'>
-                    <h1 className=' text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-8'>
+                <div className=' flex border-2 justify-between mt-4 sm:flex-row flex-col '>
+                  <div className=' border sm:py-6 sm:pl-10 sm:pr-24 p-4 sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE]'>
+                    <h1 className=' text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-6'>
                       Location and Address
                     </h1>
                     <div className=' flex justify-between'>
@@ -274,27 +274,27 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
                     </div>
                   </div>
 
-                  {/* web view social media icon */}
-                  <div className='sm:block hidden mt-4 sm:mt-0 border sm:h-[272px] h-[327px]  py-6 pl-10  sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE]'>
-                    <h1 className=' text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-12'>
+                  {/* social media icon */}
+                  <div className='mt-4 sm:mt-0 border  py-6 p-4 sm:pl-10  sm:w-[50%] sm:mr-4 rounded-lg bg-[#F9F9FE]'>
+                    <h1 className=' text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-6'>
                       Social Media Handles
                     </h1>
-                    <div className=' flex w-[526px] sm:flex-wrap flex-col sm:flex-row'>
-                      <div className=' flex items-center mb-4 mr-8'>
-                        <div className=' border rounded-full flex justify-center items-center  h-[39px] w-[37px] mr-4'>
+                    <div className='grid lg:grid-cols-2 gap-5 pr-5'>
+                      <div className='flex items-center'>
+                        <div className='border rounded-full flex justify-center items-center  h-[39px] w-[37px] mr-4'>
                           <img
                             src={instagramicon}
                             alt='socialmedia-logo'
                             className='h-[20px] w-[20px] '
                           />
                         </div>
-                        <div>
-                          <div className=' w-[194px] h-[44px] border rounded-md  text-left px-6 py-2 text-[#8C8C8C] text-[14px]'>
+                        <div className='w-full'>
+                          <div className='h-[44px] w-full grow border rounded-md  text-left px-6 py-2 text-[#8C8C8C] text-[14px]'>
                             {userDetails?.instagram || "-"}
                           </div>
                         </div>
                       </div>
-                      <div className=' flex items-center mb-4 '>
+                      <div className='flex items-center'>
                         <div className=' border rounded-full flex justify-center items-center  h-[39px] w-[37px] mr-4'>
                           <img
                             src={xicon}
@@ -302,27 +302,25 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
                             className='h-[20px] w-[20px] '
                           />
                         </div>
-                        <div>
-                          <div className=' w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]'>
+                        <div className='w-full'>
+                          <div className=' h-[44px] grow border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]'>
                             {userDetails?.twitter || "-"}
                           </div>
                         </div>
                       </div>
-                      <div className=' flex items-center mr-8'>
-                        <div className=' border rounded-full flex justify-center items-center  h-[39px] w-[37px] mr-4'>
+                      <div className='flex items-center'>
+                        <div className='border rounded-full flex justify-center items-center  h-[39px] w-[37px] mr-4'>
                           <img
                             src={linkedinicon}
                             alt='socialmedia-logo'
                             className='h-[20px] w-[20px] '
                           />
                         </div>
-                        <div>
-                          <div className=' w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]'>
-                            {userDetails?.linkedin || "-"}
-                          </div>
+                        <div className='w-full h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]'>
+                          {userDetails?.linkedin || "-"}
                         </div>
                       </div>
-                      <div className=' flex items-center mt-4 sm:mt-0 '>
+                      <div className='flex items-center'>
                         <div className=' border rounded-full flex justify-center items-center  h-[39px] w-[37px] mr-4'>
                           <img
                             src={facebookicon}
@@ -330,76 +328,8 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
                             className='h-[20px] w-[20px] '
                           />
                         </div>
-                        <div>
-                          <div className=' w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]'>
-                            {userDetails?.facebook || "-"}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* mobile view social mdeai icon  */}
-
-                  <div className='sm:hidden block mt-4 sm:mt-0 border sm:h-[272px] h-[327px]  p-4  rounded-lg bg-[#F9F9FE]'>
-                    <h1 className=' text-[#1F5095] text-[18px]  leading-[20px]  font-semibold mb-12'>
-                      Social Media Handles
-                    </h1>
-                    <div>
-                      <div className=' flex items-center mb-4'>
-                        <div className=' border rounded-full flex justify-center items-center  h-[39px] w-[37px] mr-4'>
-                          <img
-                            src={instagramicon}
-                            alt='socialmedia-logo'
-                            className='h-[20px] w-[20px] '
-                          />
-                        </div>
-                        <div>
-                          <div className='w-[265px] sm:w-[194px] h-[44px] border rounded-md  text-left px-6 py-2 text-[#8C8C8C] text-[14px]'>
-                            {userDetails?.instagram || "-"}
-                          </div>
-                        </div>
-                      </div>
-                      <div className=' flex items-center mb-4 '>
-                        <div className=' border rounded-full flex justify-center items-center  h-[39px] w-[37px] mr-4'>
-                          <img
-                            src={xicon}
-                            alt='socialmedia-logo'
-                            className='h-[20px] w-[20px] '
-                          />
-                        </div>
-                        <div>
-                          <div className='w-[265px] sm:w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]'>
-                            {userDetails?.twitter || "-"}
-                          </div>
-                        </div>
-                      </div>
-                      <div className=' flex items-center '>
-                        <div className=' border rounded-full flex justify-center items-center  h-[39px] w-[37px] mr-4'>
-                          <img
-                            src={linkedinicon}
-                            alt='socialmedia-logo'
-                            className='h-[20px] w-[20px] '
-                          />
-                        </div>
-                        <div>
-                          <div className='w-[265px] sm:w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]'>
-                            {userDetails?.linkedin || "-"}
-                          </div>
-                        </div>
-                      </div>
-                      <div className=' flex items-center mt-4 sm:mt-0 '>
-                        <div className=' border rounded-full flex justify-center items-center  h-[39px] w-[37px] mr-4'>
-                          <img
-                            src={facebookicon}
-                            alt='socialmedia-logo'
-                            className='h-[20px] w-[20px] '
-                          />
-                        </div>
-                        <div>
-                          <div className='w-[265px] sm:w-[194px] h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]'>
-                            {userDetails?.facebook || "-"}
-                          </div>
+                        <div className='w-full h-[44px] border rounded-md text-left px-6 py-2 text-[#8C8C8C] text-[14px]'>
+                          {userDetails?.facebook || "-"}
                         </div>
                       </div>
                     </div>
@@ -407,7 +337,7 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
                 </div>
               </div>
             )}
-            {activeTab == "Accountsettings" && (
+            {activeTab === "Accountsettings" && (
               <>
                 <div className=' hidden sm:block px-[50px] py-10'>
                   <AccountSettings />

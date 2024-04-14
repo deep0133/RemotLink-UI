@@ -336,7 +336,11 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
                       <div className=' flex mt-4 '>
                         <div className=''>
                           <div className=' h-[87px] w-[72px] bg-[#F3F7FA] flex justify-center items-center rounded-[6px]'>
-                            <img src={book} className='h-[39px] w-[32px]' />
+                            <img
+                              src={book}
+                              className='h-[39px] w-[32px]'
+                              alt=''
+                            />
                           </div>
                           <div
                             className='mt-4 px-2 py-1 text-[#F38D15] font-mediumsm: bg-gray-50 rounded-md flex justify-center  items-center'

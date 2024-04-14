@@ -39,12 +39,12 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
       <>
         <Header {...{ logutOutHandler, institutionDetails, domain }} />
         <div className=' flex'>
-          <span className=' md:block hidden'>
+          <span className='md:block hidden'>
             <Sidebar />
           </span>
-          <div className='flex justify-center py-10 items-center w-full'>
-            <div className='h-auto sm:h-[518px] flex justify-between p-4 sm:border rounded-xl flex-col sm:flex-row'>
-              <div className='w-[325px] sm:w-[420px]'>
+          <div className='flex px-[5%] md:px-0 justify-center py-10 w-full md:w-[calc(100%-96px)]'>
+            <div className='h-auto w-full md:w-[90%] lg:w-[85%] flex justify-between p-4 sm:border rounded-xl flex-col sm:flex-row'>
+              <div className=''>
                 <h1 className='font-bold text-[14px] leading-5 flex items-center p-2 border-b-[3px] border-[#1F5095] w-fit'>
                   <img
                     src={announce}
@@ -54,7 +54,7 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
                   <span className='text-[#1F5095]'>Announcements</span>{" "}
                 </h1>
 
-                <ul className='list-disc ml-4 mr-4 pl-6 mt-4 overflow-y-scroll h-[400px]'>
+                <ul className='list-disc ml-4 mr-4 pl-6 mt-4 overflow-y-scroll max-h-[400px]'>
                   {notificationdata &&
                     notificationdata?.announcement?.map((e) => (
                       <li
@@ -68,7 +68,7 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
                     ))}
                 </ul>
               </div>
-              <div className='w-[325px] sm:w-[420px] sm:h-[450px] sm:mt-0 mt-6'>
+              <div className=''>
                 <h1 className='font-bold text-[14px] leading-5 flex items-center py-2 pl-2 pr-6 border-b-[3px] border-[#1F5095] w-fit'>
                   <img
                     src={news}
@@ -77,7 +77,7 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
                   />
                   <span className='text-[#1F5095]'>Latest News</span>{" "}
                 </h1>
-                <div className='mt-4 overflow-y-scroll notif '>
+                <div className='mt-4 overflow-y-scroll notif max-h-[400px]'>
                   {notificationdata &&
                     notificationdata?.news?.map((e, index) => (
                       <React.Fragment key={e.id}>
@@ -105,7 +105,7 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
                     ))}
                 </div>
               </div>
-              <div className='w-[325px] sm:w-[420px] h-[450px]'>
+              <div className=''>
                 <h1 className='font-bold text-[14px] leading-5 flex items-center p-2 border-b-[3px] border-[#1F5095] w-fit'>
                   <img
                     src={links}
@@ -114,7 +114,7 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
                   />
                   <span className='text-[#1F5095]'>Important Links</span>{" "}
                 </h1>
-                <div className='mt-4 overflow-y-scroll notif h-[400px]'>
+                <div className='mt-4 overflow-y-scroll notif max-h-[400px]'>
                   {notificationdata &&
                     notificationdata?.links?.map((e) => (
                       <div
