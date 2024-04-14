@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import Service from "../../Webservices/http";
+import generateUrl from "../../admin/utils/urlGenerate";
 
 function Security() {
   const [isPasswordVisiblenew, setIsPasswordVisiblenew] = useState(false);
@@ -23,7 +23,6 @@ function Security() {
     });
   };
 
-  const services = new Service();
   const togglePasswordVisibilityOld = () => {
     setIsPasswordVisibleOld((prevState) => !prevState);
   };
@@ -41,8 +40,19 @@ function Security() {
       return;
     }
     try {
-      const res = services.post("api/user/change-password/", formData);
-      console.log(res);
+      const token = localStorage.getItem("access_token");
+      const domain = await generateUrl();
+      const response = await fetch(domain + "api/user/change-password/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const json = await response.json();
+      console.log(json);
     } catch (error) {
       console.error("Error:", error.response.data);
       setError(error.response.data.message);

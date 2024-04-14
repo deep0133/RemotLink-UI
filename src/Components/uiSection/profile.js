@@ -12,18 +12,26 @@ import xicon from "../../images/X.png";
 import linkedinicon from "../../images/linkedin.png";
 import AccountSettings from "./Accountsettings/accountSettings";
 import Mobileaccountsettings from "../mobile/mobileaccountsettings";
-import Service from "../Webservices/http";
+import generateUrl from "../admin/utils/urlGenerate";
 
 function Profile({ logutOutHandler, institutionDetails, domain }) {
   const [activeTab, setActiveTab] = useState("Profileoverview");
   const [userDetails, setUserDetails] = useState("");
-  const services = new Service();
 
   const userDetailFetch = async () => {
     try {
-      await services
-        .get("api/user/current-user")
-        .then((res) => setUserDetails(res));
+      const domain = await generateUrl();
+      const token = localStorage.getItem("access_token");
+
+      const response = await fetch(domain + "api/user/current-user/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const json = await response.json();
+      setUserDetails(json);
     } catch (error) {
       console.error("Error fetching user details:", error);
     }

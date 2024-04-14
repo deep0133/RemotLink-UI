@@ -8,10 +8,9 @@ import news from "../../images/news.png";
 import links from "../../images/imp links.png";
 import youtubeicon from "../../images/youtube.svg";
 import arrowcircle from "../../images/arrow-circle-left.svg";
-import Service from "../Webservices/http";
+import generateUrl from "../admin/utils/urlGenerate";
 
 function Notifications({ logutOutHandler, institutionDetails, domain }) {
-  const services = new Service();
   const [notificationdata, setNotificationdata] = useState("");
   const [expanded, setExpanded] = useState({});
 
@@ -22,10 +21,18 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await services.get("api/announcement");
-        // const data = await response.json();
-        console.log(response);
-        setNotificationdata(response);
+        const domain = await generateUrl();
+        const token = localStorage.getItem("access_token");
+
+        const response = await fetch(domain + "api/announcement", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const json = await response.json();
+        setNotificationdata(json);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

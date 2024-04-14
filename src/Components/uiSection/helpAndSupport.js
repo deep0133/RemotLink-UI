@@ -10,8 +10,8 @@ import mailIcon from "../../images/mail.svg";
 import userIcon from "../../images/user-octagon.svg";
 import messageIcon from "../../images/envelope.svg";
 import phoneIcon from "../../images/phone-ring.svg";
-import Service from "../Webservices/http";
 import readSubdomainFromFile from "../admin/utils/readSubdomainFromFile";
+import generateUrl from "../admin/utils/urlGenerate";
 function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
   const [expandedBoxes, setExpandedBoxes] = useState([
     false,
@@ -23,17 +23,13 @@ function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [labDetails, setLabDetails] = useState("");
-  const services = new Service();
 
   const fetchFaqs = async () => {
     setLoading(true);
     try {
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      const domain = await readSubdomainFromFile();
+      const domain = await generateUrl();
 
-      const url = "https://" + domain + "." + baseUrl;
-
-      const response = await fetch(`${url}api/faq/`);
+      const response = await fetch(`${domain}api/faq/`);
       if (!response.ok) {
         throw new Error("Failed to fetch FAQs");
       }
@@ -54,9 +50,18 @@ function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
   const labDetailsFetch = async () => {
     setLoading(true);
     try {
-      await services
-        .get("api/institution/library/1/")
-        .then((res) => setLabDetails(res));
+      const domain = await generateUrl();
+      const token = localStorage.getItem("access_token");
+
+      const response = await fetch(domain + "api/institution/library/1/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const json = await response.json();
+      setLabDetails(json);
     } catch (error) {
       console.error("Error fetching FAQs:", error);
       setError("Failed to fetch FAQs. Please try again later.");
