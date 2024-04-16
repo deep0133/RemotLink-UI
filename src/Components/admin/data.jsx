@@ -68,17 +68,17 @@ export const DashBoardRightMenu = [
   {
     id: 2,
     name: "User Categories",
-    path: "/admin/dashboard/user",
+    path: "/admin/dashboard/usercategory",
   },
   {
     id: 3,
     name: "Categories",
-    path: "/admin/dashboard/category",
+    path: "/admin/dashboard/categories",
   },
   {
     id: 4,
     name: "e-Resources",
-    path: "/admin/dashboard/eresource",
+    path: "/admin/dashboard/resources",
   },
 ];
 
