@@ -22,7 +22,7 @@ export default function BulkUser({ templateDownload }) {
         className='border relative p-8 mx-3 h-full my-5 rounded-md'
       >
         <HeroSection templateDownload={templateDownload} />
-        <FileUpload />
+        <FileUpload error={["First Error", "Second Error", "Third Error"]} />
         <Buttons />
       </div>
     </>
@@ -51,7 +51,7 @@ const HeroSection = ({ templateDownload }) => {
   );
 };
 
-const FileUpload = () => {
+const FileUpload = ({ error }) => {
   return (
     <div className='mt-6 relative'>
       <h3 className='text-black lining-nums proportional-nums font-Poppins text-sm font-medium leading-6 '>
@@ -113,6 +113,21 @@ const FileUpload = () => {
             <div className='w-1/3 h-1.5 bg-yellow-600 rounded-full'></div>
           </div>
         </div>
+      </div>
+      <div className='error-list hidden my-6'>
+        <h3 className='text-black lining-nums proportional-nums font-Poppins text-sm font-medium leading-6 '>
+          Errors :
+        </h3>
+        <ul className='list-inside list-decimal space-y-2 mt-3'>
+          {error &&
+            error.map((err, index) => {
+              return (
+                <li className='text-black opacity-50 lining-nums proportional-nums font-Poppins text-sm font-medium'>
+                  {err}
+                </li>
+              );
+            })}
+        </ul>
       </div>
     </div>
   );

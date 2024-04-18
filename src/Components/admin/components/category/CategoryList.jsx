@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { DeleteIcon, EditICon } from "../../assets/constants";
-import { LuLoader2 } from "react-icons/lu";
 import Loader from "../Loader/Loader.jsx";
 const CategoryList = ({
   fetchLoading = false,
@@ -19,15 +18,7 @@ const CategoryList = ({
         loading ? "overflow-hidden" : "overflow-auto"
       }`}
     >
-      {loading && (
-        <div className='absolute w-full h-full max-h-[380px] backdrop:blur-md '>
-          <div className='w-full h-full relative -inset-3 bg-black/10 flex justify-center items-center'>
-            <div className='w-fit animate-spin '>
-              <LuLoader2 />
-            </div>
-          </div>
-        </div>
-      )}
+      {loading && <Loader />}
       <div className='row-1 sticky top-0 grid grid-cols-9 bg-white w-full px-5 py-3 mb-2 border-b'>
         <div className='text-slate-400 col-span-1 text-sm font-medium font-Poppins leading-normal'>
           #id

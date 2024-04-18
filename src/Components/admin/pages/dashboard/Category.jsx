@@ -7,8 +7,9 @@ import DashBoardPageHeader from "../../components/Dashboard/DashBoardPageHeader"
 import DetailCard from "../../components/Dashboard/DetailCard";
 import BarChart from "../../components/Dashboard/BarChart";
 import FullCircle from "../../components/Dashboard/FullCircle";
+import Loader from "../../components/Loader/Loader";
 
-export default function Category() {
+export default function Category({ reportSiteLoading, reportSiteData }) {
   return (
     <div className=''>
       <Header
@@ -17,12 +18,13 @@ export default function Category() {
         title={"Category"}
       />
       <Navigation data={DashBoardRightMenu} />
-      <Details />
+      <Details siteLoading={reportSiteLoading} siteData={reportSiteData} />
     </div>
   );
 }
 
-const Details = () => {
+const Details = ({ siteLoading, siteData }) => {
+  let renderIndex = 1;
   return (
     <>
       <DashBoardPageHeader />
@@ -142,24 +144,29 @@ const Details = () => {
                 Accessed By
               </div>
             </div>
-            {data.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className='col-span-full px-5 grid grid-cols-4 gap-3'
-                >
-                  <div className='text-lime-600 text-xs font-medium font-Poppins leading-normal'>
-                    #{index + 1}
+            {siteLoading && <Loader />}
+            {siteData &&
+              siteData.results.map((item, index) => {
+                if (!item.site__category__name || renderIndex > 4) return null;
+                const currentIndex = renderIndex++;
+
+                return (
+                  <div
+                    key={index}
+                    className='col-span-full px-5 grid grid-cols-4 gap-3'
+                  >
+                    <div className='text-lime-600 text-xs font-medium font-Poppins leading-normal'>
+                      #{currentIndex}
+                    </div>
+                    <div className='text-indigo-900 col-span-2 text-xs font-medium font-Poppins leading-7'>
+                      {item.site__category__name}
+                    </div>
+                    <div className='text-indigo-900 text-center text-xs font-medium font-Poppins leading-normal'>
+                      {item.access_count}
+                    </div>
                   </div>
-                  <div className='text-indigo-900 col-span-2 text-xs font-medium font-Poppins leading-7'>
-                    {item.subject_name}
-                  </div>
-                  <div className='text-indigo-900 text-center text-xs font-medium font-Poppins leading-normal'>
-                    {item.accessd_by}
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
 
