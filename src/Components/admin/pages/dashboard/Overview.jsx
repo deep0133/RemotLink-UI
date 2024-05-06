@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
-import { DashboardIcon } from "../../assets/constants";
+import {
+  ClockIcon,
+  DashboardIcon,
+  ResourceIcon,
+  UserEmptyIcon,
+} from "../../assets/constants";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
 import { DashBoardRightMenu } from "../../data";
 import HalfCircleChart from "../../components/Dashboard/HalfCircleChart";
@@ -10,8 +15,16 @@ import BarChart from "../../components/Dashboard/BarChart";
 import DashBoardPageHeader from "../../components/Dashboard/DashBoardPageHeader";
 import DetailCard from "../../components/Dashboard/DetailCard";
 import Loader from "../../components/Loader/Loader";
+import useFetch from "../../hooks/useFetch";
 
-export default function Overview({ siteLoading, siteData }) {
+export default function Overview({
+  weekMonth,
+  setWeekMonth,
+  siteLoading,
+  siteData,
+  overviewCardData,
+  overviewCardDataLoading,
+}) {
   const [amPm, setAmPm] = useState("Am");
 
   return (
@@ -20,29 +33,146 @@ export default function Overview({ siteLoading, siteData }) {
       <Navigation data={DashBoardRightMenu} />
       <Details
         amPm={amPm}
+        weekMonth={weekMonth}
+        setWeekMonth={setWeekMonth}
         setAmPm={setAmPm}
         siteLoading={siteLoading}
         siteData={siteData && siteData.results}
+        overviewCardData={overviewCardData}
+        overviewCardDataLoading={overviewCardDataLoading}
       />
     </div>
   );
 }
 
-const Details = ({ amPm, setAmPm, siteLoading, siteData }) => {
+const Details = ({
+  amPm,
+  weekMonth,
+  setWeekMonth,
+  setAmPm,
+  siteLoading,
+  siteData,
+  overviewCardData,
+  // overviewCardDataLoading,
+}) => {
+  const [userEngagWeekMonth, setUserEngagWeekMonth] = useState("month");
+  const [recentlyWeekMonth, setRecentlyWeekMonth] = useState("month");
+
+  const [recentlyTop, setRecentlyTop] = useState("recently");
+
+  const {
+    overviewUserEngageData,
+    overviewUserEngageDataLoading,
+    overviewRecentlyUpdatedDataLoading,
+    overviewRecentlyUpdatedData,
+    reportSiteData,
+    handleFetchOverallDashboardUserEngagement,
+    handleFetchOverallDashboardRecentlyUpdated,
+    handleFetctSiteReports,
+  } = useFetch();
+
+  useEffect(() => {
+    handleFetchOverallDashboardUserEngagement(
+      "api/dashboard/user_engagement?metrics=" + userEngagWeekMonth
+    );
+  }, [userEngagWeekMonth]);
+
+  useEffect(() => {
+    if (recentlyTop === "recently") {
+      handleFetchOverallDashboardRecentlyUpdated(
+        "api/dashboard/recently_updated?metrics=week" + userEngagWeekMonth
+      );
+    } else if (recentlyTop === "top") {
+      handleFetctSiteReports("api/report/site/");
+    }
+  }, [recentlyWeekMonth]);
+
   return (
     <>
-      <DashBoardPageHeader />
+      <DashBoardPageHeader setWeekMonth={setWeekMonth} />
       {/* -------- Section 1 ------------ */}
       <div className='card-container mt-5 grid grid-cols-4 gap-5 '>
         <div className=' p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <DetailCard progress={true} />
+          <DetailCard
+            progress={true}
+            progressColor={"#3758F9"}
+            name={"Total Users"}
+            weekMonth={weekMonth}
+            icon={<UserEmptyIcon />}
+            data1={
+              overviewCardData && overviewCardData.total_users?.total_users
+            }
+            data2={
+              overviewCardData &&
+              overviewCardData.total_users?.total_users_created_this_metric
+            }
+            data3={
+              overviewCardData &&
+              overviewCardData.total_users?.change_from_last_metric
+            }
+            data4={
+              overviewCardData &&
+              overviewCardData.total_users?.change_percentage_from_last_metric
+            }
+          />
         </div>
         <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <DetailCard progress={true} />
+          <DetailCard
+            progress={true}
+            progressColor={"#F2994A"}
+            name={"Total Resources"}
+            weekMonth={weekMonth}
+            icon={<ResourceIcon />}
+            data1={
+              overviewCardData && overviewCardData.total_resources?.total_sites
+            }
+            data2={
+              overviewCardData &&
+              overviewCardData.total_resources
+                ?.total_sites_introduces_this_metric
+            }
+            data3={
+              overviewCardData &&
+              overviewCardData.total_resources?.change_from_last_metric
+            }
+            data4={
+              overviewCardData &&
+              overviewCardData.total_resources
+                ?.change_percentage_from_last_metric
+            }
+          />
         </div>
         <div className='p-5 col-span-2 flex gap-3 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
           <div className='left w-1/2'>
-            <DetailCard />
+            <DetailCard
+              name={"Total Active Hours"}
+              weekMonth={weekMonth}
+              icon={<ClockIcon />}
+              data1={
+                overviewCardData &&
+                overviewCardData.total_active_hours &&
+                Number(
+                  overviewCardData.total_active_hours
+                    .total_active_hours_this_metric
+                ).toFixed(2)
+              }
+              data2={
+                overviewCardData &&
+                overviewCardData.total_active_hours
+                  ?.total_users_created_this_month
+              }
+              data3={
+                overviewCardData &&
+                overviewCardData.total_active_hours &&
+                overviewCardData.total_active_hours.change_from_last_metric
+              }
+              data4={
+                overviewCardData &&
+                overviewCardData.total_active_hours &&
+                overviewCardData.total_active_hours
+                  .change_percentage_from_last_metric
+              }
+            />
           </div>
           <div className='right w-1/2 relative overflow-hidden'>
             {/* ------- Curve Line ----------- */}
@@ -71,26 +201,37 @@ const Details = ({ amPm, setAmPm, siteLoading, siteData }) => {
               style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
               className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
               name='month'
+              onChange={(e) => {
+                setUserEngagWeekMonth(e.target.value);
+              }}
             >
-              <option>Month</option>
+              <option value={"month"}>Month</option>
+              <option value={"week"}>Week</option>
             </select>
           </div>
-          <div className='flex gap-3 mt-4'>
-            <ul className='space-y-3 basis-1/2 shrink-0 list-disc list-inside'>
-              <li className='text-gray-500 text-sm font-normal font-Poppins leading-tight'>
-                High Engament Users
-              </li>
-              <li className='text-gray-500 text-sm font-normal font-Poppins leading-tight'>
-                Medium Enagagement Users
-              </li>
-              <li className='text-gray-500  text-sm font-normal font-Poppins leading-tight'>
-                Low Engagement Users
-              </li>
-            </ul>
-            <div className='doughnet-chart overflow-hidden basis-1/2 shrink-0 grow-0'>
-              <FullCircle />
+          {overviewUserEngageData && overviewUserEngageData.length > 0 ? (
+            <div className='flex gap-3 mt-4'>
+              <ul className='space-y-3 basis-1/2 shrink-0 list-disc list-inside'>
+                {overviewUserEngageData &&
+                  overviewUserEngageData.slice(0, 5).map((name) => {
+                    return (
+                      <li className='text-gray-500 text-sm font-normal font-Poppins leading-tight'>
+                        {name && name.site__name}
+                      </li>
+                    );
+                  })}
+              </ul>
+              <div className='doughnet-chart overflow-hidden basis-1/2 shrink-0 grow-0'>
+                {overviewUserEngageDataLoading ? (
+                  "Loading..."
+                ) : (
+                  <FullCircle myData={overviewUserEngageData} />
+                )}
+              </div>
             </div>
-          </div>
+          ) : (
+            <h3 className='mt-6 font-medium'>No Data Found</h3>
+          )}
 
           <div className='success relative'>
             <div className=' left-[25px] mt-8 text-lime-600 text-xs font-medium font-Poppins leading-[18px]'>
@@ -213,10 +354,20 @@ const Details = ({ amPm, setAmPm, siteLoading, siteData }) => {
         <div className='right basis-3/5 p-5'>
           <div className='flex justify-between'>
             <div className=' flex'>
-              <div className='text-violet-800 pr-3 py-1 pl-5 border-b-2 text-base font-medium font-Poppins leading-7'>
+              <div
+                onClick={() => {
+                  setRecentlyTop("recently");
+                }}
+                className='text-violet-800 pr-3 py-1 pl-5 border-b-2 text-base font-medium font-Poppins leading-7'
+              >
                 Recently Updated
               </div>
-              <div className='opacity-40 pr-5 pl-3 py-1 border-b-2 text-violet-800 text-base font-medium font-Poppins leading-7'>
+              <div
+                onClick={() => {
+                  setRecentlyTop("top");
+                }}
+                className='opacity-40 pr-5 pl-3 py-1 border-b-2 text-violet-800 text-base font-medium font-Poppins leading-7'
+              >
                 Top Resources
               </div>
             </div>
@@ -224,21 +375,45 @@ const Details = ({ amPm, setAmPm, siteLoading, siteData }) => {
               style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
               className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
               name='month'
+              onChange={(e) => {
+                setRecentlyWeekMonth(e.target.value);
+              }}
             >
-              <option>Last Week</option>
+              <option value={"week"}>Last Week</option>
+              <option value={"month"}>Last Month</option>
             </select>
           </div>
 
-          <div className='card-container grid grid-cols-2 gap-5 mt-5'>
-            <RecentlyTopCard />
-            <RecentlyTopCard />
-            <RecentlyTopCard />
-            <RecentlyTopCard />
-            <RecentlyTopCard />
-            <RecentlyTopCard />
-            <RecentlyTopCard />
-            <RecentlyTopCard />
-          </div>
+          {recentlyTop === "recently" && (
+            <div className='card-container grid grid-cols-2 gap-5 mt-5'>
+              {overviewRecentlyUpdatedData &&
+                overviewRecentlyUpdatedData.map((item) => {
+                  return (
+                    <RecentlyTopCard
+                      image={item && item.image ? item.image : null}
+                      title={item && item.name ? item.name : "---"}
+                      desc={item && item.description ? item.description : "---"}
+                    />
+                  );
+                })}
+            </div>
+          )}
+
+          {recentlyTop === "top" && (
+            <div className='card-container grid grid-cols-2 gap-5 mt-5'>
+              {reportSiteData &&
+                reportSiteData.results &&
+                reportSiteData.results.map((item) => {
+                  return (
+                    <RecentlyTopCard
+                      image={item && item.site__image ? item.site__image : null}
+                      title={item && item.site__name ? item.site__name : "---"}
+                      desc={item && item.description ? item.description : "---"}
+                    />
+                  );
+                })}
+            </div>
+          )}
         </div>
       </div>
 
@@ -372,24 +547,24 @@ const CategoryCard = () => {
   );
 };
 
-const RecentlyTopCard = () => {
+const RecentlyTopCard = ({ image, title, desc }) => {
   return (
     <div className='card flex gap-3 '>
       <img
-        className='w-[52px] h-[59px] rounded-[5px]'
-        src='https://via.placeholder.com/52x59'
+        className='w-[52px] h-[59px] rounded-[5px] shrink-0 object-cover'
+        src={image ? image : "https://via.placeholder.com/52x59"}
         alt=''
       />
       <div className='content space-y-1'>
         <div className='text-indigo-500 text-sm font-medium font-Poppins leading-tight'>
-          Prostodontics
+          {title}
         </div>
         <div className='text-blue-900 text-[15px] font-medium font-Poppins leading-[15px]'>
-          Medical is the best field
+          {desc}
         </div>
-        <div className='text-slate-400 text-[13px] font-normal font-Poppins leading-tight'>
+        {/* <div className='text-slate-400 text-[13px] font-normal font-Poppins leading-tight'>
           Publisher Name
-        </div>
+        </div> */}
       </div>
     </div>
   );

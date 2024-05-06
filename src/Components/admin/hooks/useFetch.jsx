@@ -1,5 +1,4 @@
 import { useState } from "react";
-import subdmonpath from "../../../../src/subdomain.txt";
 import readSubdomainFromFile from "../utils/readSubdomainFromFile";
 export default function useFetch() {
   const [categoryLoading, setCetogoryLoading] = useState(false);
@@ -37,6 +36,20 @@ export default function useFetch() {
 
   const [faqLoading, setFaqLoading] = useState(false);
   const [faqData, setFaqData] = useState([]);
+
+  const [overviewCardDataLoading, setOverviewCardDataLoading] = useState(false);
+  const [overviewCardData, setOverviewCardData] = useState({});
+
+  const [overviewUserEngageDataLoading, setOverviewUserEngageDataLoading] =
+    useState(false);
+  const [overviewUserEngageData, setOverviewUserEngageData] = useState([]);
+
+  const [
+    overviewRecentlyUpdatedDataLoading,
+    setOverviewRecentlyUpdatedDataLoading,
+  ] = useState(false);
+  const [overviewRecentlyUpdatedData, setOverviewRecentlyUpdatedData] =
+    useState([]);
 
   const [subdomain, setSubdomain] = useState("");
 
@@ -144,6 +157,25 @@ export default function useFetch() {
     await fetchData(api, setFaqLoading, setFaqData);
   };
 
+  const handleFetchOverallDashboardCard = async (api) => {
+    await fetchData(api, setOverviewCardDataLoading, setOverviewCardData);
+  };
+
+  const handleFetchOverallDashboardUserEngagement = async (api) => {
+    await fetchData(
+      api,
+      setOverviewUserEngageDataLoading,
+      setOverviewUserEngageData
+    );
+  };
+  const handleFetchOverallDashboardRecentlyUpdated = async (api) => {
+    await fetchData(
+      api,
+      setOverviewRecentlyUpdatedDataLoading,
+      setOverviewRecentlyUpdatedData
+    );
+  };
+
   return {
     categoryLoading,
     userCategoryLoading,
@@ -156,6 +188,9 @@ export default function useFetch() {
     reportSiteLoading,
     messageLoading,
     userCourseLoading,
+    overviewCardDataLoading,
+    overviewUserEngageDataLoading,
+    overviewRecentlyUpdatedDataLoading,
     faqLoading,
     categoryData,
     userCategoryData,
@@ -169,6 +204,9 @@ export default function useFetch() {
     userCourseData,
     messageData,
     faqData,
+    overviewCardData,
+    overviewUserEngageData,
+    overviewRecentlyUpdatedData,
     handleFetctData,
     handleFetctUserCategoryData,
     handleFetctUsers,
@@ -181,5 +219,8 @@ export default function useFetch() {
     handleFetctUserCourse,
     handleFetchMessages,
     handleFetchFaq,
+    handleFetchOverallDashboardCard,
+    handleFetchOverallDashboardUserEngagement,
+    handleFetchOverallDashboardRecentlyUpdated,
   };
 }

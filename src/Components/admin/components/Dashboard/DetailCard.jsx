@@ -1,30 +1,56 @@
-const DetailCard = ({ progress = false }) => {
+import { DownRedArrow, UpGreenArrow } from "../../assets/constants";
+
+const DetailCard = ({
+  progress = false,
+  progressColor,
+  name,
+  weekMonth,
+  icon,
+  data1,
+  data2,
+  data3,
+  data4,
+}) => {
   return (
     <div className=''>
       <div className='flex flex-col gap-3'>
         <div className='flex gap-3 items-center'>
           {/* Logo */}
-          <div className='w-[50px] h-[50px] opacity-10 bg-blue-600 rounded-[3px]' />
+          <div className='w-[50px] h-[50px] bg-opacity-10 flex justify-center items-center bg-blue-600 rounded-[3px]'>
+            {icon}
+          </div>
           {/* Name */}
-          <div className='w-[78px] h-11 flex-col justify-start items-start inline-flex'>
+          <div className=' h-11 flex-col justify-start items-start inline-flex'>
             <div className='text-gray-900 text-sm font-medium font-Poppins leading-snug'>
-              Total Users
+              {name}
             </div>
             <div className='text-gray-500 text-sm font-medium font-Poppins leading-snug'>
-              This week
+              This {weekMonth}
             </div>
           </div>
         </div>
 
         {/* Numbers */}
-        <div className='w-[154px] h-[22px] justify-start items-center gap-3 inline-flex'>
+        <div className=' h-[22px] justify-start items-baseline gap-3 inline-flex'>
           <div className='text-gray-900 text-2xl font-semibold font-Poppins leading-snug'>
-            100000
+            {data1}
           </div>
           <div className='justify-start items-center gap-1 flex'>
-            <div className='text-green-600 text-sm font-medium font-Poppins leading-snug'>
-              0.39%
+            <div
+              className={`${
+                data4 >= 0 ? "text-green-600" : "text-red-600"
+              } text-sm font-medium font-Poppins leading-snug`}
+            >
+              {data4}%
             </div>
+            {data4 >= 0 ? (
+              <UpGreenArrow />
+            ) : (
+              <span className='rotate-180'>
+                {" "}
+                <DownRedArrow />
+              </span>
+            )}
           </div>
         </div>
 
@@ -35,8 +61,8 @@ const DetailCard = ({ progress = false }) => {
 
             <span role='progressbar' className='block rounded-full bg-gray-200'>
               <span
-                className='block h-1.5  rounded-full bg-indigo-600'
-                style={{ width: "75%" }}
+                className='block h-1.5  rounded-full'
+                style={{ width: "75%", background: progressColor }}
               ></span>
             </span>
           </div>

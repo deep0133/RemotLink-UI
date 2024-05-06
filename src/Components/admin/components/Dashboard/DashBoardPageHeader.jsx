@@ -1,4 +1,4 @@
-const DashBoardPageHeader = () => {
+const DashBoardPageHeader = ({ setWeekMonth }) => {
   return (
     <div className='mx-3 mt-5 metric flex justify-between items-center'>
       {/* <h2 className=' text-violet-800 text-[22px] font-semibold font-Poppins leading-[33px]'>
@@ -11,8 +11,13 @@ const DashBoardPageHeader = () => {
         style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
         className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
         name='month'
+        onClick={(e) => {
+          console.log("===Select Week Or Month=====");
+          setWeekMonth(e.target.value);
+        }}
       >
-        <option>Month</option>
+        <option value={"month"}>Month</option>
+        <option value={"week"}>Weekly</option>
       </select>
     </div>
   );

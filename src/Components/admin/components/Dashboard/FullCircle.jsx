@@ -1,19 +1,7 @@
-import React, { useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, ArcElement, Tooltip } from "chart.js";
+import PropTypes from "prop-types";
 Chart.register([ArcElement, Tooltip]);
-const data = {
-  labels: ["yellow", "blue", "green", "red"],
-  datasets: [
-    {
-      label: "Dataset",
-      data: [1, 2, 3], // Adjust values as needed
-      backgroundColor: ["#7F56D9", "#9E77ED", "#F4EBFF"],
-      borderWidth: 0,
-      hoverOffset: 2,
-    },
-  ],
-};
 
 const options = {
   maintainAspectRatio: false,
@@ -36,8 +24,22 @@ const options = {
   },
 };
 
-const FullCircle = () => {
-  const [borderColor, setBorderColor] = useState();
+const FullCircle = ({ myData }) => {
+  const labelName = myData && myData.map((item) => item.site__name);
+  const labelData = myData && myData.map((item) => item.access_percentage);
+
+  const data = {
+    labels: labelName,
+    datasets: [
+      {
+        label: "Dataset",
+        data: labelData, // Adjust values as needed
+        backgroundColor: ["#7F56D9", "#9E77ED", "#F4EBFF"],
+        borderWidth: 0,
+        hoverOffset: 2,
+      },
+    ],
+  };
 
   return (
     <div className='shrink-0 relative pr-4'>
@@ -49,3 +51,7 @@ const FullCircle = () => {
 };
 
 export default FullCircle;
+
+FullCircle.propTypes = {
+  myData: PropTypes.object,
+};
