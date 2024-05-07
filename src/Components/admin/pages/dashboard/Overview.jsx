@@ -80,12 +80,40 @@ const Details = ({
   useEffect(() => {
     if (recentlyTop === "recently") {
       handleFetchOverallDashboardRecentlyUpdated(
-        "api/dashboard/recently_updated?metrics=week" + userEngagWeekMonth
+        "api/dashboard/recently_updated?metrics=" + recentlyWeekMonth
       );
     } else if (recentlyTop === "top") {
-      handleFetctSiteReports("api/report/site/");
+      popularSiteDataHandle();
     }
   }, [recentlyWeekMonth]);
+
+  useEffect(() => {
+    popularSiteDataHandle();
+  }, []);
+
+  // ------------Working------- : Week logic --- Pending-----
+  const popularSiteDataHandle = () => {
+    const currentDate = new Date();
+
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+
+    let startData = "1/" + (month - 1) + "/" + year;
+
+    if (recentlyWeekMonth === "week") {
+      const newDay = day - 7;
+      if (newDay <= 0) {
+        startData = 30 - (7 - day) + "/" + (month - 2) + "/" + year;
+      }
+    }
+
+    const endDate = day + "/" + (month - 1) + "/" + year;
+
+    handleFetctSiteReports(
+      `api/report/site/?start=${startData}&end=${endDate}`
+    );
+  };
 
   return (
     <>
@@ -358,7 +386,8 @@ const Details = ({
                 onClick={() => {
                   setRecentlyTop("recently");
                 }}
-                className='text-violet-800 pr-3 py-1 pl-5 border-b-2 text-base font-medium font-Poppins leading-7'
+                style={{ opacity: recentlyTop === "top" ? 0.4 : 1 }}
+                className='text-violet-800 cursor-pointer pr-3 py-1 pl-5 border-b-2 text-base font-medium font-Poppins leading-7'
               >
                 Recently Updated
               </div>
@@ -366,7 +395,8 @@ const Details = ({
                 onClick={() => {
                   setRecentlyTop("top");
                 }}
-                className='opacity-40 pr-5 pl-3 py-1 border-b-2 text-violet-800 text-base font-medium font-Poppins leading-7'
+                style={{ opacity: recentlyTop !== "top" ? 0.4 : 1 }}
+                className=' pr-5 pl-3 py-1 cursor-pointer border-b-2 text-violet-800 text-base font-medium font-Poppins leading-7'
               >
                 Top Resources
               </div>
@@ -387,7 +417,7 @@ const Details = ({
           {recentlyTop === "recently" && (
             <div className='card-container grid grid-cols-2 gap-5 mt-5'>
               {overviewRecentlyUpdatedData &&
-                overviewRecentlyUpdatedData.map((item) => {
+                overviewRecentlyUpdatedData.slice(0, 6).map((item) => {
                   return (
                     <RecentlyTopCard
                       image={item && item.image ? item.image : null}
@@ -403,7 +433,7 @@ const Details = ({
             <div className='card-container grid grid-cols-2 gap-5 mt-5'>
               {reportSiteData &&
                 reportSiteData.results &&
-                reportSiteData.results.map((item) => {
+                reportSiteData.results.slice(0, 6).map((item) => {
                   return (
                     <RecentlyTopCard
                       image={item && item.site__image ? item.site__image : null}
