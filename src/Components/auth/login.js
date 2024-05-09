@@ -14,14 +14,19 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const login_info = { email, password };
+    console.log("------Handle Submit-------- :", email, password);
     setIsPending(true);
     try {
       const api = "api/website/login/";
-      const response = await fetch((await generateUrl()) + api, {
+      const subdomain = await generateUrl();
+      console.log("---------called---------", subdomain);
+      const response = await fetch(subdomain + api, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(login_info),
       });
+
+      console.log("---------called---------");
 
       if (!response.ok) {
         if (response.status === 401) {
