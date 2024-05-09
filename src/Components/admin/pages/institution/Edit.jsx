@@ -3,7 +3,6 @@ import { InstitutiionIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import { LuLoader2 } from "react-icons/lu";
-import generateUrl from "../../utils/urlGenerate";
 
 export default function Edit({ data, updateHandler, loading, domain }) {
   return (

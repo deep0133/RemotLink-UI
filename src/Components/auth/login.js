@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import generateUrl from "../admin/utils/urlGenerate";
+import useLogout from "../../hooks/useLogout";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
-  // const navigate = useNavigate();
+
+  const { logutOutHandler } = useLogout();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +24,9 @@ const Login = () => {
       });
 
       if (!response.ok) {
+        if (response.status === 401) {
+          await logutOutHandler();
+        }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
@@ -30,25 +35,14 @@ const Login = () => {
       setIsPending(false);
 
       localStorage.setItem("access_token", data.token.access);
-      localStorage.setItem("refresh_token", data.token.refresh);
       localStorage.setItem("userdata", JSON.stringify(data.user));
 
-      // navigate("/home");
-      // if (data.user.is_admin) {
-      //   navigate("/admin");
-      //   setAdmin(true);
-      // } else {
-      //   navigate("/home");
-      //   setAdmin(false);
-      // }
       window.location.reload();
     } catch (err) {
       if (err.name === "AbortError") {
-        // console.log("Aborted Fetch");
       } else {
         setIsPending(false);
         setError(err.message);
-        // console.log(err.message);
       }
     }
   };

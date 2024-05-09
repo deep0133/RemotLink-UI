@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import readSubdomainFromFile from "../utils/readSubdomainFromFile";
+import useLogout from "../../../hooks/useLogout";
 export default function useDelete() {
   const [deleteLoading, setDeleteLoading] = useState("");
   const [deleteMessage, setDeleteMessage] = useState("");
@@ -27,6 +28,8 @@ export default function useDelete() {
 
   const [subdomain, setSubdomain] = useState("");
 
+  const { logutOutHandler } = useLogout();
+
   const deleteRequest = async (api, setLoading, setMessage) => {
     setLoading(true);
     try {
@@ -48,6 +51,9 @@ export default function useDelete() {
         },
       });
       if (!response.ok) {
+        if (response.status === 401) {
+          await logutOutHandler();
+        }
         const errorData = await response.json();
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`

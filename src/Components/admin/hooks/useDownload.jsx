@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import readSubdomainFromFile from "../utils/readSubdomainFromFile";
+import useLogout from "../../../hooks/useLogout";
 
 export default function useDownload() {
   const [templateLoading, setTemplateLoading] = useState(false);
   const [subdomain, setSubdomain] = useState("");
+
+  const { logutOutHandler } = useLogout();
+
   const request = async (api) => {
     try {
       const token = localStorage.getItem("access_token");
@@ -36,6 +40,9 @@ export default function useDownload() {
     try {
       const response = await request(api);
       if (!response.ok) {
+        if (response.status === 401) {
+          await logutOutHandler();
+        }
         const errorResponse = await response.json();
         if (errorResponse && errorResponse.details) {
           throw new Error(errorResponse.details);

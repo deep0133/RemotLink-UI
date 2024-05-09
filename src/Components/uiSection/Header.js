@@ -48,6 +48,9 @@ const Header = ({ logutOutHandler }) => {
         },
       });
       if (!response.ok) {
+        if (response.status === 401) {
+          await logutOutHandler();
+        }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();

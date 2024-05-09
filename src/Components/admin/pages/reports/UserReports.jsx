@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
 import Hero from "../../components/category/Hero";
