@@ -12,7 +12,6 @@ import messageIcon from "../../images/envelope.svg";
 import phoneIcon from "../../images/phone-ring.svg";
 import Service from "../Webservices/http";
 import readSubdomainFromFile from "../admin/utils/readSubdomainFromFile";
-import useLogout from "../../hooks/useLogout";
 function HelpAndSupport() {
   const [expandedBoxes, setExpandedBoxes] = useState([
     false,
@@ -26,8 +25,6 @@ function HelpAndSupport() {
   const [labDetails, setLabDetails] = useState("");
   const services = new Service();
 
-  const { logutOutHandler } = useLogout();
-
   const fetchFaqs = async () => {
     setLoading(true);
     try {
@@ -38,9 +35,6 @@ function HelpAndSupport() {
 
       const response = await fetch(`${url}api/faq/`);
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         throw new Error("Failed to fetch FAQs");
       }
       const data = await response.json();

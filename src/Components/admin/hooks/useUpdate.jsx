@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import readSubdomainFromFile from "../utils/readSubdomainFromFile";
-import useLogout from "../../../hooks/useLogout";
 export default function useUpdate() {
   const navigate = useNavigate();
 
@@ -29,14 +28,7 @@ export default function useUpdate() {
   const [updateFaqLoading, setUpdateFaqLoading] = useState(false);
   const [updateFaqMessage, setUpdateFaqMessage] = useState("");
 
-  const [uploadUserTemplateLoading, setUploadUserTemplateLoading] =
-    useState(false);
-  const [uploadUserTemplateMessage, setUploadUserTemplateMessage] =
-    useState("");
-
   const [subdomain, setSubdomain] = useState("");
-
-  const { logutOutHandler } = useLogout();
 
   const request = async (api, formData) => {
     try {
@@ -69,9 +61,6 @@ export default function useUpdate() {
     try {
       const response = await request(api, formData);
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorData = await response.json();
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`
@@ -116,9 +105,6 @@ export default function useUpdate() {
       });
 
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorResponse = await response.json();
         if (errorResponse && typeof errorResponse === "object") {
           const errorMessage = Object.values(errorResponse).flat().join("\n");
@@ -165,9 +151,6 @@ export default function useUpdate() {
         body: formDataObj,
       });
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         // Handle error
         const errorData = await response.json();
         const errorMessage = errorData.error;
@@ -192,9 +175,6 @@ export default function useUpdate() {
     try {
       const response = await request(api, formData);
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorData = await response.json();
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`
@@ -240,9 +220,6 @@ export default function useUpdate() {
       });
 
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorData = await response.json();
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`
@@ -263,9 +240,6 @@ export default function useUpdate() {
     try {
       const response = await request(api, formData);
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorData = await response.json();
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`
@@ -286,9 +260,6 @@ export default function useUpdate() {
     try {
       const response = await request(api, formData);
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorData = await response.json();
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`
@@ -304,56 +275,6 @@ export default function useUpdate() {
     }
   };
 
-  const handleUploadBulkUserTemplate = async (api, file) => {
-    setUploadUserTemplateLoading(true);
-    try {
-      const token = localStorage.getItem("access_token");
-
-      const formDataObj = new FormData();
-
-      formDataObj.append("file", file);
-
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
-
-      const response = await fetch(url + api, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formDataObj,
-      });
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
-        const errorResponse = await response.json();
-        if (errorResponse && typeof errorResponse === "object") {
-          const errorMessage = Object.values(errorResponse).flat().join("\n");
-          throw new Error(errorMessage);
-        } else {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-      }
-      const json = await response.json();
-
-      setUploadUserTemplateMessage((prev) => !prev);
-      toast.success(json.message);
-      navigate(-1);
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setUploadUserTemplateLoading(false);
-    }
-  };
-
   return {
     updateLoading,
     updateUserLoading,
@@ -362,7 +283,6 @@ export default function useUpdate() {
     updateInstiLoading,
     updateMessageMsgLoading,
     updateFaqLoading,
-    uploadUserTemplateLoading,
     updateMessage,
     updateUserMessage,
     updateNotificationMessage,
@@ -370,7 +290,6 @@ export default function useUpdate() {
     updateInstinMessage,
     updateMessageMsgData,
     updateFaqMessage,
-    uploadUserTemplateMessage,
     handleUpdate,
     handleUpdateUser,
     handleUpdateSites,
@@ -378,6 +297,5 @@ export default function useUpdate() {
     handleUpdatInstitution,
     handleUpdateMessageMsg,
     handleUpdateFaq,
-    handleUploadBulkUserTemplate,
   };
 }

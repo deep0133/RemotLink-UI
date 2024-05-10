@@ -15,6 +15,7 @@ import Notifications from "./Components/uiSection/notifications";
 import HelpAndSupport from "./Components/uiSection/helpAndSupport";
 import Login from "./Components/auth/login";
 import AdminRoutes from "./Components/admin/AdminRoutes";
+// import Dashboard from "./Components/mobile/dashboard";
 
 function App() {
   const { loginStatus, isAdmin } = CheckLoginStatus();

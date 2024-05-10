@@ -1,5 +1,4 @@
 import subdmonpath from "../../../../src/subdomain.txt";
-
 const readSubdomainFromFile = async () => {
   try {
     const response = await fetch(subdmonpath);

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import readSubdomainFromFile from "../Components/admin/utils/readSubdomainFromFile";
-import useLogout from "./useLogout";
 
 const selectRandomMessage = (messages) => {
   try {
@@ -32,8 +31,6 @@ export default function useFetch() {
     handleSearchSite();
   }, [searchSite]);
 
-  const { logutOutHandler } = useLogout();
-
   // ------------- Not In Use -------------
   const handleFetchLikes = async (id) => {
     setFetchLoading(true);
@@ -58,9 +55,6 @@ export default function useFetch() {
         },
       });
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       // const data = await response.json();
@@ -95,9 +89,6 @@ export default function useFetch() {
         },
       });
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
@@ -129,12 +120,6 @@ export default function useFetch() {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
       const json = await response.json();
       setAllSites(json.results);
     } catch (error) {
@@ -162,13 +147,6 @@ export default function useFetch() {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
       const json = await response.json();
 
       const proxyUrl = json.proxy_url;
@@ -204,10 +182,7 @@ export default function useFetch() {
       });
 
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error("Failed to fetch data");
       }
 
       const json = await response.json();
@@ -243,10 +218,7 @@ export default function useFetch() {
       });
 
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error("Failed to fetch data");
       }
 
       json = await response.json();
@@ -279,9 +251,6 @@ export default function useFetch() {
         },
       });
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();

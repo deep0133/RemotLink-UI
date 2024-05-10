@@ -91,35 +91,27 @@ const Details = ({
     popularSiteDataHandle();
   }, []);
 
+  // ------------Working------- : Week logic --- Pending-----
   const popularSiteDataHandle = () => {
-    const currentDate = Date.now();
+    const currentDate = new Date();
 
-    let startDate;
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
 
-    let seconds = 2592000000;
+    let startData = "1/" + (month - 1) + "/" + year;
 
     if (recentlyWeekMonth === "week") {
-      seconds = 604800000;
+      const newDay = day - 7;
+      if (newDay <= 0) {
+        startData = 30 - (7 - day) + "/" + (month - 2) + "/" + year;
+      }
     }
 
-    startDate = new Date(currentDate - seconds);
-
-    const startDay = startDate.getDate();
-    const startMonth = startDate.getMonth() + 1;
-    const startYear = startDate.getFullYear();
-
-    const startDateFormate = startDay + "/" + startMonth + "/" + startYear;
-
-    const currentDateFormate = new Date(currentDate);
-    // Extract day, month, and year
-    const currentDay = currentDateFormate.getDate();
-    const currentMonth = currentDateFormate.getMonth() + 1;
-    const currentYear = currentDateFormate.getFullYear();
-
-    const endDate = currentDay + "/" + currentMonth + "/" + currentYear;
+    const endDate = day + "/" + (month - 1) + "/" + year;
 
     handleFetctSiteReports(
-      `api/report/site/?start=${startDateFormate}&end=${endDate}`
+      `api/report/site/?start=${startData}&end=${endDate}`
     );
   };
 
@@ -440,8 +432,7 @@ const Details = ({
           {recentlyTop === "top" && (
             <div className='card-container grid grid-cols-2 gap-5 mt-5'>
               {reportSiteData &&
-              reportSiteData.results &&
-              reportSiteData.results.length > 0 ? (
+                reportSiteData.results &&
                 reportSiteData.results.slice(0, 6).map((item) => {
                   return (
                     <RecentlyTopCard
@@ -450,10 +441,7 @@ const Details = ({
                       desc={item && item.description ? item.description : "---"}
                     />
                   );
-                })
-              ) : (
-                <div className='p-5 ml-5'>No Data Found</div>
-              )}
+                })}
             </div>
           )}
         </div>

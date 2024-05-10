@@ -9,40 +9,21 @@ import useUpdate from "../../hooks/useUpdate";
 import { useEffect } from "react";
 import useAdd from "../../hooks/useAdd";
 import useDownload from "../../hooks/useDownload";
-import UserTaskDetail from "./UserTaskDetail";
 
 export default function User() {
-  const {
-    userLoading,
-    usersData,
-    handleFetctUsers,
-    handleFetchBulkUserTaskList,
-    bulkUserTaskListLoading,
-    bulkUserTaskListData,
-  } = useFetch();
+  const { userLoading, usersData, handleFetctUsers } = useFetch();
 
   const { addNewUserLoading, addNewUser, handleAddNewUser } = useAdd();
   const { deleteUserMessage, deleteUserLoading, handleDeleteUser } =
     useDelete();
-
-  const {
-    updateUserMessage,
-    updateUserLoading,
-    handleUpdateUser,
-    uploadUserTemplateLoading,
-    uploadUserTemplateMessage,
-    handleUploadBulkUserTemplate,
-  } = useUpdate();
+  const { updateUserMessage, updateUserLoading, handleUpdateUser } =
+    useUpdate();
 
   const { templateLoading, handleDownloadTemplate } = useDownload();
 
   useEffect(() => {
     handleFetctUsers("api/user/");
   }, [deleteUserMessage, updateUserMessage, addNewUser]);
-
-  useEffect(() => {
-    handleFetchBulkUserTaskList("api/institution/tasks/");
-  }, [uploadUserTemplateMessage]);
 
   return (
     <>
@@ -78,22 +59,10 @@ export default function User() {
           path={"/bulkuser"}
           element={
             <BulkUser
-              templateLoading={templateLoading}
-              itemsPerPage={10}
-              totalItems={bulkUserTaskListData && bulkUserTaskListData.count}
               templateDownload={() => {
                 handleDownloadTemplate(
                   "api/adminpanel/download-user-template/"
                 );
-              }}
-              uploadUserTemplateLoading={uploadUserTemplateLoading}
-              templateUploadFunction={(file) => {
-                handleUploadBulkUserTemplate("api/user/add-bulk/", file);
-              }}
-              bulkUserTaskListData={bulkUserTaskListData}
-              bulkUserTaskListLoading={bulkUserTaskListLoading}
-              onPageChange={(key) => {
-                handleFetchBulkUserTaskList("api/institution/tasks/?" + key);
               }}
             />
           }
@@ -124,7 +93,6 @@ export default function User() {
             />
           }
         />
-        <Route path={"/detail/:id"} element={<UserTaskDetail />} />
       </Routes>
     </>
   );
