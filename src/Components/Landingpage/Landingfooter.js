@@ -13,12 +13,10 @@ import btn_icon from "../../images/Group 427318227.svg";
 import btn_icon2 from "../../images/Group 427318227_light.svg";
 import banr from "../../images/948b3ad28ed67e63c760b2ae2c01e709.png";
 import banr2 from "../../images/Group 2326.svg";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import generateUrl from "../admin/utils/urlGenerate";
 
-const Landingfooter = ({ institutionDetails }) => {
+const Landingfooter = ({ domain, institutionDetails }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -41,16 +39,6 @@ const Landingfooter = ({ institutionDetails }) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const [url, setUrl] = useState("");
-
-  useEffect(() => {
-    const fetchUrl = async () => {
-      const domain = await generateUrl();
-      setUrl(domain);
-    };
-    fetchUrl();
-  }, []);
-
   return (
     <>
       <div className='w-full h-full bg-[#26222E] light:bg-primary  purple:bg-secondary overflow-y-scroll no-scrollbar '>
@@ -63,7 +51,7 @@ const Landingfooter = ({ institutionDetails }) => {
                     {institutionDetails.logo ? (
                       <img
                         className='w-[57.161px] h-[76.68px]'
-                        src={url + institutionDetails.logo}
+                        src={domain + institutionDetails.logo}
                         alt='instituet'
                       />
                     ) : (

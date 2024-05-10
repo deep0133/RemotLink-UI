@@ -10,6 +10,8 @@ const Banner = ({ institutionDetails }) => {
 
   const [url, setUrl] = useState("");
 
+  const [menu, setMenu] = useState(false);
+
   useEffect(() => {
     const fetchUrl = async () => {
       const domain = await generateUrl();
@@ -20,7 +22,7 @@ const Banner = ({ institutionDetails }) => {
 
   return (
     <>
-      <div className='w-full h-[103px] lg:h-[69px] border-b border-solid border-white border-opacity-20 bg-opacity-33 bg-[#16131E54] light:bg-brand light:bg-opacity-[68] purple:bg-primary shadow-md backdrop-blur-[8px] flex  items-center justify-between overflow-y-scroll no-scrollbar'>
+      <div className='w-full border-b border-solid border-white border-opacity-20 bg-opacity-33 bg-[#16131E54] light:bg-brand light:bg-opacity-[68] purple:bg-primary shadow-md backdrop-blur-[8px] flex  items-center justify-between z-50 relative'>
         <div className='flex  items-center justify-center '>
           {institutionDetails.logo ? (
             <img
@@ -50,7 +52,12 @@ const Banner = ({ institutionDetails }) => {
             <l1 className={`${navheading}`}> Featured</l1>
           </ul>
         </div>
-        <div className='lg:hidden mr-6 md:mr-20'>
+        <div
+          onClick={() => {
+            setMenu(!menu);
+          }}
+          className='lg:hidden relative mr-6 md:mr-20'
+        >
           <img
             src={menu_icn}
             alt='menu'
@@ -58,9 +65,20 @@ const Banner = ({ institutionDetails }) => {
           />
           <img src={menu_icn2} alt='menu' className='hidden light:block' />
           <img src={menu_icn3} alt='menu' className='hidden purple:block' />
+          {menu && (
+            <ul
+              className='flex absolute flex-col gap-5 top-12 rounded-md right-0 bg-white p-5 lg:hidden '
+              style={{ zIndex: 999 }}
+            >
+              <l1 className={`${navheading} text-[#0b2e89]`}> Home</l1>
+              <l1 className={`${navheading} text-[#0b2e89]`}>About Us</l1>
+              <l1 className={`${navheading} text-[#0b2e89]`}> Categories</l1>
+              <l1 className={`${navheading} text-[#0b2e89]`}> Featured</l1>
+            </ul>
+          )}
         </div>
       </div>
-      <div className=''>
+      <div className='z-10'>
         <div className='hidden purple:block w-11/12 min-[1180px]:w-2/3 h-[820px] min-[341px]:h-[750px] min-[430px]:h-[650px] min-[673px]:h-[600px] lg:h-[517px] xl:h-[455px] bg-[#3D1766] bg-opacity-50 absolute inset-0 top-56'></div>
         <div className='pt-12  sm:pt-32 lg:pt-36 purple:pt-28 purple:sm:pt-32 purple:lg:pt-36 flex mx-auto items-center justify-normal ml-6  min-[480px]:ml-12 md:ml-24 min-w-[258px]  '>
           {/* <img src={library_cover} alt="library cover" className="light" /> */}

@@ -5,6 +5,7 @@ import readSubdomainFromFile from "../Components/admin/utils/readSubdomainFromFi
 
 export default function useLogout() {
   const [loading, setLoading] = useState(false);
+  const [subdomain, setSubdomain] = useState(null);
 
   const navigate = useNavigate();
 
@@ -14,12 +15,17 @@ export default function useLogout() {
       const token = localStorage.getItem("access_token");
       const api = `api/website/logout/`;
       const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      const domain = await readSubdomainFromFile();
+      // const domain = await readSubdomainFromFile();
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
 
       const url = "https://" + domain + "." + baseUrl;
 
       const response = await fetch(url + api, {
-        method: "Get",
+        method: "Post",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
