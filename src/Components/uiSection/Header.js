@@ -7,7 +7,7 @@ import bell_icon from "../../images/Notification.svg";
 import Flag_icon from "../../images/United.svg";
 import down_icon from "../../images/chevron-down.svg";
 import user_pic from "../../images/photo.svg";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import profileIcon from "../../images/user-square.png";
 import bookIcon from "../../images/Group 1000003119.png";
 import messagequestion from "../../images/message-question.png";
@@ -19,51 +19,10 @@ import cross from "../../images/Cross.svg";
 import home from "../../images/Home.svg";
 import book from "../../images/book.png";
 import help_Icon from "../../images/message-question-white.svg";
-import generateUrl from "../admin/utils/urlGenerate";
 
-const Header = ({ logutOutHandler }) => {
+const Header = ({ logutOutHandler, institutionDetails, domain }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [userdetail, setUserdetail] = useState("");
-
-  const [institutionDetails, setInstitutionDetails] = useState("");
-
-  const [domain, setDomain] = useState("");
-
-  useEffect(() => {
-    const fetchUrl = async () => {
-      const url = await generateUrl();
-      setDomain(url);
-    };
-    fetchUrl();
-  }, []);
-
-  const institutionDetailFetch = async () => {
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`${domain}api/institution/detail`, {
-        method: "Get",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      setInstitutionDetails(data);
-    } catch (error) {
-      console.error("Error fetching FAQs:", error.message);
-    }
-  };
-
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.pathname === "/home") {
-      institutionDetailFetch();
-    }
-  }, [location]);
 
   const href = window.location.pathname;
   const toggleDropdown = () => {
@@ -89,7 +48,6 @@ const Header = ({ logutOutHandler }) => {
       document.body.style.overflow = "visible";
     };
   }, [navVisibility]);
-  const arr = [1, 2, 3];
 
   const retrieveUserData = () => {
     var storedData = localStorage.getItem("userdata");
@@ -100,53 +58,41 @@ const Header = ({ logutOutHandler }) => {
     retrieveUserData();
   }, []);
 
-  useEffect(() => {
-    async function fetchUrl() {
-      try {
-        const generatedUrl = await generateUrl();
-        setDomain(generatedUrl);
-      } catch (error) {
-        console.error("Error fetching URL:", error);
-      }
-    }
-
-    fetchUrl();
-  }, []);
-
   return (
     <>
-      <div className='hidden sm:flex w-auto h-[35px] bg-blue-900 items-center justify-evenly'>
-        {arr.map((e) => (
-          <p className='text-white font-inter text-[13px] font-medium  font-inter  '>
-            8 positieve podcasts om je door{" "}
-            <span className='underline'>2021 te slepen - Harper's …</span>
-          </p>
-        ))}
-      </div>
-      <div className='flex sm:hidden w-auto h-[35px] bg-blue-900 items-center justify-evenly'>
-        <p className='text-white font-inter text-[13px] font-medium  font-inter  '>
+      <div className='flex w-full h-[35px] px-[5%] gap-5 bg-blue-900 items-center justify-evenly'>
+        <p className='text-white sm:flex hidden font-inter text-nowrap line-clamp-1 text-[13px] font-medium  font-inter  '>
           8 positieve podcasts om je door{" "}
-          <span className='underline'>2021 te slepen - Harper's …</span>
+          <span className='underline line-clamp-1'>
+            2021 te slepen - Harper's...
+          </span>
+        </p>
+        <p className='text-white font-inter text-nowrap line-clamp-1 text-[13px] font-medium  font-inter  '>
+          8 positieve podcasts om je door{" "}
+          <span className='underline'>2021 te slepen - Harper's...</span>
+        </p>
+        <p className='text-white sm:flex hidden font-inter text-nowrap line-clamp-1 text-[13px] font-medium  font-inter  '>
+          8 positieve podcasts om je door{" "}
+          <span className='underline'>2021 te slepen - Harper's...</span>
         </p>
       </div>
       {/* larger screen header*/}
-      <div className=' hidden sm:flex justify-between flex-shrink-0 items-center border-r border-solid border-blue-500 border-opacity-10 bg-white shadow-md h-[71px] w-full'>
-        <div className='flex pl-[56px] pr-[12px]'>
-          <img
-            src={logo}
-            alt='logo'
-            className=' relative left-5 bottom-[4px] object-cover'
-          />
+      <div className=' hidden sm:flex px-[5%] justify-between flex-shrink-0 items-center border-r border-solid border-opacity-10 bg-white shadow-md h-[71px] w-full border-4 border-yellow-400'>
+        <div className='flex gap-3'>
+          <div className='flex shrink-0'>
+            <img
+              src={logo}
+              alt='logo'
+              className='relative w-[30px] shrink-0 object-cover'
+            />
+          </div>
+          <div className='text-blue-900 max-w-[227px] font-poppins line-clamp-2 text-base  font-semibold not-italic leading-normal '>
+            {institutionDetails && institutionDetails.name
+              ? institutionDetails.name
+              : "Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital"}
+          </div>
         </div>
-        <div
-          className='text-blue-900 font-poppins line-clamp-2 text-base  font-semibold not-italic leading-normal w-[219px] pr-[]
-    '
-        >
-          {institutionDetails.name
-            ? institutionDetails.name
-            : "Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital"}
-        </div>
-        <div className='flex items-center justify-between rounded-md border border-solid border-gray-200 w-[552px] h-auto p-[14px] px-[28px] gap-[301px] '>
+        <div className='hidden min-[850px]:flex grow mx-8 items-center justify-between rounded-md border border-solid border-gray-200 max-w-[552px] h-auto p-[14px] px-[28px] '>
           <input
             className=' flex flex-col items-center flex-shrink-0 text-blue-gray-700 font-poppins text-xs font-normal tracking-tighter w-[172px] h-[24px]'
             placeholder='Search any resources here ...'
@@ -154,158 +100,160 @@ const Header = ({ logutOutHandler }) => {
           <img
             src={search_logo}
             alt='Search logo'
-            className='w-[20px] h-[20px]'
+            className='w-[20px] h-[20px] shrink-0'
           />
         </div>
-        <Link to='/notifications'>
-          <div
-            className={`flex justify-center items-center border rounded-full p-3
+
+        <div className='flex items-center gap-8 justify-end'>
+          <Link to='/notifications'>
+            <div
+              className={`flex justify-center items-center border rounded-full p-3
             ${href.includes("notifications") ? "bg-[#4477bf]" : ""}
              `}
-          >
-            {href.includes("notifications") ? (
-              <img
-                src={whitebell}
-                alt='ciricle wrapper'
-                className=' w-[20px] h-[20px]'
-              />
-            ) : (
-              <img
-                src={bell_icon}
-                alt='ciricle wrapper'
-                className=' w-[20px] h-[20px]'
-              />
-            )}
-          </div>
-        </Link>
-
-        <div className='w-[121px] h-[38px] flex  flex-shrink-0 justify-evenly items-center rounded-[20px] border border-solid border-blue-500 border-opacity-10 bg-white shadow-md '>
-          <img
-            src={Flag_icon}
-            alt='Flag icon'
-            className='w-[22px] h-[22px] flex-shrink-0 '
-          />
-          <h3 className='text-gray-700 font-inter text-xs font-medium p-2 text-[12px]'>
-            Eng (IN)
-          </h3>
-          <img
-            src={down_icon}
-            alt='down icon'
-            className='w-[20px] h-[20px] flex-shrink-0'
-          />
-        </div>
-
-        <div
-          className='pr-[15px] pl-[25px] relative cursor-pointer '
-          onClick={toggleDropdown}
-        >
-          <img
-            src={
-              userdetail.profile_photo
-                ? domain + userdetail.profile_photo
-                : profileIcon
-            }
-            alt='UserPicture'
-            className='w-[38px] h-[38px] flex-shrink-0 rounded-full object-cover'
-          />
-          {showDropdown && (
-            <div className='absolute top-[56px] left-[-30px] mt-2  z-40 border border-solid border-gray-200 rounded-md shadow-md bg-white'>
-              <div className='p-4 h-[250px] w-[220px]'>
-                <Link to='/profile'>
-                  <div className=' flex items-center justify-start mb-6'>
-                    <span className=' mr-3'>
-                      {" "}
-                      <img
-                        src={
-                          userdetail.profile_photo
-                            ? domain + userdetail.profile_photo
-                            : profileIcon
-                        }
-                        alt='icons'
-                        className=' w-[22px] h-[22px] object-cover'
-                      />
-                    </span>
-                    <span className=' text-sm font-medium  text-[#6F6C90]'>
-                      My Profile
-                    </span>
-                  </div>
-                </Link>
-
-                <Link to='/savedresources'>
-                  <div className=' flex items-center justify-start mb-6'>
-                    <span className=' mr-3'>
-                      {" "}
-                      <img
-                        src={bookIcon}
-                        alt='icons'
-                        className=' w-[22px] h-[22px]'
-                      />
-                    </span>
-                    <span className=' text-sm font-medium  text-[#6F6C90]'>
-                      Saved Resources
-                    </span>
-                  </div>
-                </Link>
-                <div className=' flex items-center justify-start mb-6'>
-                  <span className=' mr-3'>
-                    {" "}
-                    <img
-                      src={messagequestion}
-                      alt='icons'
-                      className=' w-[22px] h-[22px]'
-                    />
-                  </span>
-                  <span className=' text-sm font-medium  text-[#6F6C90]'>
-                    Help Center
-                  </span>
-                </div>
-                <div className=' flex items-center justify-start mb-4'>
-                  <span className=' mr-3'>
-                    {" "}
-                    <img
-                      src={teacher}
-                      alt='icons'
-                      className=' w-[22px] h-[22px]'
-                    />
-                  </span>
-                  <span className=' text-sm font-medium  text-[#6F6C90]'>
-                    Tutorial
-                  </span>
-                </div>
-                <hr />
-                <div
-                  className=' flex items-center justify-start mt-4'
-                  onClick={logutOutHandler}
-                >
-                  <span className=' mr-3'>
-                    {" "}
-                    <img
-                      src={logout}
-                      alt='icons'
-                      className=' w-[22px] h-[22px]'
-                    />
-                  </span>
-                  <span className=' text-sm font-medium  text-[#E1735B]'>
-                    Sign out
-                  </span>
-                </div>
-              </div>
+            >
+              {href.includes("notifications") ? (
+                <img
+                  src={whitebell}
+                  alt='ciricle wrapper'
+                  className=' w-[20px] h-[20px]'
+                />
+              ) : (
+                <img
+                  src={bell_icon}
+                  alt='ciricle wrapper'
+                  className=' w-[20px] h-[20px]'
+                />
+              )}
             </div>
-          )}
-        </div>
+          </Link>
 
-        <div className='pr-[80px]'>
-          <h3 className='text-blue-gray-900 font-poppins text-[13px] font-semibold leading-6'>
-            Hi {userdetail?.first_name || "Alex"}
-          </h3>
-          <h6 className='text-blue-gray-700 font-poppins text-[12px] font-normal leading-5'>
-            {userdetail?.email || "alex@gmail.com"}
-          </h6>
+          <div className='w-[121px] h-[38px] flex  flex-shrink-0 justify-evenly items-center rounded-[20px] border border-solid border-blue-500 border-opacity-10 bg-white shadow-md '>
+            <img
+              src={Flag_icon}
+              alt='Flag icon'
+              className='w-[22px] h-[22px] flex-shrink-0 '
+            />
+            <h3 className='text-gray-700 font-inter text-xs font-medium p-2 text-[12px]'>
+              Eng (IN)
+            </h3>
+            <img
+              src={down_icon}
+              alt='down icon'
+              className='w-[20px] h-[20px] flex-shrink-0'
+            />
+          </div>
+
+          <div className='profile flex gap-3 shrink-0'>
+            <div className='relative cursor-pointer' onClick={toggleDropdown}>
+              <img
+                src={
+                  userdetail.profile_photo
+                    ? domain + userdetail.profile_photo
+                    : profileIcon
+                }
+                alt='UserPicture'
+                className='w-[38px] h-[38px] flex-shrink-0 rounded-full object-cover'
+              />
+              {showDropdown && (
+                <div className='absolute top-[56px] left-[-30px] mt-2  z-40 border border-solid border-gray-200 rounded-md shadow-md bg-white'>
+                  <div className='p-4 h-[250px] w-[220px]'>
+                    <Link to='/profile'>
+                      <div className=' flex items-center justify-start mb-6'>
+                        <span className=' mr-3'>
+                          {" "}
+                          <img
+                            src={
+                              userdetail.profile_photo
+                                ? domain + userdetail.profile_photo
+                                : profileIcon
+                            }
+                            alt='icons'
+                            className=' w-[22px] h-[22px] object-cover'
+                          />
+                        </span>
+                        <span className=' text-sm font-medium  text-[#6F6C90]'>
+                          My Profile
+                        </span>
+                      </div>
+                    </Link>
+
+                    <Link to='/savedresources'>
+                      <div className=' flex items-center justify-start mb-6'>
+                        <span className=' mr-3'>
+                          {" "}
+                          <img
+                            src={bookIcon}
+                            alt='icons'
+                            className=' w-[22px] h-[22px]'
+                          />
+                        </span>
+                        <span className=' text-sm font-medium  text-[#6F6C90]'>
+                          Saved Resources
+                        </span>
+                      </div>
+                    </Link>
+                    <div className=' flex items-center justify-start mb-6'>
+                      <span className=' mr-3'>
+                        {" "}
+                        <img
+                          src={messagequestion}
+                          alt='icons'
+                          className=' w-[22px] h-[22px]'
+                        />
+                      </span>
+                      <span className=' text-sm font-medium  text-[#6F6C90]'>
+                        Help Center
+                      </span>
+                    </div>
+                    <div className=' flex items-center justify-start mb-4'>
+                      <span className=' mr-3'>
+                        {" "}
+                        <img
+                          src={teacher}
+                          alt='icons'
+                          className=' w-[22px] h-[22px]'
+                        />
+                      </span>
+                      <span className=' text-sm font-medium  text-[#6F6C90]'>
+                        Tutorial
+                      </span>
+                    </div>
+                    <hr />
+                    <div
+                      className=' flex items-center justify-start mt-4'
+                      onClick={logutOutHandler}
+                    >
+                      <span className=' mr-3'>
+                        {" "}
+                        <img
+                          src={logout}
+                          alt='icons'
+                          className=' w-[22px] h-[22px]'
+                        />
+                      </span>
+                      <span className=' text-sm font-medium  text-[#E1735B]'>
+                        Sign out
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className=''>
+              <h3 className='text-blue-gray-900 font-poppins text-[13px] font-semibold leading-6'>
+                Hi {userdetail?.first_name || "Alex"}
+              </h3>
+              <h6 className='text-blue-gray-700 font-poppins text-[12px] font-normal leading-5'>
+                {userdetail?.email || "alex@gmail.com"}
+              </h6>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* mobile header */}
-      <div className='flex sm:hidden   items-center justify-between px-6 py-4 shadow-md'>
+      <div className='flex sm:hidden  items-center justify-between px-6 py-4 shadow-md'>
         <div className=' flex'>
           <div
             className=' border rounded-full flex items-center justify-center p-4 mr-2  relative'

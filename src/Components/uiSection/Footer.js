@@ -4,37 +4,11 @@ import facebook_icon from "../../images/facebook.svg";
 import linkedin_icon from "../../images/linkedin.svg";
 import twitter_icon from "../../images/Vector.svg";
 import instagram_icon from "../../images/Group 427318261.svg";
-import Elipse from "../../images/Ellipse 24.svg";
-import btn_icon from "../../images/Group 427318227.svg";
 import Button from "../uiElemnts/button";
 import blank from "../../images/blankimg.svg";
-import Service from "../Webservices/http";
 
-const Footer = () => {
+const Footer = ({ institutionDetails, domain }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [institutionDetails, setInstitutionDetails] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const services = new Service();
-
-  const institutionDetailFetch = async () => {
-    try {
-      const response = await services
-        .get("api/institution/detail")
-        .then((res) => setInstitutionDetails(res));
-    } catch (error) {
-      console.error("Error fetching FAQs:", error);
-      setError("Failed to fetch FAQs. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    institutionDetailFetch();
-  }, []);
-
-  // console.log(institutionDetails, ";;;");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,35 +30,46 @@ const Footer = () => {
   const handleBackToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   return (
-    <div className=' text-white'>
-      <div className=' h-auto bg-[#3674CB] sm:px-[200px] px-20 py-10  '>
-        <div className=' sm:flex  sm:justify-between flex-row '>
-          <div>
-            <img src={blank} alt='' className=' w-[57px] h-[76px]' />
+    <div className=' text-white overflow-hidden'>
+      <div className=' h-auto bg-[#3674CB] px-[5%] py-10  '>
+        <div className='grid grid-cols-4 lg:grid-cols-5 gap-3 md:gap-8 lg:gap-16'>
+          <div className='col-span-2'>
+            {institutionDetails.logo ? (
+              <img
+                src={
+                  institutionDetails?.logo
+                    ? domain + institutionDetails.logo
+                    : ""
+                }
+                alt='blank'
+                className='w-[57px] h-[76px]'
+              />
+            ) : (
+              <img src={blank} alt='blank' className='w-[57px] h-[76px]' />
+            )}
             <h3 className=' text-white font-Poppins font-bold text-[18px] uppercase mt-6'>
               {institutionDetails.name
                 ? institutionDetails.name
                 : "Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital"}
             </h3>
-            <p className='sm:mt-6 mt-6 font-normal text-white font-Poppins sm:font-medium sm:text-[18px] text-[15px] sm:leading-8 leading-[25px]  border-b p-2'>
-              {/* Official Institute Library to access Digital material */}
+            <p className='mt-6 font-normal text-white font-Poppins sm:font-medium sm:text-[18px] text-[15px] sm:leading-8 leading-[25px]'>
               {institutionDetails.tagline
                 ? institutionDetails.tagline
                 : "Official Institute Library to access Digital material"}
+              <hr className='w-4/5 h-0.5 bg-gray-50 rounded-[5px]' />
             </p>
           </div>
-          <div className='flex items-start flex-col  sm:ml-10 mt-10 sm:mt-0'>
+          <div className='flex col-span-2 lg:col-span-1 items-start flex-col'>
             <h1 className=' text-white font-Poppins font-semibold text-base uppercase'>
               Address
             </h1>
-            <ul className='flex  flex-col'>
-              <li>
-                <p className='leading-6 w-[240px] mt-[19px] '>
-                  {institutionDetails.address
-                    ? institutionDetails.address
-                    : "The Principal Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital Wanadongari - Wadhamna Road, Hingna Nagpur - 441110 Maharashtra, India"}
-                </p>
+            <ul className='flex flex-col'>
+              <li className='leading-6 text-wrap break-words mt-[19px] '>
+                {institutionDetails.address
+                  ? institutionDetails.address
+                  : "The Principal Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital Wanadongari - Wadhamna Road, Hingna Nagpur - 441110 Maharashtra, India"}
               </li>
               <li className='flex leading-5 mt-[19px]'>
                 {institutionDetails.phone_number
@@ -103,7 +88,7 @@ const Footer = () => {
             </ul>
           </div>
           {/* for web quick link and categories line 49- 75*/}
-          <div className='hidden sm:flex  flex-col  '>
+          <div className='flex col-span-2 lg:col-span-1 flex-col mt-5 md:mt-0'>
             <h1 className=' text-white font-Poppins font-semibold text-base uppercase '>
               Quick Links
             </h1>
@@ -116,7 +101,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className='hidden sm:flex items-start justify-between flex-col h-[250px] '>
+          <div className='flex flex-col mt-5 md:mt-0'>
             <h1 className=' text-white font-Poppins font-semibold text-base uppercase'>
               Categories
             </h1>
@@ -129,37 +114,8 @@ const Footer = () => {
               <li className='mb-[11px]'>Opeodenics</li>
             </ul>
           </div>
-          {/* for mobile quick link and categories line 49- 75 */}
-          <div className=' flex sm:hidden  justify-between mt-10'>
-            <div className='flex  flex-col  '>
-              <h1 className=' text-white font-Poppins font-semibold text-base uppercase '>
-                Quick Links
-              </h1>
-              <ul className='flex flex-shrink-0 items-start justify-between flex-col pt-[19px]'>
-                <li className='mb-[11px]'>Home</li>
-                <li className='mb-[11px]'>About Us</li>
-                <li className='mb-[11px]'>Categories</li>
-                <li className='mb-[11px]'>Open Access</li>
-                <li className='mb-[11px]'>The Institute</li>
-              </ul>
-            </div>
-
-            <div className='flex items-start justify-between flex-col h-[250px] '>
-              <h1 className=' text-white font-Poppins font-semibold text-base uppercase'>
-                Categories
-              </h1>
-              <ul className='flex flex-shrink-0 items-start justify-between flex-col pt-[19px]'>
-                <li className='mb-[11px]'>Dentist </li>
-                <li className='mb-[11px]'>Medical</li>
-                <li className='mb-[11px]'>Opeodenics</li>
-                <li className='mb-[11px]'>Medical</li>
-                <li className='mb-[11px]'>Dentist </li>
-                <li className='mb-[11px]'>Opeodenics</li>
-              </ul>
-            </div>
-          </div>
         </div>
-        <div className=' flex  justify-end mt-8  '>
+        <div className=' flex  justify-end mt-8'>
           <Button handleBackToTop={handleBackToTop} title={"Back on Top"} />
         </div>
       </div>
