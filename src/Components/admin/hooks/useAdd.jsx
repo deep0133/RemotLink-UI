@@ -2,11 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import readSubdomainFromFile from "../utils/readSubdomainFromFile";
-import useLogout from "../../../hooks/useLogout";
 export default function useAdd() {
   const navigate = useNavigate();
-
-  const { logutOutHandler } = useLogout();
 
   // category - site : user
   const [addLoading, setAddLoading] = useState(false);
@@ -56,9 +53,6 @@ export default function useAdd() {
         body: JSON.stringify(formData),
       });
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorData = await response.json();
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`
@@ -97,9 +91,6 @@ export default function useAdd() {
         body: JSON.stringify(formData),
       });
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorData = await response.json();
         let errorMessage;
         if (errorData.values) {
@@ -155,9 +146,6 @@ export default function useAdd() {
         body: formDataObj,
       });
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorData = await response.json();
         throw new Error(
           errorData.error || `HTTP error! Status: ${response.status}`
@@ -196,9 +184,6 @@ export default function useAdd() {
         body: JSON.stringify(formData),
       });
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorData = await response.json();
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`
@@ -237,9 +222,6 @@ export default function useAdd() {
         body: JSON.stringify(formData),
       });
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorData = await response.json();
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`
@@ -278,9 +260,6 @@ export default function useAdd() {
         body: JSON.stringify(formData),
       });
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorData = await response.json();
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`

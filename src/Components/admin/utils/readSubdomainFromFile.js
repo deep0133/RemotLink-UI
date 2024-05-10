@@ -1,11 +1,11 @@
-import subdmonpath from "../../../../src/subdomain.txt";
+import subdomainpath from "../../../../src/subdomain.txt";
 
 let domain = null;
 
 const readSubdomainFromFile = async () => {
   try {
     if (!domain) {
-      const response = await fetch(subdmonpath);
+      const response = await fetch(subdomainpath);
       const data = await response.text();
       domain = data.trim();
     }

@@ -10,7 +10,6 @@ import mailIcon from "../../images/mail.svg";
 import userIcon from "../../images/user-octagon.svg";
 import messageIcon from "../../images/envelope.svg";
 import phoneIcon from "../../images/phone-ring.svg";
-// import readSubdomainFromFile from "../admin/utils/readSubdomainFromFile";
 import generateUrl from "../admin/utils/urlGenerate";
 function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
   const [expandedBoxes, setExpandedBoxes] = useState([
@@ -24,8 +23,6 @@ function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
   const [error, setError] = useState(null);
   const [labDetails, setLabDetails] = useState("");
 
-  // const { logutOutHandler } = useLogout();
-
   const fetchFaqs = async () => {
     setLoading(true);
     try {
@@ -33,9 +30,6 @@ function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
 
       const response = await fetch(`${domain}api/faq/`);
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         throw new Error("Failed to fetch FAQs");
       }
       const data = await response.json();

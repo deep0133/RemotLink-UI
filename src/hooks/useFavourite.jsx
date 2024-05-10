@@ -1,6 +1,5 @@
 import { useState } from "react";
 import readSubdomainFromFile from "../Components/admin/utils/readSubdomainFromFile";
-import useLogout from "./useLogout";
 
 export default function useFavourite() {
   const [message, setMessage] = useState("");
@@ -8,8 +7,6 @@ export default function useFavourite() {
   const [bookMarkedSite, setBookMarkedSite] = useState({});
 
   const [subdomain, setSubdomain] = useState("");
-
-  const { logutOutHandler } = useLogout();
 
   const handleAddToFavourite = async (id) => {
     try {
@@ -31,12 +28,6 @@ export default function useFavourite() {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
       const json = await response.json();
       setStatus((prevStatus) => ({ ...prevStatus, [id]: true }));
       setMessage(json.message);
@@ -65,12 +56,6 @@ export default function useFavourite() {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
       const json = await response.json();
       setMessage(json.message);
       setStatus((prevStatus) => ({ ...prevStatus, [id]: false }));

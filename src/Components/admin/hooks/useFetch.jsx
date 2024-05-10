@@ -1,6 +1,5 @@
 import { useState } from "react";
 import readSubdomainFromFile from "../utils/readSubdomainFromFile";
-import useLogout from "../../../hooks/useLogout";
 export default function useFetch() {
   const [categoryLoading, setCetogoryLoading] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
@@ -52,16 +51,6 @@ export default function useFetch() {
   const [overviewRecentlyUpdatedData, setOverviewRecentlyUpdatedData] =
     useState([]);
 
-  const [bulkUserTaskListLoading, setBulkUserTaskListLoading] = useState(false);
-  const [bulkUserTaskListData, setBulkUserTaskListData] = useState([]);
-
-  const [bulkUserTaskListDetailsLoading, setBulkUserTaskListDetailsLoading] =
-    useState(false);
-  const [bulkUserTaskListDetailsData, setBulkUserTaskListDetailsData] =
-    useState([]);
-
-  const { logutOutHandler } = useLogout();
-
   const [subdomain, setSubdomain] = useState("");
 
   //  ------ Fetch Data -------
@@ -88,9 +77,6 @@ export default function useFetch() {
       });
 
       if (!response.ok) {
-        if (response.status === 401) {
-          await logutOutHandler();
-        }
         const errorData = await response.json();
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`
@@ -190,18 +176,6 @@ export default function useFetch() {
     );
   };
 
-  const handleFetchBulkUserTaskList = async (api) => {
-    await fetchData(api, setBulkUserTaskListLoading, setBulkUserTaskListData);
-  };
-
-  const handleFetchBulkUserDetails = async (api) => {
-    await fetchData(
-      api,
-      setBulkUserTaskListDetailsLoading,
-      setBulkUserTaskListDetailsData
-    );
-  };
-
   return {
     categoryLoading,
     userCategoryLoading,
@@ -217,8 +191,6 @@ export default function useFetch() {
     overviewCardDataLoading,
     overviewUserEngageDataLoading,
     overviewRecentlyUpdatedDataLoading,
-    bulkUserTaskListLoading,
-    bulkUserTaskListDetailsLoading,
     faqLoading,
     categoryData,
     userCategoryData,
@@ -235,12 +207,9 @@ export default function useFetch() {
     overviewCardData,
     overviewUserEngageData,
     overviewRecentlyUpdatedData,
-    bulkUserTaskListData,
-    bulkUserTaskListDetailsData,
     handleFetctData,
     handleFetctUserCategoryData,
     handleFetctUsers,
-    handleFetchBulkUserTaskList,
     handleFetctSites,
     handleFetctNotifications,
     handleFetctReports,
@@ -253,6 +222,5 @@ export default function useFetch() {
     handleFetchOverallDashboardCard,
     handleFetchOverallDashboardUserEngagement,
     handleFetchOverallDashboardRecentlyUpdated,
-    handleFetchBulkUserDetails,
   };
 }
