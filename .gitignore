@@ -12,7 +12,7 @@
 /build
 
 # subdomain
-subdomain
+src/subdomain.txt
 
 # misc
 .DS_Store
