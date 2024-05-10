@@ -1,7 +1,15 @@
+import subdmonPath from "../../../subdomain.txt";
+
+let domain = null;
 const readSubdomainFromFile = async () => {
   try {
-    const subdmon = process.env.REACT_APP_SUB_DOMAIN;
-    return subdmon.trim();
+    if (!domain) {
+      const response = await fetch(subdmonPath);
+
+      const data = await response.text();
+      domain = data.trim();
+    }
+    return domain;
   } catch (error) {
     console.error("Error reading subdomain:", error);
   }

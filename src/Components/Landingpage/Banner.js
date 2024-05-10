@@ -10,6 +10,8 @@ const Banner = ({ institutionDetails }) => {
 
   const [url, setUrl] = useState("");
 
+  const [menu, setMenu] = useState(false);
+
   useEffect(() => {
     const fetchUrl = async () => {
       const domain = await generateUrl();
@@ -20,7 +22,7 @@ const Banner = ({ institutionDetails }) => {
 
   return (
     <>
-      <div className='w-full h-[103px] lg:h-[69px] border-b border-solid border-white border-opacity-20 bg-opacity-33 bg-[#16131E54] light:bg-brand light:bg-opacity-[68] purple:bg-primary shadow-md backdrop-blur-[8px] flex  items-center justify-between overflow-y-scroll no-scrollbar'>
+      <div className='w-full border-b border-solid border-white border-opacity-20 bg-opacity-33 bg-[#16131E54] light:bg-brand light:bg-opacity-[68] purple:bg-primary shadow-md backdrop-blur-[8px] flex  items-center justify-between relative z-50'>
         <div className='flex  items-center justify-center '>
           {institutionDetails.logo ? (
             <img
@@ -50,7 +52,12 @@ const Banner = ({ institutionDetails }) => {
             <l1 className={`${navheading}`}> Featured</l1>
           </ul>
         </div>
-        <div className='lg:hidden mr-6 md:mr-20'>
+        <div
+          onClick={() => {
+            setMenu(!menu);
+          }}
+          className='lg:hidden mr-6 md:mr-20 relative'
+        >
           <img
             src={menu_icn}
             alt='menu'
@@ -58,6 +65,15 @@ const Banner = ({ institutionDetails }) => {
           />
           <img src={menu_icn2} alt='menu' className='hidden light:block' />
           <img src={menu_icn3} alt='menu' className='hidden purple:block' />
+
+          {menu && (
+            <ul className='flex flex-col lg:hidden p-5 space-y-3 rounded-md bg-white absolute top-12 right-0 z-50'>
+              <l1 className={`${navheading}`}> Home</l1>
+              <l1 className={`${navheading}`}>About Us</l1>
+              <l1 className={`${navheading}`}> Categories</l1>
+              <l1 className={`${navheading}`}> Featured</l1>
+            </ul>
+          )}
         </div>
       </div>
       <div className=''>

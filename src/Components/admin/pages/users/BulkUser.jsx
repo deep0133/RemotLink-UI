@@ -120,7 +120,8 @@ const FileUpload = ({ setFile, bulkUserTaskListData }) => {
     setFile(file);
   };
 
-  const progressValue = Math.floor(Number(bulkUserTaskListData[0]?.progress));
+  const progressValue =
+    Math.floor(Number(bulkUserTaskListData[0]?.progress)) || 0;
 
   return (
     <div className='mt-6 relative'>

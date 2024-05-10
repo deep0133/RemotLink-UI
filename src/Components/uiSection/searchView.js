@@ -13,10 +13,9 @@ import arrowdown from "../../images/Vector (Stroke).png";
 import bookmarkicon2 from "../../images/Vector.png";
 import Pagination from "../uiElemnts/pagination";
 
-import bookmarkicon from "../../images/Group 1000002939.png";
 import linkicon from "../../images/Group 1000002938.png";
 
-function SearchView() {
+function SearchView({ logutOutHandler, institutionDetails, domain }) {
   const [Open, setOpen] = useState(false);
   const btn = ["Search type", "Resource Type", "Databases"];
   const count = [
@@ -45,37 +44,32 @@ function SearchView() {
       btn: "English",
     },
   ];
-  var i = [1, 2, 3];
   var books = [1, 2, 3, 4, 5, 6, 7];
-  var page = [1, 2, 3, 4, 5];
+  var page = [1, 2, 3];
   return (
     <>
-      <Header />
-      <div className=' flex'>
+      <Header {...{ logutOutHandler, institutionDetails, domain }} />
+      <div className=' flex flex-1 border-2 border-green-500'>
         <span className=' hidden sm:block'>
           <Sidebar />
         </span>
-        <span className=' flex flex-col w-[100%]'>
+        <span className=' flex flex-col w-full sm:w-[calc(100%-96px)]'>
           <span
-            className=' flex items-center  sm:px-8  px-3'
+            className=' flex items-center sm:px-8  px-3'
             style={{
               borderBottom: "1px solid lightgray",
               height: "70px",
-              //   background: "grey",
             }}
           >
-            <div
-              className=' p-3 rounded-full   bg-gray-300 mr-2 '
-              //   style={{ border: "1px solid grey" }}
-            >
-              <img src={search} className=' h-5 w-5 ' />
+            <div className=' p-3 rounded-full   bg-gray-300 mr-2 '>
+              <img src={search} className=' h-5 w-5 ' alt='search' />
             </div>
 
             <span className=' whitespace-nowrap text-[#1F5095] font-semibold texx-[15px]'>
               Search Catalogue
             </span>
           </span>
-          <div className='p-4 sm:p-10 sm:bg-[#f6f6f6] bg-white'>
+          <div className='p-4 sm:p-10 sm:bg-[#f6f6f6] bg-white '>
             <h1 className=' text-[#1F5095] text-[23px]  font-semibold'>
               Find articles,ejournals,ebooks that are in need of from our
               E-Resources
@@ -84,17 +78,19 @@ function SearchView() {
               Find articles,ejournals, ebooks that you are in need of from our
               10000+ repo
             </p>
-            <div className=' mt-2 sm:flex sm:mt-4'>
-              <input
-                type=' text'
-                style={{ border: "1px solid lightgray" }}
-                className='w-full sm:w-[400px] p-[8px] sm:mr-4 rounded-lg'
-                placeholder='Search anything'
-              />
-              <div className='flex sm:block sm:mt-0 mt-2 justify-between sm:justify-normal'>
+            <div className='mt-2 sm:flex flex-wrap sm:mt-4'>
+              <div className='flex flex-1'>
+                <input
+                  type=' text'
+                  style={{ border: "1px solid lightgray" }}
+                  className='w-full h-[48px] sm:min-w-[350px] flex-1 py-2 px-4 sm:mr-4 rounded-lg'
+                  placeholder='Search anything'
+                />
+              </div>
+              <div className='flex gap-2 max-[1051px]:mt-2 flex-wrap'>
                 {btn.map((e) => (
                   <button
-                    className=' sm:px-[4px] w-[112px] sm:w-[137px] h-[48px] sm:p-[10px] rounded-lg sm:mr-2  bg-white  whitespace-nowrap  '
+                    className='px-5 h-[48px] rounded-lg sm:mr-2  bg-white  whitespace-nowrap  '
                     style={{ border: "1px solid lightgray" }}
                   >
                     <span className=' flex items-center justify-center'>
@@ -142,7 +138,7 @@ function SearchView() {
                         {e?.btn}
                       </span>
                       <span className='p-[6px] bg-red-600 sm:p-2 rounded-full ml-2'>
-                        <img src={bin} className=' ' />
+                        <img src={bin} className=' ' alt='' />
                       </span>
                     </div>
                   ))}
@@ -163,7 +159,7 @@ function SearchView() {
           </div>
           <div className='flex sm:p-8 p-0'>
             <div
-              className='sm:w-[30%] hidden sm:block'
+              className=' hidden md:block  w-[30%] shrink-0'
               style={{ borderRight: "1px solid lightgray" }}
             >
               <div className={`p-4 ${Open ? " border-b " : ""}`}>
@@ -171,7 +167,7 @@ function SearchView() {
                   <span>Access</span>
                   <span className='' onClick={() => setOpen(!Open)}>
                     {" "}
-                    <img src={arrow} />
+                    <img src={arrow} alt='' />
                   </span>
                 </div>
                 {Open && (
@@ -195,13 +191,13 @@ function SearchView() {
                 )}
               </div>
             </div>
-            <div className=' sm:w-[70%] '>
+            <div className='w-full md:w-[70%]'>
               <div className=' bg-[#F8F9FA] p-4 rounded-lg'>
                 {/*web view--------------------------------------------------------- */}
                 {books.map((e) => (
-                  <div className='hidden h-[225px] rounded-xl sm:h-[158px]  bg-blue p-4 sm:flex justify-between  mt-2 bg-white'>
+                  <div className='hidden  rounded-xl bg-blue p-4 sm:flex justify-between  mt-2 bg-white'>
                     <div className=' flex'>
-                      <div className=' flex flex-col  justify-center  items-center sm:block'>
+                      <div className=' flex flex-col justify-center  items-center sm:block'>
                         <div className=' h-[87px] w-[72px] bg-[#F3F7FA] flex justify-center items-center rounded-[6px]'>
                           <img
                             src={book}
@@ -210,25 +206,25 @@ function SearchView() {
                           />
                         </div>
                         <div
-                          className=' sm:hidden
-                                  px-2 py-[5px] text-[#F38D15] font-mediumsm: bg-gray-50 rounded-md ml-4
-                '
+                          className=' sm:hidden px-2 py-[5px] text-[#F38D15] font-mediumsm: bg-gray-50 rounded-md ml-4'
                           style={{ border: "1px solid green" }}
                         >
                           Ebook
                         </div>
                       </div>
-                      <div className=' ml-4'>
+                      <div className='ml-4'>
                         <span className=' flex'>
                           <p className=' text-[#1F5095]  font-semibold'>
                             Journal of chemical technology and biotechnology{" "}
                           </p>
-                          <span
-                            className='hidden sm:px-2 sm:py-[5px] sm:text-[#F38D15] sm:font-mediumsm: bg-gray-50 sm:rounded-md sm:block sm:ml-4'
-                            style={{ border: "1px solid green" }}
-                          >
-                            Ebook
-                          </span>
+                          <div>
+                            <div
+                              className='mx-4 px-2 py-1 text-[#F38D15] font-medium sm:bg-gray-50 rounded-md flex justify-center  items-center'
+                              style={{ border: "1px solid green" }}
+                            >
+                              Ebook
+                            </div>
+                          </div>
                         </span>
                         <p className=' mt-6 text-[#1F5095]'>
                           by Wiley InterScience (Online service); Wiley Online
@@ -239,26 +235,31 @@ function SearchView() {
                         </p>
                       </div>
                     </div>
-                    <div className=' flex flex-row'>
-                      <div className=' mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
+                    <div className=' hidden lg:flex flex-row '>
+                      <div className='mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
                         <img
                           src={bookmarkicon2}
                           className=' w-[10px] h-[12px]'
+                          alt=''
                         />{" "}
                       </div>
                       <div className=' mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
-                        <img src={icon} className=' w-[12px] h-[10px]' />
+                        <img src={icon} alt='' className=' w-[12px] h-[10px]' />
                       </div>
                       <div className=' mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
-                        <img src={linkicon} className=' w-[16px] h-[12px]' />
+                        <img
+                          src={linkicon}
+                          alt=''
+                          className=' w-[16px] h-[12px]'
+                        />
                       </div>
                     </div>
                   </div>
                 ))}
                 {/* mobile view ---------------------------------------------------------------- */}
                 {books.map((e) => (
-                  <div className='sm:hidden h-[225px] rounded-xl bg-blue py-4 px-2 flex mt-2 bg-white  flex-col'>
-                    <div className='flex w-full'>
+                  <div className='sm:hidden rounded-xl bg-blue py-4 px-2 flex mt-2 bg-white  flex-col'>
+                    <div className='flex w-full justify-between'>
                       <p className=' text-[14px] text-[#1F5095] font-semibold'>
                         Journal of chemical technology and biotechnology{" "}
                       </p>
@@ -268,28 +269,41 @@ function SearchView() {
                           <img
                             src={bookmarkicon2}
                             className=' w-[10px] h-[12px]'
+                            alt=''
                           />{" "}
                         </div>
                         <div className=' mr-1  rounded-full border w-[30px] h-[30px] flex justify-center items-center'>
-                          <img src={icon} className=' w-[12px] h-[10px]' />
+                          <img
+                            src={icon}
+                            className=' w-[12px] h-[10px]'
+                            alt=''
+                          />
                         </div>
                         <div className=' mr-1  rounded-full border w-[30px] h-[30px] flex justify-center items-center'>
-                          <img src={linkicon} className=' w-[16px] h-[12px]' />
+                          <img
+                            src={linkicon}
+                            className=' w-[16px] h-[12px]'
+                            alt=''
+                          />
                         </div>
                       </div>
                     </div>
-                    <div className=' flex mt-4 justify-between'>
+                    <div className=' flex mt-4'>
                       <div className=''>
                         <div className=' h-[87px] w-[72px] bg-[#F3F7FA] flex justify-center items-center rounded-[6px]'>
-                          <img src={book} className='h-[39px] w-[32px] ' />
+                          <img
+                            src={book}
+                            className='h-[39px] w-[32px] '
+                            alt=''
+                          />
                         </div>
-                        <div
-                          className='
-                                 mt-4 px-2 py-1 text-[#F38D15] font-mediumsm: bg-gray-50 rounded-md flex justify-center  items-center
-                '
-                          style={{ border: "1px solid green" }}
-                        >
-                          Ebook
+                        <div>
+                          <div
+                            className='mt-4 px-2 h-fit py-1 text-[#F38D15] font-medium sm:bg-gray-50 rounded-md flex justify-center  items-center'
+                            style={{ border: "1px solid green" }}
+                          >
+                            Ebook
+                          </div>
                         </div>
                       </div>
                       <div className=' ml-5 text-[14px] font-medium'>
@@ -324,7 +338,7 @@ function SearchView() {
           <Journel /> */}
         </span>
       </div>
-      <Footer />
+      <Footer {...{ institutionDetails, domain }} />
     </>
   );
 }

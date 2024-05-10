@@ -10,10 +10,9 @@ import mailIcon from "../../images/mail.svg";
 import userIcon from "../../images/user-octagon.svg";
 import messageIcon from "../../images/envelope.svg";
 import phoneIcon from "../../images/phone-ring.svg";
-import Service from "../Webservices/http";
 import readSubdomainFromFile from "../admin/utils/readSubdomainFromFile";
-import useLogout from "../../hooks/useLogout";
-function HelpAndSupport() {
+import generateUrl from "../admin/utils/urlGenerate";
+function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
   const [expandedBoxes, setExpandedBoxes] = useState([
     false,
     false,
@@ -24,19 +23,15 @@ function HelpAndSupport() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [labDetails, setLabDetails] = useState("");
-  const services = new Service();
 
-  const { logutOutHandler } = useLogout();
+  // const { logutOutHandler } = useLogout();
 
   const fetchFaqs = async () => {
     setLoading(true);
     try {
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      const domain = await readSubdomainFromFile();
+      const domain = await generateUrl();
 
-      const url = "https://" + domain + "." + baseUrl;
-
-      const response = await fetch(`${url}api/faq/`);
+      const response = await fetch(`${domain}api/faq/`);
       if (!response.ok) {
         if (response.status === 401) {
           await logutOutHandler();
@@ -60,9 +55,18 @@ function HelpAndSupport() {
   const labDetailsFetch = async () => {
     setLoading(true);
     try {
-      const response = await services
-        .get("api/institution/library/1/")
-        .then((res) => setLabDetails(res));
+      const domain = await generateUrl();
+      const token = localStorage.getItem("access_token");
+
+      const response = await fetch(domain + "api/institution/library/1/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const json = await response.json();
+      setLabDetails(json);
     } catch (error) {
       console.error("Error fetching FAQs:", error);
       setError("Failed to fetch FAQs. Please try again later.");
@@ -75,26 +79,21 @@ function HelpAndSupport() {
     labDetailsFetch();
   }, []);
 
-  console.log(labDetails, "jjj");
-
   const toggleBox = (index) => {
     const newExpandedBoxes = [...expandedBoxes];
     newExpandedBoxes[index] = !newExpandedBoxes[index];
     setExpandedBoxes(newExpandedBoxes);
   };
-  // const liobraryDetailsFetch=async()=>{
-  //   const Library
-  // }
 
   return (
     <div>
       <>
-        <Header />
+        <Header {...{ logutOutHandler, institutionDetails, domain }} />
         <div className=' flex'>
           <span className=' hidden sm:block'>
             <Sidebar />
           </span>
-          <span className=' flex flex-col w-[100%] '>
+          <span className=' flex flex-col w-full sm:w-[calc(100%-96px)]'>
             <span
               className=' flex items-center  sm:px-8  px-3 justify-between'
               style={{
@@ -128,14 +127,14 @@ function HelpAndSupport() {
             </div>
             <section className='py-6 sm:px-10  bg-gray-50 mt-12'>
               <div className='accordion'>
-                <div className='flex flex-wrap'>
+                <div className='grid md:grid-cols-2'>
                   {loading ? (
                     <p className='text-[#A3AED0] text-[16px] font-normal'>
                       Loading...
                     </p>
                   ) : (
                     faqs.map((faq, index) => (
-                      <div key={faq.id} className='w-[570px] p-3 '>
+                      <div key={faq.id} className=' p-3 '>
                         <div className=' bg-white '>
                           <div
                             className={`flex items-center px-8 min-h-[105px] py-2 `}
@@ -172,18 +171,18 @@ function HelpAndSupport() {
               </div>
             </section>
 
-            <div className='flex  justify-between px-4 py-10 sm:px-[100px] sm:py-[70px]  flex-col sm:flex-row '>
+            <div className='flex  justify-between px-4 py-10 flex-col sm:flex-row '>
               {loading ? (
                 <p className='text-[#A3AED0] text-[16px] font-normal'>
                   Loading...
                 </p>
               ) : (
-                <div className=' sm:w-[50%]'>
+                <div className='sm:w-[50%] p-4 sm:p-8'>
                   <div>
                     <h1 className=' text-[28px] font-semibold leading-[48px] text-[#1F5095]'>
                       Library Details
                     </h1>
-                    <p className=' text-[15px] font-normal leading-[24px] text-[#A3AED0] sm:w-[573px] mt-6'>
+                    <p className=' text-[15px] font-normal leading-[24px] text-[#A3AED0] mt-6'>
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                       sed do eius tempor incididunt ut labore et dolore magna
                       aliqua. Ut enim adiqua minim veniam quis nostrud
@@ -246,7 +245,7 @@ function HelpAndSupport() {
                 </div>
               )}
 
-              <div className=' sm:w-[50%]'>
+              <div className=' sm:w-[50%] p-4 sm:p-8'>
                 <div className=' flex flex-col mt-6'>
                   <h3 className=' text-[14px] font-medium  font-Poppins text-[#344054] mb-2'>
                     Email
@@ -305,7 +304,7 @@ function HelpAndSupport() {
             </div>
           </span>
         </div>
-        <Footer />
+        <Footer {...{ institutionDetails, domain }} />
       </>
     </div>
   );
