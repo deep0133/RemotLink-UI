@@ -57,7 +57,7 @@ function Home() {
         const randomMsg = await handleFetchMessages();
         setRandomMessage(randomMsg);
       } catch (error) {
-        console.error("error :", error);
+        // console.error("error :", error);
       }
     };
     callingRandomMesg();

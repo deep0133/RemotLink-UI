@@ -34,7 +34,7 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
         const json = await response.json();
         setNotificationdata(json);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        // console.error("Error fetching data:", error);
       }
     }
 

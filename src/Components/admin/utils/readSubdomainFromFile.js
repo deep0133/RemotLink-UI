@@ -11,7 +11,7 @@ const readSubdomainFromFile = async () => {
     }
     return domain;
   } catch (error) {
-    console.error("Error reading subdomain:", error);
+    // console.error("Error reading subdomain:", error);
   }
 };
 

@@ -258,7 +258,6 @@ export default function useFetch() {
 
   const institutionDetailFetch = async () => {
     try {
-      const token = localStorage.getItem("access_token");
       const api = `api/institution/detail`;
       const baseUrl = process.env.REACT_APP_BACKEND_URL;
       let domain = subdomain;
@@ -273,7 +272,6 @@ export default function useFetch() {
         method: "Get",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       });
       if (!response.ok) {

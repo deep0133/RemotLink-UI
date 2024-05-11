@@ -41,7 +41,7 @@ export default function useFavourite() {
       setStatus((prevStatus) => ({ ...prevStatus, [id]: true }));
       setMessage(json.message);
     } catch (error) {
-      console.log("Error : ", error);
+      // console.log("Error : ", error);
     }
   };
 
@@ -75,7 +75,7 @@ export default function useFavourite() {
       setMessage(json.message);
       setStatus((prevStatus) => ({ ...prevStatus, [id]: false }));
     } catch (error) {
-      console.log("Error : ", error);
+      // console.log("Error : ", error);
     }
   };
 

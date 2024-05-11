@@ -31,7 +31,7 @@ const Banner = ({ institutionDetails }) => {
               alt='banner'
             />
           ) : (
-            <div className='logo-pic  purple:logo-pic-purple w-[43px] h-[57.683px]  ml-6  md:max-xl:ml-16 xl:ml-32  '></div>
+            <div className='logo-pic  purple:logo-pic-purple w-[43px] h-[57.683px]'></div>
           )}
           <div className='mr-4'>
             <h1 className='text-white light:text-black purple:hidden font-Lusitana light:font-SourceSans text-base font-bold leading-6 max-[360px]:leading-4 w-44 min-[360px]:w-60 sm:w-72 lg:w-96 pl-3 md:pl-6 '>
