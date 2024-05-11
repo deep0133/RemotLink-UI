@@ -42,7 +42,7 @@ function Security() {
     try {
       const token = localStorage.getItem("access_token");
       const domain = await generateUrl();
-      const response = await fetch(domain + "api/user/change-password/", {
+      await fetch(domain + "api/user/change-password/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,11 +50,8 @@ function Security() {
         },
         body: JSON.stringify(formData),
       });
-
-      const json = await response.json();
-      console.log(json);
     } catch (error) {
-      console.error("Error:", error.response.data);
+      // console.error("Error:", error.response.data);
       setError(error.response.data.message);
     }
   };

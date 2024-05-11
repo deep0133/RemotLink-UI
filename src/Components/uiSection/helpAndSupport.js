@@ -10,7 +10,6 @@ import mailIcon from "../../images/mail.svg";
 import userIcon from "../../images/user-octagon.svg";
 import messageIcon from "../../images/envelope.svg";
 import phoneIcon from "../../images/phone-ring.svg";
-import readSubdomainFromFile from "../admin/utils/readSubdomainFromFile";
 import generateUrl from "../admin/utils/urlGenerate";
 function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
   const [expandedBoxes, setExpandedBoxes] = useState([
@@ -23,8 +22,6 @@ function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [labDetails, setLabDetails] = useState("");
-
-  // const { logutOutHandler } = useLogout();
 
   const fetchFaqs = async () => {
     setLoading(true);
@@ -41,7 +38,6 @@ function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
       const data = await response.json();
       setFaqs(data.results);
     } catch (error) {
-      console.error("Error fetching FAQs:", error);
       setError("Failed to fetch FAQs. Please try again later.");
     } finally {
       setLoading(false);
@@ -68,7 +64,6 @@ function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
       const json = await response.json();
       setLabDetails(json);
     } catch (error) {
-      console.error("Error fetching FAQs:", error);
       setError("Failed to fetch FAQs. Please try again later.");
     } finally {
       setLoading(false);

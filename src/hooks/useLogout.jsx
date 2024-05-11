@@ -37,7 +37,7 @@ export default function useLogout() {
       window.location.reload();
     } catch (err) {
       toast.error(err.message);
-      console.error("Error :", err);
+      // console.error("Error :", err);
     } finally {
       setLoading(false);
     }

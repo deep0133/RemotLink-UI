@@ -15,7 +15,7 @@ const Landingheader = () => {
           <h1 className='hidden lg:block  text-white font-AnekLatin light:font-Outfit purple:font-Sora text-base purple:text-[14px] font-normal leading-normal whitespace-nowrap'>
             Hello Visitor , Please Login To Access The Library
           </h1>
-          <h1 className='lg:hidden text-white font-AnekLatin light:font-Outfit purple:font-Sora text-base purple:text-[14px] font-normal leading-normal min-[400px]:whitespace-nowrap'>
+          <h1 className='lg:hidden text-nowrap line-clamp-1 text-white font-AnekLatin light:font-Outfit purple:font-Sora text-base purple:text-[14px] font-normal leading-normal min-[400px]:whitespace-nowrap'>
             Hello Visitor , Please Login...
           </h1>
         </div>

@@ -180,7 +180,7 @@ export default function useUpdate() {
       toast.success("Site Updated Succesfully");
       navigate(-1);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error(err.message);
     } finally {
       setUpdateSiteLoading(false);

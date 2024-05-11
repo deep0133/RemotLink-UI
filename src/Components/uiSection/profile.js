@@ -33,7 +33,7 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
       const json = await response.json();
       setUserDetails(json);
     } catch (error) {
-      console.error("Error fetching user details:", error);
+      // console.error("Error fetching user details:", error);
     }
   };
 

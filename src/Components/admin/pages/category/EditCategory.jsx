@@ -23,7 +23,7 @@ export default function EditCategory({
   useEffect(() => {
     let url = window.location.pathname.split("/");
     const id = url[url.length - 1];
-    console.log("--------- data -----------", data);
+    // console.log("--------- data -----------", data);
     setId(id);
     const foundCategory = data.find(
       (category) => category.id.toString() === id.toString()
@@ -60,7 +60,7 @@ export default function EditCategory({
 }
 
 const SiteDetailHero = ({ title = "---", description = "---" }) => {
-  console.log("old data :", title, description);
+  // console.log("old data :", title, description);
   const [hide, setHide] = useState(true);
   return (
     <div

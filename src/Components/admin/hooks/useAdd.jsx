@@ -209,7 +209,7 @@ export default function useAdd() {
       toast.success(data.detail);
       navigate("/admin/notifications");
     } catch (err) {
-      console.log("Error :", err);
+      // console.log("Error :", err);
     } finally {
       setAddNotificationLoading(false);
     }

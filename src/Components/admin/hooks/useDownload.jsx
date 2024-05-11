@@ -30,7 +30,7 @@ export default function useDownload() {
       });
       return response;
     } catch (error) {
-      console.log("Error");
+      // console.log("Error");
       return error;
     }
   };

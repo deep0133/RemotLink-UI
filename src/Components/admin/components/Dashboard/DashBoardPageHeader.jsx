@@ -12,7 +12,7 @@ const DashBoardPageHeader = ({ setWeekMonth }) => {
         className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
         name='month'
         onClick={(e) => {
-          console.log("===Select Week Or Month=====");
+          // console.log("===Select Week Or Month=====");
           setWeekMonth(e.target.value);
         }}
       >

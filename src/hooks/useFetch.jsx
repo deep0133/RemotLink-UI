@@ -8,7 +8,7 @@ const selectRandomMessage = (messages) => {
     const selectedMessage = messages[randomIndex].message;
     return selectedMessage;
   } catch (error) {
-    console.log("ERROR in MEssage :", error);
+    // console.log("ERROR in MEssage :", error);
     return "Strong people don’t put others down. they lift them up.";
   }
 };
@@ -63,10 +63,8 @@ export default function useFetch() {
         }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      // const data = await response.json();
-      // setResources(data.results);
     } catch (err) {
-      console.log("Error :", err);
+      // console.log("Error :", err);
     } finally {
       setFetchLoading(false);
     }
@@ -103,7 +101,7 @@ export default function useFetch() {
       const data = await response.json();
       setResources(data.results);
     } catch (err) {
-      console.log("Error :", err);
+      // console.log("Error :", err);
     } finally {
       setFetchLoading(false);
     }
@@ -138,7 +136,7 @@ export default function useFetch() {
       const json = await response.json();
       setAllSites(json.results);
     } catch (error) {
-      console.log("Error : ", error);
+      // console.log("Error : ", error);
     }
   };
 
@@ -177,7 +175,7 @@ export default function useFetch() {
 
       window.open(proxyUrl, "_blank");
     } catch (error) {
-      console.log("Error: ", error);
+      // console.log("Error: ", error);
     }
   };
 
@@ -213,7 +211,7 @@ export default function useFetch() {
       const json = await response.json();
       setAllSites(() => json.results);
     } catch (error) {
-      console.log("Error : ", error);
+      // console.log();
     } finally {
       // setSearchLoading(false);
       setSearchLoader(false);
@@ -253,7 +251,7 @@ export default function useFetch() {
       setMessages(json.results);
       return selectRandomMessage(json.results);
     } catch (error) {
-      console.log("Error : ", error);
+      // console.log("Error : ", error);
       return "Error While Fetching Data from DB";
     }
   };
@@ -287,7 +285,7 @@ export default function useFetch() {
       const data = await response.json();
       setInstitutionDetails(data);
     } catch (error) {
-      console.error("Error fetching FAQs:", error.message);
+      // console.error("Error fetching FAQs:", error.message);
     }
   };
 

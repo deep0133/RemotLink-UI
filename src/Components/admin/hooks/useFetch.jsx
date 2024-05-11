@@ -106,7 +106,7 @@ export default function useFetch() {
         setData(data);
       }
     } catch (error) {
-      console.error("Error :", error);
+      // console.error("Error :", error);
     } finally {
       setLoading(false);
     }

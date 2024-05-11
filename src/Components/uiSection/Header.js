@@ -77,7 +77,7 @@ const Header = ({ logutOutHandler, institutionDetails, domain }) => {
         </p>
       </div>
       {/* larger screen header*/}
-      <div className=' hidden sm:flex px-[5%] justify-between flex-shrink-0 items-center border-r border-solid border-opacity-10 bg-white shadow-md h-[71px] w-full border-4 border-yellow-400'>
+      <div className=' hidden md:flex px-[5%] justify-between flex-shrink-0 items-center border-r border-solid border-opacity-10 bg-white shadow-md h-[71px] w-full border-4 border-yellow-400'>
         <div className='flex gap-3'>
           <div className='flex shrink-0'>
             <img
@@ -253,7 +253,7 @@ const Header = ({ logutOutHandler, institutionDetails, domain }) => {
       </div>
 
       {/* mobile header */}
-      <div className='flex sm:hidden  items-center justify-between px-6 py-4 shadow-md'>
+      <div className='flex md:hidden  items-center justify-between px-6 py-4 shadow-md'>
         <div className=' flex'>
           <div
             className=' border rounded-full flex items-center justify-center p-4 mr-2  relative'

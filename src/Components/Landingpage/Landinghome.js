@@ -8,10 +8,7 @@ import Hero from "./Hero";
 const Landinghome = ({ institutionDetails }) => {
   return (
     <>
-      <div
-        className='w-full '
-        class='background overflow-y-scroll no-scrollbar'
-      >
+      <div className='background w-full  overflow-y-scroll no-scrollbar'>
         <Banner institutionDetails={institutionDetails} />
       </div>
 

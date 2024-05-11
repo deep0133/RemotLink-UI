@@ -23,7 +23,7 @@ const Banner = ({ institutionDetails }) => {
   return (
     <>
       <div className='w-full border-b border-solid border-white border-opacity-20 bg-opacity-33 bg-[#16131E54] light:bg-brand light:bg-opacity-[68] purple:bg-primary shadow-md backdrop-blur-[8px] flex  items-center justify-between relative z-50'>
-        <div className='flex  items-center justify-center '>
+        <div className='flex  ml-6  md:max-xl:ml-16 xl:ml-32 items-center justify-center '>
           {institutionDetails.logo ? (
             <img
               className='w-[43px] h-[57.683px]'

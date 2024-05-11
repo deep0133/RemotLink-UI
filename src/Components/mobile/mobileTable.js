@@ -7,26 +7,35 @@ import { LuLoader2 } from "react-icons/lu";
 function MobileTable({ allSites }) {
   const { createProxyAPI, searchLoader } = useFetch();
   return (
-    <div class='flex flex-col'>
-      <div class='overflow-x-auto sm:mx-0.5 lg:mx-0.5'>
-        <div class='py-2 inline-block min-w-full sm:px-6 lg:px-8'>
-          <div class='overflow-hidden'>
-            <table class='min-w-full'>
-              <thead class=' border-b text-[#A3AED0] text-[14px]'>
+    <div className='flex flex-col'>
+      <div className='overflow-x-auto sm:mx-0.5 lg:mx-0.5'>
+        <div className='py-2 inline-block min-w-full sm:px-6 lg:px-8'>
+          <div className='overflow-hidden'>
+            <table className='min-w-full'>
+              <thead className=' border-b text-[#A3AED0] text-[14px]'>
                 <tr>
                   <th
                     scope='col'
-                    class='text-sm font-medium  py-4 w-[15%] text-left'
+                    className='text-sm font-medium  py-4 w-[15%] text-left'
                   >
                     No
                   </th>
-                  <th scope='col' class='text-sm font-medium   py-4 text-left'>
+                  <th
+                    scope='col'
+                    className='text-sm font-medium   py-4 text-left'
+                  >
                     Name
                   </th>
-                  <th scope='col' class='text-sm font-medium  py-4 text-left'>
+                  <th
+                    scope='col'
+                    className='text-sm font-medium  py-4 text-left'
+                  >
                     Description
                   </th>
-                  <th scope='col' class='text-sm font-medium   py-4 text-left'>
+                  <th
+                    scope='col'
+                    className='text-sm font-medium   py-4 text-left'
+                  >
                     Live Server
                   </th>
                 </tr>
@@ -36,12 +45,12 @@ function MobileTable({ allSites }) {
                   allSites.map((site, index) => (
                     <tr
                       key={index}
-                      class='bg-white  transition duration-300 ease-in-out hover:bg-gray-100'
+                      className='bg-white  transition duration-300 ease-in-out hover:bg-gray-100'
                     >
-                      <td class=' text-[#85A900] py-4 whitespace-nowrap text-sm font-medium  '>
+                      <td className=' text-[#85A900] py-4 whitespace-nowrap text-sm font-medium  '>
                         #{index + 1}
                       </td>
-                      <td class='text-sm text-gray-900 py-4 whitespace-nowrap flex flex-row font-medium'>
+                      <td className='text-sm text-gray-900 py-4 whitespace-nowrap flex flex-row font-medium'>
                         <img
                           src={site.image}
                           className=' w-[25px] h-[25px] mr-2 '
@@ -49,12 +58,12 @@ function MobileTable({ allSites }) {
                         />
                         <div className=' flex items-center'> {site.name}</div>
                       </td>
-                      <td class='text-sm text-gray-900 py-4 whitespace-nowrap font-medium'>
+                      <td className='text-sm text-gray-900 py-4 whitespace-nowrap font-medium'>
                         <div className=' flex  items-center mb-1'>
                           {site.description}
                         </div>
                       </td>
-                      <td class='font-light  py-4 whitespace-nowrap '>
+                      <td className='font-light  py-4 whitespace-nowrap '>
                         <div
                           onClick={() => {
                             createProxyAPI(site.id);
