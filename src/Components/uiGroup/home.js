@@ -46,20 +46,32 @@ function Home() {
     "Neurology",
   ];
 
+  const [userName, setUserName] = useState("");
+
   const [randomMessage, setRandomMessage] = useState("");
 
   const { handleFetchMessages } = useFetch();
 
+  const [messageLoading, setMessageLoading] = useState(false);
+
   // Random Message Getting
   useEffect(() => {
     const callingRandomMesg = async () => {
+      setMessageLoading(true);
       try {
         const randomMsg = await handleFetchMessages();
         setRandomMessage(randomMsg);
       } catch (error) {
         // console.error("error :", error);
       }
+      setMessageLoading(false);
     };
+
+    const userData = localStorage.getItem("userdata");
+    if (userData) {
+      const parseData = JSON.parse(userData);
+      setUserName(parseData.first_name);
+    }
     callingRandomMesg();
   }, []);
 
@@ -127,11 +139,19 @@ function Home() {
             <ul className='flex flex-shrink-0 items-start justify-between flex-col mb-2 '>
               <li>
                 <p className='font-poppins font-semibold text-2xl leading-relaxed text-white mb-2 '>
-                  Hello Sushant <br /> Welcome Back to Library
+                  Hello {userName} <br /> Welcome Back to Library
                 </p>
               </li>
-              <li className='flex text-white font-poppins  font-normal text-[15px] leading-relaxed max-w-[323px]'>
-                {randomMessage}
+              <li className='flex text-white font-poppins w-full font-normal text-[15px] leading-relaxed max-w-[323px]'>
+                {messageLoading ? (
+                  <div className='flex flex-col space-y-2 w-full'>
+                    <div class='w-[80%] h-3 bg-gray-600 animate-pulse rounded'></div>
+                    <div class='w-[65%] h-3 bg-gray-600 animate-pulse rounded'></div>
+                    <div class='w-[50%] h-3 bg-gray-600 animate-pulse rounded'></div>
+                  </div>
+                ) : (
+                  randomMessage
+                )}
               </li>
               <li className=' '>
                 <button className=' rounded-md mt-6 h-[53px] w-[131px] bg-[#36201B] text-white '>
@@ -161,7 +181,7 @@ function Home() {
           <div className='flex items-start justify-between flex-col p-3 sm:p-10'>
             <ul className='flex flex-shrink-0 w-full items-start justify-between flex-col mb-2 '>
               <li className='font-poppins font-semibold text-balance text-2xl leading-relaxed text-white mb-2 '>
-                Hello Sushant Welcome Back to Library
+                Hello ${userName} Welcome Back to Library
               </li>
               <li className='flex text-white text-balance font-poppins  font-normal text-[15px] leading-relaxed max-w-[80%]'>
                 Strong people don’t put others down. they lift them up.

@@ -17,6 +17,7 @@ const Banner = ({ institutionDetails }) => {
       const domain = await generateUrl();
       setUrl(domain);
     };
+
     fetchUrl();
   }, []);
 
