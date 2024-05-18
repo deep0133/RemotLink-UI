@@ -188,8 +188,9 @@ const AddSection = ({
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
+    console.log("----Category Edited ---- :", name, value);
     const updatedValue = name === "category" ? parseInt(value, 10) : value;
-
+    console.log("=---Updated value----- :", updatedValue);
     setCurrentData((prev) => {
       return { ...prev, [name]: updatedValue };
     });

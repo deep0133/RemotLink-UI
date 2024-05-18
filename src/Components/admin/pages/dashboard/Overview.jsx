@@ -370,10 +370,14 @@ const Details = ({
           </div>
 
           <div className='card-container mt-5 gap-4 grid grid-cols-2'>
-            <CategoryCard />
-            <CategoryCard />
-            <CategoryCard />
-            <CategoryCard />
+            <CategoryCard title={"eJournals"} value={"2500"} percent={"20"} />
+            <CategoryCard title={"eBooks"} value={"4800"} percent={"30"} />
+            <CategoryCard title={"eArticles"} value={"8000"} percent={"35"} />
+            <CategoryCard
+              title={"other e-resources"}
+              value={"1000"}
+              percent={"15"}
+            />
           </div>
 
           <div className='success relative'>
@@ -465,7 +469,7 @@ const Details = ({
           <div className='flex justify-between'>
             <div>
               <span className='text-violet-800 text-[22px] font-semibold font-Poppins leading-[33px]'>
-                Dastabase Usage{" "}
+                Database Usage{" "}
               </span>
               <span className='text-violet-800 text-opacity-40 text-base font-medium font-Poppins leading-normal'>
                 Top 3
@@ -484,22 +488,22 @@ const Details = ({
 
           {/* -------------- Radio Buttons -------------- */}
           <div className='flex gap-3 my-5'>
-            <label htmlFor='scopio' className='flex gap-2'>
+            <label htmlFor='Scopus' className='flex gap-2'>
               <input type='radio' name='usage' />
               <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
-                Scopis
+                Scopus
               </div>
             </label>
-            <label htmlFor='scopio' className='flex gap-2'>
+            <label htmlFor='dvl' className='flex gap-2'>
               <input type='radio' name='usage' />
               <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
                 DVL
               </div>
             </label>
-            <label htmlFor='scopio' className='flex gap-2'>
+            <label htmlFor='proQuest' className='flex gap-2'>
               <input type='radio' name='usage' />
               <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
-                PreQuest
+                ProQuest
               </div>
             </label>
           </div>
@@ -546,7 +550,7 @@ const Details = ({
 
         <div className='right p-5 basis-[40%] flex flex-col bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
           <div className='left text-violet-800 text-[22px] font-semibold font-Poppins leading-[33px]'>
-            Dastabased Subscribed
+            Databased Subscribed
           </div>
           {siteLoading && <Loader />}
           <div className='right card-container grid grid-cols-3 gap-3'>
@@ -568,22 +572,22 @@ const Details = ({
   );
 };
 
-const CategoryCard = () => {
+const CategoryCard = ({ title, value, percent }) => {
   return (
-    <div className='bg-white relative px-2 py-3 bg-opacity-5 flex gap-3 rounded-[10px] border border-blue-800 border-opacity-10'>
+    <div className='bg-white relative px-2 py-3 bg-opacity-5 flex gap-3 rounded-[10px] border duration-200 hover:border-opacity-70 border-blue-800  border-opacity-10'>
       <div className='w-[47px] h-[47px] relative'>
         <div className='w-[47px] h-[47px] left-0 top-0 absolute bg-purple-100 rounded-full' />
       </div>
       <div className='flex flex-col'>
         <div className='text-violet-800 text-sm font-medium font-DM-Sans leading-normal'>
-          e-Journals
+          {title}
         </div>
         <div className='text-indigo-800 text-xl font-bold font-DM-Sans leading-loose'>
-          25000
+          {value}
         </div>
       </div>
       <div className="text-lime-600 absolute bottom-2 right-3 text-xl font-bold font-['DM Sans'] leading-loose">
-        20%
+        {percent}%
       </div>
     </div>
   );
