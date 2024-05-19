@@ -60,6 +60,21 @@ export default function useFetch() {
   const [bulkUserTaskListDetailsData, setBulkUserTaskListDetailsData] =
     useState([]);
 
+  const [overviewUtilizationDataLoading, setOverviewUtilizationDataLoading] =
+    useState(false);
+  const [overviewUtilizationData, setOverviewUtilizationData] = useState(null);
+
+  const [overviewHourlyDataLoading, setOverviewHourlyDataLoading] =
+    useState(false);
+  const [overviewHourlyData, setOverviewHourlyData] = useState(null);
+
+  const [
+    overviewDatabaseUsageDataLoading,
+    setOverviewDatabaseUsageDataLoading,
+  ] = useState(false);
+  const [overviewDatabaseUsageData, setOverviewDatabaseUsageData] =
+    useState(null);
+
   const { logutOutHandler } = useLogout();
 
   const [subdomain, setSubdomain] = useState("");
@@ -182,11 +197,32 @@ export default function useFetch() {
       setOverviewUserEngageData
     );
   };
+
   const handleFetchOverallDashboardRecentlyUpdated = async (api) => {
     await fetchData(
       api,
       setOverviewRecentlyUpdatedDataLoading,
       setOverviewRecentlyUpdatedData
+    );
+  };
+
+  const handleFetchOverallDashboardUtilizationData = async (api) => {
+    await fetchData(
+      api,
+      setOverviewUtilizationDataLoading,
+      setOverviewUtilizationData
+    );
+  };
+
+  const handleFetchOverallDashboardHourlyData = async (api) => {
+    await fetchData(api, setOverviewHourlyDataLoading, setOverviewHourlyData);
+  };
+
+  const handleFetchOverallDashboardDatabaseUsageData = async (api) => {
+    await fetchData(
+      api,
+      setOverviewDatabaseUsageDataLoading,
+      setOverviewDatabaseUsageData
     );
   };
 
@@ -219,6 +255,9 @@ export default function useFetch() {
     overviewRecentlyUpdatedDataLoading,
     bulkUserTaskListLoading,
     bulkUserTaskListDetailsLoading,
+    overviewUtilizationDataLoading,
+    overviewHourlyDataLoading,
+    overviewDatabaseUsageDataLoading,
     faqLoading,
     categoryData,
     userCategoryData,
@@ -237,6 +276,9 @@ export default function useFetch() {
     overviewRecentlyUpdatedData,
     bulkUserTaskListData,
     bulkUserTaskListDetailsData,
+    overviewUtilizationData,
+    overviewHourlyData,
+    overviewDatabaseUsageData,
     handleFetctData,
     handleFetctUserCategoryData,
     handleFetctUsers,
@@ -254,5 +296,8 @@ export default function useFetch() {
     handleFetchOverallDashboardUserEngagement,
     handleFetchOverallDashboardRecentlyUpdated,
     handleFetchBulkUserDetails,
+    handleFetchOverallDashboardUtilizationData,
+    handleFetchOverallDashboardHourlyData,
+    handleFetchOverallDashboardDatabaseUsageData,
   };
 }

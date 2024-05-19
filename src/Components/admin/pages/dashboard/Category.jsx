@@ -146,7 +146,7 @@ const Details = ({ siteLoading, siteData }) => {
             </div>
             {siteLoading && <Loader />}
             {siteData &&
-              siteData.results.map((item, index) => {
+              siteData.results?.map((item, index) => {
                 if (!item.site__category__name || renderIndex > 4) return null;
                 const currentIndex = renderIndex++;
 

@@ -181,7 +181,7 @@ function Home() {
           <div className='flex items-start justify-between flex-col p-3 sm:p-10'>
             <ul className='flex flex-shrink-0 w-full items-start justify-between flex-col mb-2 '>
               <li className='font-poppins font-semibold text-balance text-2xl leading-relaxed text-white mb-2 '>
-                Hello ${userName} Welcome Back to Library
+                Hello {userName} Welcome Back to Library
               </li>
               <li className='flex text-white text-balance font-poppins  font-normal text-[15px] leading-relaxed max-w-[80%]'>
                 Strong people don’t put others down. they lift them up.

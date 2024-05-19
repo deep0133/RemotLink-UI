@@ -39,18 +39,11 @@ const options = {
   },
 };
 
-const BarChart = ({ datasets, labels }) => {
-  const data = {
-    labels,
-    datasets: datasets.map((dataset) => ({
-      ...dataset,
-    })),
-  };
-
+const BarChart = ({ data }) => {
   return (
     <div className='shrink-0 relative pr-4'>
       <div className='pr-8' style={{ width: "100%", height: "150" }}>
-        <Bar data={data} options={options} />
+        {data ? <Bar data={data} options={options} /> : ""}
       </div>
     </div>
   );

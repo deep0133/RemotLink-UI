@@ -57,12 +57,16 @@ const DetailCard = ({
         {/* Progress Bar */}
         {progress && (
           <div>
-            <span className='sr-only'>Loading</span>
-
-            <span role='progressbar' className='block rounded-full bg-gray-200'>
+            <span
+              role='progressbar'
+              className='block rounded-full w-full bg-gray-200'
+            >
               <span
                 className='block h-1.5  rounded-full'
-                style={{ width: "75%", background: progressColor }}
+                style={{
+                  width: data4 >= 0 ? data4 + "%" : -data4 + "%",
+                  background: progressColor,
+                }}
               ></span>
             </span>
           </div>

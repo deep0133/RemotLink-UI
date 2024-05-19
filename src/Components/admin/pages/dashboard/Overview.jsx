@@ -16,6 +16,8 @@ import DashBoardPageHeader from "../../components/Dashboard/DashBoardPageHeader"
 import DetailCard from "../../components/Dashboard/DetailCard";
 import Loader from "../../components/Loader/Loader";
 import useFetch from "../../hooks/useFetch";
+import CardSkeletonLoading from "../../components/loading/CardSkeletonLoading";
+import VerticalLineSkeleton from "../../components/Loader/VerticalLineSkeleton";
 
 export default function Overview({
   weekMonth,
@@ -53,7 +55,7 @@ const Details = ({
   siteLoading,
   siteData,
   overviewCardData,
-  // overviewCardDataLoading,
+  overviewCardDataLoading,
 }) => {
   const [userEngagWeekMonth, setUserEngagWeekMonth] = useState("month");
   const [recentlyWeekMonth, setRecentlyWeekMonth] = useState("month");
@@ -63,12 +65,21 @@ const Details = ({
   const {
     overviewUserEngageData,
     overviewUserEngageDataLoading,
-    overviewRecentlyUpdatedDataLoading,
+    // overviewRecentlyUpdatedDataLoading,
+    overviewUtilizationDataLoading,
+    overviewHourlyDataLoading,
     overviewRecentlyUpdatedData,
     reportSiteData,
+    overviewUtilizationData,
+    overviewHourlyData,
     handleFetchOverallDashboardUserEngagement,
     handleFetchOverallDashboardRecentlyUpdated,
+    handleFetchOverallDashboardUtilizationData,
+    handleFetchOverallDashboardHourlyData,
     handleFetctSiteReports,
+    overviewDatabaseUsageData,
+    overviewDatabaseUsageDataLoading,
+    handleFetchOverallDashboardDatabaseUsageData,
   } = useFetch();
 
   useEffect(() => {
@@ -87,8 +98,25 @@ const Details = ({
     }
   }, [recentlyWeekMonth]);
 
+  const [hourlyweek, setHourlyWeek] = useState("hour");
+
+  useEffect(() => {
+    handleFetchOverallDashboardHourlyData(
+      "api/dashboard/hourly_active_users?metrics=" + hourlyweek
+    );
+  }, [hourlyweek]);
+
+  useEffect(() => {
+    if (overviewHourlyData) {
+      formatChartData(overviewHourlyData.hourly_data, "am");
+    }
+  }, [overviewHourlyData, amPm]);
+
   useEffect(() => {
     popularSiteDataHandle();
+    handleFetchOverallDashboardUtilizationData(
+      "api/dashboard/resource_utilization?metrics=month"
+    );
   }, []);
 
   const popularSiteDataHandle = () => {
@@ -123,98 +151,264 @@ const Details = ({
     );
   };
 
+  // -----------------line Chart---------------
+  const [chartData, setChartData] = useState();
+
+  const [maxY, setMaxY] = useState(100);
+
+  useEffect(() => {
+    handleTwoDifferentData(overviewUtilizationData, 5, setChartData);
+  }, [overviewUtilizationData]);
+
+  const [modifyHourlyData, setModifyHournlyData] = useState(null);
+
+  // formate ------- Hourly Data---------
+  function formatChartData(hourlyData) {
+    const filteredData = hourlyData.filter((data) => {
+      const hour = parseInt(data.metric.split(":")[0], 10);
+      return amPm.toLowerCase() === "am" ? hour < 12 : hour >= 12;
+    });
+
+    // Format the labels to display in 12-hour format with AM/PM suffix
+    let labels = filteredData.map((data) => {
+      const hour = parseInt(data.metric.split(":")[0], 10);
+      const formattedHour = hour;
+      return formattedHour + ":00" + amPm;
+    });
+
+    const data = filteredData.map((data) => data.active_users);
+
+    const formattedData = {
+      labels,
+      datasets: [
+        {
+          label: "Active Hours",
+          data,
+          backgroundColor: (context) => {
+            const value = context.raw;
+            if (value === 0) return "transparent";
+            return value < 10 ? "#7F56D9" : "#15b40aed";
+          },
+          borderColor: "#15b40aed",
+          borderWidth: 0,
+          borderSkipped: "top bottom",
+          borderRadius: 50,
+          barThickness: 10,
+        },
+      ],
+    };
+
+    setModifyHournlyData(formattedData);
+  }
+
+  // -----Database Usage--------
+  const [databaseUsageWeekMonth, setDatabaseUsageWeekMonth] = useState("week");
+
+  const [databaseUsageStateData, setDatabaseUsageStateData] = useState(null);
+  useEffect(() => {
+    handleFetchOverallDashboardDatabaseUsageData(
+      "api/dashboard/resource_utilization?metrics=" + databaseUsageWeekMonth
+    );
+  }, [databaseUsageWeekMonth]);
+
+  useEffect(() => {
+    handleTwoDifferentData(
+      overviewDatabaseUsageData,
+      3,
+      setDatabaseUsageStateData
+    );
+  }, [overviewDatabaseUsageData]);
+
+  const colorPalette = ["#546FFF", "#A5D9FF", "#91A9FF"];
+  const handleTwoDifferentData = (data, splitNo, setState) => {
+    if (data) {
+      let maxAccessCount = 0;
+
+      // Iterate through the data to find the maximum access_count
+      for (const month in data) {
+        for (let i = 0; i < data[month].length; i++) {
+          if (data[month][i].access_count > maxAccessCount) {
+            maxAccessCount = data[month][i].access_count;
+          }
+        }
+      }
+      setMaxY(maxAccessCount);
+
+      const extractUniqueSiteNames = (data) => {
+        const uniqueSiteNames = new Set();
+        for (const month in data) {
+          data[month].forEach((item) => {
+            uniqueSiteNames.add(item.site__name);
+          });
+        }
+        return Array.from(uniqueSiteNames);
+      };
+
+      // Extract unique site names
+      const uniqueSiteNames = extractUniqueSiteNames(data);
+      // Create datasets for each unique site name
+      const datasets =
+        uniqueSiteNames &&
+        uniqueSiteNames.map((siteName, index) => {
+          const mydata =
+            data &&
+            Object.values(data).map((monthData) => {
+              const foundSite = monthData.find(
+                (item) => item.site__name === siteName
+              );
+              return foundSite ? foundSite.access_count : 0;
+            });
+
+          let backgroundColor = "transparent";
+          if (splitNo === 3 && index < 3) {
+            backgroundColor = colorPalette[index];
+          }
+
+          const dataset = {
+            label: siteName,
+            data: mydata,
+            fill: true,
+            tension: 0.4,
+            borderColor: "rgb(148, 71, 246)",
+            backgroundColor: splitNo === 3 ? backgroundColor : "transparent",
+          };
+
+          if (splitNo === 3) {
+            Object.assign(dataset, {
+              borderWidth: 0,
+              borderSkipped: "bottom",
+              borderRadius: 50,
+              barThickness: 10,
+            });
+          }
+
+          return dataset;
+        });
+
+      let finalDatasets = [...datasets].splice(0, splitNo);
+      let finalLabels = Object.keys(data);
+
+      if (splitNo === 3) {
+        finalLabels = finalLabels.reverse();
+        finalDatasets = finalDatasets.reverse();
+      }
+      setState({
+        labels: finalLabels,
+        datasets: finalDatasets,
+      });
+    }
+  };
+
   return (
     <>
       <DashBoardPageHeader setWeekMonth={setWeekMonth} />
       {/* -------- Section 1 ------------ */}
       <div className='card-container mt-5 grid grid-cols-4 gap-5 '>
-        <div className=' p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <DetailCard
-            progress={true}
-            progressColor={"#3758F9"}
-            name={"Total Users"}
-            weekMonth={weekMonth}
-            icon={<UserEmptyIcon />}
-            data1={
-              overviewCardData && overviewCardData.total_users?.total_users
-            }
-            data2={
-              overviewCardData &&
-              overviewCardData.total_users?.total_users_created_this_metric
-            }
-            data3={
-              overviewCardData &&
-              overviewCardData.total_users?.change_from_last_metric
-            }
-            data4={
-              overviewCardData &&
-              overviewCardData.total_users?.change_percentage_from_last_metric
-            }
-          />
-        </div>
-        <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <DetailCard
-            progress={true}
-            progressColor={"#F2994A"}
-            name={"Total Resources"}
-            weekMonth={weekMonth}
-            icon={<ResourceIcon />}
-            data1={
-              overviewCardData && overviewCardData.total_resources?.total_sites
-            }
-            data2={
-              overviewCardData &&
-              overviewCardData.total_resources
-                ?.total_sites_introduces_this_metric
-            }
-            data3={
-              overviewCardData &&
-              overviewCardData.total_resources?.change_from_last_metric
-            }
-            data4={
-              overviewCardData &&
-              overviewCardData.total_resources
-                ?.change_percentage_from_last_metric
-            }
-          />
-        </div>
-        <div className='p-5 col-span-2 flex gap-3 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <div className='left w-1/2'>
-            <DetailCard
-              name={"Total Active Hours"}
-              weekMonth={weekMonth}
-              icon={<ClockIcon />}
-              data1={
-                overviewCardData &&
-                overviewCardData.total_active_hours &&
-                Number(
-                  overviewCardData.total_active_hours
-                    .total_active_hours_this_metric
-                ).toFixed(2)
-              }
-              data2={
-                overviewCardData &&
-                overviewCardData.total_active_hours
-                  ?.total_users_created_this_month
-              }
-              data3={
-                overviewCardData &&
-                overviewCardData.total_active_hours &&
-                overviewCardData.total_active_hours.change_from_last_metric
-              }
-              data4={
-                overviewCardData &&
-                overviewCardData.total_active_hours &&
-                overviewCardData.total_active_hours
-                  .change_percentage_from_last_metric
-              }
-            />
-          </div>
-          <div className='right w-1/2 relative overflow-hidden'>
-            {/* ------- Curve Line ----------- */}
-            <HalfCircleChart />
-          </div>
-        </div>
+        {overviewCardDataLoading ? (
+          Array.from([1, 2, 3, 4]).map((val, i) => {
+            return <CardSkeletonLoading />;
+          })
+        ) : (
+          <>
+            {" "}
+            <div className=' p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+              <DetailCard
+                progress={true}
+                progressColor={"#3758F9"}
+                name={"Total Users"}
+                weekMonth={weekMonth}
+                icon={<UserEmptyIcon />}
+                data1={
+                  overviewCardData && overviewCardData.total_users?.total_users
+                }
+                data2={
+                  overviewCardData &&
+                  overviewCardData.total_users?.total_users_created_this_metric
+                }
+                data3={
+                  overviewCardData &&
+                  overviewCardData.total_users?.change_from_last_metric
+                }
+                data4={
+                  overviewCardData &&
+                  overviewCardData.total_users
+                    ?.change_percentage_from_last_metric
+                }
+              />
+            </div>
+            <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+              <DetailCard
+                progress={true}
+                progressColor={"#F2994A"}
+                name={"Total Resources"}
+                weekMonth={weekMonth}
+                icon={<ResourceIcon />}
+                data1={
+                  overviewCardData &&
+                  overviewCardData.total_resources?.total_sites
+                }
+                data2={
+                  overviewCardData &&
+                  overviewCardData.total_resources
+                    ?.total_sites_introduces_this_metric
+                }
+                data3={
+                  overviewCardData &&
+                  overviewCardData.total_resources?.change_from_last_metric
+                }
+                data4={
+                  overviewCardData &&
+                  overviewCardData.total_resources
+                    ?.change_percentage_from_last_metric
+                }
+              />
+            </div>
+            <div className='p-5 col-span-2 flex gap-3 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+              <div className='left w-1/2'>
+                <DetailCard
+                  name={"Total Active Hours"}
+                  weekMonth={weekMonth}
+                  icon={<ClockIcon />}
+                  data1={
+                    overviewCardData &&
+                    overviewCardData.total_active_hours &&
+                    Number(
+                      overviewCardData.total_active_hours
+                        .total_active_hours_this_metric
+                    ).toFixed(2)
+                  }
+                  data2={
+                    overviewCardData &&
+                    overviewCardData.total_active_hours
+                      ?.total_users_created_this_month
+                  }
+                  data3={
+                    overviewCardData &&
+                    overviewCardData.total_active_hours &&
+                    overviewCardData.total_active_hours.change_from_last_metric
+                  }
+                  data4={
+                    overviewCardData &&
+                    overviewCardData.total_active_hours &&
+                    overviewCardData.total_active_hours
+                      .change_percentage_from_last_metric
+                  }
+                />
+              </div>
+              <div className='right w-1/2 relative '>
+                {/* ------- Curve Line ----------- */}
+                <HalfCircleChart
+                  percentage={
+                    overviewCardData &&
+                    overviewCardData.total_active_hours &&
+                    overviewCardData.total_active_hours
+                      .change_percentage_from_last_metric
+                  }
+                />
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       {/* --------- Section 2 ------------ */}
@@ -223,7 +417,11 @@ const Details = ({
           Resources Utilisation Trend
         </div>
         <div className='max-h-[250px] relative'>
-          <SmoothLineChart />
+          {overviewUtilizationDataLoading ? (
+            "Loading..."
+          ) : (
+            <SmoothLineChart chartData={chartData} maxY={maxY} />
+          )}
         </div>
       </div>
       {/* --------- Section 3 ------------ */}
@@ -314,9 +512,12 @@ const Details = ({
               <select
                 style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
                 className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
-                name='month'
+                onChange={(e) => {
+                  setHourlyWeek(e.target.value);
+                }}
               >
-                <option>Today</option>
+                <option value={"hour"}>Hourly</option>
+                <option value={"yesterday"}>Yesterday</option>
               </select>
             </div>
           </div>
@@ -324,40 +525,12 @@ const Details = ({
             Most Active: 12 pm
           </div>
 
-          <div className='bar-chart'>
-            <BarChart
-              amPm={amPm}
-              labels={[
-                "12 " + amPm,
-                "1 " + amPm,
-                "2 " + amPm,
-                "3 " + amPm,
-                "4 " + amPm,
-                "5 " + amPm,
-                "6 " + amPm,
-                "7 " + amPm,
-                "8 " + amPm,
-                "9 " + amPm,
-                "10 " + amPm,
-                "11 " + amPm,
-              ]}
-              datasets={[
-                {
-                  label: "Active Hours",
-                  data: [8, 11, 9, 7, 4, 5, 8, 10, 9, 7, 4, 2],
-                  backgroundColor: (context) => {
-                    const value = context.raw;
-                    if (value === 0) return "transparent"; // If value is 0, make the bar transparent
-                    return value < 8 ? "#7F56D9" : "#d03636";
-                  },
-                  borderColor: "#d03636",
-                  borderWidth: 0,
-                  borderSkipped: "top bottom",
-                  borderRadius: 50,
-                  barThickness: 10,
-                },
-              ]}
-            />
+          <div className='bar-chart h-full'>
+            {overviewHourlyDataLoading ? (
+              <VerticalLineSkeleton />
+            ) : (
+              <BarChart data={modifyHourlyData} />
+            )}
           </div>
         </div>
       </div>
@@ -479,9 +652,12 @@ const Details = ({
             <select
               style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
               className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
-              name='month'
+              onClick={(e) => {
+                setDatabaseUsageWeekMonth(e.target.value);
+              }}
             >
-              <option>Today</option>
+              <option value={"week"}>Weekly</option>
+              <option value={"month"}>Monthly</option>
             </select>
             {/* </div> */}
           </div>
@@ -489,62 +665,55 @@ const Details = ({
           {/* -------------- Radio Buttons -------------- */}
           <div className='flex gap-3 my-5'>
             <label htmlFor='Scopus' className='flex gap-2'>
-              <input type='radio' name='usage' />
+              <div className='w-4 h-4 rounded-full  border border-slate-400 overflow-hidden p-0.5 flex-shrink-0'>
+                <p
+                  className='w-full h-full rounded-full grow'
+                  style={{
+                    background: colorPalette[2],
+                  }}
+                ></p>
+              </div>
               <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
-                Scopus
+                {/* Scopus */}
+                {databaseUsageStateData?.datasets[0].label}
               </div>
             </label>
             <label htmlFor='dvl' className='flex gap-2'>
-              <input type='radio' name='usage' />
+              <div className='w-4 h-4 rounded-full  border border-slate-400 overflow-hidden p-0.5 flex-shrink-0'>
+                <p
+                  className='w-full h-full rounded-full grow'
+                  style={{
+                    background: colorPalette[1],
+                  }}
+                ></p>
+              </div>
               <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
-                DVL
+                {/* DVL */}
+                {databaseUsageStateData?.datasets[1].label}
               </div>
             </label>
             <label htmlFor='proQuest' className='flex gap-2'>
-              <input type='radio' name='usage' />
+              <div className='w-4 h-4 rounded-full  border border-slate-400 overflow-hidden p-0.5 flex-shrink-0'>
+                <p
+                  className='w-full h-full rounded-full grow'
+                  style={{
+                    background: colorPalette[0],
+                  }}
+                ></p>
+              </div>
               <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
-                ProQuest
+                {/* ProQuest */}
+                {databaseUsageStateData?.datasets[2].label}
               </div>
             </label>
           </div>
 
           <div className='bar-chart'>
-            <BarChart
-              amPm={amPm}
-              labels={["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"]}
-              datasets={[
-                {
-                  label: "Active Hours",
-                  data: [3, 7, 2, 4, 5, 6, 8],
-                  // backgroundColor: (context) => {
-                  //   const value = context.raw;
-                  //   if (value === 0) return "transparent";
-                  //   return value < 8 ? "#7F56D9" : "#d03636";
-                  // },
-                  backgroundColor: "#7F56D9",
-                  borderColor: "#d03636",
-                  borderWidth: 0,
-                  borderSkipped: "bottom",
-                  borderRadius: 50,
-                  barThickness: 10,
-                },
-                {
-                  label: "Active Hours",
-                  data: [8, 3, 5, 1, 7, 2, 5],
-                  // backgroundColor: (context) => {
-                  //   const value = context.raw;
-                  //   if (value === 0) return "transparent";
-                  //   return value < 8 ? "#7F56D9" : "#d03636";
-                  // },
-                  backgroundColor: "#d03636",
-                  borderColor: "#d03636",
-                  borderWidth: 0,
-                  borderSkipped: "bottom",
-                  borderRadius: 50,
-                  barThickness: 10,
-                },
-              ]}
-            />
+            {overviewDatabaseUsageDataLoading ? (
+              "Loading..."
+            ) : (
+              <BarChart data={databaseUsageStateData} />
+            )}
           </div>
         </div>
 
