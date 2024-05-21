@@ -198,23 +198,23 @@ const FilterComponent = () => {
           </p>
         </button>
         {dateDropdownOpen && (
-          <div className='flex space-x-2'>
+          <div className='flex flex-wrap gap-2'>
             <input
-              type='text'
+              type='date'
               value={dateRange.from}
               onChange={(e) =>
                 setDateRange({ ...dateRange, from: e.target.value })
               }
-              className='w-1/2 p-2  bg-inherit border rounded-md'
+              className=' p-2  bg-inherit border rounded-md w-[-webkit-fill-available]'
               placeholder='From : '
             />
             <input
-              type='text'
+              type='date'
               value={dateRange.to}
               onChange={(e) =>
                 setDateRange({ ...dateRange, to: e.target.value })
               }
-              className='w-1/2 p-2 rounded-md border bg-inherit'
+              className='p-2 rounded-md border bg-inherit w-[-webkit-fill-available]'
               placeholder='To : '
             />
           </div>

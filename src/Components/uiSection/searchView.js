@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
@@ -44,6 +44,8 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
   ];
   var books = [1, 2, 3, 4, 5, 6, 7];
   var page = [1, 2, 3];
+  const [sortBy, setSortBy] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
   return (
     <>
       <Header {...{ logutOutHandler, institutionDetails, domain }} />
@@ -144,7 +146,10 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
               </div>
             </div>
             <div className=' flex justify-end'>
-              <div className='px-2 h-[43px] w-[131px] rounded-[5px] border border-solid border-[#221FB9/0.14] mr-4 flex justify-around items-center'>
+              <div
+                onClick={() => setSortBy(!sortBy)}
+                className='relative px-2 h-[43px] w-[131px] cursor-pointer rounded-[5px] border border-solid border-[#221FB9/0.14] mr-4 flex justify-around items-center'
+              >
                 <img src={sort} className=' w-[16px] h-[16px]' alt='sorticon' />
                 <span>Sort By: </span>
                 <img
@@ -152,6 +157,37 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
                   className=' w-[10px] h-[7px]'
                   alt='arrowdown'
                 />
+                {sortBy && (
+                  <div className='absolute flex flex-col space-y-2 w-full top-11 right-0 bg-white rounded-[5px]'>
+                    <p className='border-b px-3 py-2 cursor-pointer'>Asc</p>
+                    <p className='px-3 pb-2 cursor-pointer'>Desc</p>
+                  </div>
+                )}
+              </div>
+              <div className=' md:hidden   relative '>
+                <div
+                  onClick={() => {
+                    setShowFilter(!showFilter);
+                  }}
+                  className='px-2 h-[43px] cursor-pointer w-[131px] rounded-[5px] border border-solid border-[#221FB9/0.14] flex justify-around items-center'
+                >
+                  <img
+                    src={sort}
+                    className='w-[16px] h-[16px]'
+                    alt='sorticon'
+                  />
+                  <span>Filter By: </span>
+                  <img
+                    src={arrowdown}
+                    className=' w-[10px] h-[7px]'
+                    alt='arrowdown'
+                  />
+                </div>
+                {showFilter && (
+                  <div className='md:hidden text-nowrap absolute  right-0 top-12 bg-white p-3 shadow-md z-50'>
+                    <FilterComponent />
+                  </div>
+                )}
               </div>
             </div>
           </div>
