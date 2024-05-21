@@ -7,6 +7,7 @@ import useFetch from "../../hooks/useFetch";
 import useDelete from "../../hooks/useDelete";
 import useAdd from "../../hooks/useAdd";
 import useUpdate from "../../hooks/useUpdate";
+import AddBulkSites from "./AddBulkSites";
 
 export default function Site() {
   const { siteLoading, siteData, handleFetctSites } = useFetch();
@@ -51,6 +52,17 @@ export default function Site() {
         path={"/add/site"}
         element={
           <AddSite
+            addFunctionHandler={(data) => {
+              handleAddNewSite("api/sites/add/", data);
+            }}
+            loading={addNewSiteLoading}
+          />
+        }
+      />
+      <Route
+        path={"/add/bulk/site"}
+        element={
+          <AddBulkSites
             addFunctionHandler={(data) => {
               handleAddNewSite("api/sites/add/", data);
             }}

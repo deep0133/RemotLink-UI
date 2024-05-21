@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
-import { SitesIcon } from "../../assets/constants";
+import { BulkUserIcon, SitesIcon } from "../../assets/constants";
 import SearchFilter from "../../components/category/SearchFilter";
 import Card from "../../components/sites/Card";
 import Pagination from "../../components/Pagination";
@@ -31,12 +31,23 @@ export default function ManageAllSites({
   return (
     <>
       <Header icon={<SitesIcon />} title={"Sites"} />
-      <Hero
+      {/* <Hero
         name={`Manage all Sites`}
         description={`Manage the site here`}
         icon={<SitesIcon />}
         btnText={`Add Site`}
         btnLink={"/admin/sites/add/site"}
+      /> */}
+      <Hero
+        name={`Manage all Sites`}
+        description={`Manage and organize all users efficiently.`}
+        icon={<SitesIcon />}
+        icon2={<BulkUserIcon />}
+        btnText={`Add User`}
+        btnText2={`Add Bulk Sites`}
+        btnCount={2}
+        btnLink={"/admin/sites/add/site"}
+        btnLink2={"/admin/sites/add/bulk/site"}
       />
       <SearchFilter
         searchHandler={searchHandler}

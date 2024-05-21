@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
@@ -7,16 +6,15 @@ import search from "../../images/search-normal.svg";
 import bin from "../../images/trash.png";
 import book from "../../images/Group.png";
 import icon from "../../images/gr.png";
-import arrow from "../../images/arrow-up.png";
 import sort from "../../images/sort.png";
 import arrowdown from "../../images/Vector (Stroke).png";
 import bookmarkicon2 from "../../images/Vector.png";
 import Pagination from "../uiElemnts/pagination";
 
 import linkicon from "../../images/Group 1000002938.png";
+import FilterComponent from "../uiElemnts/FilterComponent";
 
 function SearchView({ logutOutHandler, institutionDetails, domain }) {
-  const [Open, setOpen] = useState(false);
   const btn = ["Search type", "Resource Type", "Databases"];
   const count = [
     {
@@ -129,7 +127,7 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
             <div className=' flex  mt-8 '>
               <div className='sm:flex sm:items-center flex-row '>
                 <div className=' text-black font-medium text-[14px] mt-2 sm:mt-0 mb-2 sm:mb-0'>
-                  Flter:
+                  Filter:
                 </div>
                 <div className=' flex flex-wrap'>
                   {count.map((e) => (
@@ -157,39 +155,12 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
               </div>
             </div>
           </div>
-          <div className='flex sm:p-8 p-0'>
+          <div className='flex sm:p-8 p-0 bg-[#F8F9FA]'>
             <div
-              className=' hidden md:block  w-[30%] shrink-0'
+              className=' hidden  mt-5 md:block w-[30%] shrink-0'
               style={{ borderRight: "1px solid lightgray" }}
             >
-              <div className={`p-4 ${Open ? " border-b " : ""}`}>
-                <div className=' flex  justify-between  items-center'>
-                  <span>Access</span>
-                  <span className='' onClick={() => setOpen(!Open)}>
-                    {" "}
-                    <img src={arrow} alt='' />
-                  </span>
-                </div>
-                {Open && (
-                  <div className={`mt-4 flex  items-center  `}>
-                    <span className=' mr-4 flex items-center'>
-                      <input
-                        type='checkbox'
-                        checked
-                        className=' mr-2 w-[18px] h-[18px]'
-                      />
-                      Show All
-                    </span>
-                    <span className=' flex items-center'>
-                      <input
-                        type='checkbox'
-                        className=' mr-2  w-[18px] h-[18px]'
-                      />
-                      Open Acces Only
-                    </span>
-                  </div>
-                )}
-              </div>
+              <FilterComponent />
             </div>
             <div className='w-full md:w-[70%]'>
               <div className=' bg-[#F8F9FA] p-4 rounded-lg'>
