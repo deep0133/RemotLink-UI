@@ -47,7 +47,7 @@ export default function Pagination({
         const link = nextLink || previousLink;
 
         if (link) {
-          questionMark = link.split("?");
+          questionMark = link?.split("?");
           if (questionMark.length > 1 && questionMark[1].includes("page=")) {
             const queryParams = questionMark[1].split("&");
             const updatedParams = queryParams.map((param) => {

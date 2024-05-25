@@ -26,6 +26,31 @@ export default function useFetch() {
 
   const [institutionDetails, setInstitutionDetails] = useState("");
 
+  const [catgorialResourceLoading, setCatgorialResourceLoading] =
+    useState(false);
+  const [catgorialResource, setCatgorialResource] = useState(null);
+
+  // setFeatureResourceDataLoading
+  const [featureResourceLoading, setFeatureResourceLoading] = useState(false);
+  const [featureResourceData, setFeatureResourceData] = useState(null);
+
+  const [discoverReadingLoading, setDiscoverReadingLoading] = useState(false);
+  const [discoverReadingData, setDiscoverReadingData] = useState(null);
+
+  const [treandingResourceLoading, setTreandingResourceLoading] =
+    useState(false);
+  const [treandingResourceData, setTreandingResourceData] = useState(null);
+
+  const [topSavedResourcesLoading, setTopSavedResourcesLoading] =
+    useState(false);
+  const [topSavedResourcesData, setTopSavedResourcesData] = useState(null);
+
+  const [searchViewLoading, setSearchViewLoading] = useState(false);
+  const [searchViewData, setSearchViewData] = useState(null);
+
+  const [searchViewFilterLoading, setSearchViewFilterLoading] = useState(false);
+  const [searchViewFilterData, setSearchViewFilterData] = useState(null);
+
   const [subdomain, setSubdomain] = useState("");
 
   useEffect(() => {
@@ -74,7 +99,7 @@ export default function useFetch() {
     setFetchLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const api = "api/report/site/?start&end";
+      const api = "api/report/site/";
 
       const baseUrl = process.env.REACT_APP_BACKEND_URL;
       let domain = subdomain;
@@ -287,6 +312,135 @@ export default function useFetch() {
     }
   };
 
+  const fetchTemplate = async (api, loading, state, token = true) => {
+    try {
+      loading(true);
+      const baseUrl = process.env.REACT_APP_BACKEND_URL;
+      let domain = subdomain;
+      if (!subdomain) {
+        domain = await readSubdomainFromFile();
+        setSubdomain(domain);
+      }
+
+      const url = "https://" + domain + "." + baseUrl;
+
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      if (token) {
+        const tok = localStorage.getItem("access_token");
+        headers["Authorization"] = `Bearer ${tok}`;
+      }
+
+      const response = await fetch(url + api, {
+        method: "Get",
+        headers: headers,
+      });
+      if (!response.ok) {
+        if (response.status === 401) {
+          await logutOutHandler();
+        }
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      state(data);
+    } catch (error) {
+      // console.error("Error fetching FAQs:", error.message);
+    } finally {
+      loading(false);
+    }
+  };
+
+  const landingPageCategorialResourceFetch = async (param) => {
+    await fetchTemplate(
+      `api/sites/resources-view/?sort_by=${param}`,
+      setCatgorialResourceLoading,
+      setCatgorialResource,
+      false
+    );
+  };
+
+  // FeaturedResources
+  const landingPageFeaturedResourcesFetch = async () => {
+    await fetchTemplate(
+      `api/sites/recent-subject-resources/`,
+      setFeatureResourceLoading,
+      setFeatureResourceData,
+      false
+    );
+  };
+
+  const homePageDiscoverRecentReadingFetch = async (time_period) => {
+    await fetchTemplate(
+      `api/sites/recently-accessed-resources/?time_period=${time_period}`,
+      setDiscoverReadingLoading,
+      setDiscoverReadingData
+    );
+  };
+
+  const homePageTrendingResourceFetch = async (param) => {
+    await fetchTemplate(
+      `api/sites/resources-view/?sort_by=${param}`,
+      setTreandingResourceLoading,
+      setTreandingResourceData
+    );
+  };
+
+  const homePageTopSavedResourcesFetch = async () => {
+    await fetchTemplate(
+      `api/sites/fav-resource/list/?page_size=3&page_number=1`,
+      setTopSavedResourcesLoading,
+      setTopSavedResourcesData
+    );
+  };
+
+  const searchViewPageHandler = async (params) => {
+    await fetchTemplate(
+      `api/sites/search/?query=${params}`,
+      setSearchViewLoading,
+      setSearchViewData
+    );
+  };
+
+  // hit api to increase access_count:
+  const increaseAccessCount = async (id) => {
+    const baseUrl = process.env.REACT_APP_BACKEND_URL;
+    let domain = subdomain;
+    if (!subdomain) {
+      domain = await readSubdomainFromFile();
+      setSubdomain(domain);
+    }
+
+    const url = "https://" + domain + "." + baseUrl;
+
+    const token = localStorage.getItem("access_token");
+    fetch(url + `api/sites/access-resources/${id}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Access Count increased:", data);
+      })
+      .catch((error) => {
+        console.error("Error increasing access count:", error);
+      });
+  };
+
+  // hit api to increase access_count:
+  const searchViewFilterationDataFetch = async () => {
+    await fetchTemplate(
+      `api/sites/distinct-fields/`,
+      setSearchViewFilterLoading,
+      setSearchViewFilterData,
+      false
+    );
+  };
+
   return {
     fetchLoading,
     proxy,
@@ -304,5 +458,33 @@ export default function useFetch() {
     handleFetchMessages,
     institutionDetails,
     institutionDetailFetch,
+    catgorialResource,
+    catgorialResourceLoading,
+    landingPageCategorialResourceFetch,
+
+    featureResourceLoading,
+    featureResourceData,
+    landingPageFeaturedResourcesFetch,
+    increaseAccessCount,
+
+    discoverReadingData,
+    discoverReadingLoading,
+    homePageDiscoverRecentReadingFetch,
+
+    treandingResourceData,
+    treandingResourceLoading,
+    homePageTrendingResourceFetch,
+
+    topSavedResourcesData,
+    topSavedResourcesLoading,
+    homePageTopSavedResourcesFetch,
+
+    searchViewData,
+    searchViewLoading,
+    searchViewPageHandler,
+
+    searchViewFilterData,
+    searchViewFilterLoading,
+    searchViewFilterationDataFetch,
   };
 }

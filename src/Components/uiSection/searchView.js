@@ -1,51 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
-import search from "../../images/search-normal.svg";
-import bin from "../../images/trash.png";
+// import search from "../../images/search-normal.svg";
 import book from "../../images/Group.png";
-import icon from "../../images/gr.png";
 import sort from "../../images/sort.png";
 import arrowdown from "../../images/Vector (Stroke).png";
-import bookmarkicon2 from "../../images/Vector.png";
-import Pagination from "../uiElemnts/pagination";
 
-import linkicon from "../../images/Group 1000002938.png";
 import FilterComponent from "../uiElemnts/FilterComponent";
+import useFetch from "../../hooks/useFetch";
+import Pagination from "../admin/components/Pagination";
 
 function SearchView({ logutOutHandler, institutionDetails, domain }) {
-  const btn = ["Search type", "Resource Type", "Databases"];
-  const count = [
-    {
-      heading: "EJournals",
+  // /api/sites/search/?query=&
+  // access_type=Full Text &
+  // resource_type=&
+  // database=DVL DENTAL &
+  // language=&
+  // publish_date_start=24-05-2023&
+  // publish_date_end=24-05-2023&
+  // database=HERD: HEALTH ENVIRONMENTS RESEARCH %26 DESIGN JOURNAL&
+  // sort_order=acs&
+  // page=1&page_size=10
 
-      count: "100",
-      btn: "EJournals",
-    },
-    {
-      heading: "Ebooks",
+  const {
+    searchViewData,
+    searchViewLoading,
+    searchViewPageHandler,
+    searchViewFilterData,
+    searchViewFilterLoading,
+    searchViewFilterationDataFetch,
+  } = useFetch();
 
-      count: "400",
-      btn: "Ebooks",
-    },
-    {
-      heading: "EVideos",
-
-      count: "200",
-      btn: "EVideos",
-    },
-    {
-      heading: "Other EResources",
-
-      count: "100",
-      btn: "English",
-    },
-  ];
-  var books = [1, 2, 3, 4, 5, 6, 7];
-  var page = [1, 2, 3];
   const [sortBy, setSortBy] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
+
+  const [query, setQuery] = useState("");
+
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    searchViewPageHandler("page=1&page_size=10");
+    searchViewFilterationDataFetch();
+  }, []);
+
+  const selectedFilteration = (filteration) => {
+    setQuery(filteration);
+    let newquery = filteration;
+    if (search !== "") {
+      newquery = search + "&" + filteration;
+    }
+    newquery += `&page=${currentPage}&page_size=10`;
+    searchViewPageHandler(JSON.stringify(newquery));
+  };
+
+  const submitSearchQuery = () => {
+    let newquery = "";
+    console.log("----------Search ----------", search);
+    if (search !== "") {
+      newquery = search + "&" + query;
+    }
+    newquery += `&page=${currentPage}&page_size=10`;
+    searchViewPageHandler(newquery);
+  };
+
   return (
     <>
       <Header {...{ logutOutHandler, institutionDetails, domain }} />
@@ -79,16 +98,27 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
               10000+ repo
             </p>
             <div className='mt-2 sm:flex flex-wrap sm:mt-4'>
-              <div className='flex flex-1'>
+              <div className='flex w-full sm:max-w-[550px]'>
                 <input
                   type=' text'
                   style={{ border: "1px solid lightgray" }}
-                  className='w-full h-[48px] sm:min-w-[350px] flex-1 py-2 px-4 sm:mr-4 rounded-lg'
+                  className='w-full grow h-[48px]   flex-1 py-2 px-4 sm:mr-4 rounded-lg'
                   placeholder='Search anything'
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
               <div className='flex gap-2 max-[1051px]:mt-2 flex-wrap'>
-                {btn.map((e) => (
+                <button
+                  onClick={submitSearchQuery}
+                  className='px-5 h-[48px] rounded-lg sm:mr-2  bg-white  whitespace-nowrap  '
+                  style={{ border: "1px solid lightgray" }}
+                >
+                  <span className=' flex items-center justify-center'>
+                    Search
+                  </span>
+                </button>
+                {/* {btn.map((e) => (
                   <button
                     className='px-5 h-[48px] rounded-lg sm:mr-2  bg-white  whitespace-nowrap  '
                     style={{ border: "1px solid lightgray" }}
@@ -98,10 +128,68 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
                       {e}
                     </span>
                   </button>
-                ))}
+                ))} */}
               </div>
             </div>
+            {/* -------------Count of Data-------------- */}
             <div className=' flex flex-wrap sm:flex-nowraps'>
+              <div
+                className=' flex flex-col p-4 mt-4 '
+                style={{
+                  borderRight: "1searchViewPageHandlerpx solid  lightgray",
+                  width: "fit-content",
+                }}
+              >
+                <span className=' text-[#033086] font-normal'>
+                  Total Result
+                </span>
+                <span className=' font-semibold'>
+                  {" "}
+                  {searchViewData?.total_results}
+                </span>
+              </div>
+              <div
+                className=' flex flex-col p-4 mt-4 '
+                style={{
+                  borderRight: "1px solid  lightgray",
+                  width: "fit-content",
+                }}
+              >
+                <span className=' text-[#033086] font-normal'>EJournals</span>
+                <span className=' font-semibold'>
+                  {" "}
+                  {searchViewData?.EJournals}
+                </span>
+              </div>
+
+              <div
+                className=' flex flex-col p-4 mt-4 '
+                style={{
+                  borderRight: "1px solid  lightgray",
+                  width: "fit-content",
+                }}
+              >
+                <span className=' text-[#033086] font-normal'>EBooks</span>
+                <span className=' font-semibold'>
+                  {" "}
+                  {searchViewData?.EBooks}
+                </span>
+              </div>
+
+              <div
+                className=' flex flex-col p-4 mt-4 '
+                style={{
+                  borderRight: "1px solid  lightgray",
+                  width: "fit-content",
+                }}
+              >
+                <span className=' text-[#033086] font-normal'>EVideos</span>
+                <span className=' font-semibold'>
+                  {" "}
+                  {searchViewData?.EVideos}
+                </span>
+              </div>
+
               <div
                 className=' flex flex-col p-4 mt-4 '
                 style={{
@@ -110,23 +198,15 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
                 }}
               >
                 <span className=' text-[#033086] font-normal'>
-                  Total Result
+                  Other EResources
                 </span>
-                <span className=' font-semibold'>100</span>
+                <span className=' font-semibold'>
+                  {" "}
+                  {searchViewData?.other_EResources}
+                </span>
               </div>
-              {count.map((e) => (
-                <div
-                  className=' flex flex-col p-4 mt-4 '
-                  style={{ width: "fit-content" }}
-                >
-                  <span className=' text-[#033086] font-normal'>
-                    {e?.heading}
-                  </span>
-                  <span className=' font-semibold'>{e?.count}</span>
-                </div>
-              ))}
             </div>
-            <div className=' flex  mt-8 '>
+            {/* <div className=' flex border-4 border-yellow-500  mt-8 '>
               <div className='sm:flex sm:items-center flex-row '>
                 <div className=' text-black font-medium text-[14px] mt-2 sm:mt-0 mb-2 sm:mb-0'>
                   Filter:
@@ -144,7 +224,7 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
                   ))}
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className=' flex justify-end'>
               <div
                 onClick={() => setSortBy(!sortBy)}
@@ -184,8 +264,12 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
                   />
                 </div>
                 {showFilter && (
-                  <div className='md:hidden text-nowrap absolute  right-0 top-12 bg-white p-3 shadow-md z-50'>
-                    <FilterComponent />
+                  <div className='left md:hidden text-nowrap absolute  right-0 top-12 bg-white p-3 shadow-md z-50'>
+                    <FilterComponent
+                      selectedFilteration={selectedFilteration}
+                      searchViewFilterData={searchViewFilterData}
+                      searchViewFilterLoading={searchViewFilterLoading}
+                    />
                   </div>
                 )}
               </div>
@@ -193,161 +277,93 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
           </div>
           <div className='flex sm:p-8 p-0 bg-[#F8F9FA]'>
             <div
-              className=' hidden  mt-5 md:block w-[30%] shrink-0'
+              className='left hidden  mt-5 md:block w-[30%] shrink-0'
               style={{ borderRight: "1px solid lightgray" }}
             >
-              <FilterComponent />
+              <FilterComponent
+                selectedFilteration={selectedFilteration}
+                searchViewFilterData={searchViewFilterData}
+                searchViewFilterLoading={searchViewFilterLoading}
+              />
             </div>
-            <div className='w-full md:w-[70%]'>
+            <div className='right w-full md:w-[70%]'>
               <div className=' bg-[#F8F9FA] p-4 rounded-lg'>
                 {/*web view--------------------------------------------------------- */}
-                {books.map((e) => (
-                  <div className='hidden  rounded-xl bg-blue p-4 sm:flex justify-between  mt-2 bg-white'>
-                    <div className=' flex'>
-                      <div className=' flex flex-col justify-center  items-center sm:block'>
-                        <div className=' h-[87px] w-[72px] bg-[#F3F7FA] flex justify-center items-center rounded-[6px]'>
-                          <img
-                            src={book}
-                            className='h-[39px] w-[32px] '
-                            alt='bookicon'
-                          />
-                        </div>
-                        <div
-                          className=' sm:hidden px-2 py-[5px] text-[#F38D15] font-mediumsm: bg-gray-50 rounded-md ml-4'
-                          style={{ border: "1px solid green" }}
-                        >
-                          Ebook
-                        </div>
-                      </div>
-                      <div className='ml-4'>
-                        <span className=' flex'>
-                          <p className=' text-[#1F5095]  font-semibold'>
-                            Journal of chemical technology and biotechnology{" "}
-                          </p>
-                          <div>
-                            <div
-                              className='mx-4 px-2 py-1 text-[#F38D15] font-medium sm:bg-gray-50 rounded-md flex justify-center  items-center'
-                              style={{ border: "1px solid green" }}
-                            >
-                              Ebook
-                            </div>
-                          </div>
-                        </span>
-                        <p className=' mt-6 text-[#1F5095]'>
-                          by Wiley InterScience (Online service); Wiley Online
-                          Library; Blieberger, Johann; Strohmeier, Alfred , 2019
-                        </p>
-                        <p className=' mt-2 text-[#1F5095]'>
-                          ISBN : 8878 87888 578
-                        </p>
-                      </div>
-                    </div>
-                    <div className=' hidden lg:flex flex-row '>
-                      <div className='mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
-                        <img
-                          src={bookmarkicon2}
-                          className=' w-[10px] h-[12px]'
-                          alt=''
-                        />{" "}
-                      </div>
-                      <div className=' mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
-                        <img src={icon} alt='' className=' w-[12px] h-[10px]' />
-                      </div>
-                      <div className=' mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
-                        <img
-                          src={linkicon}
-                          alt=''
-                          className=' w-[16px] h-[12px]'
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                {/* mobile view ---------------------------------------------------------------- */}
-                {books.map((e) => (
-                  <div className='sm:hidden rounded-xl bg-blue py-4 px-2 flex mt-2 bg-white  flex-col'>
-                    <div className='flex w-full justify-between'>
-                      <p className=' text-[14px] text-[#1F5095] font-semibold'>
-                        Journal of chemical technology and biotechnology{" "}
-                      </p>
-
-                      <div className=' flex flex-row'>
-                        <div className=' mr-1  rounded-full border w-[30px] h-[30px] flex justify-center items-center'>
-                          <img
-                            src={bookmarkicon2}
-                            className=' w-[10px] h-[12px]'
-                            alt=''
-                          />{" "}
-                        </div>
-                        <div className=' mr-1  rounded-full border w-[30px] h-[30px] flex justify-center items-center'>
-                          <img
-                            src={icon}
-                            className=' w-[12px] h-[10px]'
-                            alt=''
-                          />
-                        </div>
-                        <div className=' mr-1  rounded-full border w-[30px] h-[30px] flex justify-center items-center'>
-                          <img
-                            src={linkicon}
-                            className=' w-[16px] h-[12px]'
-                            alt=''
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className=' flex mt-4'>
-                      <div className=''>
-                        <div className=' h-[87px] w-[72px] bg-[#F3F7FA] flex justify-center items-center rounded-[6px]'>
-                          <img
-                            src={book}
-                            className='h-[39px] w-[32px] '
-                            alt=''
-                          />
-                        </div>
-                        <div>
-                          <div
-                            className='mt-4 px-2 h-fit py-1 text-[#F38D15] font-medium sm:bg-gray-50 rounded-md flex justify-center  items-center'
-                            style={{ border: "1px solid green" }}
-                          >
-                            Ebook
-                          </div>
-                        </div>
-                      </div>
-                      <div className=' ml-5 text-[14px] font-medium'>
-                        <p className='text-[#1F5095]'>
-                          by Wiley InterScience (Online service); Wiley Online
-                          Library
-                        </p>
-                        <p className='text-black'>
-                          Blieberger, Johann; Strohmeier, Alfred , 2019
-                        </p>
-
-                        <p className=' mt-2 text-[#1F5095]'>
-                          ISBN : 8878 87888 578
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                {searchViewLoading
+                  ? "Loading..."
+                  : searchViewData && searchViewData.data.length
+                  ? searchViewData.data?.map((val, i) => (
+                      <BookCard key={i} data={val} />
+                    ))
+                  : "No Data Found"}
               </div>
-              <div className=' flex justify-center  mt-6 items-center'>
-                <div className=' rounded-full bg-[#3674CB] ml-2 w-8 h-8 flex justify-center text-white'>
-                  <button>&lt;</button>
+              {searchViewData && searchViewData.data?.length > 0 && (
+                <div className=' flex justify-center  mt-6 items-center'>
+                  <Pagination
+                    previousLink={currentPage > 0 ? currentPage - 1 : null}
+                    nextLink={
+                      currentPage <
+                      (searchViewData && searchViewData.total_results)
+                        ? currentPage + 1
+                        : null
+                    }
+                    totalItems={searchViewData && searchViewData.total_results}
+                    itemsPerPage={10}
+                    onPageChange={(e) => {}}
+                  />
                 </div>
-                <Pagination pageno={page} />
-                <div className=' rounded-full bg-[#3674CB] ml-2 w-8 h-8 flex justify-center text-white'>
-                  <button>&gt;</button>
-                </div>
-              </div>
+              )}
             </div>
           </div>
-          {/* <Content />
-          <Journel /> */}
         </span>
       </div>
       <Footer {...{ institutionDetails, domain }} />
     </>
   );
 }
+
+const BookCard = ({ data }) => {
+  return (
+    <div className='rounded-xl bg-blue p-4 sm:flex justify-between  mt-2 bg-white'>
+      <div className=' flex'>
+        <div className=' flex flex-col justify-center  items-center sm:block'>
+          <div className=' h-[87px] w-[72px] bg-[#F3F7FA] flex justify-center items-center rounded-[6px]'>
+            <img src={book} className='h-[39px] w-[32px] ' alt='bookicon' />
+          </div>
+          <div
+            className=' sm:hidden px-2 py-[5px] text-[#F38D15] font-mediumsm: bg-gray-50 rounded-md ml-4'
+            style={{ border: "1px solid green" }}
+          >
+            {data.resource_type || "---"}
+          </div>
+        </div>
+        <div className='ml-4'>
+          <span className=' flex'>
+            <p className=' text-[#1F5095]  font-semibold'>
+              {/* Journal of chemical technology and biotechnology{" "} */}
+              {data.title || "---"}
+            </p>
+            <div>
+              <div
+                className='mx-4 px-2 py-1 text-[#F38D15] font-medium sm:bg-gray-50 rounded-md flex justify-center  items-center'
+                style={{ border: "1px solid green" }}
+              >
+                {data.resource_type || "---"}
+              </div>
+            </div>
+          </span>
+          <p className=' mt-6 text-[#1F5095] line-clamp-2'>
+            {/* by Wiley InterScience (Online service); Wiley Online Library;
+            Blieberger, Johann; Strohmeier, Alfred , 2019 */}
+            {data.description || "---"}
+          </p>
+          {data.ISSN_or_ISBN ? (
+            <p className=' mt-2 text-[#1F5095]'>ISBN : {data.ISSN_or_ISBN}</p>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default SearchView;

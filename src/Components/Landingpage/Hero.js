@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import abt_us1 from "../../images/Rectangle 522.png";
 import abt_us2 from "../../images/Rectangle 523.png";
 import Showcard from "./Showcard";
 
 import scenery from "../../images/Rectangle 550.png";
+import useFetch from "../../hooks/useFetch";
 
 const Hero = () => {
+  const {
+    searchViewFilterData,
+    searchViewFilterLoading,
+    searchViewFilterationDataFetch,
+  } = useFetch();
+
+  useEffect(() => {
+    searchViewFilterationDataFetch();
+  }, []);
+
   return (
     <>
       <div className='hidden purple:block'>
@@ -78,7 +89,10 @@ const Hero = () => {
         </div>
         <div className='flex  items-center flex-wrap mt-[12px] mb-[24px] justify-center'>
           <Showcard
-            heading='500+ Journals'
+            heading={
+              searchViewFilterData &&
+              searchViewFilterData.total_journals + "+ Journals"
+            }
             borderclr='border-white light:border-[#00000024] purple:border-[#DBDBDB] '
             bgcolor='bg-[#18151F] light:bg-[#FFFFFF] purple:bg-[#FFFFFF]'
             headingfont='font-Lusitana light:font-SourceSans purple:font-Sora'
@@ -87,7 +101,10 @@ const Hero = () => {
             subheadingtxtclr='text-white light:text-[#00000099] purple:text-black'
           />
           <Showcard
-            heading='250+ ebooks'
+            heading={
+              searchViewFilterData &&
+              searchViewFilterData.total_books + "+ ebooks"
+            }
             borderclr='border-white light:border-[#00000024] purple:border-[#DBDBDB]'
             bgcolor='bg-[#18151F]  light:bg-[#FFFFFF] purple:bg-[#FFFFFF]'
             headingfont='font-Lusitana light:font-SourceSans purple:font-Sora'
@@ -96,7 +113,10 @@ const Hero = () => {
             subheadingtxtclr='text-white light:text-[#00000099] purple:text-black'
           />
           <Showcard
-            heading='80+ Videos'
+            heading={
+              searchViewFilterData &&
+              searchViewFilterData.total_videos + "+ Videos"
+            }
             borderclr='border-white light:border-[#00000024] purple:border-[#DBDBDB]'
             bgcolor='bg-[#18151F]  light:bg-[#FFFFFF] purple:bg-[#FFFFFF] '
             headingfont='font-Lusitana light:font-SourceSans purple:font-Sora'
@@ -105,7 +125,10 @@ const Hero = () => {
             subheadingtxtclr='text-white light:text-[#00000099] purple:text-black'
           />
           <Showcard
-            heading='50+ Subjects'
+            heading={
+              searchViewFilterData &&
+              searchViewFilterData.total_subjects + "+ Subjects"
+            }
             borderclr='border-white light:border-[#00000024] purple:border-[#DBDBDB]'
             bgcolor='bg-[#18151F] light:bg-[#FFFFFF] purple:bg-[#FFFFFF]'
             headingfont='font-Lusitana light:font-SourceSans purple:font-Sora'
@@ -114,7 +137,10 @@ const Hero = () => {
             subheadingtxtclr='text-white light:text-[#00000099] purple:text-black'
           />
           <Showcard
-            heading='200 Databases'
+            heading={
+              searchViewFilterData &&
+              searchViewFilterData.total_databases + "+ Databases"
+            }
             borderclr='border-white light:border-[#00000024] purple:border-[#DBDBDB]'
             bgcolor='bg-[#18151F] light:bg-[#FFFFFF] purple:bg-[#FFFFFF]'
             headingfont='font-Lusitana light:font-SourceSans purple:font-Sora'
@@ -123,7 +149,10 @@ const Hero = () => {
             subheadingtxtclr='text-white light:text-[#00000099] purple:text-black'
           />
           <Showcard
-            heading='100 E-Resource'
+            heading={
+              searchViewFilterData &&
+              searchViewFilterData.total_other_resources + "+ E-Resource"
+            }
             borderclr='border-white light:border-[#00000024] purple:border-[#DBDBDB]'
             bgcolor='bg-[#18151F] light:bg-[#FFFFFF] purple:bg-[#FFFFFF]'
             headingfont='font-Lusitana light:font-SourceSans purple:font-Sora'

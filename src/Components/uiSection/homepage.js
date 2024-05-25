@@ -11,12 +11,7 @@ function Homepage({ logutOutHandler, institutionDetails, domain }) {
         institutionDetails={institutionDetails}
         domain={domain}
       />
-      <div className='hidden sm:flex'>
-        <Home />
-      </div>
-      <div className='sm:hidden'>
-        <Home />
-      </div>
+      <Home />
       <Footer institutionDetails={institutionDetails} domain={domain} />
     </div>
   );

@@ -1,32 +1,154 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
-const FilterComponent = () => {
+// import { SortIcon } from "../admin/assets/constants";
+const FilterComponent = ({
+  selectedFilteration,
+  searchViewFilterLoading,
+  searchViewFilterData,
+}) => {
   const [accessDropdownOpen, setAccessDropdownOpen] = useState(false);
   const [sourceTypeDropdownOpen, setSourceTypeDropdownOpen] = useState(false);
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   const [dateDropdownOpen, setDateDropdownOpen] = useState(false);
+  const [databaseDropdownOpen, setDatabaseDropdownOpen] = useState(false);
 
-  const [showAll, setShowAll] = useState(true);
+  const [showAll, setShowAll] = useState(false);
   const [openAccessOnly, setOpenAccessOnly] = useState(false);
-  const [sourceTypes, setSourceTypes] = useState({
-    eJournals: true,
-    otherEResources: true,
-    eBooks: false,
-    eVideos: false,
-  });
+  const [sourceTypes, setSourceTypes] = useState([]);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [selectedDatabases, setSelectedDatabases] = useState([]);
   const [dateRange, setDateRange] = useState({
-    from: "4/01/01",
-    to: "4/02/02",
+    from: null,
+    to: null,
   });
 
-  const handleLanguageChange = (language) => {
-    setSelectedLanguages((prev) =>
-      prev.includes(language)
-        ? prev.filter((lang) => lang !== language)
-        : [...prev, language]
-    );
+  const [query, setQuery] = useState("");
+
+  const handleLanguageChange = (value, type) => {
+    if (type === "lang")
+      setSelectedLanguages((prev) =>
+        prev.includes(value)
+          ? prev.filter((lang) => lang !== value)
+          : [...prev, value]
+      );
+    else {
+      setSelectedDatabases((prev) =>
+        prev.includes(value)
+          ? prev.filter((db) => db !== value)
+          : [...prev, value]
+      );
+    }
   };
+
+  const handleKeys = () => {
+    if (searchViewFilterData) {
+      const keys = Object.keys(searchViewFilterData);
+
+      // Filter out the unwanted keys with detailed logging
+      const wantedKeys = [
+        "total_journals",
+        "total_books",
+        "total_videos",
+        "total_other_resources",
+      ];
+
+      const filteredKeys = keys.filter((val) => {
+        if (wantedKeys.includes(val)) return true;
+        return false;
+      });
+
+      const acc = [];
+
+      for (let i = 0; i < filteredKeys.length; i++) {
+        switch (filteredKeys[i]) {
+          case "total_journals":
+            acc.push("ejournals");
+            break;
+          case "total_books":
+            acc.push("ebooks");
+            break;
+          case "total_videos":
+            acc.push("evideos");
+            break;
+          case "total_other_resources":
+            acc.push("eother_resources");
+            break;
+          default:
+            break;
+        }
+      }
+
+      // Create a new object with the remaining keys set to false
+      const newSourceTypes = acc.reduce((my, key) => {
+        my[key] = false;
+        return my;
+      }, {});
+
+      // Update the state with the new source types
+      setSourceTypes(newSourceTypes);
+    }
+  };
+
+  useEffect(() => {
+    handleKeys();
+  }, [searchViewFilterData]);
+
+  useEffect(() => {
+    handleKeys();
+  }, []);
+
+  const createQuery = () => {
+    let newQuery = "";
+    let value = [];
+    if (showAll) {
+      value.push("Full Text");
+    }
+    if (openAccessOnly) {
+      value.push(`Open access`);
+    }
+    // newQuery += "&access_type=" + value;
+    newQuery +=
+      "&access_type=" + "[" + value.map((val) => `${val}`).join(",") + "]";
+    value = [];
+
+    if (sourceTypes) {
+      const k = Object.keys(sourceTypes).filter(
+        (key) => sourceTypes[key] === true
+      );
+      newQuery +=
+        "&resource_type=" + "[" + k.map((val) => `${val}`).join(",") + "]";
+    }
+
+    if (selectedLanguages.length > 0) {
+      newQuery +=
+        "&language=" +
+        "[" +
+        selectedLanguages.map((val) => `${val}`).join(",") +
+        "]";
+    }
+    if (selectedDatabases.length > 0) {
+      newQuery +=
+        "&database=" + selectedDatabases.map((val) => `${val}`).join(",");
+    }
+    if (dateRange && dateRange.from) {
+      newQuery += "&publish_date_start=" + dateRange.from;
+    }
+    if (dateRange && dateRange.from) {
+      newQuery += "&publish_date_end=" + dateRange.to;
+    }
+    selectedFilteration(JSON.stringify(newQuery));
+  };
+
+  useEffect(() => {
+    createQuery();
+  }, [
+    showAll,
+    openAccessOnly,
+    sourceTypes,
+    selectedLanguages,
+    selectedDatabases,
+    dateRange,
+  ]);
 
   return (
     <div className='p-4 max-w-md mx-auto rounded-lg sticky top-0'>
@@ -89,13 +211,13 @@ const FilterComponent = () => {
             <label className='flex items-center space-x-2'>
               <input
                 type='checkbox'
-                checked={sourceTypes.eJournals}
-                onChange={() =>
+                checked={sourceTypes.ejournals}
+                onChange={() => {
                   setSourceTypes({
                     ...sourceTypes,
-                    eJournals: !sourceTypes.eJournals,
-                  })
-                }
+                    ejournals: !sourceTypes.ejournals,
+                  });
+                }}
                 className='form-checkbox  accent-blue-500'
               />
               <span className='text-zinc-600 text-[13px] font-normal font-Poppins capitalize tracking-tight'>
@@ -105,13 +227,13 @@ const FilterComponent = () => {
             <label className='flex items-center space-x-2 mt-2'>
               <input
                 type='checkbox'
-                checked={sourceTypes.otherEResources}
-                onChange={() =>
+                checked={sourceTypes.eother_resources}
+                onChange={() => {
                   setSourceTypes({
                     ...sourceTypes,
-                    otherEResources: !sourceTypes.otherEResources,
-                  })
-                }
+                    eother_resources: !sourceTypes.eother_resources,
+                  });
+                }}
                 className='form-checkbox  accent-blue-500'
               />
               <span className='text-zinc-600 text-[13px] font-normal font-Poppins capitalize tracking-tight'>
@@ -121,11 +243,11 @@ const FilterComponent = () => {
             <label className='flex items-center space-x-2 mt-2'>
               <input
                 type='checkbox'
-                checked={sourceTypes.eBooks}
+                checked={sourceTypes.ebooks}
                 onChange={() =>
                   setSourceTypes({
                     ...sourceTypes,
-                    eBooks: !sourceTypes.eBooks,
+                    ebooks: !sourceTypes.ebooks,
                   })
                 }
                 className='form-checkbox  accent-blue-500'
@@ -137,11 +259,11 @@ const FilterComponent = () => {
             <label className='flex items-center space-x-2 mt-2'>
               <input
                 type='checkbox'
-                checked={sourceTypes.eVideos}
+                checked={sourceTypes.evideos}
                 onChange={() =>
                   setSourceTypes({
                     ...sourceTypes,
-                    eVideos: !sourceTypes.eVideos,
+                    evideos: !sourceTypes.evideos,
                   })
                 }
                 className='form-checkbox  accent-blue-500'
@@ -168,20 +290,81 @@ const FilterComponent = () => {
           </p>
         </button>
         {languageDropdownOpen && (
-          <div className='mt-2'>
-            <label className='flex items-center space-x-2'>
-              <input
-                type='checkbox'
-                checked={selectedLanguages.includes("English(US)")}
-                onChange={() => handleLanguageChange("English(US)")}
-                className='form-checkbox  accent-blue-500'
-              />
-              <span className='text-zinc-600 text-[13px] font-normal font-Poppins capitalize tracking-tight'>
-                English(US)
-              </span>
-            </label>
+          <div className='mt-2 w-full'>
+            <select
+              onChange={(e) => handleLanguageChange(e.target.value, "lang")}
+              value={"Selected Language"}
+              className='w-full right-0 border border-gray-50 p-2 outline-none rounded-md'
+            >
+              <option value='Selected Lang' selected>
+                Selected Language
+              </option>
+
+              {searchViewFilterData &&
+                searchViewFilterData.distinct_languages?.map((lang, i) => {
+                  return (
+                    <option key={i} value={lang}>
+                      {lang}
+                    </option>
+                  );
+                })}
+            </select>
           </div>
         )}
+        <div className=' w-full flex gap-3 flex-wrap mt-3'>
+          {selectedLanguages.map((ln, i) => {
+            return (
+              <p key={i} className='bg-gray-200 py-1 px-3 rounded-md'>
+                {ln}
+              </p>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* DataBases */}
+      <div className='mb-4 border-b-2 pb-4'>
+        <button
+          onClick={() => setDatabaseDropdownOpen(!databaseDropdownOpen)}
+          className='w-full text-left py-2 rounded-md flex justify-between items-center'
+        >
+          <p className='text-black text-[15px] font-medium font-Poppins leading-tight'>
+            DataBases
+          </p>
+          <p style={{ rotate: databaseDropdownOpen ? "180deg" : "0deg" }}>
+            <FaChevronDown />
+          </p>
+        </button>
+        {databaseDropdownOpen && (
+          <div className='mt-2 w-full'>
+            <select
+              onChange={(e) => handleLanguageChange(e.target.value, "db")}
+              className='w-full right-0 border border-gray-50 p-2 outline-none rounded-md'
+              value={"Selected Database"}
+            >
+              <option value='Selected Database' selected>
+                Selected Database
+              </option>
+              {searchViewFilterData &&
+                searchViewFilterData.distinct_databases?.map((db, i) => {
+                  return (
+                    <option key={i} value={db}>
+                      {db}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+        )}
+        <div className=' w-full flex gap-3 flex-wrap mt-3'>
+          {selectedDatabases.map((db, i) => {
+            return (
+              <p key={i} className='bg-gray-200 py-1 px-3 rounded-md'>
+                {db}
+              </p>
+            );
+          })}
+        </div>
       </div>
 
       {/* Date */}
