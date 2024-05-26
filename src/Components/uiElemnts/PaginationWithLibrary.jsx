@@ -24,7 +24,6 @@ export default function PaginationWithLibrary({
     breakLink: "text-sm font-medium leading-none text-gray-600 pt-3 mr-4 px-2",
   };
 
-  console.log("------Current Page---------- :", currentPage);
   return (
     <ReactPaginate
       pageCount={pageCount}
@@ -44,7 +43,6 @@ export default function PaginationWithLibrary({
       breakLabel={"..."}
       onPageChange={(e) => {
         let selectedNo = e.selected + 1;
-        console.log("--------Selected Number-------:", selectedNo);
         onPageChange(selectedNo);
       }}
       containerClassName={customStyles.container}
