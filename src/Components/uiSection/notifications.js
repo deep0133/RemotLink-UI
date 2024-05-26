@@ -46,7 +46,10 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
       <>
         <Header {...{ logutOutHandler, institutionDetails, domain }} />
         <div className=' flex'>
-          <span className='md:block hidden'>
+          <span
+            className='md:block hidden'
+            style={{ position: "sticky", top: "0", height: "100vh" }}
+          >
             <Sidebar />
           </span>
           <div className='flex px-[5%] md:px-0 justify-center py-10 w-full md:w-[calc(100%-96px)]'>

@@ -85,7 +85,10 @@ function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
       <>
         <Header {...{ logutOutHandler, institutionDetails, domain }} />
         <div className=' flex'>
-          <span className=' hidden sm:block'>
+          <span
+            className=' hidden sm:block'
+            style={{ position: "sticky", top: "0", height: "100vh" }}
+          >
             <Sidebar />
           </span>
           <span className=' flex flex-col w-full sm:w-[calc(100%-96px)]'>

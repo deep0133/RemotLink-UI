@@ -155,19 +155,16 @@ function Home() {
     }
   }, [selectedTreanding, treandingResourceData]);
 
-  // --------Top Saved Resource----------
-  // useEffect(()=>{
-  //   if(topSavedResourcesData){
-  //     console.log(topSavedResourcesData)
-  //   }
-  // },[])
   const classes =
     "bg-[#1F5095] text-white bg-white text-black rounded-[8px] p-2 text-[14px]";
 
   return (
     <div className='sm:flex w-full'>
       {/* sidenav bar */}
-      <div className='hidden md:flex w-[96px] flex-shrink-0 flex-col items-center p-4 border border-solid border-color-p3 shadow-md no-scrollbar '>
+      <div
+        style={{ position: "sticky", top: "0", height: "100vh" }}
+        className='hidden md:flex w-[96px] flex-shrink-0 flex-col items-center p-4 border border-solid border-color-p3 shadow-md no-scrollbar '
+      >
         <Link to='/Home'>
           <div className='w-[42px] h-[42px] flex items-center justify-center flex-col mt-[22px]  '>
             <img className='pb-[7px]' src={Home_Icon} alt='Home Icon' />

@@ -46,9 +46,12 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
       <>
         <Header {...{ logutOutHandler, institutionDetails, domain }} />
         <div className=' flex'>
-          <span className=' md:block hidden'>
+          <div
+            className=' md:block hidden'
+            style={{ position: "sticky", top: "0", height: "100vh" }}
+          >
             <Sidebar />
-          </span>
+          </div>
           <span className=' flex flex-col w-[100%] '>
             <span
               className=' flex items-center  sm:px-[50px]  px-3 justify-between '

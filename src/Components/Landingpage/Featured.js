@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Explorecard from "./Explorecard";
 
-const Featured = ({ featureResourceLoading, featureResourceData }) => {
+const Featured = ({
+  setUnauthorizedUserSourcelink,
+  featureResourceLoading,
+  featureResourceData,
+}) => {
   const [keys, setKeys] = useState([]);
   const [active, setActive] = useState("");
 
@@ -76,7 +80,10 @@ const Featured = ({ featureResourceLoading, featureResourceData }) => {
       </div>
 
       <div className='mb-10'>
-        <Explorecard data={data && data} />
+        <Explorecard
+          data={data && data}
+          setUnauthorizedUserSourcelink={setUnauthorizedUserSourcelink}
+        />
       </div>
     </div>
   );

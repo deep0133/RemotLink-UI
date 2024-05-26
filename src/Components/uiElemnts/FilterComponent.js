@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 // import { SortIcon } from "../admin/assets/constants";
+
 const FilterComponent = ({
+  setCurrentPage,
   selectedFilteration,
   searchViewFilterLoading,
   searchViewFilterData,
@@ -18,11 +20,9 @@ const FilterComponent = ({
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [selectedDatabases, setSelectedDatabases] = useState([]);
   const [dateRange, setDateRange] = useState({
-    from: null,
-    to: null,
+    from: "",
+    to: "",
   });
-
-  const [query, setQuery] = useState("");
 
   const handleLanguageChange = (value, type) => {
     if (type === "lang")
@@ -62,16 +62,16 @@ const FilterComponent = ({
       for (let i = 0; i < filteredKeys.length; i++) {
         switch (filteredKeys[i]) {
           case "total_journals":
-            acc.push("ejournals");
+            acc.push("journal");
             break;
           case "total_books":
-            acc.push("ebooks");
+            acc.push("book");
             break;
           case "total_videos":
-            acc.push("evideos");
+            acc.push("video");
             break;
           case "total_other_resources":
-            acc.push("eother_resources");
+            acc.push("other_resource");
             break;
           default:
             break;
@@ -93,50 +93,46 @@ const FilterComponent = ({
     handleKeys();
   }, [searchViewFilterData]);
 
-  useEffect(() => {
-    handleKeys();
-  }, []);
-
   const createQuery = () => {
     let newQuery = "";
-    let value = [];
     if (showAll) {
-      value.push("Full Text");
+      newQuery += "&access_type=Full Text";
     }
+    // else {
+    //   newQuery.replace("&access_type=Full Text", "");
+    // }
     if (openAccessOnly) {
-      value.push(`Open access`);
+      newQuery += "&access_type=Open access";
     }
-    // newQuery += "&access_type=" + value;
-    newQuery +=
-      "&access_type=" + "[" + value.map((val) => `${val}`).join(",") + "]";
-    value = [];
+    // else {
+    //   newQuery.replace("&access_type=Open access", "");
+    // }
 
     if (sourceTypes) {
       const k = Object.keys(sourceTypes).filter(
         (key) => sourceTypes[key] === true
       );
-      newQuery +=
-        "&resource_type=" + "[" + k.map((val) => `${val}`).join(",") + "]";
+      const stype = k.map((val) => "&resource_type=" + val).join(",");
+      newQuery += stype;
     }
 
     if (selectedLanguages.length > 0) {
-      newQuery +=
-        "&language=" +
-        "[" +
-        selectedLanguages.map((val) => `${val}`).join(",") +
-        "]";
+      const lang = selectedLanguages.map((val) => "&language=" + val).join(",");
+      newQuery += lang;
     }
+
     if (selectedDatabases.length > 0) {
-      newQuery +=
-        "&database=" + selectedDatabases.map((val) => `${val}`).join(",");
+      const db = selectedDatabases.map((val) => "&database=" + val).join(",");
+      newQuery += db;
     }
+
     if (dateRange && dateRange.from) {
       newQuery += "&publish_date_start=" + dateRange.from;
     }
-    if (dateRange && dateRange.from) {
+    if (dateRange && dateRange.to) {
       newQuery += "&publish_date_end=" + dateRange.to;
     }
-    selectedFilteration(JSON.stringify(newQuery));
+    selectedFilteration(newQuery);
   };
 
   useEffect(() => {
@@ -171,7 +167,10 @@ const FilterComponent = ({
               <input
                 type='checkbox'
                 checked={showAll}
-                onChange={() => setShowAll(!showAll)}
+                onChange={() => {
+                  setShowAll(!showAll);
+                  setCurrentPage(1);
+                }}
                 className='form-checkbox  accent-blue-500'
               />
               <span className='text-zinc-600 text-[13px] font-normal font-Poppins capitalize tracking-tight'>
@@ -182,7 +181,10 @@ const FilterComponent = ({
               <input
                 type='checkbox'
                 checked={openAccessOnly}
-                onChange={() => setOpenAccessOnly(!openAccessOnly)}
+                onChange={() => {
+                  setOpenAccessOnly(!openAccessOnly);
+                  setCurrentPage(1);
+                }}
                 className='form-checkbox  accent-blue-500'
               />
               <span className='text-zinc-600 text-[13px] font-normal font-Poppins capitalize tracking-tight'>
@@ -211,12 +213,13 @@ const FilterComponent = ({
             <label className='flex items-center space-x-2'>
               <input
                 type='checkbox'
-                checked={sourceTypes.ejournals}
+                checked={sourceTypes.journal}
                 onChange={() => {
-                  setSourceTypes({
-                    ...sourceTypes,
-                    ejournals: !sourceTypes.ejournals,
-                  });
+                  setSourceTypes((prev) => ({
+                    ...prev,
+                    journal: !prev.journal,
+                  }));
+                  setCurrentPage(1);
                 }}
                 className='form-checkbox  accent-blue-500'
               />
@@ -227,12 +230,13 @@ const FilterComponent = ({
             <label className='flex items-center space-x-2 mt-2'>
               <input
                 type='checkbox'
-                checked={sourceTypes.eother_resources}
+                checked={sourceTypes.other_resource}
                 onChange={() => {
-                  setSourceTypes({
-                    ...sourceTypes,
-                    eother_resources: !sourceTypes.eother_resources,
-                  });
+                  setSourceTypes((prev) => ({
+                    ...prev,
+                    other_resource: !prev.other_resource,
+                  }));
+                  setCurrentPage(1);
                 }}
                 className='form-checkbox  accent-blue-500'
               />
@@ -243,13 +247,14 @@ const FilterComponent = ({
             <label className='flex items-center space-x-2 mt-2'>
               <input
                 type='checkbox'
-                checked={sourceTypes.ebooks}
-                onChange={() =>
-                  setSourceTypes({
-                    ...sourceTypes,
-                    ebooks: !sourceTypes.ebooks,
-                  })
-                }
+                checked={sourceTypes.book}
+                onChange={() => {
+                  setSourceTypes((prev) => ({
+                    ...prev,
+                    book: !prev.book,
+                  }));
+                  setCurrentPage(1);
+                }}
                 className='form-checkbox  accent-blue-500'
               />
               <span className='text-zinc-600 text-[13px] font-normal font-Poppins capitalize tracking-tight'>
@@ -259,13 +264,14 @@ const FilterComponent = ({
             <label className='flex items-center space-x-2 mt-2'>
               <input
                 type='checkbox'
-                checked={sourceTypes.evideos}
-                onChange={() =>
-                  setSourceTypes({
-                    ...sourceTypes,
-                    evideos: !sourceTypes.evideos,
-                  })
-                }
+                checked={sourceTypes.video}
+                onChange={() => {
+                  setSourceTypes((prev) => ({
+                    ...prev,
+                    video: !prev.video,
+                  }));
+                  setCurrentPage(1);
+                }}
                 className='form-checkbox  accent-blue-500'
               />
               <span className='text-zinc-600 text-[13px] font-normal font-Poppins capitalize tracking-tight'>
@@ -292,7 +298,10 @@ const FilterComponent = ({
         {languageDropdownOpen && (
           <div className='mt-2 w-full'>
             <select
-              onChange={(e) => handleLanguageChange(e.target.value, "lang")}
+              onChange={(e) => {
+                handleLanguageChange(e.target.value, "lang");
+                setCurrentPage(1);
+              }}
               value={"Selected Language"}
               className='w-full right-0 border border-gray-50 p-2 outline-none rounded-md'
             >
@@ -338,7 +347,10 @@ const FilterComponent = ({
         {databaseDropdownOpen && (
           <div className='mt-2 w-full'>
             <select
-              onChange={(e) => handleLanguageChange(e.target.value, "db")}
+              onChange={(e) => {
+                handleLanguageChange(e.target.value, "db");
+                setCurrentPage(1);
+              }}
               className='w-full right-0 border border-gray-50 p-2 outline-none rounded-md'
               value={"Selected Database"}
             >
@@ -384,19 +396,37 @@ const FilterComponent = ({
           <div className='flex flex-wrap gap-2'>
             <input
               type='date'
-              value={dateRange.from}
-              onChange={(e) =>
-                setDateRange({ ...dateRange, from: e.target.value })
-              }
-              className=' p-2  bg-inherit border rounded-md w-[-webkit-fill-available]'
+              onChange={(e) => {
+                if (e.target.value === "")
+                  return setDateRange({ ...dateRange, from: "" });
+                const toDate = new Date(e.target.value);
+                const day = toDate.getDate().toString().padStart(2, "0");
+                const month = (toDate.getMonth() + 1)
+                  .toString()
+                  .padStart(2, "0");
+                const year = toDate.getFullYear();
+                const formattedDate = `${day}-${month}-${year}`;
+                setDateRange({ ...dateRange, from: formattedDate });
+                setCurrentPage(1);
+              }}
+              className=' p-2 bg-inherit border rounded-md w-[-webkit-fill-available]'
               placeholder='From : '
             />
             <input
               type='date'
-              value={dateRange.to}
-              onChange={(e) =>
-                setDateRange({ ...dateRange, to: e.target.value })
-              }
+              onChange={(e) => {
+                if (e.target.value === "")
+                  return setDateRange({ ...dateRange, to: "" });
+                const toDate = new Date(e.target.value);
+                const day = toDate.getDate().toString().padStart(2, "0");
+                const month = (toDate.getMonth() + 1)
+                  .toString()
+                  .padStart(2, "0");
+                const year = toDate.getFullYear();
+                const formattedDate = `${day}-${month}-${year}`;
+                setDateRange({ ...dateRange, to: formattedDate });
+                setCurrentPage(1);
+              }}
               className='p-2 rounded-md border bg-inherit w-[-webkit-fill-available]'
               placeholder='To : '
             />

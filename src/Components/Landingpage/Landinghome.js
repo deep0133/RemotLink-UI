@@ -4,7 +4,6 @@ import Banner from "./Banner";
 import Categories from "./Categories";
 import Featured from "./Featured";
 import Hero from "./Hero";
-// import useFetch from "../../hooks/useFetch";
 
 const Landinghome = ({
   institutionDetails,
@@ -12,6 +11,7 @@ const Landinghome = ({
   catgorialResourceLoading,
   featureResourceLoading,
   featureResourceData,
+  setUnauthorizedUserSourcelink,
 }) => {
   const [keys, setKeys] = useState([]);
   const [active, setActive] = useState("");
@@ -58,11 +58,13 @@ const Landinghome = ({
             keys={keys}
             active={active}
             changeSubjects={changeSubjects}
+            setUnauthorizedUserSourcelink={setUnauthorizedUserSourcelink}
           />
         )}
         <Featured
           featureResourceLoading={featureResourceLoading}
           featureResourceData={featureResourceData}
+          setUnauthorizedUserSourcelink={setUnauthorizedUserSourcelink}
         />
         <Video />
       </div>

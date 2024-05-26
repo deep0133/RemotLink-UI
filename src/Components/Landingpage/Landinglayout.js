@@ -4,7 +4,11 @@ import Landingheader from "./Landingheader";
 import Landingfooter from "./Landingfooter";
 import useFetch from "../../hooks/useFetch";
 
-const Landinglayout = ({ institutionDetails, domain }) => {
+const Landinglayout = ({
+  institutionDetails,
+  domain,
+  setUnauthorizedUserSourcelink,
+}) => {
   const {
     landingPageCategorialResourceFetch,
     catgorialResource,
@@ -30,6 +34,7 @@ const Landinglayout = ({ institutionDetails, domain }) => {
           catgorialResourceLoading,
           featureResourceLoading,
           featureResourceData,
+          setUnauthorizedUserSourcelink,
         }}
       />
       <Landingfooter domain={domain} institutionDetails={institutionDetails} />

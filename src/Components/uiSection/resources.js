@@ -85,7 +85,10 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
     <>
       <Header {...{ logutOutHandler, institutionDetails, domain }} />
       <div className='flex'>
-        <span className=' hidden sm:block sm:h-auto'>
+        <span
+          className=' hidden sm:block sm:h-auto'
+          style={{ position: "sticky", top: "0", height: "100vh" }}
+        >
           <Sidebar />
         </span>
         <div className=' flex flex-col px-[5%] w-full'>

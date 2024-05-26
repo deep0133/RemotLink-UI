@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import arrow from "../../images/bi_arrow-left-short.svg";
 import useFetch from "../../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
 
 function CustomPrevArrow(props) {
   const { className, style, onClick } = props;
@@ -53,6 +54,8 @@ function CustomNextArrow(props) {
 
 const Explorecard = (props) => {
   const { increaseAccessCount } = useFetch();
+
+  const navigate = useNavigate();
 
   var settings = {
     dots: false,
@@ -128,14 +131,15 @@ const Explorecard = (props) => {
           props.data?.map((val, index) => (
             <div
               key={index}
-              className={`${classes} light:bg-[#FFFFFF] duration-200 purple:bg-[#FFFFFF] hover:scale-105 ${
-                localStorage.getItem("userdata") ? "cursor-pointer" : ""
-              }`}
+              className={`${classes} light:bg-[#FFFFFF] duration-200 purple:bg-[#FFFFFF] hover:scale-105 cursor-pointer`}
               onClick={() => {
                 const token = localStorage.getItem("userdata");
                 if (token) {
                   increaseAccessCount(val.id);
                   window.open(val?.current_issue_url, "_blank");
+                } else {
+                  props.setUnauthorizedUserSourcelink(val?.current_issue_url);
+                  navigate("/login");
                 }
               }}
             >

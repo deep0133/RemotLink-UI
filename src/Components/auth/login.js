@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import generateUrl from "../admin/utils/urlGenerate";
 import useLogout from "../../hooks/useLogout";
 
-const Login = () => {
+const Login = ({ unauthorizedUserSourcelink }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
@@ -38,6 +38,9 @@ const Login = () => {
       localStorage.setItem("access_token", data.token.access);
       localStorage.setItem("userdata", JSON.stringify(data.user));
 
+      if (unauthorizedUserSourcelink) {
+        window.open(unauthorizedUserSourcelink, "_blank");
+      }
       window.location.reload();
     } catch (err) {
       if (err.name === "AbortError") {
