@@ -287,12 +287,12 @@ function Home() {
 
         {/* -------Discover Reading Card--------------- */}
         <div className='mt-5 sm:px-10 overflow-hidden '>
-          <div className='h-[423px] w-auto py-8 flex overflow-scroll no-scrollbar '>
+          <div className='max-h-[423px] w-auto py-8 flex overflow-scroll no-scrollbar '>
             {discoverReadingLoading
               ? "Loading Data... "
-              : discoverReadingData &&
-                discoverReadingData.length > 0 &&
-                discoverReadingData.map((val, i) => (
+              : discoverReadingData && discoverReadingData.length === 0
+              ? "No Data Found"
+              : discoverReadingData?.map((val, i) => (
                   <div
                     key={i}
                     onClick={() => {
@@ -608,8 +608,8 @@ function Home() {
                   topSavedResourcesData.data[0]?.author) ||
                   "Unknown"}{" "}
                 {topSavedResourcesData &&
-                topSavedResourcesData.data[0].publish_date
-                  ? ", " + topSavedResourcesData.data[0].publish_date
+                topSavedResourcesData.data[0]?.publish_date
+                  ? ", " + topSavedResourcesData.data[0]?.publish_date
                   : ""}
               </span>
             </div>
@@ -646,7 +646,7 @@ function Home() {
                     "Unknown"}{" "}
                   {topSavedResourcesData &&
                   topSavedResourcesData.data[1]?.publish_date
-                    ? ", " + topSavedResourcesData.data[1].publish_date
+                    ? ", " + topSavedResourcesData.data[1]?.publish_date
                     : ""}
                 </span>
               </div>
@@ -682,7 +682,7 @@ function Home() {
                     "Unknown"}{" "}
                   {topSavedResourcesData &&
                   topSavedResourcesData.data[2]?.publish_date
-                    ? ", " + topSavedResourcesData.data[2].publish_date
+                    ? ", " + topSavedResourcesData.data[2]?.publish_date
                     : ""}
                 </span>
               </div>
