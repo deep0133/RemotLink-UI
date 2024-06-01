@@ -169,19 +169,18 @@ export default function useUpdate() {
           await logutOutHandler();
         }
         // Handle error
-        const errorData = await response.json();
-        const errorMessage = errorData.error;
-        throw new Error(
-          `Request failed with status ${response.status}: ${errorMessage}`
-        );
+        let errorData = await response.json();
+        throw new Error(JSON.stringify(errorData));
       }
-      // const data = await response.json();
       setUpdateSiteMessage((prev) => !prev);
       toast.success("Site Updated Succesfully");
       navigate(-1);
     } catch (err) {
-      // console.log(err);
-      toast.error(err.message);
+      const parseError = JSON.parse(err?.message);
+      const keys = Object.keys(parseError || {});
+      keys?.forEach((key) => {
+        toast.error(`${key} : ${parseError[key][0]}`);
+      });
     } finally {
       setUpdateSiteLoading(false);
     }

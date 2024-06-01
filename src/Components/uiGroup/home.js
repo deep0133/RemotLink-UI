@@ -589,27 +589,27 @@ function Home() {
               <span
                 onClick={() => {
                   const id =
-                    topSavedResourcesData && topSavedResourcesData.data[0]?.id;
+                    topSavedResourcesData && topSavedResourcesData?.data[0]?.id;
                   const link =
                     topSavedResourcesData &&
-                    topSavedResourcesData.data[0]?.current_issue_url;
+                    topSavedResourcesData?.data[0]?.current_issue_url;
                   increaseAccessCount(id);
                   window.open(link, "_blank");
                 }}
                 className=' text-white cursor-pointer font-Poppins  font-semibold text-[18px] sm:text-[22px] leading-[26px]'
               >
                 {/* Cambridge Series on Human-Computer Interaction */}
-                {topSavedResourcesData && topSavedResourcesData.data[0]?.title}
+                {topSavedResourcesData && topSavedResourcesData?.data[0]?.title}
               </span>
               <span className=' text-[#FFFFFF] font-Poppins text-[15px] leading-[26px] opacity-[50%]  font-normal'>
                 {" "}
                 Published By :{" "}
                 {(topSavedResourcesData &&
-                  topSavedResourcesData.data[0]?.author) ||
+                  topSavedResourcesData?.data[0]?.author) ||
                   "Unknown"}{" "}
                 {topSavedResourcesData &&
-                topSavedResourcesData.data[0]?.publish_date
-                  ? ", " + topSavedResourcesData.data[0]?.publish_date
+                topSavedResourcesData?.data[0]?.publish_date
+                  ? ", " + topSavedResourcesData?.data[0]?.publish_date
                   : ""}
               </span>
             </div>
@@ -626,17 +626,17 @@ function Home() {
                   onClick={() => {
                     const id =
                       topSavedResourcesData &&
-                      topSavedResourcesData.data[1]?.id;
+                      topSavedResourcesData?.data[1]?.id;
                     const link =
                       topSavedResourcesData &&
-                      topSavedResourcesData.data[1]?.current_issue_url;
+                      topSavedResourcesData?.data[1]?.current_issue_url;
                     increaseAccessCount(id);
                     window.open(link, "_blank");
                   }}
                   className=' text-white cursor-pointer font-Poppins  font-semibold text-[18px]  w-[280px] sm:text-[22px] leading-[26px] '
                 >
                   {topSavedResourcesData &&
-                    topSavedResourcesData.data[1]?.title}
+                    topSavedResourcesData?.data[1]?.title}
                 </span>
                 <span className=' text-[#FFFFFF] font-Poppins text-[15px] leading-[26px] opacity-[50%]  font-normal'>
                   {" "}
@@ -645,8 +645,8 @@ function Home() {
                     topSavedResourcesData.data[1]?.author) ||
                     "Unknown"}{" "}
                   {topSavedResourcesData &&
-                  topSavedResourcesData.data[1]?.publish_date
-                    ? ", " + topSavedResourcesData.data[1]?.publish_date
+                  topSavedResourcesData?.data[1]?.publish_date
+                    ? ", " + topSavedResourcesData?.data[1]?.publish_date
                     : ""}
                 </span>
               </div>
@@ -662,27 +662,27 @@ function Home() {
                   onClick={() => {
                     const id =
                       topSavedResourcesData &&
-                      topSavedResourcesData.data[2]?.id;
+                      topSavedResourcesData?.data[2]?.id;
                     const link =
                       topSavedResourcesData &&
-                      topSavedResourcesData.data[2]?.current_issue_url;
+                      topSavedResourcesData?.data[2]?.current_issue_url;
                     increaseAccessCount(id);
                     window.open(link, "_blank");
                   }}
                   className=' text-white cursor-pointer font-Poppins  font-semibold text-[18px]  w-[280px] sm:text-[22px] leading-[26px] '
                 >
                   {topSavedResourcesData &&
-                    topSavedResourcesData.data[2]?.title}
+                    topSavedResourcesData?.data[2]?.title}
                 </span>
                 <span className=' text-[#FFFFFF] font-Poppins text-[15px] leading-[26px] opacity-[50%]  font-normal'>
                   {" "}
                   Published By :{" "}
                   {(topSavedResourcesData &&
-                    topSavedResourcesData.data[2]?.author) ||
+                    topSavedResourcesData?.data[2]?.author) ||
                     "Unknown"}{" "}
                   {topSavedResourcesData &&
-                  topSavedResourcesData.data[2]?.publish_date
-                    ? ", " + topSavedResourcesData.data[2]?.publish_date
+                  topSavedResourcesData?.data[2]?.publish_date
+                    ? ", " + topSavedResourcesData?.data[2]?.publish_date
                     : ""}
                 </span>
               </div>
