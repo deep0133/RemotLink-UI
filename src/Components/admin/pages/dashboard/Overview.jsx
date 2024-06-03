@@ -522,7 +522,8 @@ const Details = ({
             </div>
           </div>
           <div className='text-indigo-900 text-[23px] font-semibold font-Poppins leading-[42px]'>
-            Most Active: 12 pm
+            Most Active:{" "}
+            {amPm.toLowerCase() === "am" ? "11 " + amPm : "12 " + amPm}
           </div>
 
           <div className='bar-chart h-full'>

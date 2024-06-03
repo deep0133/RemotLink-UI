@@ -17,7 +17,6 @@ Chart.register([
 ]);
 
 const SmoothLineChart = ({ chartData, maxY = 100 }) => {
-  // -----------------------WORKING---------------------------
   const options = {
     maintainAspectRatio: false,
     responsive: true,
@@ -51,7 +50,7 @@ const SmoothLineChart = ({ chartData, maxY = 100 }) => {
         suggestedMin: 0,
         suggestedMax: maxY,
         ticks: {
-          stepSize: Math.ceil(maxY / 5 / 100) * 100,
+          stepSize: 20,
           callback: function (value, index, values) {
             return value;
           },
@@ -63,7 +62,7 @@ const SmoothLineChart = ({ chartData, maxY = 100 }) => {
         },
       },
     },
-    onHover: (event, chartElement) => {
+    onHover: (event) => {
       const chartInstance = event.chart;
       if (chartInstance) {
         const datasetIndex = chartInstance.getElementsAtEventForMode(

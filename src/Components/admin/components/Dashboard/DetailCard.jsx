@@ -11,6 +11,7 @@ const DetailCard = ({
   data3,
   data4,
 }) => {
+  const classes = "text-green-600 text-red-600";
   return (
     <div className=''>
       <div className='flex flex-col gap-3'>

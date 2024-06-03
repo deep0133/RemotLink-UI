@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
 import { DashBoardRightMenu } from "../../data";
-import { DashboardIcon } from "../../assets/constants";
+import { DashboardIcon, UserEmptyIcon } from "../../assets/constants";
 import DashBoardPageHeader from "../../components/Dashboard/DashBoardPageHeader";
 import DetailCard from "../../components/Dashboard/DetailCard";
 import BarChart from "../../components/Dashboard/BarChart";
 import FullCircle from "../../components/Dashboard/FullCircle";
 import Loader from "../../components/Loader/Loader";
+import useFetch from "../../hooks/useFetch";
 
 export default function Category({ reportSiteLoading, reportSiteData }) {
+  const {
+    dashboardUserCategoryLoading,
+    dashboardUserCategoryData,
+    handleFetchDashboardUserCategoryCard,
+  } = useFetch();
+
+  const [weekMonth, setWeekMonth] = useState("month");
+
+  useEffect(() => {
+    handleFetchDashboardUserCategoryCard(
+      "api/dashboard/user_metrics_cards?metrics=" + weekMonth
+    );
+  }, [weekMonth]);
+
   return (
     <div className=''>
       <Header
@@ -18,19 +33,54 @@ export default function Category({ reportSiteLoading, reportSiteData }) {
         title={"Category"}
       />
       <Navigation data={DashBoardRightMenu} />
-      <Details siteLoading={reportSiteLoading} siteData={reportSiteData} />
+      <Details
+        siteLoading={reportSiteLoading}
+        siteData={reportSiteData}
+        weekMonth={weekMonth}
+        dashboardUserCategoryData={dashboardUserCategoryData}
+      />
     </div>
   );
 }
 
-const Details = ({ siteLoading, siteData }) => {
+const Details = ({
+  siteLoading,
+  siteData,
+  weekMonth,
+  dashboardUserCategoryData,
+}) => {
   let renderIndex = 1;
   return (
     <>
       <DashBoardPageHeader />
       <div className='card-container mt-5 grid grid-cols-4 gap-5 '>
         <div className=' p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <DetailCard progress={true} />
+          {/* <DetailCard progress={true} /> */}
+          <DetailCard
+            progress={true}
+            progressColor={"#3758F9"}
+            name={"Total Users"}
+            weekMonth={weekMonth}
+            icon={<UserEmptyIcon />}
+            data1={
+              dashboardUserCategoryData &&
+              dashboardUserCategoryData.total_users?.total_users
+            }
+            data2={
+              dashboardUserCategoryData &&
+              dashboardUserCategoryData.total_users
+                ?.total_users_created_this_metric
+            }
+            data3={
+              dashboardUserCategoryData &&
+              dashboardUserCategoryData.total_users?.change_from_last_metric
+            }
+            data4={
+              dashboardUserCategoryData &&
+              dashboardUserCategoryData.total_users
+                ?.change_percentage_from_last_metric
+            }
+          />
         </div>
         <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
           <DetailCard progress={true} />

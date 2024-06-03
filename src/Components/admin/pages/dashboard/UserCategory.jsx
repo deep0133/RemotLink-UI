@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
-import { DashboardIcon } from "../../assets/constants";
+import { DashboardIcon, UserEmptyIcon } from "../../assets/constants";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
 import { DashBoardRightMenu } from "../../data";
 import DashBoardPageHeader from "../../components/Dashboard/DashBoardPageHeader";
@@ -8,8 +8,91 @@ import DetailCard from "../../components/Dashboard/DetailCard";
 import BarChart from "../../components/Dashboard/BarChart";
 import SmoothLineChart from "../../components/Dashboard/SmoothLineChart";
 import PieChart from "../../components/Dashboard/PieChart";
+import useFetch from "../../hooks/useFetch";
+import CardSkeletonLoading from "../../components/loading/CardSkeletonLoading";
+import VerticalLineSkeleton from "../../components/Loader/VerticalLineSkeleton";
 
 export default function UserCategory() {
+  const [graphWeekMonth, setGraphWeekMonth] = useState("month");
+  const {
+    dashboardUserCategoryLoading,
+    dashboardUserCategoryData,
+    handleFetchDashboardUserCategoryCard,
+
+    activeUserTimelineGraphLoading,
+    activeUserTimelineGraphData,
+    handleFetchDashboardActiveUserTimelineGraph,
+
+    overviewHourlyDataLoading,
+    overviewHourlyData,
+    handleFetchOverallDashboardHourlyData,
+
+    topReadersData,
+    topReadersLoading,
+    handleFetchDashboardTopReaders,
+  } = useFetch();
+
+  const [weekMonth, setWeekMonth] = useState("month");
+
+  const [dailyTrafficGraphData, setDailyTrafficGraphData] = useState(null);
+
+  useEffect(() => {
+    handleFetchDashboardUserCategoryCard(
+      "api/dashboard/user_metrics_cards?metrics=" + weekMonth
+    );
+  }, [weekMonth]);
+
+  useEffect(() => {
+    handleFetchDashboardActiveUserTimelineGraph(
+      "api/dashboard/active_user_graph?metrics=" + graphWeekMonth
+    );
+  }, [graphWeekMonth]);
+
+  useEffect(() => {
+    handleFetchOverallDashboardHourlyData(
+      "api/dashboard/hourly_active_users?metrics=week"
+    );
+  }, []);
+
+  useEffect(() => {
+    if (overviewHourlyData) {
+      formatChartData(overviewHourlyData.hourly_data);
+    }
+  }, [overviewHourlyData]);
+
+  function formatChartData(hourlyData) {
+    const labels = hourlyData.map((entry) => entry.metric);
+    const data = hourlyData.map((data) => data.active_users);
+
+    const formattedData = {
+      labels,
+      datasets: [
+        {
+          label: "Active Hours",
+          data,
+          backgroundColor: (context) => {
+            const value = context.raw;
+            if (value === 0) return "transparent";
+            return value < 10 ? "#7F56D9" : "#15b40aed";
+          },
+          borderColor: "#15b40aed",
+          borderWidth: 0,
+          borderSkipped: "top bottom",
+          borderRadius: 50,
+          barThickness: 10,
+        },
+      ],
+    };
+    setDailyTrafficGraphData(formattedData);
+  }
+
+  const [topreaderWeekMonth, setTopreaderWeekMonth] = useState("month");
+  useEffect(() => {
+    handleFetchDashboardTopReaders(
+      "api/dashboard/top_readers?metrics=" + topreaderWeekMonth
+    );
+  }, [topreaderWeekMonth]);
+
   return (
     <div className=''>
       <Header
@@ -18,28 +101,169 @@ export default function UserCategory() {
         title={"User Category"}
       />
       <Navigation data={DashBoardRightMenu} />
-      <Details />
+      <Details
+        weekMonth={weekMonth}
+        setWeekMonth={setWeekMonth}
+        dashboardUserCategoryData={dashboardUserCategoryData}
+        dashboardUserCategoryLoading={dashboardUserCategoryLoading}
+        activeUserTimelineGraphData={activeUserTimelineGraphData}
+        setGraphWeekMonth={setGraphWeekMonth}
+        dailyTrafficGraphData={dailyTrafficGraphData}
+        overviewHourlyDataLoading={overviewHourlyDataLoading}
+        overviewHourlyData={overviewHourlyData}
+        setTopreaderWeekMonth={setTopreaderWeekMonth}
+        topReadersData={topReadersData}
+        topReadersLoading={topReadersLoading}
+      />
     </div>
   );
 }
 
-const Details = () => {
+const Details = ({
+  weekMonth,
+  setWeekMonth,
+  dashboardUserCategoryLoading,
+  dashboardUserCategoryData,
+  activeUserTimelineGraphData,
+  setGraphWeekMonth,
+  dailyTrafficGraphData,
+  overviewHourlyDataLoading,
+  overviewHourlyData,
+  setTopreaderWeekMonth,
+  topReadersData,
+  topReadersLoading,
+}) => {
+  const [chartData, setChartData] = useState(null);
+
+  useEffect(() => {
+    const { active_users_data } = activeUserTimelineGraphData || {};
+    if (active_users_data) {
+      const labels = Object.keys(active_users_data);
+      const values = Object.values(active_users_data);
+
+      setChartData({
+        labels,
+        datasets: [
+          {
+            label: "Active Users",
+            data: values,
+            borderColor: "rgba(75,192,192,1)",
+            backgroundColor: "rgba(75,192,192,0.2)",
+            tension: 0.4,
+          },
+        ],
+      });
+    }
+  }, [activeUserTimelineGraphData]);
   return (
     <>
-      <DashBoardPageHeader />
+      <DashBoardPageHeader setWeekMonth={setWeekMonth} />
       <div className='card-container mt-5 grid grid-cols-4 gap-5 '>
-        <div className=' p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <DetailCard progress={true} />
-        </div>
-        <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <DetailCard progress={true} />
-        </div>
-        <div className=' p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <DetailCard progress={true} />
-        </div>
-        <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <DetailCard progress={true} />
-        </div>
+        {dashboardUserCategoryLoading ? (
+          Array.from([1, 2, 3, 4]).map((val, i) => {
+            return <CardSkeletonLoading />;
+          })
+        ) : (
+          <>
+            <div className=' p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+              <DetailCard
+                progress={true}
+                progressColor={"#3758F9"}
+                name={"Total Users"}
+                weekMonth={weekMonth}
+                icon={<UserEmptyIcon />}
+                data1={
+                  dashboardUserCategoryData &&
+                  dashboardUserCategoryData.total_users?.total_users
+                }
+                data2={
+                  dashboardUserCategoryData &&
+                  dashboardUserCategoryData.total_users
+                    ?.total_users_created_this_metric
+                }
+                data3={
+                  dashboardUserCategoryData &&
+                  dashboardUserCategoryData.total_users?.change_from_last_metric
+                }
+                data4={
+                  dashboardUserCategoryData &&
+                  dashboardUserCategoryData.total_users
+                    ?.change_percentage_last_metric &&
+                  Math.round(
+                    dashboardUserCategoryData.total_users
+                      .change_percentage_last_metric
+                  )
+                }
+              />
+            </div>
+            <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+              {/* <DetailCard progress={true} /> */}
+              <DetailCard
+                progress={true}
+                progressColor={"#3758F9"}
+                name={"Active Users"}
+                weekMonth={weekMonth}
+                icon={<UserEmptyIcon />}
+                data1={
+                  dashboardUserCategoryData &&
+                  dashboardUserCategoryData.active_users
+                    ?.total_users_active_this_metric
+                }
+                data2={
+                  dashboardUserCategoryData &&
+                  dashboardUserCategoryData.active_users
+                    ?.total_users_created_this_metric
+                }
+                data3={
+                  dashboardUserCategoryData &&
+                  dashboardUserCategoryData.active_users
+                    ?.change_from_last_metric
+                }
+                data4={
+                  dashboardUserCategoryData &&
+                  dashboardUserCategoryData.active_users
+                    ?.change_percentage_last_metric &&
+                  Math.round(
+                    dashboardUserCategoryData.total_users
+                      .change_percentage_last_metric
+                  )
+                }
+              />
+            </div>
+            <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+              <DetailCard
+                progress={true}
+                progressColor={"#3758F9"}
+                name={"Deactivated User"}
+                weekMonth={weekMonth}
+                icon={<UserEmptyIcon />}
+                data1={
+                  dashboardUserCategoryData &&
+                  dashboardUserCategoryData.inactive_users?.total_users
+                }
+                data2={
+                  dashboardUserCategoryData &&
+                  dashboardUserCategoryData.inactive_users
+                    ?.total_users_created_this_metric
+                }
+                data3={
+                  dashboardUserCategoryData &&
+                  dashboardUserCategoryData.inactive_users
+                    ?.change_from_last_metric
+                }
+                data4={
+                  dashboardUserCategoryData &&
+                  dashboardUserCategoryData.inactive_users
+                    ?.change_percentage_last_metric &&
+                  Math.round(
+                    dashboardUserCategoryData.inactive_users
+                      .change_percentage_last_metric
+                  )
+                }
+              />
+            </div>
+          </>
+        )}
       </div>
 
       <div className='flex mt-5 gap-5'>
@@ -48,19 +272,18 @@ const Details = () => {
             <div className='text-violet-800 text-[19px] font-semibold font-Poppins leading-7'>
               Active Users Timeline
             </div>
-            {/* <div className='flex gap-3'> */}
             <select
               style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
               className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
-              name='month'
+              onChange={(e) => setGraphWeekMonth(e.target.value)}
             >
-              <option>Today</option>
+              <option value={"month"}>Month</option>
+              <option value={"week"}>Week</option>
             </select>
-            {/* </div> */}
           </div>
 
           <div className='max-h-[250px] mt-5 relative'>
-            <SmoothLineChart />
+            <SmoothLineChart chartData={chartData} maxY={100} />
           </div>
         </div>
 
@@ -69,34 +292,27 @@ const Details = () => {
             <div className='opacity-40 text-violet-800 text-[15px] font-medium font-Poppins leading-normal'>
               Daily Traffic
             </div>
-            <div className="text-center text-lime-600 text-xs font-bold font-['DM Sans'] leading-tight">
+            {/* <div className="text-center text-lime-600 text-xs font-bold font-['DM Sans'] leading-tight">
               +2.45%
-            </div>
+            </div> */}
           </div>
           <div className='flex gap-2 items-baseline'>
             <div className='text-indigo-900 text-[34px] font-semibold font-Poppins leading-[42px]'>
-              200+
+              {/* 200+ */}
+              {overviewHourlyData && overviewHourlyData.total_active_users}+
             </div>
             <div className='text-slate-400 text-sm font-medium font-Poppins leading-normal'>
               Visitors
             </div>
           </div>
           <div className='mt-5'>
-            <BarChart
-              labels={["Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"]}
-              datasets={[
-                {
-                  label: "Day",
-                  data: [8, 11, 9, 7, 4, 5, 8],
-                  backgroundColor: "#7F56D9",
-                  borderColor: "#d03636",
-                  borderWidth: 0,
-                  borderSkipped: "top bottom",
-                  borderRadius: 50,
-                  barThickness: 10,
-                },
-              ]}
-            />
+            <div className='bar-chart h-full'>
+              {overviewHourlyDataLoading ? (
+                <VerticalLineSkeleton />
+              ) : (
+                <BarChart data={dailyTrafficGraphData} />
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -110,9 +326,10 @@ const Details = () => {
             <select
               style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
               className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
-              name='month'
+              onChange={(e) => setTopreaderWeekMonth(e.target.value)}
             >
-              <option>Month</option>
+              <option value={"month"}>Month</option>
+              <option value={"week"}>Week</option>
             </select>
           </div>
           <div className=' grid grid-cols-4 gap-3'>
@@ -130,27 +347,31 @@ const Details = () => {
                 Last Active
               </div>
             </div>
-            {data.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className='col-span-full px-5 grid grid-cols-4 gap-3'
-                >
-                  <div className='text-lime-600 text-xs font-medium font-Poppins leading-normal'>
-                    #{index + 1}
-                  </div>
-                  <div className='text-indigo-900 text-xs font-medium font-Poppins leading-7'>
-                    {item.name}
-                  </div>
-                  <div className='text-indigo-900 text-xs font-medium font-Poppins leading-7'>
-                    {item.username}
-                  </div>
-                  <div className='text-indigo-900 text-center text-xs font-medium font-Poppins leading-normal'>
-                    {item.lastActive}
-                  </div>
-                </div>
-              );
-            })}
+            {topReadersLoading
+              ? "Loading..."
+              : topReadersData &&
+                topReadersData.length > 0 &&
+                topReadersData.slice(0, 5).map((item, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className='col-span-full px-5 grid grid-cols-4 gap-3'
+                    >
+                      <div className='text-lime-600 text-xs font-medium font-Poppins leading-normal'>
+                        #{index + 1}
+                      </div>
+                      <div className='text-indigo-900 text-xs font-medium font-Poppins leading-7'>
+                        {item?.name}
+                      </div>
+                      <div className='text-indigo-900 line-clamp-1 text-nowrap text-xs font-medium font-Poppins leading-7'>
+                        {item?.username}
+                      </div>
+                      <div className='text-indigo-900 line-clamp-1 text-nowrap text-center text-xs font-medium font-Poppins leading-normal'>
+                        {item?.last_active && formatDate(item?.last_active)}
+                      </div>
+                    </div>
+                  );
+                })}
           </div>
         </div>
 
@@ -194,39 +415,6 @@ const Details = () => {
   );
 };
 
-const data = [
-  {
-    id: 1,
-    name: "Evan Parker",
-    username: "@evanparker",
-    lastActive: "22 Jan 2021",
-  },
-  {
-    id: 2,
-    name: "Evan Parker",
-    username: "@evanparker",
-    lastActive: "22 Jan 2021",
-  },
-  {
-    id: 3,
-    name: "Evan Parker",
-    username: "@evanparker",
-    lastActive: "22 Jan 2021",
-  },
-  {
-    id: 4,
-    name: "Evan Parker",
-    username: "@evanparker",
-    lastActive: "22 Jan 2021",
-  },
-  {
-    id: 5,
-    name: "Evan Parker",
-    username: "@evanparker",
-    lastActive: "22 Jan 2021",
-  },
-];
-
 const DistributionCard = () => {
   return (
     <div className='card px-6 py-2 rounded-md bg-white shadow w-fit'>
@@ -241,4 +429,50 @@ const DistributionCard = () => {
       </div>
     </div>
   );
+};
+
+const formatDate = (dateString) => {
+  if (!dateString) return "---";
+
+  const date = new Date(dateString);
+
+  // Get the day, month, and year components
+  const day = date.getDate();
+  const monthIndex = date.getMonth();
+  const year = date.getFullYear();
+
+  // Define an array of month names
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Get the formatted month name using the month index
+  const monthName = monthNames[monthIndex];
+
+  // Get the hours and minutes components
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  // Convert hours to 12-hour format and determine am/pm
+  const amPm = hours >= 12 ? "pm" : "am";
+  hours %= 12;
+  hours = hours || 12; // If hours is 0, set it to 12
+
+  // Construct the formatted date string
+  const formattedDate = `${year} ${day} ${monthName} ${hours}.${minutes
+    .toString()
+    .padStart(2, "0")} ${amPm}`;
+
+  return formattedDate;
 };

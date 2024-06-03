@@ -75,6 +75,19 @@ export default function useFetch() {
   const [overviewDatabaseUsageData, setOverviewDatabaseUsageData] =
     useState(null);
 
+  const [dashboardUserCategoryLoading, setDashboardUserCategoryLoading] =
+    useState(false);
+  const [dashboardUserCategoryData, setDashboardUserCategoryData] =
+    useState(null);
+
+  const [activeUserTimelineGraphLoading, setActiveUserTimelineGraphLoading] =
+    useState(false);
+  const [activeUserTimelineGraphData, setActiveUserTimelineGraphData] =
+    useState(null);
+
+  const [topReadersLoading, setTopReadersLoading] = useState(false);
+  const [topReadersData, setTopReadersData] = useState(null);
+
   const { logutOutHandler } = useLogout();
 
   const [subdomain, setSubdomain] = useState("");
@@ -186,6 +199,7 @@ export default function useFetch() {
     await fetchData(api, setFaqLoading, setFaqData);
   };
 
+  // Dashboard --------- OverView Card-------------
   const handleFetchOverallDashboardCard = async (api) => {
     await fetchData(api, setOverviewCardDataLoading, setOverviewCardData);
   };
@@ -238,6 +252,27 @@ export default function useFetch() {
     );
   };
 
+  // Dashboard User Category Card--------
+  const handleFetchDashboardUserCategoryCard = async (api) => {
+    await fetchData(
+      api,
+      setDashboardUserCategoryLoading,
+      setDashboardUserCategoryData
+    );
+  };
+
+  const handleFetchDashboardActiveUserTimelineGraph = async (api) => {
+    await fetchData(
+      api,
+      setActiveUserTimelineGraphLoading,
+      setActiveUserTimelineGraphData
+    );
+  };
+
+  const handleFetchDashboardTopReaders = async (api) => {
+    await fetchData(api, setTopReadersLoading, setTopReadersData);
+  };
+
   return {
     categoryLoading,
     userCategoryLoading,
@@ -258,6 +293,9 @@ export default function useFetch() {
     overviewUtilizationDataLoading,
     overviewHourlyDataLoading,
     overviewDatabaseUsageDataLoading,
+    dashboardUserCategoryLoading,
+    activeUserTimelineGraphLoading,
+    topReadersLoading,
     faqLoading,
     categoryData,
     userCategoryData,
@@ -279,6 +317,9 @@ export default function useFetch() {
     overviewUtilizationData,
     overviewHourlyData,
     overviewDatabaseUsageData,
+    dashboardUserCategoryData,
+    activeUserTimelineGraphData,
+    topReadersData,
     handleFetctData,
     handleFetctUserCategoryData,
     handleFetctUsers,
@@ -292,12 +333,18 @@ export default function useFetch() {
     handleFetctUserCourse,
     handleFetchMessages,
     handleFetchFaq,
+    handleFetchBulkUserDetails,
+
     handleFetchOverallDashboardCard,
     handleFetchOverallDashboardUserEngagement,
     handleFetchOverallDashboardRecentlyUpdated,
-    handleFetchBulkUserDetails,
     handleFetchOverallDashboardUtilizationData,
     handleFetchOverallDashboardHourlyData,
     handleFetchOverallDashboardDatabaseUsageData,
+
+    handleFetchDashboardUserCategoryCard,
+    handleFetchDashboardActiveUserTimelineGraph,
+
+    handleFetchDashboardTopReaders,
   };
 }
