@@ -24,27 +24,15 @@ const options = {
   },
 };
 
-const FullCircle = ({ myData }) => {
-  const labelName = myData && myData.map((item) => item.site__name);
-  const labelData = myData && myData.map((item) => item.access_percentage);
-
-  const data = {
-    labels: labelName,
-    datasets: [
-      {
-        label: "Dataset",
-        data: labelData, // Adjust values as needed
-        backgroundColor: ["#7F56D9", "#9E77ED", "#F4EBFF"],
-        borderWidth: 0,
-        hoverOffset: 2,
-      },
-    ],
-  };
-
+const FullCircle = ({ myData, myOption = false, optData }) => {
   return (
     <div className='shrink-0 relative pr-4'>
       <div style={{ width: "100%" }}>
-        <Doughnut data={data} options={options} />
+        {myData ? (
+          <Doughnut data={myData} options={myOption ? optData : options} />
+        ) : (
+          "No Data Found"
+        )}
       </div>
     </div>
   );

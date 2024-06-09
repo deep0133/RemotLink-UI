@@ -23,6 +23,7 @@ import { MdOutlineBookmarkAdded } from "react-icons/md";
 
 import useFetch from "../../hooks/useFetch";
 import useFavourite from "../../hooks/useFavourite";
+import CardSkeleton from "../Loader/CardSkeleton";
 
 function Resources({ logutOutHandler, institutionDetails, domain }) {
   const [activeTab, setActiveTab] = useState("catalogue");
@@ -41,16 +42,26 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
     handleFetchAllSites,
     searchSite,
     setSearchSite,
-    proxy,
+
+    favLoading,
+    favData,
+    handleFetchLikes,
   } = useFetch();
 
-  const { status, handleAddToFavourite, handleRemoveToFavourite } =
+  const { message, handleAddToFavourite, handleRemoveToFavourite } =
     useFavourite();
 
   useEffect(() => {
     handleFetchResources();
     handleFetchAllSites();
   }, []);
+
+  useEffect(() => {
+    async function fetchAgain() {
+      await handleFetchLikes();
+    }
+    fetchAgain();
+  }, [message]);
 
   const sortByDate = () => {
     const sortedSites = [...allSites].sort((a, b) => {
@@ -162,17 +173,7 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
             <>
               <div className='bg-[#221FB9/0.2] mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:py-6'>
                 {fetchLoading
-                  ? Array.from([1, 2, 3, 4]).map((val, i) => {
-                      return (
-                        <div key={i} className='p-4 space-y-4 animate-pulse'>
-                          <div className='w-full h-32 bg-gray-300 rounded'></div>
-                          <div className='space-y-2'>
-                            <div className='h-4 bg-gray-200 rounded w-3/4'></div>
-                            <div className='h-4 bg-gray-200 rounded w-1/2'></div>
-                          </div>
-                        </div>
-                      );
-                    })
+                  ? Array.from([1, 2, 3, 4]).map((val, i) => <CardSkeleton />)
                   : resources.map((resource, index) => {
                       return (
                         <div
@@ -197,7 +198,7 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
                               {resource.site__name}
                             </p>
                             <div className='p-2 ml-2 scale-125 cursor-pointer'>
-                              {!status[resource.site] ? (
+                              {!favData?.includes(resource.site) ? (
                                 <CiBookmarkMinus
                                   onClick={() =>
                                     handleAddToFavourite(resource.site)
@@ -451,7 +452,7 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
                             {resource.site__name}
                           </span>
                           <div className='p-2 ml-2 scale-125 cursor-pointer'>
-                            {!status[resource.site] ? (
+                            {!favData?.includes(resource.site) ? (
                               <CiBookmarkMinus
                                 onClick={() =>
                                   handleAddToFavourite(resource.site)

@@ -3,7 +3,7 @@ import readSubdomainFromFile from "../Components/admin/utils/readSubdomainFromFi
 import useLogout from "./useLogout";
 
 export default function useFavourite() {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("empty");
   const [status, setStatus] = useState({});
   const [bookMarkedSite, setBookMarkedSite] = useState({});
 
@@ -72,7 +72,7 @@ export default function useFavourite() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const json = await response.json();
-      setMessage(json.message);
+      setMessage((prev) => !prev);
       setStatus((prevStatus) => ({ ...prevStatus, [id]: false }));
     } catch (error) {
       // console.log("Error : ", error);

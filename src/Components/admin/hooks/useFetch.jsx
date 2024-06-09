@@ -88,6 +88,29 @@ export default function useFetch() {
   const [topReadersLoading, setTopReadersLoading] = useState(false);
   const [topReadersData, setTopReadersData] = useState(null);
 
+  const [userCategoryDistributionLoading, setUserCategoryDistributionLoading] =
+    useState(false);
+  const [userCategoryDistributionData, setUserCategoryDistributionData] =
+    useState(null);
+
+  const [dashboardCategoryCardLoading, setDashboardCategoryCardLoading] =
+    useState(false);
+  const [dashboardCategoryCardData, setDashboardCategoryCardData] =
+    useState(null);
+
+  const [topResourceSubjectLoading, setTopResourceSubjectLoading] =
+    useState(false);
+  const [topResourceSubjectData, setTopResourceSubjectData] = useState(null);
+
+  const [
+    dashboardSubjectWiseDistributionLoading,
+    setDashboardSubjectWiseDistributionLoading,
+  ] = useState(false);
+  const [
+    dashboardSubjectWiseDistributionData,
+    setDashboardSubjectWiseDistributionData,
+  ] = useState(null);
+
   const { logutOutHandler } = useLogout();
 
   const [subdomain, setSubdomain] = useState("");
@@ -273,6 +296,38 @@ export default function useFetch() {
     await fetchData(api, setTopReadersLoading, setTopReadersData);
   };
 
+  const handleFetchDashboardUserCategory = async (api) => {
+    await fetchData(
+      api,
+      setUserCategoryDistributionLoading,
+      setUserCategoryDistributionData
+    );
+  };
+
+  const handleFetchDashboardCategory = async (api) => {
+    await fetchData(
+      api,
+      setDashboardCategoryCardLoading,
+      setDashboardCategoryCardData
+    );
+  };
+
+  const handleFetchDashboardCategoryTopResourceSubject = async (api) => {
+    await fetchData(
+      api,
+      setTopResourceSubjectLoading,
+      setTopResourceSubjectData
+    );
+  };
+
+  const handleFetchDashboardCategorySubjectWiseDistribution = async (api) => {
+    await fetchData(
+      api,
+      setDashboardSubjectWiseDistributionLoading,
+      setDashboardSubjectWiseDistributionData
+    );
+  };
+
   return {
     categoryLoading,
     userCategoryLoading,
@@ -296,6 +351,10 @@ export default function useFetch() {
     dashboardUserCategoryLoading,
     activeUserTimelineGraphLoading,
     topReadersLoading,
+    userCategoryDistributionLoading,
+    dashboardCategoryCardLoading,
+    topResourceSubjectLoading,
+    dashboardSubjectWiseDistributionLoading,
     faqLoading,
     categoryData,
     userCategoryData,
@@ -320,6 +379,10 @@ export default function useFetch() {
     dashboardUserCategoryData,
     activeUserTimelineGraphData,
     topReadersData,
+    userCategoryDistributionData,
+    dashboardCategoryCardData,
+    topResourceSubjectData,
+    dashboardSubjectWiseDistributionData,
     handleFetctData,
     handleFetctUserCategoryData,
     handleFetctUsers,
@@ -346,5 +409,12 @@ export default function useFetch() {
     handleFetchDashboardActiveUserTimelineGraph,
 
     handleFetchDashboardTopReaders,
+
+    handleFetchDashboardUserCategory,
+
+    handleFetchDashboardCategory,
+
+    handleFetchDashboardCategoryTopResourceSubject,
+    handleFetchDashboardCategorySubjectWiseDistribution,
   };
 }

@@ -192,7 +192,10 @@ const Header = ({ logutOutHandler, institutionDetails, domain }) => {
                         </span>
                       </div>
                     </Link>
-                    <div className=' flex items-center justify-start mb-6'>
+                    <Link
+                      to={"/help"}
+                      className=' flex items-center justify-start mb-6'
+                    >
                       <span className=' mr-3'>
                         {" "}
                         <img
@@ -204,7 +207,7 @@ const Header = ({ logutOutHandler, institutionDetails, domain }) => {
                       <span className=' text-sm font-medium  text-[#6F6C90]'>
                         Help Center
                       </span>
-                    </div>
+                    </Link>
                     <div className=' flex items-center justify-start mb-4'>
                       <span className=' mr-3'>
                         {" "}

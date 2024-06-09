@@ -4,25 +4,7 @@ import { Chart, Tooltip, ArcElement } from "chart.js";
 
 Chart.register([Tooltip, ArcElement]);
 
-const PieChart = () => {
-  const data = {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-    datasets: [
-      {
-        label: "My First Dataset",
-        data: [300, 50, 100, 40, 120, 80],
-        backgroundColor: [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56",
-          "#2E8B57",
-          "#8A2BE2",
-          "#FFA500",
-        ],
-      },
-    ],
-  };
-
+const PieChart = ({ dataset }) => {
   const options = {
     maintainAspectRatio: false,
     responsve: true,
@@ -58,7 +40,7 @@ const PieChart = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      <Pie data={data} options={options} />
+      {dataset && <Pie data={dataset} options={options} />}
     </div>
   );
 };

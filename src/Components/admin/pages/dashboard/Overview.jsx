@@ -119,6 +119,26 @@ const Details = ({
     );
   }, []);
 
+  const [userEngagmentChartData, setUserEngagmentChartData] = useState(null);
+
+  useEffect(() => {
+    if (overviewUserEngageData) {
+      const data = {
+        labels: overviewUserEngageData?.map((item) => item.site__name),
+        datasets: [
+          {
+            label: "Dataset",
+            data: overviewUserEngageData.map((item) => item.access_percentage),
+            backgroundColor: ["#7F56D9", "#9E77ED", "#F4EBFF"],
+            borderWidth: 0,
+            hoverOffset: 2,
+          },
+        ],
+      };
+      setUserEngagmentChartData(data);
+    }
+  }, [overviewUserEngageData]);
+
   const popularSiteDataHandle = () => {
     const currentDate = Date.now();
 
@@ -459,7 +479,7 @@ const Details = ({
                 {overviewUserEngageDataLoading ? (
                   "Loading..."
                 ) : (
-                  <FullCircle myData={overviewUserEngageData} />
+                  <FullCircle myData={userEngagmentChartData} />
                 )}
               </div>
             </div>

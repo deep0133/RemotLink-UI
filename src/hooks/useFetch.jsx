@@ -24,6 +24,9 @@ export default function useFetch() {
   const [searchSite, setSearchSite] = useState("");
   const [searchLoader, setSearchLoader] = useState(false);
 
+  const [favLoading, setFavLoading] = useState(false);
+  const [favData, setFavData] = useState([]);
+
   const [institutionDetails, setInstitutionDetails] = useState("");
 
   const [catgorialResourceLoading, setCatgorialResourceLoading] =
@@ -60,8 +63,8 @@ export default function useFetch() {
   const { logutOutHandler } = useLogout();
 
   // ------------- Not In Use -------------
-  const handleFetchLikes = async (id) => {
-    setFetchLoading(true);
+  const handleFetchLikes = async () => {
+    setFavLoading(true);
     try {
       const api = `api/user/favourites/`;
 
@@ -76,9 +79,8 @@ export default function useFetch() {
       const url = "https://" + domain + "." + baseUrl;
 
       const response = await fetch(url + api, {
-        method: "POST",
+        method: "GET",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
@@ -88,10 +90,17 @@ export default function useFetch() {
         }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
+
+      const json = await response.json();
+
+      const ids = json.results.map((item) => item.id);
+
+      console.log("--------handle fetch likes -------- :", ids);
+      setFavData(ids);
     } catch (err) {
-      // console.log("Error :", err);
+      console.log("Error :", err);
     } finally {
-      setFetchLoading(false);
+      setFavLoading(false);
     }
   };
 
@@ -461,6 +470,9 @@ export default function useFetch() {
     catgorialResource,
     catgorialResourceLoading,
     landingPageCategorialResourceFetch,
+
+    favLoading,
+    favData,
 
     featureResourceLoading,
     featureResourceData,

@@ -11,6 +11,7 @@ import PieChart from "../../components/Dashboard/PieChart";
 import useFetch from "../../hooks/useFetch";
 import CardSkeletonLoading from "../../components/loading/CardSkeletonLoading";
 import VerticalLineSkeleton from "../../components/Loader/VerticalLineSkeleton";
+import Loader from "../../components/Loader/Loader";
 
 export default function UserCategory() {
   const [graphWeekMonth, setGraphWeekMonth] = useState("month");
@@ -30,9 +31,14 @@ export default function UserCategory() {
     topReadersData,
     topReadersLoading,
     handleFetchDashboardTopReaders,
+
+    userCategoryDistributionLoading,
+    userCategoryDistributionData,
+    handleFetchDashboardUserCategory,
   } = useFetch();
 
   const [weekMonth, setWeekMonth] = useState("month");
+  const [userDisWeekMonth, setUserDisWeekMonth] = useState("month");
 
   const [dailyTrafficGraphData, setDailyTrafficGraphData] = useState(null);
 
@@ -93,6 +99,12 @@ export default function UserCategory() {
     );
   }, [topreaderWeekMonth]);
 
+  useEffect(() => {
+    handleFetchDashboardUserCategory(
+      "api/dashboard/category_activity?metrics=" + userDisWeekMonth
+    );
+  }, [userDisWeekMonth]);
+
   return (
     <div className=''>
       <Header
@@ -114,6 +126,9 @@ export default function UserCategory() {
         setTopreaderWeekMonth={setTopreaderWeekMonth}
         topReadersData={topReadersData}
         topReadersLoading={topReadersLoading}
+        setUserDisWeekMonth={setUserDisWeekMonth}
+        userCategoryDistributionLoading={userCategoryDistributionLoading}
+        userCategoryDistributionData={userCategoryDistributionData}
       />
     </div>
   );
@@ -132,6 +147,10 @@ const Details = ({
   setTopreaderWeekMonth,
   topReadersData,
   topReadersLoading,
+
+  setUserDisWeekMonth,
+  userCategoryDistributionLoading,
+  userCategoryDistributionData,
 }) => {
   const [chartData, setChartData] = useState(null);
 
@@ -155,6 +174,35 @@ const Details = ({
       });
     }
   }, [activeUserTimelineGraphData]);
+
+  const [distributionChartData, setDistributionChartData] = useState(null);
+
+  useEffect(() => {
+    if (userCategoryDistributionData) {
+      // Convert the data
+      const data = {
+        labels: userCategoryDistributionData?.category_data.map(
+          (item) => item.category
+        ),
+        datasets: [
+          {
+            label: "Active Users Count",
+            data: userCategoryDistributionData?.category_data.map(
+              (item) => item.active_users_count
+            ),
+            backgroundColor: userCategoryDistributionData?.category_data.map(
+              () => getRandomColor()
+            ),
+          },
+        ],
+        borderWidth: 8,
+        borderColor: "red",
+      };
+
+      setDistributionChartData(data);
+    }
+  }, [userCategoryDistributionData]);
+
   return (
     <>
       <DashBoardPageHeader setWeekMonth={setWeekMonth} />
@@ -347,31 +395,33 @@ const Details = ({
                 Last Active
               </div>
             </div>
-            {topReadersLoading
-              ? "Loading..."
-              : topReadersData &&
-                topReadersData.length > 0 &&
-                topReadersData.slice(0, 5).map((item, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className='col-span-full px-5 grid grid-cols-4 gap-3'
-                    >
-                      <div className='text-lime-600 text-xs font-medium font-Poppins leading-normal'>
-                        #{index + 1}
-                      </div>
-                      <div className='text-indigo-900 text-xs font-medium font-Poppins leading-7'>
-                        {item?.name}
-                      </div>
-                      <div className='text-indigo-900 line-clamp-1 text-nowrap text-xs font-medium font-Poppins leading-7'>
-                        {item?.username}
-                      </div>
-                      <div className='text-indigo-900 line-clamp-1 text-nowrap text-center text-xs font-medium font-Poppins leading-normal'>
-                        {item?.last_active && formatDate(item?.last_active)}
-                      </div>
+            {topReadersLoading ? (
+              <Loader />
+            ) : (
+              topReadersData &&
+              topReadersData.length > 0 &&
+              topReadersData.slice(0, 5).map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className='col-span-full px-5 grid grid-cols-4 gap-3'
+                  >
+                    <div className='text-lime-600 text-xs font-medium font-Poppins leading-normal'>
+                      #{index + 1}
                     </div>
-                  );
-                })}
+                    <div className='text-indigo-900 text-xs font-medium font-Poppins leading-7'>
+                      {item?.name}
+                    </div>
+                    <div className='text-indigo-900 line-clamp-1 text-nowrap text-xs font-medium font-Poppins leading-7'>
+                      {item?.username}
+                    </div>
+                    <div className='text-indigo-900 flex items-center line-clamp-1 text-nowrap text-center text-xs font-medium font-Poppins leading-normal'>
+                      {item?.last_active && formatDate(item?.last_active)}
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
 
@@ -384,29 +434,41 @@ const Details = ({
               style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
               className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
               name='month'
+              onChange={(e) => setUserDisWeekMonth(e.target.value)}
             >
-              <option>Monthly</option>
+              <option value={"month"}>Monthly</option>
+              <option value={"week"}>Weekly</option>
             </select>
           </div>
 
           <div className='bar-chart flex mt-8 flex-wrap'>
             <div className='basis-1/3 grow-0 overflow-hidden'>
-              <PieChart />
+              <PieChart dataset={distributionChartData} />
             </div>
-            <div className='basis-2/3 flex flex-wrap gap-5'>
-              <DistributionCard />
-              <DistributionCard />
-              <DistributionCard />
-              <DistributionCard />
-              <DistributionCard />
-              <div className='basis-full mt-5 relative'>
+            <div className='basis-2/3 flex flex-wrap gap-5 max-h-52 overflow-scroll'>
+              {userCategoryDistributionLoading ? (
+                <Loader />
+              ) : userCategoryDistributionData &&
+                userCategoryDistributionData.category_data.length > 0 ? (
+                userCategoryDistributionData.category_data.map((val, i) => (
+                  <DistributionCard
+                    key={i}
+                    t={val?.category}
+                    percent={val?.percentage_users}
+                  />
+                ))
+              ) : (
+                "No Data Found"
+              )}
+
+              {/* <div className='basis-full mt-5 relative'>
                 <div className=" text-lime-600 text-sm font-medium font-['Poppins'] leading-7">
                   Batch 2023 are the most accesing users
                 </div>
                 <div className=' bg-lime-600 rounded-[46px]'>
                   <div className='w-[11px] h-[11px] left-[2.70px] top-[2.32px] absolute' />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -415,17 +477,17 @@ const Details = ({
   );
 };
 
-const DistributionCard = () => {
+const DistributionCard = ({ percent, t }) => {
   return (
-    <div className='card px-6 py-2 rounded-md bg-white shadow w-fit'>
+    <div className='card px-6 py-2 h-fit rounded-md bg-white shadow w-fit'>
       <div className='flex gap-2 items-center '>
         <div className='w-2 h-2 bg-indigo-800 rounded-full' />
-        <div className="text-indigo-400 text-xs font-normal font-['Poppins'] leading-tight">
-          Faculty
+        <div className="text-indigo-400 text-xs line-clamp-1 font-normal font-['Poppins'] leading-tight">
+          {t}
         </div>
       </div>
       <div className="text-indigo-900 text-xl font-semibold font-['Poppins'] leading-[30px]">
-        25.5%
+        {percent}
       </div>
     </div>
   );
@@ -476,3 +538,12 @@ const formatDate = (dateString) => {
 
   return formattedDate;
 };
+
+function getRandomColor() {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
