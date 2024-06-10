@@ -11,7 +11,7 @@ function Homepage({ logutOutHandler, institutionDetails, domain }) {
         institutionDetails={institutionDetails}
         domain={domain}
       />
-      <Home />
+      <Home institutionDetails={institutionDetails} />
       <Footer institutionDetails={institutionDetails} domain={domain} />
     </div>
   );

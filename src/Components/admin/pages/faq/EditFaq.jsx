@@ -128,7 +128,7 @@ const Edit = ({ id, loading, setFaq, faq, updateFunctionHandler }) => {
               <LuLoader2 />
             </div>
           ) : (
-            "Add Faq"
+            "Update"
           )}
         </button>
       </div>

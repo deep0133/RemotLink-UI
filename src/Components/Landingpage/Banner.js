@@ -4,14 +4,14 @@ import menu_icn2 from "../../images/menu-04-light.svg";
 import menu_icn3 from "../../images/menu-04-purple.svg";
 import books from "../../images/book.svg";
 import generateUrl from "../admin/utils/urlGenerate";
+import { Link } from "react-router-dom";
 
 const Banner = ({ institutionDetails }) => {
   const navheading = `text-white light:text-[#0B2E78] purple:text-black font-AnekLatin light:font-Outfit purple:font-Sora text-base font-medium leading-normal pr-[35px] hover:underline light:hover:text-[#0B2E78] light:hover:underline purple:hover:text-[#6F1AB6] purple:hover:underline   `;
 
-  const [url, setUrl] = useState("");
-
   const [menu, setMenu] = useState(false);
 
+  const [url, setUrl] = useState("");
   useEffect(() => {
     const fetchUrl = async () => {
       const domain = await generateUrl();
@@ -23,7 +23,7 @@ const Banner = ({ institutionDetails }) => {
 
   return (
     <>
-      <div className='w-full border-b border-solid border-white border-opacity-20 bg-opacity-33 bg-[#16131E54] light:bg-brand light:bg-opacity-[68] purple:bg-primary shadow-md backdrop-blur-[8px] flex  items-center justify-between relative z-50'>
+      <div className='w-full border-b border-solid border-white border-opacity-20 bg-opacity-33 bg-[#16131E54] light:bg-brand light:bg-opacity-[68] purple:bg-primary shadow-md backdrop-blur-[8px] flex  items-center justify-between relative z-30'>
         <div className='flex  ml-6  md:max-xl:ml-16 xl:ml-32 items-center justify-center '>
           {institutionDetails.logo ? (
             <img
@@ -47,10 +47,22 @@ const Banner = ({ institutionDetails }) => {
         </div>
         <div className='hidden lg:block'>
           <ul>
-            <l1 className={`${navheading}`}> Home</l1>
-            <l1 className={`${navheading}`}>About Us</l1>
-            <l1 className={`${navheading}`}> Categories</l1>
-            <l1 className={`${navheading}`}> Featured</l1>
+            <l1 className={`${navheading}`}>
+              {" "}
+              <Link to={"/home"}>Home</Link>
+            </l1>
+            <l1 className={`${navheading}`}>
+              {" "}
+              <a href='#aboutSection'> About Us</a>
+            </l1>
+            <l1 className={`${navheading}`}>
+              {" "}
+              <a href='#categorySection'>Categories</a>{" "}
+            </l1>
+            <l1 className={`${navheading}`}>
+              {" "}
+              <a href='#featuredSection'> Featured</a>{" "}
+            </l1>
           </ul>
         </div>
         <div

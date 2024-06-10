@@ -125,13 +125,13 @@ const Explorecard = (props) => {
   }
 
   return (
-    <div className='w-11/12 m-auto items-center max-md:mb-12  '>
+    <div className='w-11/12 m-auto items-center max-md:mb-12'>
       <Slider {...settings}>
         {props.data &&
           props.data?.map((val, index) => (
             <div
               key={index}
-              className={`${classes} light:bg-[#FFFFFF] duration-200 purple:bg-[#FFFFFF] hover:scale-105 cursor-pointer`}
+              className={`${classes} group light:bg-[#FFFFFF] duration-200 purple:bg-[#FFFFFF] hover:scale-105 cursor-pointer`}
               onClick={() => {
                 const token = localStorage.getItem("userdata");
                 if (token) {
@@ -160,7 +160,7 @@ const Explorecard = (props) => {
                 {val.author ? "Author : " + val.author : null}
               </h1>
               <div
-                className={`${classes3} purple:mt-6 purple:border-opacity-20 light:text-black purple:text-black light:font-FiraSans  purple:font-Sora light:border-black  purple:border-black light:text-sm purple:text-sm`}
+                className={`${classes3} group-hover:light:bg-[#0B2E78] group-hover:light:text-white purple:mt-6 purple:border-opacity-20 light:text-black purple:text-black light:font-FiraSans  purple:font-Sora light:border-black  purple:border-black light:text-sm purple:text-sm`}
               >
                 Explore
               </div>

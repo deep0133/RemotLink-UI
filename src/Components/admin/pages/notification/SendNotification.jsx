@@ -229,7 +229,7 @@ const NotificationForm = ({
       <div className='form my-6 grid grid-cols-3 gap-8 '>
         <div className=' shrink-0 space-y-2'>
           <label className=' text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Announcement Type
+            Notification type
           </label>
           <select
             onChange={(e) => {

@@ -48,8 +48,8 @@ export const sidebarData = [
 
   {
     icon: <AiTwotoneMessage />,
-    name: "Messages",
-    path: "/admin/messages",
+    name: "Quote",
+    path: "/admin/quote",
   },
 
   {

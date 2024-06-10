@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import logo from "../../images/logo-bird.png";
+// import logo from "../../images/logo-bird.png";
 import search_logo from "../../images/search-normal.svg";
 import bell_icon from "../../images/Notification.svg";
 import Flag_icon from "../../images/United.svg";
@@ -19,6 +19,7 @@ import cross from "../../images/Cross.svg";
 import home from "../../images/Home.svg";
 import book from "../../images/book.png";
 import help_Icon from "../../images/message-question-white.svg";
+import generateUrl from "../admin/utils/urlGenerate";
 
 const Header = ({ logutOutHandler, institutionDetails, domain }) => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -58,6 +59,17 @@ const Header = ({ logutOutHandler, institutionDetails, domain }) => {
     retrieveUserData();
   }, []);
 
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    const fetchUrl = async () => {
+      const domain = await generateUrl();
+      setUrl(domain);
+    };
+
+    fetchUrl();
+  }, []);
+
   return (
     <>
       <div className='flex w-full h-[35px] px-[5%] gap-5 bg-blue-900 items-center justify-evenly'>
@@ -81,7 +93,7 @@ const Header = ({ logutOutHandler, institutionDetails, domain }) => {
         <div className='flex gap-3'>
           <div className='flex shrink-0'>
             <img
-              src={logo}
+              src={url + institutionDetails?.logo}
               alt='logo'
               className='relative w-[30px] shrink-0 object-cover'
             />
@@ -147,8 +159,8 @@ const Header = ({ logutOutHandler, institutionDetails, domain }) => {
             <div className='relative cursor-pointer' onClick={toggleDropdown}>
               <img
                 src={
-                  userdetail.profile_photo
-                    ? domain + userdetail.profile_photo
+                  userdetail?.profile_photo
+                    ? domain + userdetail?.profile_photo
                     : profileIcon
                 }
                 alt='UserPicture'
@@ -163,8 +175,8 @@ const Header = ({ logutOutHandler, institutionDetails, domain }) => {
                           {" "}
                           <img
                             src={
-                              userdetail.profile_photo
-                                ? domain + userdetail.profile_photo
+                              userdetail?.profile_photo
+                                ? domain + userdetail?.profile_photo
                                 : profileIcon
                             }
                             alt='icons'
@@ -264,8 +276,12 @@ const Header = ({ logutOutHandler, institutionDetails, domain }) => {
           >
             <img src={`${navVisibility ? cross : menu} `} alt=' menu icon' />
           </div>
-          <div className=''>
-            <img src={logo} alt='logo' className='' />
+          <div className=' w-fit flex items-center'>
+            <img
+              src={url + institutionDetails?.logo}
+              alt='logo'
+              className='relative max-w-[48px] shrink-0 object-cover'
+            />
           </div>
         </div>
         <div className=' flex items-center '>

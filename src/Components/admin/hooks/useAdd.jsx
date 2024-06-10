@@ -248,7 +248,7 @@ export default function useAdd() {
       const data = await response.json();
       setMessageDataMsg((prev) => !prev);
       toast.success(data.detail);
-      navigate("/admin/message");
+      navigate("/admin/quote");
     } catch (err) {
       toast.error(err.message);
     } finally {

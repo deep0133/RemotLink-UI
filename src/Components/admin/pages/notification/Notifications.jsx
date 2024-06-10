@@ -45,8 +45,6 @@ export default function Notifications() {
     handleUpdateNotification("api/announcement/update/" + id, data);
   };
 
-  // ------------ PAGINATION PENDING ------------
-
   return (
     <Routes>
       <Route

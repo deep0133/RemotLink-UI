@@ -9,13 +9,13 @@ export default function AddMessage({ addFunctionHandler, loading }) {
     <>
       <Header
         icon={<AiTwotoneMessage />}
-        title={"Add Message"}
-        subTitle={"Messages"}
+        title={"Add Quote"}
+        subTitle={"Quote"}
       />
       <Hero
-        name={"Add New Message"}
+        name={"Add New Quote"}
         description={
-          "Streamline the process of adding new message to your system."
+          "Streamline the process of adding new Quote to your system."
         }
       />
       <AddSection addFunctionHandler={addFunctionHandler} loading={loading} />
@@ -72,7 +72,7 @@ const AddSection = ({ loading, addFunctionHandler }) => {
               <LuLoader2 />
             </div>
           ) : (
-            "Add Message"
+            "Add Quote"
           )}
         </button>
       </div>

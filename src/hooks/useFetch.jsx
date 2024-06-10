@@ -285,7 +285,6 @@ export default function useFetch() {
       setMessages(json.results);
       return selectRandomMessage(json.results);
     } catch (error) {
-      // console.log("Error : ", error);
       return "Error While Fetching Data from DB";
     }
   };
@@ -370,7 +369,6 @@ export default function useFetch() {
     );
   };
 
-  // FeaturedResources
   const landingPageFeaturedResourcesFetch = async () => {
     await fetchTemplate(
       `api/sites/recent-subject-resources/`,
@@ -440,7 +438,6 @@ export default function useFetch() {
       });
   };
 
-  // hit api to increase access_count:
   const searchViewFilterationDataFetch = async () => {
     await fetchTemplate(
       `api/sites/distinct-fields/`,

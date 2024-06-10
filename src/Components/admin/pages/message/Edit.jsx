@@ -31,8 +31,8 @@ export default function Edit({
     <>
       <Header
         icon={<AiTwotoneMessage />}
-        title={"Edit Message"}
-        subTitle={"Messages"}
+        title={"Edit Quote"}
+        subTitle={"Quote"}
       />
       <EditMsg
         msg={msg}
@@ -92,7 +92,7 @@ const EditMsg = ({ loading, msg, setMsg, id, updateFunctionHandler }) => {
                 <LuLoader2 />
               </div>
             ) : (
-              "Update Message"
+              "Update Quote"
             )}
           </button>
         </div>

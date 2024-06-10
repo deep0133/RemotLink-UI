@@ -31,8 +31,7 @@ const DetailSection = ({ data }) => {
             {data.name ? data.name : "---"}
           </h3>
           <p className='text-blue-900 text-sm font-medium font-Poppins leading-7'>
-            The Master of Public Health (MPH) program offered by Indian
-            Institute of Public Health .
+            {data.tagline ? data.tagline : "---"}
           </p>
         </div>
         <div className='edit-btn absolute right-5 top-5 bg-violet-800 rounded border border-violet-800 border-opacity-10 justify-center items-center'>

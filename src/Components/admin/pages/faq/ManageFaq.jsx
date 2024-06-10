@@ -33,11 +33,10 @@ export default function ManageFaq({
 
   return (
     <>
-      <Header icon={<FaQuestionCircle />} title={"Faq"} />
+      <Header icon={<FaQuestionCircle />} title={"FAQ"} />
       <Hero
-        name={`Manage Faq`}
+        name={`Manage FAQ`}
         description={`Manage and organize all faq efficiently.`}
-        icon={<FaQuestionCircle />}
         btnText={`Add Faq`}
         btnLink={"/admin/faq/add/"}
       />

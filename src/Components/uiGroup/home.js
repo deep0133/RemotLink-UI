@@ -1,9 +1,9 @@
 import React from "react";
-import home_image from "../../images/Rectangle 5.png";
+// import home_image from "../../images/Rectangle 5.png";
 import { useState, useEffect } from "react";
 import cardimage from "../../images/Rectangle 25.png";
 import newimg from "../../images/economic.png";
-import bookmarkicon from "../../images/Group 1000002939.png";
+// import bookmarkicon from "../../images/Group 1000002939.png";
 
 import firstimg from "../../images/Rectangle 33.png";
 import secimg from "../../images/Rectangle 34.png";
@@ -22,8 +22,10 @@ import useFavourite from "../../hooks/useFavourite";
 import CardSkeleton from "../Loader/CardSkeleton";
 import { CiBookmarkMinus } from "react-icons/ci";
 import { MdOutlineBookmarkAdded } from "react-icons/md";
+import HomeSlider from "./HomeSlider";
+import generateUrl from "../admin/utils/urlGenerate";
 
-function Home() {
+function Home({ institutionDetails }) {
   const [active, setActive] = useState("week");
 
   const myBox = [
@@ -174,6 +176,17 @@ function Home() {
     }
   }, [selectedTreanding, treandingResourceData]);
 
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    const fetchUrl = async () => {
+      const domain = await generateUrl();
+      setUrl(domain);
+    };
+
+    fetchUrl();
+  }, []);
+
   const classes =
     "bg-[#1F5095] text-white bg-white text-black rounded-[8px] p-2 text-[14px]";
 
@@ -266,12 +279,13 @@ function Home() {
             </ul>
           </div>
 
-          <div className='h-auto order-first md:order-last'>
-            <img
+          <div className='h-auto order-first md:order-last overflow-hidden'>
+            {/* <img
               src={home_image}
               alt=''
               className=' md:h-[110%] relative -top-[10%] rounded-t-[5px] object-cover'
-            />
+            /> */}
+            <HomeSlider url={url} institutionDetails={institutionDetails} />
           </div>
         </div>
 

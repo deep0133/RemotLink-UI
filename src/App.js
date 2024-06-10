@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import useFetch from "./hooks/useFetch";
 import generateUrl from "./Components/admin/utils/urlGenerate";
 import useLogout from "./hooks/useLogout";
+import changeTheme from "./Components/admin/utils/changeTheme";
+import updateFavicon from "./Components/admin/utils/updateFavicon";
 
 function App() {
   const { loginStatus, isAdmin } = CheckLoginStatus();
@@ -36,6 +38,13 @@ function App() {
   }, []);
 
   const { logutOutHandler } = useLogout();
+
+  useEffect(() => {
+    if (institutionDetails && institutionDetails.landing_page_theme) {
+      changeTheme(institutionDetails?.landing_page_theme);
+      updateFavicon(domain + institutionDetails?.logo);
+    }
+  }, [institutionDetails, domain]);
 
   return (
     <Routes>
@@ -61,58 +70,70 @@ function App() {
           )
         }
       />
-      <Route
-        path='/home'
-        element={
-          <Homepage {...{ logutOutHandler, institutionDetails, domain }} />
-        }
-      />
-      <Route
-        path='/searchview'
-        element={
-          <SearchView {...{ logutOutHandler, institutionDetails, domain }} />
-        }
-      />
-      <Route
-        path='/resources'
-        element={
-          <Resources {...{ logutOutHandler, institutionDetails, domain }} />
-        }
-      />
-      <Route
-        path='/savedresources'
-        element={
-          <SavedResources
-            {...{ logutOutHandler, institutionDetails, domain }}
+
+      {loginStatus ? (
+        <>
+          {" "}
+          <Route
+            path='/home'
+            element={
+              <Homepage {...{ logutOutHandler, institutionDetails, domain }} />
+            }
           />
-        }
-      />
-      <Route
-        path='/profile'
-        element={
-          <Profile {...{ logutOutHandler, institutionDetails, domain }} />
-        }
-      />
-      <Route
-        path='/notifications'
-        element={
-          <Notifications {...{ logutOutHandler, institutionDetails, domain }} />
-        }
-      />
-      <Route
-        path='/help'
-        element={
-          <HelpAndSupport
-            {...{ logutOutHandler, institutionDetails, domain }}
+          <Route
+            path='/searchview'
+            element={
+              <SearchView
+                {...{ logutOutHandler, institutionDetails, domain }}
+              />
+            }
           />
-        }
-      />
-      <Route
-        path='/admin/*'
-        element={
-          isAdmin === true ? <AdminRoutes /> : <Navigate to={"/login"} />
-        }
-      />
+          <Route
+            path='/resources'
+            element={
+              <Resources {...{ logutOutHandler, institutionDetails, domain }} />
+            }
+          />
+          <Route
+            path='/savedresources'
+            element={
+              <SavedResources
+                {...{ logutOutHandler, institutionDetails, domain }}
+              />
+            }
+          />
+          <Route
+            path='/profile'
+            element={
+              <Profile {...{ logutOutHandler, institutionDetails, domain }} />
+            }
+          />
+          <Route
+            path='/notifications'
+            element={
+              <Notifications
+                {...{ logutOutHandler, institutionDetails, domain }}
+              />
+            }
+          />
+          <Route
+            path='/help'
+            element={
+              <HelpAndSupport
+                {...{ logutOutHandler, institutionDetails, domain }}
+              />
+            }
+          />
+          <Route
+            path='/admin/*'
+            element={
+              isAdmin === true ? <AdminRoutes /> : <Navigate to={"/login"} />
+            }
+          />
+        </>
+      ) : (
+        <Route path='/*' element={<Navigate to={"/"} />} />
+      )}
     </Routes>
   );
 }

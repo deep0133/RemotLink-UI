@@ -23,7 +23,7 @@ export default function AdminRoutes() {
         <Route path='/reports/*' element={<Reports />} />
         <Route path='/notifications/*' element={<Notifications />} />
         <Route path='/institution/*' element={<Institution />} />
-        <Route path='/messages/*' element={<Message />} />
+        <Route path='/quote/*' element={<Message />} />
         <Route path='/faq/*' element={<Faq />} />
       </Routes>
     </PageLayout>

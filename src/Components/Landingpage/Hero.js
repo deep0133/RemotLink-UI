@@ -5,6 +5,7 @@ import Showcard from "./Showcard";
 
 import scenery from "../../images/Rectangle 550.png";
 import useFetch from "../../hooks/useFetch";
+import HomeSlider from "../uiGroup/HomeSlider";
 
 const Hero = () => {
   const {
@@ -39,7 +40,10 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className='purple:hidden flex items-center   justify-center flex-col  pt-[72px] '>
+      <div
+        id='aboutSection'
+        className='purple:hidden flex items-center   justify-center flex-col  pt-[72px] '
+      >
         <div className=''>
           <button className='flex items-center justify-center  h-[26px] p-4 gap-2  border rounded-[5px] border-solid border-white light:border-[#0B2E781A] border-opacity-10 text-[#AE9F0F] light:text-[#0B2E78] text-right font-AnekLatin  light:font-Outfit text-xs font-medium leading-5 capitalize'>
             About Us
@@ -71,10 +75,13 @@ const Hero = () => {
           />
         </div>
       </div>
-      <div className='flex  flex-col items-center justify-center mt-[39px]'>
+      <div
+        id='statisticSection'
+        className='flex  flex-col items-center justify-center pt-[39px]'
+      >
         <div className='purple:hidden'>
           <button className='flex items-center justify-center w-[82px] h-[26px] p-4 gap-2  border rounded-[5px] border-solid border-white light:border-[#0B2E781A] border-opacity-10 text-[#AE9F0F] light:text-[#0B2E78] text-right font-AnekLatin light:font-Outfit text-xs font-medium leading-5 capitalize'>
-            Statistis
+            Statistics
           </button>
         </div>
         <div className='flex  flex-col items-center justify-center mt-[28px] gap-5'>
@@ -94,7 +101,7 @@ const Hero = () => {
               searchViewFilterData.total_journals + "+ Journals"
             }
             borderclr='border-white light:border-[#00000024] purple:border-[#DBDBDB] '
-            bgcolor='bg-[#18151F] light:bg-[#FFFFFF] purple:bg-[#FFFFFF]'
+            bgcolor='bg-[#18151F] light:bg-[#FFFFFF] purple:bg-[#FFFFFF] light:text-white'
             headingfont='font-Lusitana light:font-SourceSans purple:font-Sora'
             subheadingfont='font-AnekLatin light:font-SourceSans purple:font-Sora'
             headingtxtclr='text-[#DFDFDF] light:text-[#303030] purple:text-black'

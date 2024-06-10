@@ -4,6 +4,7 @@ import Banner from "./Banner";
 import Categories from "./Categories";
 import Featured from "./Featured";
 import Hero from "./Hero";
+import generateUrl from "../admin/utils/urlGenerate";
 
 const Landinghome = ({
   institutionDetails,
@@ -41,9 +42,27 @@ const Landinghome = ({
       setActive(val);
     }
   };
+
+  const [url, setUrl] = useState("");
+  useEffect(() => {
+    const fetchUrl = async () => {
+      const domain = await generateUrl();
+      setUrl(domain);
+    };
+
+    fetchUrl();
+  }, []);
+
   return (
     <>
-      <div className='background w-full  overflow-y-scroll no-scrollbar'>
+      <div
+        style={{
+          backgroundImage: `url(${
+            url + institutionDetails?.landing_page_image
+          })`,
+        }}
+        className='background w-full  overflow-y-scroll no-scrollbar'
+      >
         <Banner institutionDetails={institutionDetails} />
       </div>
 

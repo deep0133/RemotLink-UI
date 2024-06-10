@@ -33,13 +33,13 @@ export default function ManageMessage({
 
   return (
     <>
-      <Header icon={<AiTwotoneMessage />} title={"Messages"} />
+      <Header icon={<AiTwotoneMessage />} title={"Quote"} />
       <Hero
-        name={`Manage Messages`}
+        name={`Manage Quote`}
         description={`Manage and organize all message efficiently.`}
         icon={<AiTwotoneMessage />}
-        btnText={`Add Message`}
-        btnLink={"/admin/messages/add/"}
+        btnText={`Add Quote`}
+        btnLink={"/admin/quote/add/"}
       />
       <SearchFilter
         searchHandler={searchHandler}
@@ -48,7 +48,7 @@ export default function ManageMessage({
       />
       <Card
         data={msgData && msgData.results}
-        path={"/admin/messages/edit"}
+        path={"/admin/quote/edit"}
         fetchLoading={fetchLoading}
         deleteUserHandle={deleteMessageHandle}
         deleteUserLoading={deleteMessagLoading}

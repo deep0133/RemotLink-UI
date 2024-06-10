@@ -194,7 +194,7 @@ const Details = ({
   return (
     <>
       <DashBoardPageHeader setWeekMonth={setWeekMonth} />
-      <div className='card-container mt-5 grid grid-cols-4 gap-5 '>
+      <div className='card-container mt-5 grid grid-cols-4 gap-5 w-full '>
         {dashboardCategoryCardLoading ? (
           Array.from([1, 2, 3, 4]).map((val, i) => {
             return <CardSkeletonLoading />;
@@ -274,8 +274,8 @@ const Details = ({
         )}
       </div>
 
-      <div className='flex mt-5 gap-5'>
-        <div className='left basis-3/5 p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+      <div className='grid grid-cols-12 mt-5 gap-5  '>
+        <div className='left col-span-7 grow p-5  bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
           <div className='flex justify-between pb-3'>
             <div>
               <p className='text-violet-800 text-[19px] font-semibold font-Poppins leading-7'>
@@ -296,7 +296,7 @@ const Details = ({
           </div>
         </div>
 
-        <div className='right p-5 basis-[40%] flex flex-col bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+        <div className='right p-5 grow col-span-5 flex flex-col bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
           <div className='flex justify-between'>
             <div className='text-violet-800 text-[19px] font-semibold font-Poppins leading-7'>
               e-Resources Distribution

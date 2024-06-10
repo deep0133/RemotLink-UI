@@ -12,7 +12,10 @@ const Categories = ({
     "light:bg-[#0B2E784D] bg-[#0B2E784D]  purple:bg-[#FEFEFE] purple:text-secondary";
   const btnclass = `text-gray-300 light:text-black purple:text-white py-4 px-4 m-2  font-Lusitana light:font-FiraSans purple:font-Sora rounded-[5px] text-base font-bold leading-5 capitalize rounded-5 border border-solid border-white light:border-[#0B2E784D] purple:border-secondary border-opacity-17 hover:bg-[#B17E41] light:hover:bg-[#0B2E784D] light:hover:bg-opacity-30  duration-300 purple:hover:bg-[#FEFEFE] purple:hover:text-secondary`;
   return (
-    <div className='w-full h-full  border border-solid border-white light:border-[#3461FF33] border-opacity-20 bg-[#0E0D0F] light:bg-primary purple:bg-secondary flex  flex-col  justify-evenly'>
+    <div
+      id='categorySection'
+      className='w-full h-full  border border-solid border-white light:border-[#3461FF33] border-opacity-20 bg-[#0E0D0F] light:bg-primary purple:bg-secondary flex  flex-col  justify-evenly'
+    >
       <div className='flex  flex-col items-start justify-center  rounded-5 ml-7 sm:max-lg:ml-12 lg:ml-24 mt-[42px] gap-5'>
         <div className='purple:hidden'>
           <button className='w-[82px] h-[26px]   rounded-5 border border-solid border-white light:border-[#0B2E781A] border-opacity-10 text-gray-300 light:text-[#0B2E78] text-right font-AnekLatin light:font-Outfit text-xs font-medium leading-5 capitalize rounded-[5px] pr-4'>
@@ -48,7 +51,7 @@ const Categories = ({
                     : "cursor-pointer"
                 }`}
               >
-                {key}
+                {key.replace(/_/g, " ")}
               </button>
             ))}
         </div>

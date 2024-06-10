@@ -55,6 +55,7 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
         phone_number: data.phone_number,
         second_phone_number: data.second_phone_number,
         address: data.address,
+        industry: "",
       });
       setImagesPreview({
         logo: data?.logo && domain + data.logo,
@@ -228,7 +229,7 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
 
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Landing Page Image
+            Landing Page Image ( .jpg )
           </label>
 
           <div className='flex gap-2'>
@@ -327,7 +328,7 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
           onClick={resetAllField}
           className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'
         >
-          Cancel
+          Reset
         </button>
         <button
           disabled={loading}
@@ -341,7 +342,7 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
               <LuLoader2 />
             </div>
           ) : (
-            "Add New currentDetail"
+            "Save and update "
           )}
         </button>
       </div>

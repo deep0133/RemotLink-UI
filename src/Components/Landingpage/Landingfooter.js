@@ -15,6 +15,7 @@ import banr from "../../images/948b3ad28ed67e63c760b2ae2c01e709.png";
 import banr2 from "../../images/Group 2326.svg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Link } from "react-router-dom";
 
 const Landingfooter = ({ domain, institutionDetails }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -120,22 +121,43 @@ const Landingfooter = ({ domain, institutionDetails }) => {
                 <h1 className=' text-white light:text-black font-AnekLatin light:font-Outfit purple:font-Sora purple:text-opacity-80 font-semibold text-base uppercase whitespace-nowrap '>
                   Quick Links
                 </h1>
-                <ul className='flex  items-start justify-stretch flex-col pt-3 '>
-                  <li className='pb-[11px] light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50'>
-                    Home
+                <ul className='flex space-y-[11px] items-start justify-stretch flex-col pt-3 '>
+                  <li>
+                    <Link
+                      to={"/home"}
+                      className='light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50'
+                    >
+                      Home
+                    </Link>
                   </li>
-                  <li className='pb-[11px] light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50'>
-                    About Us
+                  <li>
+                    <a
+                      href='#aboutSection'
+                      className=' light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50'
+                    >
+                      About Us
+                    </a>
                   </li>
-                  <li className='pb-[11px] light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50'>
+                  <li>
+                    <a
+                      href='#statisticSection'
+                      className='light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50'
+                    >
+                      Statistics
+                    </a>
+                  </li>
+                  <a
+                    href='#categorySection'
+                    className='light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50'
+                  >
                     Categories
-                  </li>
-                  <li className='pb-[11px] light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50 whitespace-nowrap'>
-                    Open Access
-                  </li>
-                  <li className='pb-[11px] light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50 whitespace-nowrap'>
-                    The Institute
-                  </li>
+                  </a>
+                  <a
+                    href='#featuredSection'
+                    className='light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50 whitespace-nowrap'
+                  >
+                    Featured
+                  </a>
                 </ul>
               </div>
 
