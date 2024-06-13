@@ -1,9 +1,9 @@
-// src/components/HomeSlider.js
 import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import home_image from "../../images/Rectangle 5.png";
+
 const HomeSlider = ({ institutionDetails, url }) => {
   const settings = {
     infinite: true,
@@ -23,14 +23,14 @@ const HomeSlider = ({ institutionDetails, url }) => {
   ];
 
   return (
-    <div className='overflow-hidden h-full w-full'>
-      <Slider {...settings}>
+    <div className='h-full md:-mr-2.5'>
+      <Slider {...settings} className='slider h-full'>
         {images.map((image, index) => (
-          <div key={index} className='h-full w-full'>
+          <div key={index} className='h-full'>
             <img
               src={url + image}
               alt={`Slide ${index + 1}`}
-              className='w-full h-full object-cover'
+              className='h-full w-full object-cover'
               onError={(e) => {
                 e.target.src = home_image;
               }}

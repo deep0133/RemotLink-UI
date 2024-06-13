@@ -8,7 +8,7 @@ import useFetch from "../../hooks/useFetch";
 export default function AddUser({ loading, addFunctionHandler }) {
   return (
     <>
-      <Header icon={<SitesIcon />} title={"Add Sites"} subTitle={"Sites"} />
+      <Header icon={<SitesIcon />} title={"Add New sites"} subTitle={"Sites"} />
       <Hero
         name={"Add New Site"}
         description={

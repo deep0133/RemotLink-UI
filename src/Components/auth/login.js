@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import generateUrl from "../admin/utils/urlGenerate";
 import useLogout from "../../hooks/useLogout";
+import { CrossIcon } from "../admin/assets/constants";
 
-const Login = ({ unauthorizedUserSourcelink }) => {
+const Login = ({ unauthorizedUserSourcelink, loginModal, setLoginModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
 
   const { logutOutHandler } = useLogout();
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,8 +44,16 @@ const Login = ({ unauthorizedUserSourcelink }) => {
       if (unauthorizedUserSourcelink) {
         window.open(unauthorizedUserSourcelink, "_blank");
       }
-      window.location.reload();
+
+      // window.location.reload();
+      if (data?.user?.is_admin) {
+        navigate("/admin");
+      } else {
+        navigate("/home");
+      }
+      setLoginModal(false);
     } catch (err) {
+      console.log("-------lgoin error---------- :", err.message);
       if (err.name === "AbortError") {
       } else {
         setIsPending(false);
@@ -52,8 +63,14 @@ const Login = ({ unauthorizedUserSourcelink }) => {
   };
 
   return (
-    <div className='flex justify-center items-center min-h-screen bg-gray-100'>
-      <div className='w-full max-w-md'>
+    <div className='flex z-50 justify-center sticky bg-black/60 backdrop-blur-sm h-lvh w-full bottom-0 left-0 items-center '>
+      <div className='w-full max-w-md relative'>
+        <div
+          onClick={() => setLoginModal(false)}
+          className='absolute -top-8 right-0 scale-150 cursor-pointer brightness-200'
+        >
+          <CrossIcon />{" "}
+        </div>
         <div className='bg-white rounded-md shadow-md p-8'>
           <div className='text-center mb-4'>
             {/* <img src="assets/images/logo.png" alt="Logo" className="mx-auto" /> */}

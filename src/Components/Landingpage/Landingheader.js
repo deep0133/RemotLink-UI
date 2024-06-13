@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import lgn_icon from "../../images/Group 2323.svg";
 import anmnt_icon from "../../images/notification-status.svg";
 import CheckLoginStatus from "../auth/loginStatus";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useFetch from "../admin/hooks/useFetch";
 
-const Landingheader = () => {
+const Landingheader = ({ loginModal, setLoginModal }) => {
   const { loginStatus, isAdmin } = CheckLoginStatus();
+
+  const navigate = useNavigate();
 
   const [announcementModal, setAnnouncementModal] = useState(false);
 
@@ -41,7 +43,15 @@ const Landingheader = () => {
               </div>
             </Link>
           )}
-          <Link to={loginStatus ? "/home" : "/login"}>
+          <div
+            onClick={() => {
+              if (!loginStatus) setLoginModal(true);
+              else {
+                navigate("/home");
+              }
+            }}
+            className='cursor-pointer'
+          >
             <div className=' w-16 lg:w-36 h-[52px] bg-[#000000] light:bg-btn flex  items-center justify-center mr-3 md:mr-1 hover:bg-[#0B2E78] focus:ring-4 focus:outline-none focus:ring-blue-300   '>
               <img src={lgn_icon} alt='login icon' />
 
@@ -49,7 +59,7 @@ const Landingheader = () => {
                 {loginStatus ? "Logged In" : "  Login Now"}
               </h1>
             </div>
-          </Link>
+          </div>
 
           <div
             onMouseEnter={() => setAnnouncementModal(true)}

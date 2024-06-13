@@ -1,31 +1,30 @@
 import { useState, useEffect } from "react";
 
 const CheckLoginStatus = () => {
-  const [loginStatus, setLogin] = useState(false);
+  const [loginStatus, setLogin] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  /**
-   * Check login Status
-   */
   useEffect(() => {
     updateState();
   }, []);
 
   const updateState = () => {
-    if (localStorage.getItem("access_token")) {
+    const token = localStorage.getItem("access_token");
+    if (token) {
       setLogin(true);
-
       const userData = localStorage.getItem("userdata");
       const parse = JSON.parse(userData);
-      if (parse.is_admin) {
+      if (parse && parse.is_admin) {
         setIsAdmin(true);
       }
     } else {
       setLogin(false);
     }
+    setLoading(false);
   };
 
-  return { loginStatus, isAdmin, updateState };
+  return { loginStatus, isAdmin, loading, updateState };
 };
 
 export default CheckLoginStatus;

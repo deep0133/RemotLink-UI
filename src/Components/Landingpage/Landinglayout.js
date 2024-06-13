@@ -8,6 +8,8 @@ const Landinglayout = ({
   institutionDetails,
   domain,
   setUnauthorizedUserSourcelink,
+  loginModal,
+  setLoginModal,
 }) => {
   const {
     landingPageCategorialResourceFetch,
@@ -26,7 +28,7 @@ const Landinglayout = ({
 
   return (
     <>
-      <Landingheader />
+      <Landingheader loginModal={loginModal} setLoginModal={setLoginModal} />
       <Landinghome
         {...{
           institutionDetails,

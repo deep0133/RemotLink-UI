@@ -39,7 +39,7 @@ export default function ManageUser({
         icon={<UsersIcon />}
         icon2={<BulkUserIcon />}
         btnText={`Add User`}
-        btnText2={`Bulk Add User`}
+        btnText2={`Add Bulk Users`}
         btnCount={2}
         btnLink={"/admin/users/add/user"}
         btnLink2={"/admin/users/bulkuser"}

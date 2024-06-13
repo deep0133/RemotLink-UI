@@ -279,7 +279,7 @@ function Home({ institutionDetails }) {
             </ul>
           </div>
 
-          <div className='h-auto order-first md:order-last overflow-hidden'>
+          <div className='h-auto relative order-first md:order-last overflow-hidden'>
             {/* <img
               src={home_image}
               alt=''

@@ -23,7 +23,7 @@ const Categories = ({
           </button>
         </div>
         <h1 className='text-gray-300 light:text-black purple:text-white font-Lusitana light:font-SourceSans purple:font-Sora text-4xl light:text-4xl light:sm:text-5xl purple:text-[32px] font-bold leading-normal tracking-wide capitalize'>
-          Categorical Resources
+          Categorial Resources
         </h1>
         <h3 className='text-[#FFFFFF99] light:text-[#00000099] purple:hidden  font-AnekLatin light:font-SourceSans text-base font-medium leading-8'>
           Explore a World of Knowledge with these resources here{" "}

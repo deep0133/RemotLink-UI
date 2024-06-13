@@ -31,20 +31,13 @@ export default function ManageAllSites({
   return (
     <>
       <Header icon={<SitesIcon />} title={"Sites"} />
-      {/* <Hero
-        name={`Manage all Sites`}
-        description={`Manage the site here`}
-        icon={<SitesIcon />}
-        btnText={`Add Site`}
-        btnLink={"/admin/sites/add/site"}
-      /> */}
       <Hero
         name={`Manage all Sites`}
         description={`Manage and organize all users efficiently.`}
         icon={<SitesIcon />}
         icon2={<BulkUserIcon />}
-        btnText={`Add User`}
-        btnText2={`Add Bulk Sites`}
+        btnText={`Add New Site`}
+        btnText2={`Add Site Bulk Metadata`}
         btnCount={2}
         btnLink={"/admin/sites/add/site"}
         btnLink2={"/admin/sites/add/bulk/site"}

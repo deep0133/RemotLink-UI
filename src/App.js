@@ -1,5 +1,11 @@
-import { Route, Routes, Navigate } from "react-router-dom";
-import CheckLoginStatus from "./Components/auth/loginStatus";
+import { Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useFetch from "./hooks/useFetch";
+import generateUrl from "./Components/admin/utils/urlGenerate";
+import useLogout from "./hooks/useLogout";
+import changeTheme from "./Components/admin/utils/changeTheme";
+import updateFavicon from "./Components/admin/utils/updateFavicon";
+
 import Landinglayout from "./Components/Landingpage/Landinglayout";
 import Homepage from "./Components/uiSection/homepage";
 import SearchView from "./Components/uiSection/searchView";
@@ -10,24 +16,20 @@ import Notifications from "./Components/uiSection/notifications";
 import HelpAndSupport from "./Components/uiSection/helpAndSupport";
 import Login from "./Components/auth/login";
 import AdminRoutes from "./Components/admin/AdminRoutes";
-import { useEffect, useState } from "react";
-import useFetch from "./hooks/useFetch";
-import generateUrl from "./Components/admin/utils/urlGenerate";
-import useLogout from "./hooks/useLogout";
-import changeTheme from "./Components/admin/utils/changeTheme";
-import updateFavicon from "./Components/admin/utils/updateFavicon";
+import ProtectedRoute from "./Components/ProtectedRoute";
+import AdminRoute from "./Components/AdminRoute";
 
 function App() {
-  const { loginStatus, isAdmin } = CheckLoginStatus();
   const { institutionDetails, institutionDetailFetch } = useFetch();
   const [unauthorizedUserSourcelink, setUnauthorizedUserSourcelink] =
     useState(null);
+  const [domain, setDomain] = useState("");
+
+  const [loginModal, setLoginModal] = useState(false);
 
   useEffect(() => {
     institutionDetailFetch();
   }, []);
-
-  const [domain, setDomain] = useState("");
 
   useEffect(() => {
     const fetchUrl = async () => {
@@ -47,94 +49,124 @@ function App() {
   }, [institutionDetails, domain]);
 
   return (
-    <Routes>
-      <Route
-        path='/'
-        element={
-          <Landinglayout
-            {...{ institutionDetails, domain, setUnauthorizedUserSourcelink }}
-          />
-        }
-      />
-      <Route
-        path='/login'
-        element={
-          loginStatus ? (
-            isAdmin ? (
-              <Navigate to={"/admin"} />
-            ) : (
-              <Navigate to={"/home"} />
-            )
-          ) : (
-            <Login unauthorizedUserSourcelink={unauthorizedUserSourcelink} />
-          )
-        }
-      />
-
-      {loginStatus ? (
-        <>
-          {" "}
-          <Route
-            path='/home'
-            element={
+    <>
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <Landinglayout
+              {...{
+                institutionDetails,
+                domain,
+                setUnauthorizedUserSourcelink,
+                loginModal,
+                setLoginModal,
+              }}
+            />
+          }
+        />
+        <Route
+          path='/home'
+          element={
+            <ProtectedRoute
+              loginModal={loginModal}
+              setLoginModal={setLoginModal}
+            >
               <Homepage {...{ logutOutHandler, institutionDetails, domain }} />
-            }
-          />
-          <Route
-            path='/searchview'
-            element={
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/searchview'
+          element={
+            <ProtectedRoute
+              loginModal={loginModal}
+              setLoginModal={setLoginModal}
+            >
               <SearchView
                 {...{ logutOutHandler, institutionDetails, domain }}
               />
-            }
-          />
-          <Route
-            path='/resources'
-            element={
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/resources'
+          element={
+            <ProtectedRoute
+              loginModal={loginModal}
+              setLoginModal={setLoginModal}
+            >
               <Resources {...{ logutOutHandler, institutionDetails, domain }} />
-            }
-          />
-          <Route
-            path='/savedresources'
-            element={
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/savedresources'
+          element={
+            <ProtectedRoute
+              loginModal={loginModal}
+              setLoginModal={setLoginModal}
+            >
               <SavedResources
                 {...{ logutOutHandler, institutionDetails, domain }}
               />
-            }
-          />
-          <Route
-            path='/profile'
-            element={
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/profile'
+          element={
+            <ProtectedRoute
+              loginModal={loginModal}
+              setLoginModal={setLoginModal}
+            >
               <Profile {...{ logutOutHandler, institutionDetails, domain }} />
-            }
-          />
-          <Route
-            path='/notifications'
-            element={
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/notifications'
+          element={
+            <ProtectedRoute
+              loginModal={loginModal}
+              setLoginModal={setLoginModal}
+            >
               <Notifications
                 {...{ logutOutHandler, institutionDetails, domain }}
               />
-            }
-          />
-          <Route
-            path='/help'
-            element={
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/help'
+          element={
+            <ProtectedRoute
+              loginModal={loginModal}
+              setLoginModal={setLoginModal}
+            >
               <HelpAndSupport
                 {...{ logutOutHandler, institutionDetails, domain }}
               />
-            }
-          />
-          <Route
-            path='/admin/*'
-            element={
-              isAdmin === true ? <AdminRoutes /> : <Navigate to={"/login"} />
-            }
-          />
-        </>
-      ) : (
-        <Route path='/*' element={<Navigate to={"/"} />} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/admin/*'
+          element={
+            <AdminRoute loginModal={loginModal} setLoginModal={setLoginModal}>
+              <AdminRoutes />
+            </AdminRoute>
+          }
+        />
+      </Routes>
+      {loginModal && (
+        <Login
+          unauthorizedUserSourcelink={unauthorizedUserSourcelink}
+          loginModal={loginModal}
+          setLoginModal={setLoginModal}
+        />
       )}
-    </Routes>
+    </>
   );
 }
 

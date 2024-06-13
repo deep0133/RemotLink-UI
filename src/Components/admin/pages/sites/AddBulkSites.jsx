@@ -28,7 +28,7 @@ export default function AddBulkSites({
     <>
       <Header
         icon={<UsersIcon />}
-        title={"Bulk Site Details"}
+        title={"Add Site Bulk Metadata"}
         subTitle={"Sites"}
       />
       <div

@@ -193,3 +193,12 @@
 .bg-img-mobile {
   background-image: url("./images/mobileprofile.svg");
 }
+
+.slick-list,
+.slick-track {
+  height: 100% !important;
+}
+
+.slick-slide > div {
+  height: 100%;
+}

@@ -96,7 +96,7 @@ const AddSection = ({ loading, addFunctionHandler }) => {
               <LuLoader2 />
             </div>
           ) : (
-            "Add Message"
+            "Add Faq"
           )}
         </button>
       </div>

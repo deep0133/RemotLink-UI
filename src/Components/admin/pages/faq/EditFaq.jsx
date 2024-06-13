@@ -29,11 +29,7 @@ export default function EditFaq({ data, loading, updateFunctionHandler }) {
 
   return (
     <>
-      <Header
-        icon={<AiTwotoneMessage />}
-        title={"Edit Message"}
-        subTitle={"Messages"}
-      />
+      <Header icon={<AiTwotoneMessage />} title={"Edit FAQ"} subTitle={"FAQ"} />
       <Edit
         faq={faq}
         setFaq={setFaq}

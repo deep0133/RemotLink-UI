@@ -18,6 +18,7 @@ import Loader from "../../components/Loader/Loader";
 import useFetch from "../../hooks/useFetch";
 import CardSkeletonLoading from "../../components/loading/CardSkeletonLoading";
 import VerticalLineSkeleton from "../../components/Loader/VerticalLineSkeleton";
+import getRandomColor from "../../utils/getRandomColors";
 
 export default function Overview({
   weekMonth,
@@ -128,8 +129,10 @@ const Details = ({
         datasets: [
           {
             label: "Dataset",
-            data: overviewUserEngageData.map((item) => item.access_percentage),
-            backgroundColor: ["#7F56D9", "#9E77ED", "#F4EBFF"],
+            data: overviewUserEngageData?.map((item) => item.access_percentage),
+            backgroundColor: overviewUserEngageData?.map(() =>
+              getRandomColor()
+            ),
             borderWidth: 0,
             hoverOffset: 2,
           },

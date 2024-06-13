@@ -10,6 +10,7 @@ import FullCircle from "../../components/Dashboard/FullCircle";
 import Loader from "../../components/Loader/Loader";
 import useFetch from "../../hooks/useFetch";
 import CardSkeletonLoading from "../../components/loading/CardSkeletonLoading";
+import getRandomColor from "../../utils/getRandomColors";
 
 export default function Category({ reportSiteData }) {
   const {
@@ -126,7 +127,7 @@ const Details = ({
           {
             label: "Total Count",
             data: counts,
-            backgroundColor: ["#7F56D9", "#9E77ED", "#F4EBFF"],
+            backgroundColor: labels.map((val) => getRandomColor()),
             borderWidth: 0,
             hoverOffset: 2,
           },

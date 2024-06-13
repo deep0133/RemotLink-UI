@@ -6,25 +6,30 @@ import {
   PhoneIcon,
 } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
-import { InstitutionLogo } from "../../assets/images";
+// import { InstitutionLogo } from "../../assets/images";
 import { useNavigate } from "react-router-dom";
 export default function Details({ data, domain }) {
   return (
     <>
       <Header icon={<InstitutiionIcon />} title={"Institution Details"} />
-      <DetailSection data={data} />
+      <DetailSection data={data} domain={domain} />
       <OtherDetails data={data} domain={domain} />
     </>
   );
 }
 
-const DetailSection = ({ data }) => {
+const DetailSection = ({ data, domain }) => {
   const navigate = useNavigate();
   return (
     <div className=' my-6 border rounded-md bg-[#FBFCFF]'>
       <div className=' px-8 relative py-3 flex gap-6 items-center'>
         <div className='w-20 '>
-          <InstitutionLogo />
+          {/* <InstitutionLogo /> */}
+          <img
+            src={data.logo ? domain + data.logo : null}
+            className='w-20 h-20 rounded-full object-cover'
+            alt=''
+          />
         </div>
         <div>
           <h3 className=' text-violet-800 text-[19px] font-semibold font-Poppins leading-7'>

@@ -12,6 +12,7 @@ export default function useLogout() {
     setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
+      if (!token) return;
       const api = `api/website/logout/`;
       const baseUrl = process.env.REACT_APP_BACKEND_URL;
       const domain = await readSubdomainFromFile();
@@ -37,6 +38,7 @@ export default function useLogout() {
       window.location.reload();
     } catch (err) {
       toast.error(err.message);
+
       // console.error("Error :", err);
     } finally {
       setLoading(false);
