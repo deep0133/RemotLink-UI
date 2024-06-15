@@ -53,8 +53,8 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
             <Sidebar />
           </span>
           <div className='flex px-[5%] md:px-0 justify-center py-10 w-full md:w-[calc(100%-96px)]'>
-            <div className='h-auto w-full md:w-[90%] lg:w-[85%] flex justify-between p-4 sm:border rounded-xl flex-col sm:flex-row'>
-              <div className=''>
+            <div className='h-auto w-full md:w-[90%] lg:w-[85%] gap-5 justify-between sm:border rounded-xl grid grid-cols-1 sm:grid-cols-3 '>
+              <div className='p-4'>
                 <h1 className='font-bold text-[14px] leading-5 flex items-center p-2 border-b-[3px] border-[#1F5095] w-fit'>
                   <img
                     src={announce}
@@ -78,7 +78,7 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
                     ))}
                 </ul>
               </div>
-              <div className=''>
+              <div className='border-x p-4'>
                 <h1 className='font-bold text-[14px] leading-5 flex items-center py-2 pl-2 pr-6 border-b-[3px] border-[#1F5095] w-fit'>
                   <img
                     src={news}
@@ -115,7 +115,7 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
                     ))}
                 </div>
               </div>
-              <div className=''>
+              <div className='p-4'>
                 <h1 className='font-bold text-[14px] leading-5 flex items-center p-2 border-b-[3px] border-[#1F5095] w-fit'>
                   <img
                     src={links}

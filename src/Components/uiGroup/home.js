@@ -21,7 +21,12 @@ import useFetch from "../../hooks/useFetch";
 import useFavourite from "../../hooks/useFavourite";
 import CardSkeleton from "../Loader/CardSkeleton";
 import { CiBookmarkMinus } from "react-icons/ci";
-import { MdOutlineBookmarkAdded } from "react-icons/md";
+import {
+  MdBookmark,
+  MdOutlineBook,
+  MdOutlineBookmarkAdded,
+  MdOutlineBookmarkBorder,
+} from "react-icons/md";
 import HomeSlider from "./HomeSlider";
 import generateUrl from "../admin/utils/urlGenerate";
 
@@ -337,7 +342,7 @@ function Home({ institutionDetails }) {
                     increaseAccessCount(val.id);
                     window.open(val?.current_issue_url, "_blank");
                   }}
-                  className='cursor-pointer w-[276px] h-[358px]   border rounded-[5px] font-Poppins mr-3'
+                  className='cursor-pointer group w-[276px] h-[358px]   border rounded-[5px] font-Poppins mr-3'
                 >
                   <img src={cardimage} alt='card-view' className=' h-[143px]' />
                   <div className=' m-5'>
@@ -349,7 +354,7 @@ function Home({ institutionDetails }) {
                     </p>
                   </div>
                   <div
-                    className='w-fit px-[15px] py-2 text-[#F38D15] font-medium  rounded-md mx-5  bg-green-50'
+                    className='w-fit px-[15px] py-2 text-[#F38D15] group-hover:bg-[#0B2E78] group-hover:text-white group-hover:light:text-white font-medium  rounded-md mx-5  bg-green-50'
                     style={{ border: "1px solid green" }}
                   >
                     Ebook
@@ -427,48 +432,45 @@ function Home({ institutionDetails }) {
           </div>
         </div>
 
-        {/* ---------Popular Database Card-----Pending-- Favorite Api------------- */}
-        <div className='bg-[#221FB9/0.2] mt-4 px-10 grid-cols-2 grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5'>
-          {fetchLoading ? (
-            <div className='bg-[#221FB9/0.2] w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
-              {Array.from([1, 2, 3, 4]).map((val, i) => {
+        {/* ---------Popular Database Card-------------- */}
+        <div className='bg-[#221FB9/0.2] w-full grow mt-4 px-10 grid-cols-2 grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5'>
+          {fetchLoading
+            ? Array.from([1, 2, 3, 4, 5]).map((val, i) => {
                 return <CardSkeleton key={val} />;
-              })}
-            </div>
-          ) : resources && resources.length > 0 ? (
-            resources.map((val, i) => (
-              <div className='min-h-[122px] flex flex-col border p-2 rounded-[5px] '>
-                <img
-                  src={val.site__image ? val.site__image : newimg}
-                  alt='cardimg'
-                  className=' object-cover h-[120px]'
-                />
-                <div className='mt-4 flex gap-1 min-[400px]:gap-2 items-center justify-between flex-1'>
-                  <div
-                    onClick={() => {
-                      window.open(val?.site__base_url, "_blank");
-                    }}
-                    className='line-clamp-1 cursor-pointer border-black px-2 flex flex-col justify-center grow items-center border py-2 sm:text-[13px] text-[8px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]'
-                  >
-                    {val.site__name ? val.site__name : "---"}
-                  </div>
-                  <div className='p-2 ml-2 scale-125 cursor-pointer'>
-                    {!favData?.includes(val.site) ? (
-                      <CiBookmarkMinus
-                        onClick={() => handleAddToFavourite(val.site)}
-                      />
-                    ) : (
-                      <MdOutlineBookmarkAdded
-                        onClick={() => handleRemoveToFavourite(val.site)}
-                      />
-                    )}
+              })
+            : resources && resources.length > 0
+            ? resources.map((val, i) => (
+                <div className='min-h-[122px] flex flex-col border p-2 rounded-[5px] '>
+                  <img
+                    src={val.site__image ? val.site__image : newimg}
+                    alt='cardimg'
+                    className=' object-cover h-[120px]'
+                  />
+                  <div className='mt-4 flex gap-1 min-[400px]:gap-2 items-center justify-between flex-1'>
+                    <div
+                      onClick={() => {
+                        window.open(val?.site__base_url, "_blank");
+                      }}
+                      className='line-clamp-1 cursor-pointer border-black px-2 flex flex-col justify-center grow items-center border py-2 sm:text-[13px] text-[8px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]'
+                    >
+                      {val.site__name ? val.site__name : "---"}
+                    </div>
+                    <div className='p-2 ml-2 scale-125 cursor-pointer'>
+                      {!favData?.includes(val.site) ? (
+                        <MdOutlineBookmarkBorder
+                          onClick={() => handleAddToFavourite(val.site)}
+                        />
+                      ) : (
+                        <MdBookmark
+                          onClick={() => handleRemoveToFavourite(val.site)}
+                          className='text-blue-600'
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            "No Data Found"
-          )}
+              ))
+            : "No Data Found"}
         </div>
 
         {/* ---------------Recently Added Title------------- */}
@@ -520,7 +522,7 @@ function Home({ institutionDetails }) {
                       window.open(val?.current_issue_url, "_blank");
                     }}
                     key={index}
-                    className=' w-[276px] cursor-pointer h-[358px] rounded-[5px] border font-Poppins mr-3'
+                    className=' w-[276px] group cursor-pointer h-[358px] rounded-[5px] border font-Poppins mr-3'
                   >
                     <img
                       src={cardimage}
@@ -536,7 +538,7 @@ function Home({ institutionDetails }) {
                       </p>
                     </div>
                     <div
-                      className='w-fit px-[15px] py-2 text-[#F38D15] font-medium  rounded-md mx-5  bg-green-50'
+                      className='w-fit px-[15px] py-2 group-hover:bg-[#0B2E78] group-hover:text-white text-[#F38D15] font-medium  rounded-md mx-5  bg-green-50'
                       style={{ border: "1px solid green" }}
                     >
                       Ebook
@@ -596,7 +598,7 @@ function Home({ institutionDetails }) {
                     increaseAccessCount(val.id);
                     window.open(val?.current_issue_url, "_blank");
                   }}
-                  className='w-[276px] cursor-pointer h-[358px]  border rounded-[5px] font-Poppins mr-3'
+                  className='w-[276px] group cursor-pointer h-[358px]  border rounded-[5px] font-Poppins mr-3'
                 >
                   <img src={cardimage} alt='card-view' className=' h-[143px]' />
                   <div className=' m-5'>
@@ -608,7 +610,7 @@ function Home({ institutionDetails }) {
                     </p>
                   </div>
                   <div
-                    className='w-fit px-[15px] py-2 text-[#F38D15] font-medium  rounded-md mx-5  bg-green-50'
+                    className='w-fit px-[15px] py-2 group-hover:bg-[#0B2E78] group-hover:text-white text-[#F38D15] font-medium  rounded-md mx-5  bg-green-50'
                     style={{ border: "1px solid green" }}
                   >
                     Ebook
