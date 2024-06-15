@@ -27,7 +27,7 @@ const options = {
 const FullCircle = ({ myData, myOption = false, optData }) => {
   return (
     <div className='shrink-0 relative pr-4'>
-      <div style={{ width: "100%" }}>
+      <div style={{ width: "100%", padding: "20px" }}>
         {myData ? (
           <Doughnut data={myData} options={myOption ? optData : options} />
         ) : (

@@ -33,7 +33,7 @@ export default function ManageAllSites({
       <Header icon={<SitesIcon />} title={"Sites"} />
       <Hero
         name={`Manage all Sites`}
-        description={`Manage and organize all users efficiently.`}
+        description={`Manage and organize all sites efficiently.`}
         icon={<SitesIcon />}
         icon2={<BulkUserIcon />}
         btnText={`Add New Site`}

@@ -4,6 +4,7 @@ import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
 
 export default function AddUser({
   head_title,
@@ -40,6 +41,7 @@ export default function AddUser({
 
 const AddSection = ({ loading, addFunctionHandler, course }) => {
   const [user, setUser] = useState({});
+  const navigate = useNavigate();
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -176,7 +178,10 @@ const AddSection = ({ loading, addFunctionHandler, course }) => {
       </div>
 
       <div className='btns flex gap-5 flex-1 justify-end'>
-        <button className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'>
+        <button
+          onClick={() => navigate(-1)}
+          className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'
+        >
           Cancel
         </button>
         <button

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import { AiTwotoneMessage } from "react-icons/ai";
@@ -46,6 +47,7 @@ export default function Edit({
 }
 
 const EditMsg = ({ loading, msg, setMsg, id, updateFunctionHandler }) => {
+  const navigate = useNavigate();
   return (
     <>
       <div
@@ -80,6 +82,14 @@ const EditMsg = ({ loading, msg, setMsg, id, updateFunctionHandler }) => {
           </div>
         </div>
         <div className='btns flex gap-5 flex-1 justify-end'>
+          <button
+            onClick={() => {
+              navigate(-1);
+            }}
+            className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'
+          >
+            Cancel
+          </button>
           <button
             disabled={loading}
             onClick={() => {

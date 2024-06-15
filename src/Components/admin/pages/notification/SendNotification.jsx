@@ -1,25 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NotificationsIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import { LuLoader2 } from "react-icons/lu";
+import { useNavigate, useParams } from "react-router-dom";
 export default function SendNotification({
   loading,
   submitNotificationHandler,
 }) {
+  const { name } = useParams();
   return (
     <>
       <Header
         icon={<NotificationsIcon />}
-        title={"Send Notification"}
+        title={"Send " + name}
         subTitle={"Notifications"}
       />
-      <Hero
-        name={"Send Notications"}
-        description={`Send Notification from here`}
-      />
+      <Hero name={"Send " + name} description={`Send ${name} from here`} />
       <NotificationForm
-        submitText={"Send Notification"}
+        submitText={"Send " + name}
         loading={loading}
         {...{
           submitNotificationHandler,
@@ -36,9 +35,16 @@ const NotificationForm = ({
 }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [ann_type, setAnnType] = useState("Announcement");
+  const [ann_type, setAnnType] = useState("");
   const [active, setActive] = useState(null);
   const [link, setLink] = useState("");
+
+  const { name } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setAnnType(name);
+  }, [name]);
 
   const renderInputFields = () => {
     const type = ann_type.toLocaleLowerCase();
@@ -232,25 +238,28 @@ const NotificationForm = ({
             Notification type
           </label>
           <select
+            value={ann_type}
             onChange={(e) => {
               setAnnType(e.target.value);
             }}
-            value={ann_type}
             style={{
               border: "1px rgba(34, 31, 185, 0.14) solid",
             }}
             className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
           >
-            <option value='announcement'>Announcement</option>
-            <option value='news'>News</option>
             <option value='links'>Links</option>
+            <option value='news'>News</option>
+            <option value='announcement'>Announcement</option>
           </select>
         </div>
         {renderInputFields()}
       </div>
 
       <div className='btns flex gap-5 flex-1 justify-end'>
-        <button className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'>
+        <button
+          onClick={() => navigate(-1)}
+          className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'
+        >
           Cancel
         </button>
         <button

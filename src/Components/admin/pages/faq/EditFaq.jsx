@@ -3,6 +3,7 @@ import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import { LuLoader2 } from "react-icons/lu";
 import { EditICon } from "../../assets/constants";
 import { AiTwotoneMessage } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 export default function EditFaq({ data, loading, updateFunctionHandler }) {
   const [faq, setFaq] = useState("");
@@ -49,6 +50,8 @@ const Edit = ({ id, loading, setFaq, faq, updateFunctionHandler }) => {
       return { ...prev, [name]: value };
     });
   };
+
+  const navigate = useNavigate();
 
   return (
     <div
@@ -112,6 +115,14 @@ const Edit = ({ id, loading, setFaq, faq, updateFunctionHandler }) => {
       </div>
 
       <div className='btns flex gap-5 flex-1 justify-end'>
+        <button
+          onClick={() => {
+            navigate(-1);
+          }}
+          className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'
+        >
+          Cancel
+        </button>
         <button
           disabled={loading}
           onClick={() => {

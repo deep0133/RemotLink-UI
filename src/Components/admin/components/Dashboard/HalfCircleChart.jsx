@@ -76,7 +76,7 @@ const HalfCircleChart = ({ percentage }) => {
   };
 
   return (
-    <div className='shrink-0 max-h-[120px] relative m-0 p-0'>
+    <div className='shrink-0 max-h-[120px] relative m-0 p-0 z-50'>
       <div
         className='absolute -top-8'
         style={{ width: "100%", maxHeight: "150px" }}
@@ -84,7 +84,7 @@ const HalfCircleChart = ({ percentage }) => {
         <Doughnut data={data} options={options} />
       </div>
       <div
-        className={`content absolute top-6`}
+        className={`content absolute top-6 z-40`}
         style={{
           left: percentage >= 0 ? "18%" : "14%",
         }}
@@ -96,7 +96,7 @@ const HalfCircleChart = ({ percentage }) => {
           style={{
             color: percentage >= 0 ? "#7c3aed" : "red",
           }}
-          className='text-center z-0 text-3xl font-semibold font-Inter leading-[38px]'
+          className='text-center text-3xl font-semibold font-Inter leading-[38px]'
         >
           {percentage}%
         </div>

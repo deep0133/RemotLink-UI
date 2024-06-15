@@ -90,13 +90,10 @@ const Details = ({
   }, [userEngagWeekMonth]);
 
   useEffect(() => {
-    if (recentlyTop === "recently") {
-      handleFetchOverallDashboardRecentlyUpdated(
-        "api/dashboard/recently_updated?metrics=" + recentlyWeekMonth
-      );
-    } else if (recentlyTop === "top") {
-      popularSiteDataHandle();
-    }
+    handleFetchOverallDashboardRecentlyUpdated(
+      "api/dashboard/recently_updated?metrics=" + recentlyWeekMonth
+    );
+    popularSiteDataHandle();
   }, [recentlyWeekMonth]);
 
   const [hourlyweek, setHourlyWeek] = useState("hour");
@@ -618,8 +615,8 @@ const Details = ({
                 setRecentlyWeekMonth(e.target.value);
               }}
             >
-              <option value={"week"}>Last Week</option>
               <option value={"month"}>Last Month</option>
+              <option value={"week"}>Last Week</option>
             </select>
           </div>
 

@@ -11,6 +11,7 @@ import {
 } from "../../assets/constants";
 import { LuLoader2 } from "react-icons/lu";
 import useFetch from "../../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
 
 export default function EditUser({ siteData, loading, updateFunctionHandler }) {
   const [data, setData] = useState({});
@@ -42,26 +43,6 @@ export default function EditUser({ siteData, loading, updateFunctionHandler }) {
         <div className='mt-8 relative mx-3 bg-white'>
           <DetailSection oldData={oldData} />
 
-          <div className='dots absolute right-8 top-6'>
-            <ThreeDots />
-          </div>
-
-          <button
-            style={{
-              boxShadow: "0px 3px 6px 0px rgba(112, 144, 176, 0.05)",
-              border: "rgba(34, 31, 185, 0.14)",
-            }}
-            className='flex absolute right-10 top-14 gap-2 w-[105px] h-[51px] shrink-0 justify-center items-center bg-white rounded-[7px]'
-          >
-            <div className='flex px-2 py-1 bg-gray-50 rounded-sm gap-1'>
-              <div className=' bg-gray-50'>
-                <DeleteIcon />
-              </div>
-              <p className='text-red-600 text-[13px] font-medium font-Poppins leading-7 bg-gray-50'>
-                Delete
-              </p>
-            </div>
-          </button>
           <div
             style={{
               boxShadow: "0px 10px 35px 1px rgba(112, 144, 176, 0.10)",
@@ -153,6 +134,8 @@ const AddSection = ({
 }) => {
   const [currentData, setCurrentData] = useState({});
   const [preview, setPreview] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCurrentData((prev) => {
@@ -305,7 +288,10 @@ const AddSection = ({
       </div>
 
       <div className='btns flex gap-5 flex-1 justify-end'>
-        <button className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'>
+        <button
+          onClick={() => navigate(-1)}
+          className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'
+        >
           Cancel
         </button>
         <button

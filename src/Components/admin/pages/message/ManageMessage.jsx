@@ -36,7 +36,7 @@ export default function ManageMessage({
       <Header icon={<AiTwotoneMessage />} title={"Quote"} />
       <Hero
         name={`Manage Quote`}
-        description={`Manage and organize all message efficiently.`}
+        description={`Manage and organize all Quote efficiently.`}
         icon={<AiTwotoneMessage />}
         btnText={`Add Quote`}
         btnLink={"/admin/quote/add/"}

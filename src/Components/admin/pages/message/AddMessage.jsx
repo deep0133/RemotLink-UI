@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { AiTwotoneMessage } from "react-icons/ai";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
@@ -25,6 +26,7 @@ export default function AddMessage({ addFunctionHandler, loading }) {
 
 const AddSection = ({ loading, addFunctionHandler }) => {
   const [msgData, setMsgData] = useState({});
+  const navigate = useNavigate();
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -60,6 +62,14 @@ const AddSection = ({ loading, addFunctionHandler }) => {
       </div>
 
       <div className='btns flex gap-5 flex-1 justify-end'>
+        <button
+          onClick={() => {
+            navigate(-1);
+          }}
+          className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'
+        >
+          Cancel
+        </button>
         <button
           disabled={loading}
           onClick={() => {

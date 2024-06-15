@@ -2,15 +2,20 @@ import { LuLoader2 } from "react-icons/lu";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import { useState } from "react";
-import { FaQuestion } from "react-icons/fa";
+import { FaQuestionCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function AddFaq({ addFunctionHandler, loading }) {
   return (
     <>
-      <Header icon={<FaQuestion />} title={"Add Faq"} subTitle={"Faq"} />
+      <Header
+        icon={<FaQuestionCircle className='text-white' />}
+        title={"Add FAQ"}
+        subTitle={"FAQ"}
+      />
       <Hero
-        name={"Add New Faq"}
-        description={"Streamline the process of adding new faq to your system."}
+        name={"Add New FAQ"}
+        description={"Streamline the process of adding new FAQ to your system."}
       />
       <AddSection addFunctionHandler={addFunctionHandler} loading={loading} />
     </>
@@ -19,6 +24,8 @@ export default function AddFaq({ addFunctionHandler, loading }) {
 
 const AddSection = ({ loading, addFunctionHandler }) => {
   const [faqData, setFaqData] = useState({});
+
+  const navigate = useNavigate();
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -85,6 +92,14 @@ const AddSection = ({ loading, addFunctionHandler }) => {
 
       <div className='btns flex gap-5 flex-1 justify-end'>
         <button
+          onClick={() => {
+            navigate(-1);
+          }}
+          className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'
+        >
+          Cancel
+        </button>
+        <button
           disabled={loading}
           onClick={() => {
             addFunctionHandler(faqData);
@@ -96,7 +111,7 @@ const AddSection = ({ loading, addFunctionHandler }) => {
               <LuLoader2 />
             </div>
           ) : (
-            "Add Faq"
+            "Add FAQ"
           )}
         </button>
       </div>

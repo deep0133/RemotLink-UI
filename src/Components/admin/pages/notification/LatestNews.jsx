@@ -25,7 +25,13 @@ export default function LatestNews({
         subTitle={"Notifications"}
       />
       <Navigation data={NotificationRightMenu} />
-      <Hero name={"See Latest News"} description={`See Latest News here`} />
+      <Hero
+        name={"See Latest News"}
+        description={`See Latest News here`}
+        icon={<NotificationsIcon />}
+        btnText={`Add News`}
+        btnLink={"/admin/notifications/send/news"}
+      />
       <Card
         data={data}
         deleteNotification={deleteNotification}

@@ -124,15 +124,21 @@ const OtherDetails = ({ data, domain }) => {
       <div className='card-contaner mt-5 grid grid-cols-8 w-full gap-5'>
         <div className='col-span-2 '>
           <h3 className='text-blue-900 mb-4 mx-1 text-sm font-semibold font-Poppins leading-7'>
+            Logo{" "}
+          </h3>
+          <ImageCard domain={domain} path={data?.logo} />
+        </div>
+        <div className='col-span-2 '>
+          <h3 className='text-blue-900 mb-4 mx-1 text-sm font-semibold font-Poppins leading-7'>
             Landing Page{" "}
           </h3>
-          <ImageCard domain={domain} title={"Logo"} path={data?.logo} />
+          <ImageCard domain={domain} path={data?.landing_page_image} />
         </div>
         <div className='line flex justify-center'>
           <div className='h-full border'></div>
         </div>
 
-        <div className=' col-span-5 grid grid-cols-3 gap-3'>
+        <div className=' col-span-5 grid grid-cols-3 gap-3 pt-5 border-t'>
           <div className='text-blue-900 col-span-full mb-4 mx-1 text-sm font-semibold font-Poppins leading-7'>
             Slider Images{" "}
           </div>
@@ -167,13 +173,15 @@ const ImageCard = ({ domain, path, title }) => {
   return (
     <>
       <img
-        className='object-cover w-full rounded-[5px]'
+        className='object-cover w-full rounded-[5px] max-h-36'
         src={path ? domain + path : "https://via.placeholder.com/189x99"}
         alt='landing_pape'
       />
-      <div className='opacity-80 my-2 ml-1 text-slate-900 text-opacity-90 text-[13px] font-medium font-Poppins leading-normal'>
-        {title}
-      </div>
+      {title && (
+        <div className='opacity-80 my-2 ml-1 text-slate-900 text-opacity-90 text-[13px] font-medium font-Poppins leading-normal'>
+          {title}
+        </div>
+      )}
     </>
   );
 };

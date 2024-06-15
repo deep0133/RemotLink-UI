@@ -3,6 +3,7 @@ import { BulkUserIcon, CategoryIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import { LuLoader2 } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 export default function AddCategory({
   data,
@@ -46,6 +47,8 @@ const AddSection = ({
   submitText,
 }) => {
   const [currentData, setCurrentData] = useState({});
+
+  const navigate = useNavigate();
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -122,7 +125,10 @@ const AddSection = ({
       </div>
 
       <div className='btns flex gap-5 flex-1 justify-end'>
-        <button className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'>
+        <button
+          onClick={() => navigate(-1)}
+          className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'
+        >
           Cancel
         </button>
         <button

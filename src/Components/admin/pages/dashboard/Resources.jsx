@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import { DashboardIcon } from "../../assets/constants";
 import { DashBoardRightMenu } from "../../data";
@@ -8,8 +8,37 @@ import DetailCard from "../../components/Dashboard/DetailCard";
 import HalfCircleChart from "../../components/Dashboard/HalfCircleChart";
 import FullCircle from "../../components/Dashboard/FullCircle";
 import BarChart from "../../components/Dashboard/BarChart";
+import useFetch from "../../hooks/useFetch";
+import CardSkeletonLoading from "../../components/loading/CardSkeletonLoading";
+import getRandomColor from "../../utils/getRandomColors";
 
 export default function Resources() {
+  const {
+    dashboardResourceCardLoading,
+    dashboardResourceCardData,
+    handleFetchDashboardResourceCard,
+
+    overviewDatabaseUsageData,
+    overviewDatabaseUsageDataLoading,
+    handleFetchOverallDashboardDatabaseUsageData,
+
+    dashboardCategoryCardLoading,
+    dashboardCategoryCardData,
+    handleFetchDashboardCategory,
+
+    dashboardSubjectWiseDistributionLoading,
+    dashboardSubjectWiseDistributionData,
+    handleFetchDashboardCategorySubjectWiseDistribution,
+  } = useFetch();
+
+  const [weekMonth, setWeekMonth] = useState("month");
+
+  useEffect(() => {
+    handleFetchDashboardResourceCard(
+      "api/dashboard/resources-cards?metrics" + weekMonth
+    );
+  }, [weekMonth]);
+
   return (
     <>
       <Header
@@ -18,96 +47,337 @@ export default function Resources() {
         title={"e-Resources"}
       />
       <Navigation data={DashBoardRightMenu} />
-      <Details />
+      <Details
+        weekMonth={weekMonth}
+        setWeekMonth={setWeekMonth}
+        cardData={dashboardResourceCardData}
+        cardLoading={dashboardResourceCardLoading}
+        overviewDatabaseUsageData={overviewDatabaseUsageData}
+        overviewDatabaseUsageDataLoading={overviewDatabaseUsageDataLoading}
+        handleFetchOverallDashboardDatabaseUsageData={
+          handleFetchOverallDashboardDatabaseUsageData
+        }
+        dashboardCategoryCardLoading={dashboardCategoryCardLoading}
+        dashboardCategoryCardData={dashboardCategoryCardData}
+        handleFetchDashboardCategory={handleFetchDashboardCategory}
+        dashboardSubjectWiseDistributionLoading={
+          dashboardSubjectWiseDistributionLoading
+        }
+        dashboardSubjectWiseDistributionData={
+          dashboardSubjectWiseDistributionData
+        }
+        handleFetchDashboardCategorySubjectWiseDistribution={
+          handleFetchDashboardCategorySubjectWiseDistribution
+        }
+      />
     </>
   );
 }
 
-const Details = () => {
+const Details = ({
+  weekMonth,
+  setWeekMonth,
+  cardLoading,
+  cardData,
+  overviewDatabaseUsageData,
+  overviewDatabaseUsageDataLoading,
+  handleFetchOverallDashboardDatabaseUsageData,
+  dashboardCategoryCardLoading,
+  dashboardCategoryCardData,
+  handleFetchDashboardCategory,
+
+  dashboardSubjectWiseDistributionLoading,
+  dashboardSubjectWiseDistributionData,
+  handleFetchDashboardCategorySubjectWiseDistribution,
+}) => {
+  const colorPalette = ["#546FFF", "#A5D9FF", "#91A9FF"];
+  const [databaseUsageStateData, setDatabaseUsageStateData] = useState(null);
+  const [databaseUsageWeekMonth, setDatabaseUsageWeekMonth] = useState("week");
+
+  const [
+    subjectWiseDistributionWeekMonth,
+    setSubjectWiseDistributionWeekMonth,
+  ] = useState("month");
+  const [
+    fullCircleChartSubjectWiseDisData,
+    setFullCircleChartSubjectWiseDisData,
+  ] = useState(null);
+
+  useEffect(() => {
+    handleFetchOverallDashboardDatabaseUsageData(
+      "api/dashboard/resource_utilization?metrics=" + databaseUsageWeekMonth
+    );
+  }, [databaseUsageWeekMonth]);
+
+  useEffect(() => {
+    handleTwoDifferentData(
+      overviewDatabaseUsageData,
+      3,
+      setDatabaseUsageStateData
+    );
+  }, [overviewDatabaseUsageData]);
+
+  const handleTwoDifferentData = (data, splitNo, setState) => {
+    if (data) {
+      const extractUniqueSiteNames = (data) => {
+        const uniqueSiteNames = new Set();
+        for (const month in data) {
+          data[month].forEach((item) => {
+            uniqueSiteNames.add(item.site__name);
+          });
+        }
+        return Array.from(uniqueSiteNames);
+      };
+
+      // Extract unique site names
+      const uniqueSiteNames = extractUniqueSiteNames(data);
+      // Create datasets for each unique site name
+      const datasets =
+        uniqueSiteNames &&
+        uniqueSiteNames.map((siteName, index) => {
+          const mydata =
+            data &&
+            Object.values(data).map((monthData) => {
+              const foundSite = monthData.find(
+                (item) => item.site__name === siteName
+              );
+              return foundSite ? foundSite.access_count : 0;
+            });
+
+          let backgroundColor = "transparent";
+          if (splitNo === 3 && index < 3) {
+            backgroundColor = colorPalette[index];
+          }
+
+          const dataset = {
+            label: siteName,
+            data: mydata,
+            fill: true,
+            tension: 0.4,
+            borderColor: "rgb(148, 71, 246)",
+            backgroundColor: splitNo === 3 ? backgroundColor : "transparent",
+          };
+
+          if (splitNo === 3) {
+            Object.assign(dataset, {
+              borderWidth: 0,
+              borderSkipped: "bottom",
+              borderRadius: 50,
+              barThickness: 10,
+            });
+          }
+
+          return dataset;
+        });
+
+      let finalDatasets = [...datasets].splice(0, splitNo);
+      let finalLabels = Object.keys(data);
+
+      if (splitNo === 3) {
+        finalLabels = finalLabels.reverse();
+        finalDatasets = finalDatasets.reverse();
+      }
+      setState({
+        labels: finalLabels,
+        datasets: finalDatasets,
+      });
+    }
+  };
+
+  useEffect(() => {
+    handleFetchDashboardCategorySubjectWiseDistribution(
+      "api/dashboard/subject-wise-distribution"
+    );
+  }, []);
+
+  useEffect(() => {
+    if (dashboardSubjectWiseDistributionData) {
+      const labels = dashboardSubjectWiseDistributionData.map(
+        (val) => val.subject
+      );
+      const counts = dashboardSubjectWiseDistributionData.map(
+        (item) => item.count
+      );
+      // Full Circle Chart Data
+      const fullCircleChartData = {
+        labels,
+        datasets: [
+          {
+            label: "Total Count",
+            data: counts,
+            backgroundColor: labels.map((val) => getRandomColor()),
+            borderWidth: 0,
+            hoverOffset: 2,
+          },
+        ],
+      };
+
+      setFullCircleChartSubjectWiseDisData(fullCircleChartData);
+    }
+  }, [dashboardSubjectWiseDistributionData]);
+
+  useEffect(() => {
+    handleFetchDashboardCategory(
+      "api/dashboard/categories-cards?metrics=" + weekMonth
+    );
+  }, [weekMonth]);
   return (
     <>
-      <DashBoardPageHeader />
+      <DashBoardPageHeader setWeekMonth={setWeekMonth} />
       <div className='card-container mt-5 grid grid-cols-4 gap-5 '>
-        <div className=' p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <DetailCard progress={true} />
-        </div>
-        <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <DetailCard progress={true} />
-        </div>
-        <div className='p-5 col-span-2 flex gap-3 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <div className='left w-1/2'>
-            <DetailCard />
-          </div>
-          <div className='right w-1/2 relative overflow-hidden'>
-            {/* ------- Curve Line ----------- */}
-            <HalfCircleChart />
-          </div>
-        </div>
+        {cardLoading ? (
+          Array.from([1, 2, 3, 4]).map((val, i) => {
+            return <CardSkeletonLoading />;
+          })
+        ) : (
+          <>
+            <div className=' p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+              <DetailCard
+                progress={true}
+                progressColor={"#3758F9"}
+                name={"Top Resources"}
+                weekMonth={weekMonth}
+                // icon={<UserEmptyIcon />}
+                data1={
+                  cardData &&
+                  cardData?.total_resources?.total_resources_this_metric
+                }
+                data4={
+                  cardData &&
+                  cardData?.total_resources?.change_percentage_from_last_metric
+                }
+              />
+            </div>
+            <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+              <DetailCard
+                progress={true}
+                progressColor={"#3758F9"}
+                name={"Newly Added Resources"}
+                weekMonth={weekMonth}
+                // icon={<UserEmptyIcon />}
+                data1={
+                  cardData &&
+                  cardData?.added_resources?.total_resources_this_metric
+                }
+                data4={
+                  cardData &&
+                  cardData?.added_resources?.change_percentage_from_last_metric
+                }
+              />
+            </div>
+            <div className='p-5 col-span-2 flex gap-3 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+              <div className='left w-1/2'>
+                <DetailCard
+                  progressColor={"#3758F9"}
+                  name={"Resource Spent Time"}
+                  weekMonth={weekMonth}
+                  // icon={<UserEmptyIcon />}
+                  data1={
+                    cardData &&
+                    cardData?.added_resources?.total_resources_this_metric
+                  }
+                  data4={
+                    cardData &&
+                    cardData?.added_resources
+                      ?.change_percentage_from_last_metric
+                  }
+                />
+              </div>
+              <div className='right w-1/2 relative overflow-hidden'>
+                <HalfCircleChart
+                  percentage={
+                    cardData &&
+                    cardData?.added_resources
+                      ?.change_percentage_from_last_metric
+                  }
+                />
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       <div className='flex mt-5 gap-5'>
         <div className='left basis-3/5 p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-          <div className='flex justify-between'>
-            <div className='text-violet-700 text-[19px] font-semibold font-Poppins leading-7'>
-              Database Usage{" "}
+          <div className='left basis-3/5 p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+            <div className='flex justify-between'>
+              <div>
+                <span className='text-violet-800 text-[22px] font-semibold font-Poppins leading-[33px]'>
+                  Database Usage{" "}
+                </span>
+                <span className='text-violet-800 text-opacity-40 text-base font-medium font-Poppins leading-normal'>
+                  Top 3
+                </span>
+              </div>
+              {/* <div className='flex gap-3'> */}
+              <select
+                style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+                className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
+                onClick={(e) => {
+                  setDatabaseUsageWeekMonth(e.target.value);
+                }}
+              >
+                <option value={"week"}>Weekly</option>
+                <option value={"month"}>Monthly</option>
+              </select>
+              {/* </div> */}
             </div>
-            <select
-              style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
-              className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
-              name='month'
-            >
-              <option>Today</option>
-            </select>
-          </div>
 
-          {/* -------------- Radio Buttons -------------- */}
-          <div className='flex gap-3 my-5'>
-            <label htmlFor='scopio' className='flex gap-2'>
-              <input type='radio' name='usage' />
-              <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
-                Scopis
-              </div>
-            </label>
-            <label htmlFor='scopio' className='flex gap-2'>
-              <input type='radio' name='usage' />
-              <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
-                DVL
-              </div>
-            </label>
-            <label htmlFor='scopio' className='flex gap-2'>
-              <input type='radio' name='usage' />
-              <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
-                PreQuest
-              </div>
-            </label>
-          </div>
+            {/* -------------- Radio Buttons -------------- */}
+            <div className='flex gap-3 my-5'>
+              <label htmlFor='Scopus' className='flex gap-2'>
+                <div className='w-4 h-4 rounded-full  border border-slate-400 overflow-hidden p-0.5 flex-shrink-0'>
+                  <p
+                    className='w-full h-full rounded-full grow'
+                    style={
+                      {
+                        // background: colorPalette[2],
+                      }
+                    }
+                  ></p>
+                </div>
+                <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
+                  {/* Scopus */}
+                  {databaseUsageStateData?.datasets[0].label}
+                </div>
+              </label>
+              <label htmlFor='dvl' className='flex gap-2'>
+                <div className='w-4 h-4 rounded-full  border border-slate-400 overflow-hidden p-0.5 flex-shrink-0'>
+                  <p
+                    className='w-full h-full rounded-full grow'
+                    style={{
+                      background: colorPalette[1],
+                    }}
+                  ></p>
+                </div>
+                <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
+                  {/* DVL */}
+                  {databaseUsageStateData?.datasets[1].label}
+                </div>
+              </label>
+              <label htmlFor='proQuest' className='flex gap-2'>
+                <div className='w-4 h-4 rounded-full  border border-slate-400 overflow-hidden p-0.5 flex-shrink-0'>
+                  <p
+                    className='w-full h-full rounded-full grow'
+                    style={{
+                      background: colorPalette[0],
+                    }}
+                  ></p>
+                </div>
+                <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
+                  {/* ProQuest */}
+                  {databaseUsageStateData?.datasets[2].label}
+                </div>
+              </label>
+            </div>
 
-          <div className='bar-chart'>
-            <BarChart
-              labels={["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"]}
-              datasets={[
-                {
-                  label: "Active Hours",
-                  data: [3, 7, 2, 4, 5, 6, 8],
-                  backgroundColor: "#7F56D9",
-                  borderColor: "#d03636",
-                  borderWidth: 0,
-                  borderSkipped: "bottom",
-                  borderRadius: 50,
-                  barThickness: 10,
-                },
-                {
-                  label: "Active Hours",
-                  data: [8, 3, 5, 1, 7, 2, 5],
-                  backgroundColor: "#d03636",
-                  borderColor: "#d03636",
-                  borderWidth: 0,
-                  borderSkipped: "bottom",
-                  borderRadius: 50,
-                  barThickness: 10,
-                },
-              ]}
-            />
+            <div className='bar-chart'>
+              {overviewDatabaseUsageDataLoading ? (
+                "Loading..."
+              ) : (
+                <BarChart data={databaseUsageStateData} />
+              )}
+            </div>
           </div>
         </div>
 
@@ -117,26 +387,20 @@ const Details = () => {
               Subject Distribution
             </div>
           </div>
-          <div className='mt-5 flex gap-3 '>
-            <div className='basis-[40%] ml-8 flex justify-center items-center overflow-hidden'>
-              <FullCircle />
+          <div className='mt-5 flex gap-3 grow border-2'>
+            <div className='basis-[40%] grow-0 ml-8 flex justify-center items-center overflow-hidden'>
+              <FullCircle myData={fullCircleChartSubjectWiseDisData} />
             </div>
-            <ul className='grow list-disc space-y-2'>
-              <li className='text-gray-500 text-sm font-normal font-Poppins leading-tight'>
-                Anatomy
-              </li>
-              <li className='text-gray-500 text-sm font-normal font-Poppins leading-tight'>
-                Orthalmology
-              </li>
-              <li className='text-gray-500 text-sm font-normal font-Poppins leading-tight'>
-                Life Science{" "}
-              </li>
-              <li className='text-gray-500 text-sm font-normal font-Poppins leading-tight'>
-                Engineering{" "}
-              </li>
-              <li className='text-gray-500 text-sm font-normal font-Poppins leading-tight'>
-                Ortho{" "}
-              </li>
+
+            <ul className='grow list-inside pt-4 basis-[60%] list-disc items-center space-y-2'>
+              {dashboardSubjectWiseDistributionData &&
+                dashboardSubjectWiseDistributionData.slice(0, 5).map((name) => {
+                  return (
+                    <li className='text-gray-500 text-sm font-normal font-Poppins leading-tight'>
+                      {name?.subject}
+                    </li>
+                  );
+                })}
             </ul>
           </div>
           <div className='text-lime-600 mt-5 text-xs font-medium font-Poppins leading-7'>

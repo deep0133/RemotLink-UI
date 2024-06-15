@@ -10,6 +10,7 @@ import { LuLoader2 } from "react-icons/lu";
 import { formatDate } from "../../utils/formateData";
 import { IoCreateOutline } from "react-icons/io5";
 import { PiSubtitlesLight } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
 export default function UpdateNotification({
   loading,
   data,
@@ -61,10 +62,6 @@ export default function UpdateNotification({
     }
   }, [data]);
 
-  const cancelButton = () => {
-    setCurrentDetail(oldData);
-  };
-
   return (
     <>
       <Header
@@ -80,7 +77,6 @@ export default function UpdateNotification({
         setCurrentDetail={setCurrentDetail}
         submitNotificationHandler={submitNotificationHandler}
         loading={loading}
-        cancelButton={cancelButton}
       />
     </>
   );
@@ -196,8 +192,8 @@ const NotificationForm = ({
   currentDetail,
   setCurrentDetail,
   loading,
-  cancelButton,
 }) => {
+  const navigate = useNavigate();
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setCurrentDetail({ ...currentDetail, [name]: value });
@@ -413,7 +409,7 @@ const NotificationForm = ({
 
       <div className='btns flex gap-5 flex-1 justify-end'>
         <button
-          onClick={cancelButton}
+          onClick={() => navigate(-1)}
           className='w-[118px] px-[18px] py-2.5 bg-purple-100 hover:bg-purple-200 duration-200 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'
         >
           Cancel

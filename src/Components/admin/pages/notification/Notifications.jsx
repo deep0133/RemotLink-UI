@@ -103,7 +103,7 @@ export default function Notifications() {
         }
       />
       <Route
-        path={"/send"}
+        path={"/send/:name"}
         element={
           <SendNotification
             data={notificationData}

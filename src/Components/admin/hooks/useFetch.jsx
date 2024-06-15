@@ -111,6 +111,11 @@ export default function useFetch() {
     setDashboardSubjectWiseDistributionData,
   ] = useState(null);
 
+  const [dashboardResourceCardLoading, setDashboardResourceCardLoading] =
+    useState(false);
+  const [dashboardResourceCardData, setDashboardResourceCardData] =
+    useState(null);
+
   const { logutOutHandler } = useLogout();
 
   const [subdomain, setSubdomain] = useState("");
@@ -328,6 +333,14 @@ export default function useFetch() {
     );
   };
 
+  const handleFetchDashboardResourceCard = async (api) => {
+    await fetchData(
+      api,
+      setDashboardResourceCardLoading,
+      setDashboardResourceCardData
+    );
+  };
+
   return {
     categoryLoading,
     userCategoryLoading,
@@ -355,6 +368,7 @@ export default function useFetch() {
     dashboardCategoryCardLoading,
     topResourceSubjectLoading,
     dashboardSubjectWiseDistributionLoading,
+    dashboardResourceCardLoading,
     faqLoading,
     categoryData,
     userCategoryData,
@@ -383,6 +397,7 @@ export default function useFetch() {
     dashboardCategoryCardData,
     topResourceSubjectData,
     dashboardSubjectWiseDistributionData,
+    dashboardResourceCardData,
     handleFetctData,
     handleFetctUserCategoryData,
     handleFetctUsers,
@@ -416,5 +431,6 @@ export default function useFetch() {
 
     handleFetchDashboardCategoryTopResourceSubject,
     handleFetchDashboardCategorySubjectWiseDistribution,
+    handleFetchDashboardResourceCard,
   };
 }

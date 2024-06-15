@@ -8,6 +8,7 @@ import {
 } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import { LuLoader2 } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 export default function EditCategory({
   title,
   data,
@@ -23,7 +24,6 @@ export default function EditCategory({
   useEffect(() => {
     let url = window.location.pathname.split("/");
     const id = url[url.length - 1];
-    // console.log("--------- data -----------", data);
     setId(id);
     const foundCategory = data.find(
       (category) => category.id.toString() === id.toString()
@@ -60,7 +60,6 @@ export default function EditCategory({
 }
 
 const SiteDetailHero = ({ title = "---", description = "---" }) => {
-  // console.log("old data :", title, description);
   const [hide, setHide] = useState(true);
   return (
     <div
@@ -125,13 +124,14 @@ const SiteEditSection = ({
   handleUpdateCategory,
   updateLoading,
 }) => {
-  const resetFields = () => {
-    setCurrentData({
-      name: "",
-      description: "",
-      parent: "",
-    });
-  };
+  const navigate = useNavigate();
+  // const resetFields = () => {
+  //   setCurrentData({
+  //     name: "",
+  //     description: "",
+  //     parent: "",
+  //   });
+  // };
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -190,7 +190,7 @@ const SiteEditSection = ({
 
       <div className='btns flex gap-5 flex-1 justify-end'>
         <button
-          onClick={resetFields}
+          onClick={() => navigate(-1)}
           className='w-[118px] px-[18px] py-2.5 bg-purple-100 hover:bg-purple-200 duration-200 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'
         >
           Cancel

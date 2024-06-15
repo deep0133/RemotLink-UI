@@ -282,6 +282,12 @@ export default function useAdd() {
           await logutOutHandler();
         }
         const errorData = await response.json();
+        if (typeof errorData === "object") {
+          const keys = Object.keys(errorData).join(",");
+          throw new Error(
+            errorData.detail || `These fields required : ${keys}`
+          );
+        }
         throw new Error(
           errorData.detail || `HTTP error! Status: ${response.status}`
         );

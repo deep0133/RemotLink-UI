@@ -25,7 +25,13 @@ export default function ImportantLinks({
         subTitle={"Notifications"}
       />
       <Navigation data={NotificationRightMenu} />
-      <Hero name={"See Latest News"} description={`See Latest News here`} />
+      <Hero
+        name={"See Latest Links"}
+        description={`See Latest Links here`}
+        icon={<NotificationsIcon />}
+        btnText={`Add Links`}
+        btnLink={"/admin/notifications/send/links"}
+      />
       <Card
         data={data}
         loading={delLoading}

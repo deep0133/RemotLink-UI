@@ -43,11 +43,11 @@ export default function ManageNotification({
       <Header icon={<NotificationsIcon />} title={"Notifications"} />
       <Navigation data={NotificationRightMenu} />
       <Hero
-        name={"Manage all Notifications"}
-        description={`Manage the notifications here.`}
+        name={"Manage all Announcements"}
+        description={`Manage the Announcement here.`}
         icon={<NotificationsIcon />}
-        btnText={`Send Notification`}
-        btnLink={"/admin/notifications/send"}
+        btnText={`Add Announcement`}
+        btnLink={"/admin/notifications/send/announcement"}
       />
       <SearchFilter
         searchHandler={searchHandler}

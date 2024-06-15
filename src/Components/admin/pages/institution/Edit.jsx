@@ -3,6 +3,7 @@ import { InstitutiionIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import { LuLoader2 } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 export default function Edit({ data, updateHandler, loading, domain }) {
   return (
@@ -27,6 +28,7 @@ export default function Edit({ data, updateHandler, loading, domain }) {
 }
 
 const EditDetail = ({ data, updateHandler, loading, domain }) => {
+  const navigate = useNavigate();
   const [currentDetail, setCurrentDetail] = useState({});
 
   const [imagesPreview, setImagesPreview] = useState({
@@ -36,17 +38,22 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
     slider3: "",
   });
 
+  const [selectedTheme, setSelectedTheme] = useState("light");
+
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
 
     setCurrentDetail({ ...currentDetail, [name]: value });
+    if (name === "landing_page_theme") {
+      setSelectedTheme(value);
+    }
   };
 
   useEffect(() => {
-    resetAllField();
+    setField();
   }, []);
 
-  const resetAllField = () => {
+  const setField = () => {
     if (data) {
       setCurrentDetail({
         name: data.name,
@@ -65,6 +72,9 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
         landing_page_image:
           data?.landing_page_image && domain + data.landing_page_image,
       });
+      if (data.landing_page_theme) {
+        setSelectedTheme(data.landing_page_theme);
+      }
     }
   };
 
@@ -99,9 +109,9 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
             name='landing_page_theme'
             onChange={onChangeHandler}
             style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+            value={selectedTheme}
             className='w-full focus:outline-none space-y-2 focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
           >
-            <option value={null}>---landing_page_theme---</option>
             <option value={"light"}>Light</option>
             <option value={"dark"}>Dark</option>
             <option value={"purple"}>Purple</option>
@@ -115,11 +125,10 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
             style={{
               border: "1px rgba(34, 31, 185, 0.14) solid",
             }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+            className='w-full focus:outline-none cursor-not-allowed focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
             type='text'
-            name='name'
             value={currentDetail?.name}
-            onChange={onChangeHandler}
+            readOnly
           />
         </div>
 
@@ -143,11 +152,10 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
           </label>
           <input
             style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
+            className='w-full focus:outline-none cursor-not-allowed focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
             type='text'
-            name='email'
             value={currentDetail.email}
-            onChange={onChangeHandler}
+            readOnly
           />
         </div>
         <div className='shrink-0 space-y-2'>
@@ -196,10 +204,9 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
             Address
           </label>
           <textarea
-            className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
-            name='address'
+            className='w-full focus:outline-none cursor-not-allowed focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
             value={currentDetail.address}
-            onChange={onChangeHandler}
+            readOnly
           ></textarea>
         </div>
 
@@ -229,7 +236,7 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
 
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Landing Page Image ( .jpg )
+            Landing Page Image ( .jpg || recommended size : 1920 * 1080 px )
           </label>
 
           <div className='flex gap-2'>
@@ -253,7 +260,7 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
 
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Slider 1
+            Slider 1 (recommended size : 846 * 363 px )
           </label>
 
           <div className='flex gap-2'>
@@ -277,7 +284,7 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
 
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Slider 2
+            Slider 2 (recommended size : 846 * 363 px )
           </label>
 
           <div className='flex gap-2'>
@@ -301,7 +308,7 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
 
         <div className='shrink-0 space-y-2'>
           <label className='hone text-slate-700 text-sm font-medium font-Poppins leading-tight'>
-            Slider 3
+            Slider 3 (recommended size : 846 * 363 px )
           </label>
 
           <div className='flex gap-2'>
@@ -325,10 +332,10 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
       </div>
       <div className='btns flex gap-5 flex-1 justify-end'>
         <button
-          onClick={resetAllField}
+          onClick={() => navigate(-1)}
           className='w-[118px] px-[18px] py-2.5 bg-purple-100 rounded-[5px] border border-purple-100 text-violet-700 text-[13px] font-medium font-Poppins leading-normal'
         >
-          Reset
+          Cancel
         </button>
         <button
           disabled={loading}
