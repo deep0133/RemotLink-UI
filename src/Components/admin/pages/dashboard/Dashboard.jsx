@@ -56,7 +56,10 @@ export default function Dashboard() {
             />
           }
         />
-        <Route path='/resources' element={<Resources />} />
+        <Route
+          path='/resources'
+          element={<Resources siteData={siteData} siteLoading={siteLoading} />}
+        />
       </Routes>
     </>
   );

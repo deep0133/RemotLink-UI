@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
-import { DashboardIcon, UserEmptyIcon } from "../../assets/constants";
+import {
+  DashboardIcon,
+  DeactivateUserIcon,
+  UserEmptyIcon,
+  UsersIcon,
+} from "../../assets/constants";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
 import { DashBoardRightMenu } from "../../data";
 import DashBoardPageHeader from "../../components/Dashboard/DashBoardPageHeader";
@@ -249,10 +254,10 @@ const Details = ({
               {/* <DetailCard progress={true} /> */}
               <DetailCard
                 progress={true}
-                progressColor={"#3758F9"}
+                progressColor={"#F2994A"}
                 name={"Active Users"}
                 weekMonth={weekMonth}
-                icon={<UserEmptyIcon />}
+                icon={<UserEmptyIcon fill='#F2994A' />}
                 data1={
                   dashboardUserCategoryData &&
                   dashboardUserCategoryData.active_users
@@ -282,10 +287,10 @@ const Details = ({
             <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
               <DetailCard
                 progress={true}
-                progressColor={"#3758F9"}
+                progressColor={"#828282"}
                 name={"Deactivated User"}
                 weekMonth={weekMonth}
-                icon={<UserEmptyIcon />}
+                icon={<DeactivateUserIcon />}
                 data1={
                   dashboardUserCategoryData &&
                   dashboardUserCategoryData.inactive_users?.total_users

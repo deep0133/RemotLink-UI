@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
-import { DashboardIcon } from "../../assets/constants";
+import {
+  ClockIcon,
+  DashboardIcon,
+  NewlyResourceAddedIcon,
+  ResourceIcon,
+} from "../../assets/constants";
 import { DashBoardRightMenu } from "../../data";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
 import DashBoardPageHeader from "../../components/Dashboard/DashBoardPageHeader";
@@ -11,8 +16,11 @@ import BarChart from "../../components/Dashboard/BarChart";
 import useFetch from "../../hooks/useFetch";
 import CardSkeletonLoading from "../../components/loading/CardSkeletonLoading";
 import getRandomColor from "../../utils/getRandomColors";
-
-export default function Resources() {
+import { BlueRectangleImage } from "../../assets/images";
+import Loader from "../../components/Loader/Loader";
+import DataBaseCard from "../../components/Dashboard/DataBaseCard";
+import clientUseFetch from "../../../../../src/hooks/useFetch";
+export default function Resources({ siteData, siteLoading }) {
   const {
     dashboardResourceCardLoading,
     dashboardResourceCardData,
@@ -29,15 +37,39 @@ export default function Resources() {
     dashboardSubjectWiseDistributionLoading,
     dashboardSubjectWiseDistributionData,
     handleFetchDashboardCategorySubjectWiseDistribution,
+
+    dashboardResourcePopularUserLoading,
+    dashboardResourcePopularUserData,
+    handleFetchDashboardResourcePopularUser,
   } = useFetch();
+
+  const {
+    featureResourceLoading,
+    featureResourceData,
+    landingPageFeaturedResourcesFetch,
+  } = clientUseFetch();
 
   const [weekMonth, setWeekMonth] = useState("month");
 
+  const [resourceType, setResourceType] = useState("Journal");
+  const [subjectType, setSubjectType] = useState("");
   useEffect(() => {
     handleFetchDashboardResourceCard(
-      "api/dashboard/resources-cards?metrics" + weekMonth
+      "api/dashboard/resources-cards?metrics=" + weekMonth
     );
   }, [weekMonth]);
+
+  useEffect(() => {
+    handleFetchDashboardResourcePopularUser(
+      "api/dashboard/popular-among-users"
+    );
+  }, []);
+
+  useEffect(() => {
+    landingPageFeaturedResourcesFetch(
+      `api/sites/recent-subject-resources/?resource_type=${resourceType}`
+    );
+  }, [resourceType]);
 
   return (
     <>
@@ -69,6 +101,18 @@ export default function Resources() {
         handleFetchDashboardCategorySubjectWiseDistribution={
           handleFetchDashboardCategorySubjectWiseDistribution
         }
+        dashboardResourcePopularUserLoading={
+          dashboardResourcePopularUserLoading
+        }
+        dashboardResourcePopularUserData={dashboardResourcePopularUserData}
+        siteData={siteData}
+        siteLoading={siteLoading}
+        featureResourceLoading={featureResourceLoading}
+        featureResourceData={featureResourceData}
+        resourceType={resourceType}
+        setResourceType={setResourceType}
+        subjectType={subjectType}
+        setSubjectType={setSubjectType}
       />
     </>
   );
@@ -89,6 +133,18 @@ const Details = ({
   dashboardSubjectWiseDistributionLoading,
   dashboardSubjectWiseDistributionData,
   handleFetchDashboardCategorySubjectWiseDistribution,
+  dashboardResourcePopularUserData,
+  dashboardResourcePopularUserLoading,
+
+  featureResourceLoading,
+  featureResourceData,
+  resourceType,
+  setResourceType,
+
+  siteData,
+  siteLoading,
+  subjectType,
+  setSubjectType,
 }) => {
   const colorPalette = ["#546FFF", "#A5D9FF", "#91A9FF"];
   const [databaseUsageStateData, setDatabaseUsageStateData] = useState(null);
@@ -221,6 +277,7 @@ const Details = ({
       "api/dashboard/categories-cards?metrics=" + weekMonth
     );
   }, [weekMonth]);
+
   return (
     <>
       <DashBoardPageHeader setWeekMonth={setWeekMonth} />
@@ -237,7 +294,7 @@ const Details = ({
                 progressColor={"#3758F9"}
                 name={"Top Resources"}
                 weekMonth={weekMonth}
-                // icon={<UserEmptyIcon />}
+                icon={<ResourceIcon fill='blue' />}
                 data1={
                   cardData &&
                   cardData?.total_resources?.total_resources_this_metric
@@ -251,10 +308,10 @@ const Details = ({
             <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
               <DetailCard
                 progress={true}
-                progressColor={"#3758F9"}
+                progressColor={"#F2994A"}
                 name={"Newly Added Resources"}
                 weekMonth={weekMonth}
-                // icon={<UserEmptyIcon />}
+                icon={<NewlyResourceAddedIcon />}
                 data1={
                   cardData &&
                   cardData?.added_resources?.total_resources_this_metric
@@ -271,7 +328,7 @@ const Details = ({
                   progressColor={"#3758F9"}
                   name={"Resource Spent Time"}
                   weekMonth={weekMonth}
-                  // icon={<UserEmptyIcon />}
+                  icon={<ClockIcon />}
                   data1={
                     cardData &&
                     cardData?.added_resources?.total_resources_this_metric
@@ -387,7 +444,7 @@ const Details = ({
               Subject Distribution
             </div>
           </div>
-          <div className='mt-5 flex gap-3 grow border-2'>
+          <div className='mt-5 flex gap-3 grow'>
             <div className='basis-[40%] grow-0 ml-8 flex justify-center items-center overflow-hidden'>
               <FullCircle myData={fullCircleChartSubjectWiseDisData} />
             </div>
@@ -479,10 +536,89 @@ const Details = ({
           </div>
 
           <div className='card-container w-full space-y-3  flex mt-6 flex-wrap'>
-            <RecentlyTopCard />
-            <RecentlyTopCard />
-            <RecentlyTopCard />
-            <RecentlyTopCard />
+            {dashboardResourcePopularUserData &&
+            dashboardResourcePopularUserData.length > 0
+              ? dashboardResourcePopularUserData?.map((val, i) => (
+                  <RecentlyTopCard key={i} val={val} />
+                ))
+              : "No Data Found"}
+          </div>
+        </div>
+      </div>
+
+      {/* Top Databases */}
+      <div className='mt-5 grid grid-cols-12 gap-5'>
+        <div className='left col-span-5 p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+          <h3 className=' text-violet-800 mb-3 text-lg font-semibold font-Poppins leading-[27px]'>
+            Top Databases
+          </h3>
+          {siteLoading ? (
+            <Loader />
+          ) : (
+            <div className='right card-container grid grid-cols-3 gap-3'>
+              {siteData && siteData?.results?.length > 0
+                ? siteData.results?.map((site, index) => {
+                    return (
+                      <DataBaseCard
+                        key={index}
+                        name={site.name}
+                        image={site.image}
+                      />
+                    );
+                  })
+                : "No Data Found"}
+            </div>
+          )}
+        </div>
+
+        <div className='right col-span-7 p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
+          <div className=' flex justify-between items-center'>
+            <h3 className=' text-violet-800 text-lg font-semibold font-Poppins leading-[27px]'>
+              Top Resources
+            </h3>
+            <div className='flex gap-4'>
+              <select
+                style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+                className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
+                onClick={(e) => {
+                  setSubjectType(e.target.value);
+                }}
+              >
+                {featureResourceData &&
+                  Object.keys(featureResourceData)?.map((val, i) => (
+                    <option value={val} key={i}>
+                      {val}
+                    </option>
+                  ))}
+              </select>
+              <select
+                style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
+                className='focus:outline-none space-y-2  bg-white rounded-[5px] border border-blue-800 border-opacity-10 text-violet-800 text-[13px] font-medium px-3 py-1 font-Poppins leading-normal'
+                onClick={(e) => {
+                  setResourceType(e.target.value);
+                }}
+              >
+                <option value={"Journal"}>Journal</option>
+                <option value={"Book"}>Book</option>
+                <option value={"Video"}>Video</option>
+              </select>
+            </div>
+          </div>
+          <div className='card-container w-full space-y-3  flex mt-6 flex-wrap max-h-80 overflow-auto'>
+            {featureResourceLoading
+              ? "Loading..."
+              : featureResourceData &&
+                featureResourceData[
+                  subjectType === ""
+                    ? Object.keys(featureResourceData)[0]
+                    : subjectType
+                ]?.length > 0
+              ? featureResourceData[
+                  subjectType === ""
+                    ? Object.keys(featureResourceData)[0]
+                    : subjectType
+                ]?.map((val, i) => <RecentlyTopCard key={i} val={val} />)
+              : "No Data Found"}
           </div>
         </div>
       </div>
@@ -549,23 +685,19 @@ const data = [
   },
 ];
 
-const RecentlyTopCard = () => {
+const RecentlyTopCard = ({ val }) => {
   return (
     <div className='card w-full flex gap-3 border-b pb-3'>
-      <img
-        className='w-[52px] h-[59px] rounded-[5px]'
-        src='https://via.placeholder.com/52x59'
-        alt=''
-      />
+      <BlueRectangleImage />
       <div className='content space-y-1'>
         <div className='text-indigo-500 text-sm font-medium font-Poppins leading-tight'>
-          Prostodontics
+          {val?.subject}
         </div>
         <div className='text-blue-900 text-[15px] font-medium font-Poppins leading-[15px]'>
-          Medical is the best field
+          {val?.title}
         </div>
         <div className='text-slate-400 text-[13px] font-normal font-Poppins leading-tight'>
-          Publisher Name
+          {val?.author}
         </div>
       </div>
     </div>

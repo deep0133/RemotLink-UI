@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
 import { DashBoardRightMenu } from "../../data";
-import { DashboardIcon, UserEmptyIcon } from "../../assets/constants";
+import {
+  BookIcon,
+  DashboardIcon,
+  JournalIcon,
+  OtherResourceIcon,
+  UserEmptyIcon,
+  VideoIcon,
+} from "../../assets/constants";
 import DashBoardPageHeader from "../../components/Dashboard/DashBoardPageHeader";
 import DetailCard from "../../components/Dashboard/DetailCard";
 import BarChart from "../../components/Dashboard/BarChart";
@@ -208,7 +215,7 @@ const Details = ({
                 progressColor={"#3758F9"}
                 name={"e-Journals"}
                 weekMonth={weekMonth}
-                icon={<UserEmptyIcon />}
+                icon={<JournalIcon />}
                 data1={
                   dashboardCategoryCardData &&
                   dashboardCategoryCardData?.journals?.total_journals
@@ -222,10 +229,10 @@ const Details = ({
             <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
               <DetailCard
                 progress={true}
-                progressColor={"#3758F9"}
+                progressColor={"#F2994A"}
                 name={"e-Books"}
                 weekMonth={weekMonth}
-                icon={<UserEmptyIcon />}
+                icon={<BookIcon />}
                 data1={
                   dashboardCategoryCardData &&
                   dashboardCategoryCardData?.books?.total_books
@@ -239,10 +246,10 @@ const Details = ({
             <div className=' p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
               <DetailCard
                 progress={true}
-                progressColor={"#3758F9"}
+                progressColor={"#9B51E0"}
                 name={"e-Videos"}
                 weekMonth={weekMonth}
-                icon={<UserEmptyIcon />}
+                icon={<VideoIcon />}
                 data1={
                   dashboardCategoryCardData &&
                   dashboardCategoryCardData?.videos?.total_videos
@@ -256,10 +263,10 @@ const Details = ({
             <div className='p-5 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
               <DetailCard
                 progress={true}
-                progressColor={"#3758F9"}
-                name={"e-other_resources"}
+                progressColor={"#828282"}
+                name={"Other Resources"}
                 weekMonth={weekMonth}
-                icon={<UserEmptyIcon />}
+                icon={<OtherResourceIcon />}
                 data1={
                   dashboardCategoryCardData &&
                   dashboardCategoryCardData?.other_resources
