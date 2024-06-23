@@ -57,8 +57,6 @@ function App() {
     handleFetctNotifications("api/announcement");
   }, []);
 
-  console.count("----------announcenmt---");
-
   return (
     <>
       <Routes>

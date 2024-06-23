@@ -93,7 +93,7 @@ export default function useFetch() {
 
       const json = await response.json();
 
-      const ids = json.results.map((item) => item.id);
+      const ids = json?.map((item) => item.id);
 
       setFavData(ids);
     } catch (err) {
