@@ -229,10 +229,20 @@ const Landingfooter = ({ domain, institutionDetails }) => {
             </div>
           </div>
           <div className='flex  text-[#DBDBDB] justify-between  items-center gap-0 min-[994px]:gap-6 mr-4 max-[545px]:my-6 '>
-            <h1 className='text-[#DBDBDB] font-AnekLatin  purple:font-Sora font-medium text-[15px] leading-5 font-feature light:font-Outfit light:text-[#00000099]  light:text-opacity-60 purple:text-white purple:text-opacity-60 '>
+            <h1
+              onClick={() =>
+                window.open("https://remotlink.com/privacy-policy/", "_blank")
+              }
+              className='text-[#DBDBDB] font-AnekLatin cursor-pointer purple:font-Sora font-medium text-[15px] leading-5 font-feature light:font-Outfit light:text-[#00000099]  light:text-opacity-60 purple:text-white purple:text-opacity-60 '
+            >
               Privacy Policy
             </h1>
-            <h1 className='text-[#DBDBDB] font-AnekLatin  purple:font-Sora font-medium text-[15px] leading-6 font-feature  pl-[28px] light:font-Outfit light:text-[#00000099] light:text-opacity-60 purple:text-white purple:text-opacity-60'>
+            <h1
+              onClick={() =>
+                window.open("https://remotlink.com/terms-of-use/", "_blank")
+              }
+              className='text-[#DBDBDB] font-AnekLatin cursor-pointer purple:font-Sora font-medium text-[15px] leading-6 font-feature  pl-[28px] light:font-Outfit light:text-[#00000099] light:text-opacity-60 purple:text-white purple:text-opacity-60'
+            >
               Terms and Conditions
             </h1>
           </div>

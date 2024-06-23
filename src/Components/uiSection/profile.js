@@ -14,7 +14,12 @@ import AccountSettings from "./Accountsettings/accountSettings";
 import Mobileaccountsettings from "../mobile/mobileaccountsettings";
 import generateUrl from "../admin/utils/urlGenerate";
 
-function Profile({ logutOutHandler, institutionDetails, domain }) {
+function Profile({
+  logutOutHandler,
+  institutionDetails,
+  domain,
+  notificationData,
+}) {
   const [activeTab, setActiveTab] = useState("Profileoverview");
   const [userDetails, setUserDetails] = useState("");
 
@@ -44,7 +49,9 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
   return (
     <div>
       <>
-        <Header {...{ logutOutHandler, institutionDetails, domain }} />
+        <Header
+          {...{ logutOutHandler, institutionDetails, domain, notificationData }}
+        />
         <div className=' flex'>
           <div
             className=' md:block hidden'
@@ -58,14 +65,10 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
               style={{
                 borderBottom: "1px solid lightgray",
                 height: "100px",
-                //   background: "grey",
               }}
             >
               <div className=' flex items-center'>
-                <div
-                  className=' p-3 rounded-full   bg-gray-100 mr-2 '
-                  //   style={{ border: "1px solid grey" }}
-                >
+                <div className='p-3 rounded-full bg-gray-100 mr-2 '>
                   <img
                     src={profileIcon}
                     className=' h-5 w-5 '
@@ -132,7 +135,6 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
                 </div>
               </div>
               <button className=' shadow shadow-slate-300 border-4 w-[120px] h-[36px] rounded-md text-[12px] font-medium bg-white text-black '>
-                {" "}
                 Edit Cover
               </button>
             </div>
@@ -148,7 +150,6 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
                 >
                   Profile Overview
                 </div>
-
                 <div
                   className={` ${
                     activeTab === "Accountsettings"
@@ -279,7 +280,8 @@ function Profile({ logutOutHandler, institutionDetails, domain }) {
                           State and Country
                         </span>
                         <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-3'>
-                          {userDetails?.country + userDetails?.state || "-"}
+                          {userDetails?.country + " " + userDetails?.state ||
+                            "-"}
                         </span>
                       </div>
                     </div>

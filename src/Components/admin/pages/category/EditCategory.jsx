@@ -60,7 +60,6 @@ export default function EditCategory({
 }
 
 const SiteDetailHero = ({ title = "---", description = "---" }) => {
-  const [hide, setHide] = useState(true);
   return (
     <div
       style={{
@@ -91,25 +90,6 @@ const SiteDetailHero = ({ title = "---", description = "---" }) => {
             </div>
           </div>
         </div>
-      </div>
-      <div className='absolute right-2 top-2 '>
-        <div
-          className='cursor-pointer'
-          onClick={() => {
-            setHide(!hide);
-          }}
-        >
-          {" "}
-          <ThreeDots />
-        </div>
-        {hide && (
-          <button className='flex absolute  right-6 gap-2 w-[105px] h-[51px] shrink-0 justify-center items-center bg-white rounded-[7px] shadow border border-blue-800 border-opacity-10'>
-            <DeleteIcon />
-            <p className='text-red-600 text-[13px] font-medium font-Poppins leading-7'>
-              Delete
-            </p>
-          </button>
-        )}
       </div>
     </div>
   );

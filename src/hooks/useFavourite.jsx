@@ -5,7 +5,6 @@ import useLogout from "./useLogout";
 export default function useFavourite() {
   const [message, setMessage] = useState("empty");
   const [status, setStatus] = useState({});
-  const [bookMarkedSite, setBookMarkedSite] = useState({});
 
   const [subdomain, setSubdomain] = useState("");
 
@@ -37,9 +36,8 @@ export default function useFavourite() {
         }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      const json = await response.json();
+      setMessage((prev) => !prev);
       setStatus((prevStatus) => ({ ...prevStatus, [id]: true }));
-      setMessage(json.message);
     } catch (error) {
       // console.log("Error : ", error);
     }
@@ -83,8 +81,6 @@ export default function useFavourite() {
     message,
     status,
     setMessage,
-    bookMarkedSite,
-    setBookMarkedSite,
     handleAddToFavourite,
     handleRemoveToFavourite,
   };

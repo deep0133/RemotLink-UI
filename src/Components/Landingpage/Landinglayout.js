@@ -3,6 +3,7 @@ import Landinghome from "./Landinghome";
 import Landingheader from "./Landingheader";
 import Landingfooter from "./Landingfooter";
 import useFetch from "../../hooks/useFetch";
+import { useLocation } from "react-router-dom";
 
 const Landinglayout = ({
   institutionDetails,
@@ -10,12 +11,13 @@ const Landinglayout = ({
   setUnauthorizedUserSourcelink,
   loginModal,
   setLoginModal,
+  notificationLoading,
+  notificationData,
 }) => {
   const {
     landingPageCategorialResourceFetch,
     catgorialResource,
     catgorialResourceLoading,
-
     featureResourceLoading,
     featureResourceData,
     landingPageFeaturedResourcesFetch,
@@ -26,9 +28,25 @@ const Landinglayout = ({
     landingPageFeaturedResourcesFetch();
   }, []);
 
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const element = document.getElementById(hash.substring(1));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [hash]);
+
   return (
     <>
-      <Landingheader loginModal={loginModal} setLoginModal={setLoginModal} />
+      <Landingheader
+        loginModal={loginModal}
+        setLoginModal={setLoginModal}
+        notificationLoading={notificationLoading}
+        notificationData={notificationData}
+      />
       <Landinghome
         {...{
           institutionDetails,

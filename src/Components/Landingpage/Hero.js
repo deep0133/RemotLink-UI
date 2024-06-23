@@ -98,7 +98,7 @@ const Hero = () => {
           <Showcard
             heading={
               searchViewFilterData &&
-              searchViewFilterData.total_journals + "+ Journals"
+              searchViewFilterData.total_journals + "+ e-Journals"
             }
             borderclr='border-white light:border-[#00000024] purple:border-[#DBDBDB] '
             bgcolor='bg-[#18151F] light:bg-[#FFFFFF] purple:bg-[#FFFFFF] light:text-white'
@@ -110,7 +110,7 @@ const Hero = () => {
           <Showcard
             heading={
               searchViewFilterData &&
-              searchViewFilterData.total_books + "+ ebooks"
+              searchViewFilterData.total_books + "+ e-Books"
             }
             borderclr='border-white light:border-[#00000024] purple:border-[#DBDBDB]'
             bgcolor='bg-[#18151F]  light:bg-[#FFFFFF] purple:bg-[#FFFFFF]'
@@ -122,7 +122,7 @@ const Hero = () => {
           <Showcard
             heading={
               searchViewFilterData &&
-              searchViewFilterData.total_videos + "+ Videos"
+              searchViewFilterData.total_videos + "+ e-Videos"
             }
             borderclr='border-white light:border-[#00000024] purple:border-[#DBDBDB]'
             bgcolor='bg-[#18151F]  light:bg-[#FFFFFF] purple:bg-[#FFFFFF] '
@@ -158,7 +158,7 @@ const Hero = () => {
           <Showcard
             heading={
               searchViewFilterData &&
-              searchViewFilterData.total_other_resources + "+ E-Resource"
+              searchViewFilterData.total_other_resources + "+ e-Resources"
             }
             borderclr='border-white light:border-[#00000024] purple:border-[#DBDBDB]'
             bgcolor='bg-[#18151F] light:bg-[#FFFFFF] purple:bg-[#FFFFFF]'

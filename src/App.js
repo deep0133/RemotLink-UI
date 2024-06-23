@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useFetch from "./hooks/useFetch";
+import clientUseFetch from "./Components/admin/hooks/useFetch";
 import generateUrl from "./Components/admin/utils/urlGenerate";
 import useLogout from "./hooks/useLogout";
 import changeTheme from "./Components/admin/utils/changeTheme";
@@ -18,6 +19,7 @@ import Login from "./Components/auth/login";
 import AdminRoutes from "./Components/admin/AdminRoutes";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import AdminRoute from "./Components/AdminRoute";
+import AtoZResourcePage from "./Components/uiSection/AtoZResourcePage";
 
 function App() {
   const { institutionDetails, institutionDetailFetch } = useFetch();
@@ -48,6 +50,15 @@ function App() {
     }
   }, [institutionDetails, domain]);
 
+  const { notificationLoading, notificationData, handleFetctNotifications } =
+    clientUseFetch();
+
+  useEffect(() => {
+    handleFetctNotifications("api/announcement");
+  }, []);
+
+  console.count("----------announcenmt---");
+
   return (
     <>
       <Routes>
@@ -61,6 +72,8 @@ function App() {
                 setUnauthorizedUserSourcelink,
                 loginModal,
                 setLoginModal,
+                notificationLoading,
+                notificationData,
               }}
             />
           }
@@ -72,19 +85,14 @@ function App() {
               loginModal={loginModal}
               setLoginModal={setLoginModal}
             >
-              <Homepage {...{ logutOutHandler, institutionDetails, domain }} />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path='/searchview'
-          element={
-            <ProtectedRoute
-              loginModal={loginModal}
-              setLoginModal={setLoginModal}
-            >
-              <SearchView
-                {...{ logutOutHandler, institutionDetails, domain }}
+              <Homepage
+                {...{
+                  logutOutHandler,
+                  institutionDetails,
+                  domain,
+                  notificationLoading,
+                  notificationData,
+                }}
               />
             </ProtectedRoute>
           }
@@ -96,7 +104,53 @@ function App() {
               loginModal={loginModal}
               setLoginModal={setLoginModal}
             >
-              <Resources {...{ logutOutHandler, institutionDetails, domain }} />
+              <Resources
+                {...{
+                  logutOutHandler,
+                  institutionDetails,
+                  domain,
+                  notificationLoading,
+                  notificationData,
+                }}
+              />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/searchview'
+          element={
+            <ProtectedRoute
+              loginModal={loginModal}
+              setLoginModal={setLoginModal}
+            >
+              <SearchView
+                {...{
+                  logutOutHandler,
+                  institutionDetails,
+                  domain,
+                  notificationData,
+                }}
+              />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/all/resources'
+          element={
+            <ProtectedRoute
+              loginModal={loginModal}
+              setLoginModal={setLoginModal}
+            >
+              <AtoZResourcePage
+                {...{
+                  logutOutHandler,
+                  institutionDetails,
+                  domain,
+                  notificationLoading,
+                  notificationData,
+                }}
+              />
             </ProtectedRoute>
           }
         />
@@ -108,7 +162,12 @@ function App() {
               setLoginModal={setLoginModal}
             >
               <SavedResources
-                {...{ logutOutHandler, institutionDetails, domain }}
+                {...{
+                  logutOutHandler,
+                  institutionDetails,
+                  domain,
+                  notificationData,
+                }}
               />
             </ProtectedRoute>
           }
@@ -120,7 +179,15 @@ function App() {
               loginModal={loginModal}
               setLoginModal={setLoginModal}
             >
-              <Profile {...{ logutOutHandler, institutionDetails, domain }} />
+              <Profile
+                {...{
+                  logutOutHandler,
+                  institutionDetails,
+                  domain,
+                  notificationLoading,
+                  notificationData,
+                }}
+              />
             </ProtectedRoute>
           }
         />
@@ -132,7 +199,12 @@ function App() {
               setLoginModal={setLoginModal}
             >
               <Notifications
-                {...{ logutOutHandler, institutionDetails, domain }}
+                {...{
+                  logutOutHandler,
+                  institutionDetails,
+                  domain,
+                  notificationData,
+                }}
               />
             </ProtectedRoute>
           }
@@ -145,7 +217,13 @@ function App() {
               setLoginModal={setLoginModal}
             >
               <HelpAndSupport
-                {...{ logutOutHandler, institutionDetails, domain }}
+                {...{
+                  logutOutHandler,
+                  institutionDetails,
+                  domain,
+                  notificationLoading,
+                  notificationData,
+                }}
               />
             </ProtectedRoute>
           }

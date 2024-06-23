@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useRef } from "react";
 // import home_image from "../../images/Rectangle 5.png";
 import { useState, useEffect } from "react";
 import cardimage from "../../images/Rectangle 25.png";
 import newimg from "../../images/economic.png";
 // import bookmarkicon from "../../images/Group 1000002939.png";
-
+import arrow from "../../images/bi_arrow-left-short.svg";
 import firstimg from "../../images/Rectangle 33.png";
 import secimg from "../../images/Rectangle 34.png";
 import thirdimg from "../../images/Rectangle 35.png";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Home_Icon from "../../images/category-2.svg";
 import Resources_Icon from "../../images/book-saved.svg";
 import Favorites_Icon from "../../images/book-saved.svg";
@@ -20,15 +20,13 @@ import question_Icon from "../../images/Question.svg";
 import useFetch from "../../hooks/useFetch";
 import useFavourite from "../../hooks/useFavourite";
 import CardSkeleton from "../Loader/CardSkeleton";
-import { CiBookmarkMinus } from "react-icons/ci";
-import {
-  MdBookmark,
-  MdOutlineBook,
-  MdOutlineBookmarkAdded,
-  MdOutlineBookmarkBorder,
-} from "react-icons/md";
+import { MdBookmark, MdOutlineBookmarkBorder } from "react-icons/md";
 import HomeSlider from "./HomeSlider";
 import generateUrl from "../admin/utils/urlGenerate";
+import Slider from "react-slick";
+import capitalizeLetter from "../admin/utils/capitalizeLetter";
+
+import { IoChevronBackOutline } from "react-icons/io5";
 
 function Home({ institutionDetails }) {
   const [active, setActive] = useState("week");
@@ -80,6 +78,8 @@ function Home({ institutionDetails }) {
     favLoading,
     favData,
     handleFetchLikes,
+
+    createProxyAPI,
   } = useFetch();
 
   const { message, handleRemoveToFavourite, handleAddToFavourite } =
@@ -135,6 +135,8 @@ function Home({ institutionDetails }) {
 
   const [data, setData] = useState(null);
   const [treandingData, setTreandingData] = useState(null);
+
+  const navigate = useNavigate();
 
   // --------------Recently Added--------------
   useEffect(() => {
@@ -277,7 +279,10 @@ function Home({ institutionDetails }) {
                 )}
               </li>
               <li className=' '>
-                <button className=' rounded-md mt-6 h-[53px] w-[131px] bg-[#36201B] text-white '>
+                <button
+                  onClick={() => navigate("/searchview")}
+                  className=' rounded-md mt-6 h-[53px] w-[131px] bg-[#36201B] text-white '
+                >
                   Get Started
                 </button>
               </li>
@@ -332,35 +337,16 @@ function Home({ institutionDetails }) {
                   return <CardSkeleton key={val} />;
                 })}
               </div>
-            ) : discoverReadingData && discoverReadingData.length === 0 ? (
+            ) : discoverReadingData &&
+              Array.isArray(discoverReadingData) &&
+              discoverReadingData.length === 0 ? (
               "No Data Found"
             ) : (
-              discoverReadingData?.map((val, i) => (
-                <div
-                  key={i}
-                  onClick={() => {
-                    increaseAccessCount(val.id);
-                    window.open(val?.current_issue_url, "_blank");
-                  }}
-                  className='cursor-pointer group w-[276px] h-[358px]   border rounded-[5px] font-Poppins mr-3'
-                >
-                  <img src={cardimage} alt='card-view' className=' h-[143px]' />
-                  <div className=' m-5'>
-                    <p className=' text-[18px] line-clamp-2 h-[60px] font-semibold leading-[26px] w-[244px] '>
-                      {val.title ? val.title : "---"}
-                    </p>
-                    <p className=' text-[12px]  font-normal leading-[20px] text-[#000000] opacity-[50%] mt-4'>
-                      Published By : {val.author ? val.author : "Unknown"}
-                    </p>
-                  </div>
-                  <div
-                    className='w-fit px-[15px] py-2 text-[#F38D15] group-hover:bg-[#0B2E78] group-hover:text-white group-hover:light:text-white font-medium  rounded-md mx-5  bg-green-50'
-                    style={{ border: "1px solid green" }}
-                  >
-                    Ebook
-                  </div>
-                </div>
-              ))
+              <SlickCard
+                increaseAccessCount={increaseAccessCount}
+                discoverReadingData={discoverReadingData}
+                discoverReadingLoading={discoverReadingLoading}
+              />
             )}
           </div>
         </div>
@@ -382,7 +368,7 @@ function Home({ institutionDetails }) {
           </div>
 
           <div className='basis-1/2 box-container grid grid-cols-2 lg:grid-cols-3 justify-between flex-row gap-5 md:mt-0 mt-8'>
-            {myBox.map((val, index, arr) => {
+            {myBox?.map((val, index, arr) => {
               return index === 0 ? (
                 <>
                   <div className='lg:block hidden'></div>
@@ -439,7 +425,7 @@ function Home({ institutionDetails }) {
                 return <CardSkeleton key={val} />;
               })
             : resources && resources.length > 0
-            ? resources.map((val, i) => (
+            ? resources?.map((val, i) => (
                 <div className='min-h-[122px] flex flex-col border p-2 rounded-[5px] '>
                   <img
                     src={val.site__image ? val.site__image : newimg}
@@ -447,14 +433,15 @@ function Home({ institutionDetails }) {
                     className=' object-cover h-[120px]'
                   />
                   <div className='mt-4 flex gap-1 min-[400px]:gap-2 items-center justify-between flex-1'>
-                    <div
+                    <p
                       onClick={() => {
-                        window.open(val?.site__base_url, "_blank");
+                        createProxyAPI(val?.site);
                       }}
-                      className='line-clamp-1 cursor-pointer border-black px-2 flex flex-col justify-center grow items-center border py-2 sm:text-[13px] text-[8px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]'
+                      className='line-clamp-1 cursor-pointer border-black inline-block pl-2 pr-1 w-full items-center border py-2 sm:text-[13px] text-[8px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]'
+                      style={{ maxWidth: "100%" }} // Ensure the element does not exceed its container width
                     >
                       {val.site__name ? val.site__name : "---"}
-                    </div>
+                    </p>
                     <div className='p-2 ml-2 scale-125 cursor-pointer'>
                       {!favData?.includes(val.site) ? (
                         <MdOutlineBookmarkBorder
@@ -484,7 +471,7 @@ function Home({ institutionDetails }) {
             </h1>
             <div className=' border flex-wrap sm:w-[450px] flex justify-between mt-5  items-center px-3 py-1 rounded-[8px]'>
               {keys &&
-                keys.map((key, index) => (
+                keys?.map((key, index) => (
                   <button
                     onClick={() => {
                       changeSubjects(key, "recent");
@@ -500,7 +487,7 @@ function Home({ institutionDetails }) {
                         : "cursor-pointer"
                     }`}
                   >
-                    {key}
+                    {key.replace(/_/g, " ")}
                   </button>
                 ))}
             </div>
@@ -514,38 +501,14 @@ function Home({ institutionDetails }) {
         {/* ---------------Recently Added Card------------- */}
         <div className='mt-5 sm:px-10 overflow-hidden'>
           <div className='max-h-[423px] w-auto flex overflow-scroll no-scrollbar '>
-            {data && data?.length > 0
-              ? data.map((val, index) => (
-                  <div
-                    onClick={() => {
-                      increaseAccessCount(val.id);
-                      window.open(val?.current_issue_url, "_blank");
-                    }}
-                    key={index}
-                    className=' w-[276px] group cursor-pointer h-[358px] rounded-[5px] border font-Poppins mr-3'
-                  >
-                    <img
-                      src={cardimage}
-                      alt='card-view'
-                      className=' h-[143px]'
-                    />
-                    <div className=' m-5'>
-                      <p className=' text-[18px]  font-semibold leading-[26px] w-[244px]'>
-                        {val.title ? val.title : "---"}
-                      </p>
-                      <p className=' text-[12px]  font-normal leading-[20px] text-[#000000] opacity-[50%] mt-4'>
-                        Published By : {val.author ? val.author : "Unknown"}
-                      </p>
-                    </div>
-                    <div
-                      className='w-fit px-[15px] py-2 group-hover:bg-[#0B2E78] group-hover:text-white text-[#F38D15] font-medium  rounded-md mx-5  bg-green-50'
-                      style={{ border: "1px solid green" }}
-                    >
-                      Ebook
-                    </div>
-                  </div>
-                ))
-              : "No Data Found..."}
+            {data && data?.length > 0 ? (
+              <SlickCard
+                increaseAccessCount={increaseAccessCount}
+                discoverReadingData={data}
+              />
+            ) : (
+              "No Data Found..."
+            )}
           </div>
         </div>
 
@@ -560,7 +523,7 @@ function Home({ institutionDetails }) {
             </h1>
             <div className=' border flex-wrap sm:w-[450px] flex justify-between mt-5  items-center px-3 py-1 rounded-[8px]'>
               {treandingKeys &&
-                treandingKeys.map((key, index) => (
+                treandingKeys?.map((key, index) => (
                   <button
                     key={index}
                     onClick={() => {
@@ -577,7 +540,7 @@ function Home({ institutionDetails }) {
                         : "cursor-pointer"
                     }`}
                   >
-                    {key}
+                    {key.replace(/_/g, " ")}
                   </button>
                 ))}
             </div>
@@ -590,33 +553,14 @@ function Home({ institutionDetails }) {
         </div>
         <div className='mt-5 sm:px-10 overflow-hidden'>
           <div className='max-h-[423px] w-auto flex overflow-scroll no-scrollbar '>
-            {treandingData &&
-              treandingData?.map((val, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    increaseAccessCount(val.id);
-                    window.open(val?.current_issue_url, "_blank");
-                  }}
-                  className='w-[276px] group cursor-pointer h-[358px]  border rounded-[5px] font-Poppins mr-3'
-                >
-                  <img src={cardimage} alt='card-view' className=' h-[143px]' />
-                  <div className=' m-5'>
-                    <p className=' text-[18px]  font-semibold leading-[26px] w-[244px] '>
-                      {val.title ? val.title : "---"}
-                    </p>
-                    <p className=' text-[12px]  font-normal leading-[20px] text-[#000000] opacity-[50%] mt-4'>
-                      Published By : {val.author ? val.author : "Unknown"}
-                    </p>
-                  </div>
-                  <div
-                    className='w-fit px-[15px] py-2 group-hover:bg-[#0B2E78] group-hover:text-white text-[#F38D15] font-medium  rounded-md mx-5  bg-green-50'
-                    style={{ border: "1px solid green" }}
-                  >
-                    Ebook
-                  </div>
-                </div>
-              ))}
+            {treandingData && treandingData?.length > 0 ? (
+              <SlickCard
+                increaseAccessCount={increaseAccessCount}
+                discoverReadingData={treandingData}
+              />
+            ) : (
+              "No Data Found"
+            )}{" "}
           </div>
         </div>
 
@@ -748,3 +692,102 @@ function Home({ institutionDetails }) {
 }
 
 export default Home;
+
+const SlickCard = ({ increaseAccessCount, discoverReadingData }) => {
+  let sliderRef = useRef(null);
+
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    draggable: true,
+    responsive: [
+      {
+        breakpoint: 1024, // lg breakpoint
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 768, // md breakpoint
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 640, // sm breakpoint
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 440, // sm breakpoint
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
+  const next = () => {
+    sliderRef.slickNext();
+  };
+  const previous = () => {
+    sliderRef.slickPrev();
+  };
+  return (
+    <div className='relative w-full'>
+      <Slider
+        ref={(slider) => {
+          sliderRef = slider;
+        }}
+        {...settings}
+      >
+        {discoverReadingData &&
+          discoverReadingData?.length > 0 &&
+          discoverReadingData?.map((val, i) => (
+            <div
+              key={i}
+              onClick={() => {
+                increaseAccessCount(val.id);
+                window.open(val?.current_issue_url, "_blank");
+              }}
+              className='cursor-pointer group max-w-[276px] h-[358px] border rounded-[5px] font-Poppins mr-3'
+            >
+              <img src={cardimage} alt='card-view' className=' h-[143px]' />
+              <div className=' m-5'>
+                <p className=' text-[18px] line-clamp-2 h-[60px] font-semibold leading-normal max-w-[244px] '>
+                  {val.title ? val.title : "---"}
+                </p>
+                <p className=' text-[12px]  font-normal leading-[20px] text-[#000000] opacity-[50%] mt-4'>
+                  Published By : {val.author ? val.author : "Unknown"}
+                </p>
+              </div>
+              <div
+                className='w-fit px-[15px] py-2 text-[#F38D15] group-hover:bg-[#0B2E78] group-hover:text-white group-hover:light:text-white font-medium  rounded-md mx-5  bg-green-50'
+                style={{ border: "1px solid green" }}
+              >
+                e-
+                {capitalizeLetter(val?.resource_type)}
+              </div>
+            </div>
+          ))}
+      </Slider>
+      <div className='absolute inset-y-1/2 flex w-full justify-between'>
+        <button
+          className='button w-8 h-8 border rounded-full bg-gray-100 flex items-center justify-center shrink-0'
+          onClick={previous}
+        >
+          <IoChevronBackOutline />
+        </button>
+        <button
+          className='button rotate-180 flex items-center justify-center shrink-0  w-8 h-8 border rounded-full bg-gray-100'
+          onClick={next}
+        >
+          <IoChevronBackOutline />
+        </button>
+      </div>
+    </div>
+  );
+};

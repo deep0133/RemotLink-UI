@@ -1,11 +1,14 @@
 import React from "react";
 import lightning from "../../images/lightning.png";
-import bookmarkicon2 from "../../images/Vector.png";
 import useFetch from "../../hooks/useFetch";
 import { LuLoader2 } from "react-icons/lu";
-import useFavourite from "../../hooks/useFavourite";
-import { BsBookmarkCheck } from "react-icons/bs";
-function Table({ allSites }) {
+import { MdBookmark, MdOutlineBookmarkBorder } from "react-icons/md";
+function Table({
+  allSites,
+  favData,
+  handleAddToFavourite,
+  handleRemoveToFavourite,
+}) {
   const formattedDate = (dte) => {
     const date = new Date(dte);
     const options = { day: "2-digit", month: "long", year: "numeric" };
@@ -13,21 +16,6 @@ function Table({ allSites }) {
   };
 
   const { createProxyAPI, searchLoader } = useFetch();
-
-  const {
-    bookMarkedSite,
-    setBookMarkedSite,
-    handleAddToFavourite,
-    handleRemoveToFavourite,
-  } = useFavourite();
-
-  const bookMarkHandler = (id) => {
-    if (bookMarkedSite[id]) {
-      handleRemoveToFavourite(id);
-    } else {
-      handleAddToFavourite(id);
-    }
-  };
 
   return (
     <div className='flex flex-col'>
@@ -115,27 +103,17 @@ function Table({ allSites }) {
                             </div>
                           </td>
 
-                          <td className='text-sm text-gray-900 font-light  py-4 whitespace-nowrap'>
-                            <div
-                              onClick={() => {
-                                setBookMarkedSite((prev) => ({
-                                  ...prev,
-                                  [site.id]: !prev[site.id], // Toggling the value associated with site ID
-                                }));
-                                bookMarkHandler(site.id); // Call your function to handle adding to favorites
-                              }}
-                              className=' mr-3  rounded-full cursor-pointer border w-[35px] h-[35px] flex justify-center items-center font-medium'
-                            >
-                              {bookMarkedSite[site.id] === true ? (
-                                <BsBookmarkCheck />
-                              ) : (
-                                <img
-                                  src={bookmarkicon2}
-                                  className=' w-[10px] h-[12px]'
-                                  alt='g'
-                                />
-                              )}
-                            </div>
+                          <td className='text-sm cursor-pointer text-gray-900 font-light  py-4 whitespace-nowrap'>
+                            {!favData?.includes(site.id) ? (
+                              <MdOutlineBookmarkBorder
+                                onClick={() => handleAddToFavourite(site.id)}
+                              />
+                            ) : (
+                              <MdBookmark
+                                onClick={() => handleRemoveToFavourite(site.id)}
+                                className='text-blue-600'
+                              />
+                            )}
                           </td>
                           <td className='text-sm text-gray-900 font-light  py-4 whitespace-nowrap md:font-medium'>
                             {formattedDate(site.created_at)}

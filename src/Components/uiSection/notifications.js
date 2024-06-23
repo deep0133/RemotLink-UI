@@ -10,45 +10,28 @@ import youtubeicon from "../../images/youtube.svg";
 import arrowcircle from "../../images/arrow-circle-left.svg";
 import generateUrl from "../admin/utils/urlGenerate";
 
-function Notifications({ logutOutHandler, institutionDetails, domain }) {
-  const [notificationdata, setNotificationdata] = useState("");
+function Notifications({
+  logutOutHandler,
+  institutionDetails,
+  domain,
+  notificationData,
+}) {
   const [expanded, setExpanded] = useState({});
 
   const toggleAccordion = (id) => {
     setExpanded({ ...expanded, [id]: !expanded[id] });
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const domain = await generateUrl();
-        const token = localStorage.getItem("access_token");
-
-        const response = await fetch(domain + "api/announcement", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const json = await response.json();
-        setNotificationdata(json);
-      } catch (error) {
-        // console.error("Error fetching data:", error);
-      }
-    }
-
-    fetchData();
-  }, []);
-
   return (
     <div>
       <>
-        <Header {...{ logutOutHandler, institutionDetails, domain }} />
+        <Header
+          {...{ logutOutHandler, institutionDetails, domain, notificationData }}
+        />
         <div className=' flex'>
           <span
             className='md:block hidden'
-            style={{ position: "sticky", top: "0", height: "100vh" }}
+            style={{ position: "sticky", top: "0", height: "100svh" }}
           >
             <Sidebar />
           </span>
@@ -65,8 +48,8 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
                 </h1>
 
                 <ul className='list-disc ml-4 mr-4 pl-6 mt-4 overflow-y-scroll max-h-[400px]'>
-                  {notificationdata &&
-                    notificationdata?.announcement?.map((e) => (
+                  {notificationData &&
+                    notificationData?.announcement?.map((e) => (
                       <li
                         key={e.id}
                         className='text-red-500 text-[22px] p-2 border-b '
@@ -88,8 +71,8 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
                   <span className='text-[#1F5095]'>Latest News</span>{" "}
                 </h1>
                 <div className='mt-4 overflow-y-scroll notif max-h-[400px]'>
-                  {notificationdata &&
-                    notificationdata?.news?.map((e, index) => (
+                  {notificationData &&
+                    notificationData?.news?.map((e, index) => (
                       <React.Fragment key={e.id}>
                         <div
                           className='flex items-center justify-between w-full p-2 font-medium border-b cursor-pointer'
@@ -125,8 +108,8 @@ function Notifications({ logutOutHandler, institutionDetails, domain }) {
                   <span className='text-[#1F5095]'>Important Links</span>{" "}
                 </h1>
                 <div className='mt-4 overflow-y-scroll notif max-h-[400px]'>
-                  {notificationdata &&
-                    notificationdata?.links?.map((e) => (
+                  {notificationData &&
+                    notificationData?.links?.map((e) => (
                       <div
                         key={e.id}
                         className='flex  ml-4 p-[10px] border-b cursor-pointer'

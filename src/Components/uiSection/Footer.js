@@ -6,6 +6,7 @@ import twitter_icon from "../../images/Vector.svg";
 import instagram_icon from "../../images/Group 427318261.svg";
 import Button from "../uiElemnts/button";
 import blank from "../../images/blankimg.svg";
+import { Link } from "react-router-dom";
 
 const Footer = ({ institutionDetails, domain }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -93,11 +94,50 @@ const Footer = ({ institutionDetails, domain }) => {
               Quick Links
             </h1>
             <ul className='flex flex-shrink-0 items-start justify-between flex-col mt-[19px]'>
-              <li className='mb-[11px]'>Home</li>
-              <li className='mb-[11px]'>About Us</li>
-              <li className='mb-[11px]'>Categories</li>
-              <li className='mb-[11px]'>Open Access</li>
-              <li className='mb-[11px]'>The Institute</li>
+              <li className='mb-[11px]'>
+                <Link
+                  to={"/home"}
+                  className='light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50'
+                >
+                  Home
+                </Link>
+              </li>
+              <li className='mb-[11px]'>
+                {" "}
+                <Link
+                  to='/#aboutSection'
+                  className=' light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50'
+                >
+                  About Us
+                </Link>
+              </li>
+              <li className='mb-[11px]'>
+                {" "}
+                <Link
+                  to='/#categorySection'
+                  className='light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50'
+                >
+                  Categories
+                </Link>
+              </li>
+              <li className='mb-[11px]'>
+                {" "}
+                <Link
+                  to='/#statisticSection'
+                  className='light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50'
+                >
+                  Statistics
+                </Link>
+              </li>
+              <li className='mb-[11px]'>
+                {" "}
+                <Link
+                  to='/#featuredSection'
+                  className='light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50 whitespace-nowrap'
+                >
+                  Featured
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -127,15 +167,25 @@ const Footer = ({ institutionDetails, domain }) => {
             src={footer_logo}
             alt=' '
           />
-          <h1 className='font-Poppins font-medium text-[15px] leading-5 mt-10 '>
+          <h1 className='font-Poppins font-medium text-[15px] leading-5 mt-10 min-[433px]:pl-[20px]  '>
             Powered By Remotlink - All Rights Reserved
           </h1>
         </div>
         <div className='flex   justify-between  items-center mt-10 '>
-          <h1 className=' font-Poppins font-medium text-[15px] leading-5 font-feature  mr-10'>
+          <h1
+            onClick={() =>
+              window.open("https://remotlink.com/privacy-policy/", "_blank")
+            }
+            className=' font-Poppins font-medium text-[15px] cursor-pointer leading-5 font-feature  mr-10'
+          >
             Privacy Policy
           </h1>
-          <h1 className=' font-Poppins font-medium text-[15px] leading-6 font-feature  '>
+          <h1
+            onClick={() =>
+              window.open("https://remotlink.com/terms-of-use/", "_blank")
+            }
+            className=' font-Poppins font-medium text-[15px] cursor-pointer leading-6 font-feature  '
+          >
             Terms and Conditions
           </h1>
         </div>

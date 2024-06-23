@@ -11,7 +11,12 @@ import userIcon from "../../images/user-octagon.svg";
 import messageIcon from "../../images/envelope.svg";
 import phoneIcon from "../../images/phone-ring.svg";
 import generateUrl from "../admin/utils/urlGenerate";
-function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
+function HelpAndSupport({
+  logutOutHandler,
+  institutionDetails,
+  domain,
+  notificationData,
+}) {
   const [expandedBoxes, setExpandedBoxes] = useState([
     false,
     false,
@@ -83,7 +88,9 @@ function HelpAndSupport({ logutOutHandler, institutionDetails, domain }) {
   return (
     <div>
       <>
-        <Header {...{ logutOutHandler, institutionDetails, domain }} />
+        <Header
+          {...{ logutOutHandler, institutionDetails, domain, notificationData }}
+        />
         <div className=' flex'>
           <span
             className=' hidden sm:block'

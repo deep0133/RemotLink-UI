@@ -11,7 +11,12 @@ import FilterComponent from "../uiElemnts/FilterComponent";
 import useFetch from "../../hooks/useFetch";
 import PaginationWithLibrary from "../uiElemnts/PaginationWithLibrary";
 
-function SearchView({ logutOutHandler, institutionDetails, domain }) {
+function SearchView({
+  logutOutHandler,
+  institutionDetails,
+  domain,
+  notificationData,
+}) {
   const {
     searchViewData,
     searchViewLoading,
@@ -96,8 +101,10 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
 
   return (
     <>
-      <Header {...{ logutOutHandler, institutionDetails, domain }} />
-      <div className=' flex flex-1 border-2 border-green-500'>
+      <Header
+        {...{ logutOutHandler, institutionDetails, domain, notificationData }}
+      />
+      <div className=' flex flex-1'>
         <span
           className=' hidden sm:block'
           style={{ position: "sticky", top: "0", height: "100vh" }}
@@ -129,12 +136,12 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
               Find articles,ejournals, ebooks that you are in need of from our
               10000+ repo
             </p>
-            <div className='mt-2 sm:flex flex-wrap sm:mt-4'>
+            <div className='mt-2 sm:flex flex-wrap sm:mt-4 gap-4'>
               <div className='flex w-full sm:max-w-[550px]'>
                 <input
                   type=' text'
                   style={{ border: "1px solid lightgray" }}
-                  className='w-full grow h-[48px]   flex-1 py-2 px-4 sm:mr-4 rounded-lg'
+                  className='w-full grow h-[48px]   flex-1 py-2 px-4  rounded-lg'
                   placeholder='Search anything'
                   value={search}
                   onChange={(e) => {
@@ -143,7 +150,7 @@ function SearchView({ logutOutHandler, institutionDetails, domain }) {
                   aria-label='Search anything'
                 />
               </div>
-              <div className='flex gap-2 max-[1051px]:mt-2 flex-wrap'>
+              <div className='flex gap-2 flex-wrap'>
                 <button
                   disabled={search?.length === 0}
                   onClick={() => {
@@ -464,8 +471,6 @@ const BookCard = ({ data, increaseAccessCount }) => {
             </div>
           </span>
           <p className=' mt-6 text-[#1F5095] line-clamp-2'>
-            {/* by Wiley InterScience (Online service); Wiley Online Library;
-            Blieberger, Johann; Strohmeier, Alfred , 2019 */}
             {data.description || "---"}
           </p>
           {data.ISSN_or_ISBN ? (

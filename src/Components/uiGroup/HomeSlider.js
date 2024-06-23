@@ -1,4 +1,3 @@
-import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -14,6 +13,8 @@ const HomeSlider = ({ institutionDetails, url }) => {
     autoplaySpeed: 2500,
     cssEase: "linear",
     rtl: false,
+    dots: true,
+    dotsClass: "slick-dots slick-thumb",
   };
 
   const images = [

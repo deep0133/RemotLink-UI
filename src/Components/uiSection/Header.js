@@ -20,8 +20,15 @@ import home from "../../images/Home.svg";
 import book from "../../images/book.png";
 import help_Icon from "../../images/message-question-white.svg";
 import generateUrl from "../admin/utils/urlGenerate";
+import MovingBanner from "../MovingBanner";
 
-const Header = ({ logutOutHandler, institutionDetails, domain }) => {
+const Header = ({
+  logutOutHandler,
+  institutionDetails,
+  domain,
+  notificationLoading,
+  notificationData,
+}) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [userdetail, setUserdetail] = useState("");
 
@@ -70,23 +77,13 @@ const Header = ({ logutOutHandler, institutionDetails, domain }) => {
     fetchUrl();
   }, []);
 
+  console.log("-----------announveent--------:", notificationData);
   return (
     <>
-      <div className='flex w-full h-[35px] px-[5%] gap-5 bg-blue-900 items-center justify-evenly'>
-        <p className='text-white sm:flex hidden font-inter text-nowrap line-clamp-1 text-[13px] font-medium  font-inter  '>
-          8 positieve podcasts om je door{" "}
-          <span className='underline line-clamp-1'>
-            2021 te slepen - Harper's...
-          </span>
-        </p>
-        <p className='text-white font-inter text-nowrap line-clamp-1 text-[13px] font-medium  font-inter  '>
-          8 positieve podcasts om je door{" "}
-          <span className='underline'>2021 te slepen - Harper's...</span>
-        </p>
-        <p className='text-white sm:flex hidden font-inter text-nowrap line-clamp-1 text-[13px] font-medium  font-inter  '>
-          8 positieve podcasts om je door{" "}
-          <span className='underline'>2021 te slepen - Harper's...</span>
-        </p>
+      <div className='flex w-full px-[5%] gap-5 bg-blue-900 items-center justify-evenly'>
+        <div className='relative overflow-hidden w-full py-2'>
+          <MovingBanner notificationData={notificationData} />
+        </div>
       </div>
       {/* larger screen header*/}
       <div className=' hidden md:flex px-[5%] justify-between flex-shrink-0 items-center border-r border-solid border-opacity-10 bg-white shadow-md h-[71px] w-full border-4 border-yellow-400'>
@@ -106,7 +103,7 @@ const Header = ({ logutOutHandler, institutionDetails, domain }) => {
         </div>
         <div className='hidden lg:flex grow mx-8 items-center justify-between rounded-md border border-solid border-gray-200 max-w-[552px] h-auto p-[14px] px-[28px] '>
           <input
-            className=' flex flex-col items-center flex-shrink-0 text-blue-gray-700 font-poppins text-xs font-normal tracking-tighter w-[172px] h-[24px]'
+            className=' flex flex-col items-center grow pr-2 outline-none flex-shrink-0 text-blue-gray-700 font-poppins text-xs font-normal tracking-tighter w-[172px] h-[24px]'
             placeholder='Search any resources here ...'
           />
           <img

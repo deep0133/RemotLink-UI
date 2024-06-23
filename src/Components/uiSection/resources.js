@@ -17,20 +17,25 @@ import fourthimg from "../../images/Group 1000003082.png";
 import { useState } from "react";
 import Table from "../uiElemnts/table";
 import MobileTable from "../mobile/mobileTable";
-import Pagination from "../uiElemnts/pagination";
-import { CiBookmarkMinus } from "react-icons/ci";
-import { MdOutlineBookmarkAdded } from "react-icons/md";
+import { MdBookmark, MdOutlineBookmarkBorder } from "react-icons/md";
 
 import useFetch from "../../hooks/useFetch";
 import useFavourite from "../../hooks/useFavourite";
 import CardSkeleton from "../Loader/CardSkeleton";
+import capitalizeLetter from "../admin/utils/capitalizeLetter";
+import { useNavigate } from "react-router-dom";
 
-function Resources({ logutOutHandler, institutionDetails, domain }) {
+function Resources({
+  logutOutHandler,
+  institutionDetails,
+  domain,
+  notificationData,
+}) {
   const [activeTab, setActiveTab] = useState("catalogue");
 
-  var books = [1, 2, 3, 4, 5, 6, 7];
-  var page = [1, 2, 3, 4, 5, 6, 7];
   const [isAscending, setIsAscending] = useState(true);
+  const navigate = useNavigate();
+  const [seletTreandingType, setSeletTreandingType] = useState("");
 
   const {
     fetchLoading,
@@ -42,10 +47,13 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
     handleFetchAllSites,
     searchSite,
     setSearchSite,
-
     favLoading,
     favData,
     handleFetchLikes,
+
+    treandingResourceData,
+    treandingResourceLoading,
+    homePageTrendingResourceFetch,
   } = useFetch();
 
   const { message, handleAddToFavourite, handleRemoveToFavourite } =
@@ -54,7 +62,15 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
   useEffect(() => {
     handleFetchResources();
     handleFetchAllSites();
+    homePageTrendingResourceFetch("access_count");
   }, []);
+
+  useEffect(() => {
+    if (seletTreandingType === "" && treandingResourceData) {
+      const keys = Object.keys(treandingResourceData);
+      setSeletTreandingType(keys[0]);
+    }
+  }, [treandingResourceData, seletTreandingType]);
 
   useEffect(() => {
     async function fetchAgain() {
@@ -92,9 +108,24 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
     setIsAscending(!isAscending);
   };
 
+  const [isReversed, setIsReversed] = useState(false);
+
+  const toggleSortOrder = () => {
+    setIsReversed(!isReversed);
+  };
+
+  const data =
+    treandingResourceData && treandingResourceData[seletTreandingType]
+      ? treandingResourceData[seletTreandingType]
+      : [];
+  const sortedData = isReversed ? [...data].reverse() : data;
+
   return (
     <>
-      <Header {...{ logutOutHandler, institutionDetails, domain }} />
+      <Header
+        {...{ logutOutHandler, institutionDetails, domain }}
+        notificationData={notificationData}
+      />
       <div className='flex'>
         <span
           className=' hidden sm:block sm:h-auto'
@@ -102,9 +133,9 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
         >
           <Sidebar />
         </span>
-        <div className=' flex flex-col px-[5%] w-full'>
+        <div className=' flex flex-col px-[5%] w-full sm:w-[calc(100%-96px)]'>
           <div
-            className='flex items-center justify-between'
+            className='flex sm:items-center sm:flex-row flex-col sm:justify-between'
             style={{
               borderBottom: "1px solid lightgray",
               height: "70px",
@@ -123,13 +154,16 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
                 Explore the Resources Catalogue
               </span>
             </div>
-            <div className='hidden sm:block'>
-              <span className=' whitespace-nowrap text-[#1F5095]  text-[14px] border-b border-[#1F5095] mr-4'>
+            <div className='block sm:ml-0 ml-2 '>
+              <span
+                onClick={() => navigate("/all/resources")}
+                className='cursor-pointer whitespace-nowrap text-xs sm:text-sm text-[#1F5095]  text-[14px] border-b border-[#1F5095] mr-4'
+              >
                 Show A to Z Resources
               </span>
-              <span className=' whitespace-nowrap text-[#BEBEBE]  text-[12px]'>
+              {/* <span className=' whitespace-nowrap text-[#BEBEBE]  text-[12px]'>
                 Show A to Z Resources
-              </span>
+              </span> */}
             </div>
           </div>
           <div className='w-full overflow-auto no-scrollbar flex-nowrap max-w-[500px] justify-between flex gap-8'>
@@ -199,16 +233,17 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
                             </p>
                             <div className='p-2 ml-2 scale-125 cursor-pointer'>
                               {!favData?.includes(resource.site) ? (
-                                <CiBookmarkMinus
+                                <MdOutlineBookmarkBorder
                                   onClick={() =>
                                     handleAddToFavourite(resource.site)
                                   }
                                 />
                               ) : (
-                                <MdOutlineBookmarkAdded
+                                <MdBookmark
                                   onClick={() =>
                                     handleRemoveToFavourite(resource.site)
                                   }
+                                  className='text-blue-600'
                                 />
                               )}
                             </div>
@@ -221,166 +256,235 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
                 <h1 className=' text-[#1F5095] text-[23px]  font-semibold sm:w-auto '>
                   Trending Resources throughout
                 </h1>
-                <div className=' flex sm:justify-between flex-col sm:flex-row mt-4'>
-                  <p className=' text-[#A3AED0] mt-2 text-[14px] sm:w-auto'>
+                <div className=' flex sm:justify-between flex-col sm:flex-row mt-4 w-full'>
+                  <p className=' text-[#A3AED0]  mt-2 text-[14px] sm:w-auto'>
                     A curated collection of academic journals and research
                     papers
                   </p>
-                  <div className=' flex justify-end sm:justify-normal   mt-10 sm:mt-0'>
-                    <div className='px-2 h-[43px] w-[131px] cursor-pointer rounded-[5px] border border-solid border-[#221FB9/0.14] mr-4 flex justify-around items-center'>
-                      <img
-                        src={sort}
-                        className=' w-[16px] h-[16px]'
-                        alt='sorticon'
-                      />
-                      <span>Sort By: </span>
-                      <img
-                        src={arrowdown}
-                        className=' w-[10px] h-[7px]'
-                        alt='arrowdown'
-                      />
-                    </div>
-                    <div className='px-2 h-[43px] w-[131px] rounded-[5px] border border-solid border-[#221FB9/0.14] flex justify-around items-center'>
-                      <img
-                        src={candel}
-                        className=' w-[16px] h-[16px]'
-                        alt='candel'
-                      />
-                      <span>Filter</span>
-                      <img
-                        src={arrowdown}
-                        className=' w-[10px] h-[7px]'
-                        alt='arrowdown'
-                      />
-                    </div>
+                </div>
+                <div className=' flex justify-end flex-wrap mt-5 gap-5'>
+                  <select
+                    onChange={(e) => {
+                      setSeletTreandingType(e.target.value);
+                    }}
+                    className='px-2 h-[43px] cursor-pointer rounded-[5px] border border-solid border-[#221FB9/0.14] flex justify-around items-center'
+                  >
+                    {treandingResourceData &&
+                      Object.keys(treandingResourceData)?.map((key, index) => (
+                        <option value={key}>e-{key.replace(/_/g, " ")}</option>
+                      ))}
+                  </select>
+                  <div
+                    onClick={() => toggleSortOrder()}
+                    className='px-2 h-[43px] w-[131px] cursor-pointer rounded-[5px] border border-solid border-[#221FB9/0.14] flex justify-around items-center'
+                  >
+                    <img
+                      src={sort}
+                      className=' w-[16px] h-[16px]'
+                      alt='sorticon'
+                    />
+                    <span>Sort By: </span>
+                    <img
+                      src={arrowdown}
+                      className=' w-[10px] h-[7px]'
+                      style={{
+                        rotate: isReversed ? "180deg" : "0deg",
+                      }}
+                      alt='arrowdown'
+                    />
+                  </div>
+                  <div className='px-2 h-[43px] w-[131px] rounded-[5px] border border-solid border-[#221FB9/0.14] flex justify-around items-center'>
+                    <img
+                      src={candel}
+                      className=' w-[16px] h-[16px]'
+                      alt='candel'
+                    />
+                    <span>Filter</span>
+                    <img
+                      src={arrowdown}
+                      className=' w-[10px] h-[7px]'
+                      alt='arrowdown'
+                    />
                   </div>
                 </div>
                 <div className='mt-10 bg-[#F8F9FA] p-4 rounded-lg'>
                   {/*web view--------------------------------------------------------- */}
-                  {books.map((e, index) => (
-                    <div
-                      key={index}
-                      className='hidden sm:flex rounded-xl bg-blue p-4 justify-between mt-2 bg-white'
-                    >
-                      <div className='flex'>
-                        <div className=' flex-col items-center sm:block'>
-                          <div className='h-[87px] w-[72px] bg-[#F3F7FA] flex justify-center items-center rounded-[6px]'>
-                            <img
-                              src={book}
-                              className='h-[39px] w-[32px] object-cover'
-                              alt='bookicon'
-                            />
-                          </div>
-                          <div className=' sm:hidden ml-4'>
-                            <p
-                              style={{ border: "1px solid green" }}
-                              className='px-2 text-[#F38D15] font-medium sm:bg-gray-50 rounded-md '
-                            >
-                              Ebook
-                            </p>
-                          </div>
-                        </div>
-                        <div className='ml-4'>
-                          <div className='flex'>
-                            <p className=' text-[#1F5095] line-clamp-2  font-semibold'>
-                              Journal of chemical technology and biotechnology{" "}
-                            </p>
-                            <span className='hidden sm:block sm:mx-4'>
+                  {sortedData?.length > 0 ? (
+                    sortedData.map((val, index) => (
+                      <div
+                        key={index}
+                        onClick={() => {
+                          window.open(
+                            val?.current_issue_url,
+                            "_blank",
+                            "noopener,noreferrer"
+                          );
+                        }}
+                        className='hidden cursor-pointer sm:flex rounded-xl bg-blue p-4 justify-between mt-2 bg-white'
+                      >
+                        <div className='flex'>
+                          <div className=' flex-col items-center sm:block'>
+                            <div className='h-[87px] w-[72px] bg-[#F3F7FA] flex justify-center items-center rounded-[6px]'>
+                              <img
+                                src={book}
+                                className='h-[39px] w-[32px] object-cover'
+                                alt='bookicon'
+                              />
+                            </div>
+                            <div className=' sm:hidden ml-4'>
                               <p
                                 style={{ border: "1px solid green" }}
-                                className='px-3 py-1  text-[#F38D15] font-medium sm:bg-gray-50 rounded-md '
+                                className='px-2 text-[#F38D15] line-clamp-1 font-medium sm:bg-gray-50 rounded-md '
                               >
-                                Ebook
+                                e-{capitalizeLetter(val?.resource_type)}
                               </p>
-                            </span>
+                            </div>
                           </div>
-                          <p className=' mt-6 text-[#1F5095]'>
-                            by Wiley InterScience (Online service); Wiley Online
-                            Library; Blieberger, Johann; Strohmeier, Alfred ,
-                            2019
-                          </p>
-                          <p className=' mt-2 text-[#1F5095]'>
-                            ISBN : 8878 87888 578
-                          </p>
+                          <div className='ml-4'>
+                            <div className='flex'>
+                              <p className=' text-[#1F5095] line-clamp-2  font-semibold'>
+                                {val.title ? val.title : "---"}
+                              </p>
+                              <span className='hidden sm:block sm:mx-4'>
+                                <p
+                                  style={{ border: "1px solid green" }}
+                                  className='px-3 py-1 line-clamp-1 text-[#F38D15] font-medium sm:bg-gray-50 rounded-md '
+                                >
+                                  e-{capitalizeLetter(val?.resource_type)}
+                                </p>
+                              </span>
+                            </div>
+                            <p className=' mt-5 text-[#1F5095]'>
+                              <p className='text-slate-700 line-clamp-2'>
+                                {val?.description}
+                              </p>
+                              <p className='text-[#1F5095] mt-1'>
+                                {val.publisher ? val.publisher + " " : ""}
+                                {val.author ? "  " + val.author : ""}{" "}
+                                {val?.publish_date}
+                              </p>
+                            </p>
+                            {val?.ISSN_or_ISBN && (
+                              <p className=' mt-2 text-[#1F5095]'>
+                                ISBN : {val?.ISSN_or_ISBN}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                      <div className=' flex flex-row'>
-                        <div className=' mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
-                          <img
-                            src={bookmarkicon2}
-                            className='w-[10px] h-[12px]'
-                          />{" "}
-                        </div>
-                        <div className=' mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
-                          <img src={icon} className=' w-[12px] h-[10px]' />
-                        </div>
-                        <div className=' mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
-                          <img src={linkicon} className=' w-[16px] h-[12px]' />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  {/* mobile view ---------------------------------------------------------------- */}
-                  {books.map((e, index) => (
-                    <div
-                      key={index}
-                      className='sm:hidden rounded-xl bg-blue py-4 px-2 flex mt-2 bg-white flex-col'
-                    >
-                      <div className='flex w-full justify-between'>
-                        <p className=' text-[14px] line-clamp-2  text-[#1F5095] font-semibold'>
-                          Journal of chemical technology and biotechnology{" "}
-                        </p>
-
-                        <div className=' hidden min-[350px]:flex flex-row '>
-                          <div className=' mr-1  rounded-full border w-[30px] h-[30px] flex justify-center items-center'>
+                        <div className=' flex flex-row'>
+                          <div className=' mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
                             <img
                               src={bookmarkicon2}
-                              className=' w-[10px] h-[12px]'
+                              className='w-[10px] h-[12px]'
+                              alt=''
                             />{" "}
                           </div>
-                          <div className=' mr-1  rounded-full border w-[30px] h-[30px] flex justify-center items-center'>
-                            <img src={icon} className=' w-[12px] h-[10px]' />
+                          <div className=' mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
+                            <img
+                              src={icon}
+                              alt=''
+                              className=' w-[12px] h-[10px]'
+                            />
                           </div>
-                          <div className=' mr-1  rounded-full border w-[30px] h-[30px] flex justify-center items-center'>
+                          <div className=' mr-3  rounded-full border w-[35px] h-[35px] flex justify-center items-center'>
                             <img
                               src={linkicon}
                               className=' w-[16px] h-[12px]'
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className=' flex mt-4 '>
-                        <div className=''>
-                          <div className=' h-[87px] w-[72px] bg-[#F3F7FA] flex justify-center items-center rounded-[6px]'>
-                            <img
-                              src={book}
-                              className='h-[39px] w-[32px]'
                               alt=''
                             />
                           </div>
-                          <div
-                            className='mt-4 px-2 py-1 text-[#F38D15] font-mediumsm: bg-gray-50 rounded-md flex justify-center  items-center'
-                            style={{ border: "1px solid green" }}
-                          >
-                            Ebook
-                          </div>
-                        </div>
-                        <div className=' ml-5 text-[14px] font-medium'>
-                          <p className='text-[#1F5095]'>
-                            by Wiley InterScience (Online service); Wiley Online
-                            Library
-                          </p>
-                          <p className='text-black'>
-                            Blieberger, Johann; Strohmeier, Alfred , 2019
-                          </p>
-
-                          <p className=' mt-2 text-[#1F5095]'>
-                            ISBN : 8878 87888 578
-                          </p>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    <div className='hidden sm:flex'>No Data Found</div>
+                  )}
+                  {/* mobile view ---------------------------------------------------------------- */}
+                  {treandingResourceData &&
+                  treandingResourceData[seletTreandingType]?.length > 0 ? (
+                    treandingResourceData[seletTreandingType]?.map(
+                      (val, index) => (
+                        <div
+                          key={index}
+                          onClick={() => {
+                            window.open(
+                              val?.current_issue_url,
+                              "_blank",
+                              "noopener,noreferrer"
+                            );
+                          }}
+                          className='sm:hidden cursor-pointer rounded-xl bg-blue py-4 px-2 flex mt-2 bg-white flex-col'
+                        >
+                          <div className='flex w-full justify-between'>
+                            <p className=' text-[14px] line-clamp-2  text-[#1F5095] font-semibold'>
+                              {val.title ? val.title : "---"}
+                            </p>
+
+                            <div className=' hidden min-[350px]:flex flex-row '>
+                              <div className=' mr-1  rounded-full border w-[30px] h-[30px] flex justify-center items-center'>
+                                <img
+                                  src={bookmarkicon2}
+                                  className=' w-[10px] h-[12px]'
+                                  alt=''
+                                />{" "}
+                              </div>
+                              <div className=' mr-1  rounded-full border w-[30px] h-[30px] flex justify-center items-center'>
+                                <img
+                                  src={icon}
+                                  className=' w-[12px] h-[10px]'
+                                  alt=''
+                                />
+                              </div>
+                              <div className=' mr-1  rounded-full border w-[30px] h-[30px] flex justify-center items-center'>
+                                <img
+                                  src={linkicon}
+                                  className=' w-[16px] h-[12px]'
+                                  alt=''
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div className=' flex mt-4 '>
+                            <div className=''>
+                              <div className=' h-[87px] w-[72px] bg-[#F3F7FA] flex justify-center items-center rounded-[6px]'>
+                                <img
+                                  src={book}
+                                  className='h-[39px] w-[32px]'
+                                  alt=''
+                                />
+                              </div>
+                              <div
+                                className='mt-4 px-2 py-1 line-clamp-1 text-nowrap text-[#F38D15] font-medium sm:bg-gray-50 rounded-md flex justify-center  items-center'
+                                style={{ border: "1px solid green" }}
+                              >
+                                e-{capitalizeLetter(val?.resource_type)}
+                              </div>
+                            </div>
+                            <div className=' ml-5 text-[14px] font-medium'>
+                              <p className='text-slate-700 line-clamp-2'>
+                                {val?.description}
+                              </p>
+                              <p className='text-[#1F5095] mt-1'>
+                                {val?.publisher + " "}
+                              </p>
+                              <p className='text-black'>
+                                {val?.author}
+                                {"  "} {val?.publish_date}
+                              </p>
+
+                              {val?.ISSN_or_ISBN && (
+                                <p className=' mt-2 text-[#1F5095]'>
+                                  ISBN : {val?.ISSN_or_ISBN}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    )
+                  ) : (
+                    <div className='sm:hidden'>No Data Found</div>
+                  )}
                 </div>
                 {/* <div className=" mt-4">
                   <Pagination pageno={page} />
@@ -453,16 +557,17 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
                           </span>
                           <div className='p-2 ml-2 scale-125 cursor-pointer'>
                             {!favData?.includes(resource.site) ? (
-                              <CiBookmarkMinus
+                              <MdOutlineBookmarkBorder
                                 onClick={() =>
                                   handleAddToFavourite(resource.site)
                                 }
                               />
                             ) : (
-                              <MdOutlineBookmarkAdded
+                              <MdBookmark
                                 onClick={() =>
                                   handleRemoveToFavourite(resource.site)
                                 }
+                                className='text-blue-600'
                               />
                             )}
                           </div>
@@ -482,29 +587,20 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
                   </p>
                 </div>
                 {/* web view filter  */}
-                <div className=' hidden sm:flex justify-end mt-6'>
-                  {/* <div className='px-2 h-[43px] w-[156px] rounded-[5px] border border-solid border-[#221FB9/0.14] mr-4 flex justify-around items-center'>
-                    <span>New Category</span>
-                    <img
-                      src={arrowdown}
-                      className=' w-[10px] h-[7px]'
-                      alt='arrowdown'
-                    />
-                  </div> */}
-
-                  <div className=' flex '>
+                <div className=' hidden sm:flex justify-end mt-6 gap-4'>
+                  <div className='flex '>
                     <div>
                       <input
                         type='text'
                         value={searchSite}
                         onChange={(e) => setSearchSite(e.target.value)}
-                        className=' w-[367px] h-[43px] border mr-4  rounded-[5px] px-4 placeholder:text-[14px] opacity-[70%]'
+                        className=' max-w-[367px] h-[43px] border rounded-[5px] px-4 placeholder:text-[14px] opacity-[70%]'
                         placeholder='Search any title'
                       />
                     </div>
                     <div
                       onClick={sortByDate}
-                      className='px-2 cursor-pointer h-[43px] w-[131px] rounded-[5px] border border-solid border-[#221FB9/0.14] mr-4 flex justify-around items-center'
+                      className='px-2 cursor-pointer h-[43px] w-[131px] rounded-[5px] border border-solid border-[#221FB9/0.14] flex justify-around items-center'
                     >
                       <img
                         src={sort}
@@ -580,13 +676,17 @@ function Resources({ logutOutHandler, institutionDetails, domain }) {
               </div>
               {/* for web view ----------------------------- */}
               <div className='sm:block hidden px-10 mb-6'>
-                <Table allSites={allSites} />
-                <Pagination pageno={page} />
+                <Table
+                  allSites={allSites}
+                  favData={favData}
+                  {...{ handleAddToFavourite, handleRemoveToFavourite }}
+                />
+                {/* <Pagination pageno={page} /> */}
               </div>
               {/* for mobile view --------------------------- */}
               <div className='block sm:hidden px-4 mb-6'>
-                <MobileTable allSites={allSites} />
-                <Pagination pageno={page} />
+                <MobileTable allSites={allSites} favData={favData} />
+                {/* <Pagination pageno={page} /> */}
               </div>
             </>
           )}

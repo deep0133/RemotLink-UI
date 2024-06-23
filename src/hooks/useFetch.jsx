@@ -95,7 +95,6 @@ export default function useFetch() {
 
       const ids = json.results.map((item) => item.id);
 
-      console.log("--------handle fetch likes -------- :", ids);
       setFavData(ids);
     } catch (err) {
       console.log("Error :", err);
@@ -431,7 +430,7 @@ export default function useFetch() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Access Count increased:", data);
+        // console.log("Access Count increased:", data);
       })
       .catch((error) => {
         console.error("Error increasing access count:", error);

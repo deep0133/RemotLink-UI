@@ -20,8 +20,6 @@ export default function EditUser({
   updateFunctionHandler,
   updateUserLoading,
 }) {
-  const [hide, setHide] = useState(true);
-
   const [user, setUser] = useState({});
   const [id, setId] = useState("");
 
@@ -68,32 +66,6 @@ export default function EditUser({
       <Header icon={<CategoryIcon />} title={head_title} subTitle={"Users"} />
       <div className='mt-8 relative mx-3 bg-white'>
         <DetailSection data={oldData} />
-
-        <div
-          onClick={() => setHide(!hide)}
-          className='dots cursor-pointer absolute right-2 top-6'
-        >
-          <ThreeDots />
-          {!hide && (
-            <button
-              style={{
-                boxShadow: "0px 3px 6px 0px rgba(112, 144, 176, 0.05)",
-                border: "rgba(34, 31, 185, 0.14)",
-              }}
-              className='flex absolute right-8 top-4 gap-2 w-[105px] h-[51px] shrink-0 justify-center items-center bg-white rounded-[7px]'
-            >
-              <div className='flex px-2 py-1 bg-gray-50 rounded-sm gap-1'>
-                <div className=' bg-gray-50'>
-                  <DeleteIcon />
-                </div>
-                <p className='text-red-600 text-[13px] font-medium font-Poppins leading-7 bg-gray-50'>
-                  Delete
-                </p>
-              </div>
-            </button>
-          )}
-        </div>
-
         <div
           style={{
             boxShadow: "0px 10px 35px 1px rgba(112, 144, 176, 0.10)",

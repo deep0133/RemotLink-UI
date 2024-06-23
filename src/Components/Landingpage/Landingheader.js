@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import lgn_icon from "../../images/Group 2323.svg";
 import anmnt_icon from "../../images/notification-status.svg";
 import CheckLoginStatus from "../auth/loginStatus";
 import { Link, useNavigate } from "react-router-dom";
-import useFetch from "../admin/hooks/useFetch";
 
-const Landingheader = ({ loginModal, setLoginModal }) => {
+const Landingheader = ({
+  loginModal,
+  setLoginModal,
+  notificationLoading,
+  notificationData,
+}) => {
   const { loginStatus, isAdmin } = CheckLoginStatus();
 
   const navigate = useNavigate();
 
   const [announcementModal, setAnnouncementModal] = useState(false);
-
-  const { notificationLoading, notificationData, handleFetctNotifications } =
-    useFetch();
-
-  useEffect(() => {
-    handleFetctNotifications("api/announcement");
-  }, []);
 
   return (
     <>

@@ -20,7 +20,12 @@ import favIcon from "../../images/book.png";
 import MobileTable from "../mobile/mobileTable";
 import Pagination from "../uiElemnts/pagination";
 
-function SavedResources({ logutOutHandler, institutionDetails, domain }) {
+function SavedResources({
+  logutOutHandler,
+  institutionDetails,
+  domain,
+  notificationData,
+}) {
   const [activeTab, setActiveTab] = useState("Resources");
   const [tabular, setTabular] = useState(false);
 
@@ -30,7 +35,9 @@ function SavedResources({ logutOutHandler, institutionDetails, domain }) {
 
   return (
     <>
-      <Header {...{ logutOutHandler, institutionDetails, domain }} />
+      <Header
+        {...{ logutOutHandler, institutionDetails, domain, notificationData }}
+      />
       <div className=' flex'>
         <span
           className=' md:block hidden'
