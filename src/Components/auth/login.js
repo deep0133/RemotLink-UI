@@ -39,6 +39,7 @@ const Login = ({ unauthorizedUserSourcelink, loginModal, setLoginModal }) => {
       setIsPending(false);
 
       localStorage.setItem("access_token", data.token.access);
+      localStorage.setItem("refresh_token", data.token.refresh);
       localStorage.setItem("userdata", JSON.stringify(data.user));
 
       if (unauthorizedUserSourcelink) {

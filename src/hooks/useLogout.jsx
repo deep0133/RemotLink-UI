@@ -12,6 +12,7 @@ export default function useLogout() {
     setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
+      const refresh_token = localStorage.getItem("refresh_token");
       if (!token) return;
       const api = `api/website/logout/`;
       const baseUrl = process.env.REACT_APP_BACKEND_URL;
@@ -25,6 +26,10 @@ export default function useLogout() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({
+          refresh_token: refresh_token,
+          access_token: token,
+        }),
       });
       if (!response.ok) {
         const errorData = await response.json();
@@ -38,8 +43,6 @@ export default function useLogout() {
       window.location.reload();
     } catch (err) {
       toast.error(err.message);
-
-      // console.error("Error :", err);
     } finally {
       setLoading(false);
     }
