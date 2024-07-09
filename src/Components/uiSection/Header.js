@@ -77,7 +77,6 @@ const Header = ({
     fetchUrl();
   }, []);
 
-  console.log("-----------announveent--------:", notificationData);
   return (
     <>
       <div className='flex w-full px-[5%] gap-5 bg-blue-900 items-center justify-evenly'>

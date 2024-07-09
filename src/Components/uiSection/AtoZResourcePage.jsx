@@ -6,7 +6,7 @@ import messageSVG from "../../images/messageSVG.svg";
 import book from "../../images/Group.png";
 import bookmarkicon2 from "../../images/Vector.png";
 import capitalizeLetter from "../admin/utils/capitalizeLetter";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import PaginationWithLibrary from "../uiElemnts/PaginationWithLibrary";
 import search_logo from "../../images/search-normal.svg";
@@ -26,28 +26,29 @@ export default function AtoZResourcePage({
     increaseAccessCount,
 
     searchViewFilterData,
-    searchViewFilterLoading,
     searchViewFilterationDataFetch,
   } = useFetch();
 
   useEffect(() => {
-    searchViewPageHandler("&page=1&page_size=10");
     searchViewFilterationDataFetch();
+    searchViewPageHandler("&alphabet=A&page=1&page_size=10");
   }, []);
 
-  const onPageChange = (pageNo) => {
-    searchViewPageHandler(`&page=${pageNo}&page_size=10`);
-    setCurrentPage((prev) => pageNo);
-  };
-
-  const [db, setDb] = useState("");
-  const [subject, setSubject] = useState();
-
   const [search, setSearch] = useState("");
+  const [db, setDb] = useState("");
+  const [subject, setSubject] = useState("");
 
-  const [sortByAlphabetical, setSortByAlphabetical] = useState("");
+  const [sortByAlphabetical, setSortByAlphabetical] = useState("A");
+
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      alphabetSearchingHandler("A");
+      isFirstRender.current = false;
+      return;
+    }
+
     let query = "";
     if (search) {
       query += search;
@@ -59,9 +60,25 @@ export default function AtoZResourcePage({
       query += `&database=${db}`;
     }
 
+    if (search === "" && db === "" && subject === "") return;
     searchViewPageHandler(query + "&page=1&page_size=10");
-    // searchViewFilterationDataFetch();
   }, [search, subject, db]);
+
+  const alphabetSearchingHandler = (alpha = "") => {
+    let query = "";
+    if (alpha && alpha !== "") {
+      query += `&alphabet=${alpha}`;
+    }
+    searchViewPageHandler(query + "&page=1&page_size=10");
+  };
+
+  const onPageChange = (pageNo) => {
+    searchViewPageHandler(
+      `&alphabet=${sortByAlphabetical}&subject=${subject}&database=${db}&page=${pageNo}&page_size=10`
+    );
+    setCurrentPage((prev) => pageNo);
+  };
+
   return (
     <>
       <Header
@@ -112,11 +129,12 @@ export default function AtoZResourcePage({
               <div className='mt-2 flex flex-wrap sm:mt-4 gap-3'>
                 <div className='flex w-full sm:max-w-[550px] relative border rounded-lg'>
                   <input
-                    type=' text'
+                    type='text'
                     className='w-full grow h-[48px] flex-1 py-2 px-4 outline-none sm:mr-5 '
                     placeholder='Enter database keywords, titles etc'
                     value={search}
                     onChange={(e) => {
+                      setSortByAlphabetical("");
                       setSearch(e.target.value);
                     }}
                     aria-label='Enter database keywords, titles etc'
@@ -131,7 +149,12 @@ export default function AtoZResourcePage({
                 <select
                   name='databases'
                   id=''
-                  onChange={(e) => setDb(e.target.value)}
+                  value={db}
+                  onChange={(e) => {
+                    setSortByAlphabetical("");
+                    setDb(e.target.value);
+                  }}
+                  defaultValue={""}
                   className='outline-none h-[48px] px-2 w-[146px] line-clamp-1 bg-white rounded-[5px] shadow border border-blue-800/opacity-10'
                 >
                   <option value=''>Database Type</option>
@@ -146,8 +169,11 @@ export default function AtoZResourcePage({
                 </select>
                 <select
                   name='subject'
-                  id=''
-                  onChange={(e) => setSubject(e.target.value)}
+                  value={subject}
+                  onChange={(e) => {
+                    setSortByAlphabetical("");
+                    setSubject(e.target.value);
+                  }}
                   className='outline-none h-[48px] w-[146px] line-clamp-1 px-2 bg-white rounded-[5px] shadow border border-blue-800/opacity-10'
                 >
                   <option value=''>Subjects Type</option>
@@ -180,9 +206,23 @@ export default function AtoZResourcePage({
 
             <div className='abc flex gap-3 my-5 flex-wrap'>
               {Array.from({ length: 26 }, (_, i) => {
+                const alphabet = String.fromCharCode(65 + i);
                 return (
-                  <div className='w-[30px] flex flex-wrap hover:bg-blue-600 duration-200 cursor-pointer hover:text-white justify-center items-center h-[30px] rounded-sm border border-blue-800/opacity-10 text-blue-600 text-lg font-medium font-Poppins leading-tight'>
-                    {String.fromCharCode(65 + i)}
+                  <div
+                    onClick={() => {
+                      setSearch("");
+                      setDb("");
+                      setSubject("");
+                      setSortByAlphabetical(alphabet);
+                      alphabetSearchingHandler(alphabet);
+                    }}
+                    className={`w-[30px] ${
+                      alphabet === sortByAlphabetical
+                        ? "bg-blue-600 text-white"
+                        : "bg-white : text-blue-600"
+                    } flex flex-wrap hover:bg-blue-600 duration-200 cursor-pointer hover:text-white justify-center items-center h-[30px] rounded-md border border-blue-800/opacity-10 text-blue-600 text-lg font-medium font-Poppins leading-tight`}
+                  >
+                    {alphabet}
                   </div>
                 );
               })}
@@ -192,7 +232,7 @@ export default function AtoZResourcePage({
               <div className='card-container md:col-span-8 bg-white rounded-lg col-span-full'>
                 {searchViewLoading
                   ? "Loading..."
-                  : searchViewData && searchViewData.data.length
+                  : searchViewData && searchViewData.data.length > 0
                   ? searchViewData.data?.map((val, i) => (
                       <Card
                         key={i}
@@ -204,21 +244,21 @@ export default function AtoZResourcePage({
                   : "No Data Found"}
                 {!searchViewLoading &&
                   searchViewData &&
-                  searchViewData.data?.length > 0 && (
+                  searchViewData?.data?.length > 0 && (
                     <div className=' flex justify-center  mt-6 items-center w-full overflow-auto'>
                       <PaginationWithLibrary
                         currentPage={currentPage}
                         previousLink={currentPage > 0 ? currentPage - 1 : null}
                         nextLink={
                           currentPage <
-                          (searchViewData && searchViewData.total_results)
+                          (searchViewData && searchViewData?.current_page + 1)
                             ? currentPage + 1
                             : null
                         }
                         totalItems={
                           searchViewData && searchViewData.total_results
                         }
-                        itemsPerPage={10}
+                        itemsPerPage={5}
                         onPageChange={(pageNo) => {
                           onPageChange(pageNo);
                         }}
@@ -308,7 +348,7 @@ const Card = ({ index, data, increaseAccessCount }) => {
             />
           </div>
           <div className=' sm:hidden mx-auto sm:mt-0 mt-2'>
-            <Tag title={"e-" + capitalizeLetter("Journal")} />
+            <Tag title={"e-" + capitalizeLetter(data?.resource_type)} />
           </div>
         </div>
         <div className=''>
@@ -317,7 +357,7 @@ const Card = ({ index, data, increaseAccessCount }) => {
               {data?.title ? data.title : "---"}
             </p>
             <span className='hidden sm:block sm:mx-4'>
-              <Tag title={"e-" + capitalizeLetter("Journal")} />
+              <Tag title={"e-" + capitalizeLetter(data?.resource_type)} />
             </span>
             <span className='block sm:hidden ml-1'>
               <BookMarkIcon />

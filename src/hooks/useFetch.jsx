@@ -54,6 +54,9 @@ export default function useFetch() {
   const [searchViewFilterLoading, setSearchViewFilterLoading] = useState(false);
   const [searchViewFilterData, setSearchViewFilterData] = useState(null);
 
+  const [aTOzResourceLoading, setATOzResourceLoading] = useState(false);
+  const [aTOzResourceData, setATOzResourceData] = useState(null);
+
   const [subdomain, setSubdomain] = useState("");
 
   useEffect(() => {
@@ -446,6 +449,15 @@ export default function useFetch() {
     );
   };
 
+  const aToZPageDataFetch = async (query) => {
+    await fetchTemplate(
+      `api/sites/a2z-resources/?${query}`,
+      setATOzResourceLoading,
+      setATOzResourceData,
+      false
+    );
+  };
+
   return {
     fetchLoading,
     proxy,
@@ -494,5 +506,9 @@ export default function useFetch() {
     searchViewFilterData,
     searchViewFilterLoading,
     searchViewFilterationDataFetch,
+
+    aToZPageDataFetch,
+    aTOzResourceLoading,
+    aTOzResourceData,
   };
 }
