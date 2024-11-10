@@ -230,7 +230,7 @@
 
 .marquee-content {
   display: flex;
-  animation: scroll-left 60s linear infinite;
+  animation: scroll-left 80s linear infinite;
 }
 
 .marquee-item {

@@ -208,27 +208,22 @@ function Resources({
               <div className='bg-[#221FB9/0.2] mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:py-6'>
                 {fetchLoading
                   ? Array.from([1, 2, 3, 4]).map((val, i) => <CardSkeleton />)
-                  : resources.map((resource, index) => {
+                  : resources?.map((resource, index) => {
                       return (
                         <div
                           key={index}
-                          className='flex flex-col border p-2 rounded-[5px]'
+                          onClick={() => {
+                            window.open(resource?.site__base_url, "_blank");
+                          }}
+                          className='flex flex-col  border p-2 rounded-[5px]'
                         >
                           <img
-                            onClick={() => {
-                              createProxyAPI(resource.site);
-                            }}
                             src={resource.site__image}
                             alt={resource.site__category__name}
                             className='w-full h-[110px]  object-cover hover:scale-105 duration-300 cursor-pointer'
                           />
                           <div className=' mt-4 flex items-center '>
-                            <p
-                              onClick={() => {
-                                createProxyAPI(resource.site);
-                              }}
-                              className='p-1 grow cursor-pointer flex justify-center items-center border sm:text-[13px] text-[8px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]'
-                            >
+                            <p className='p-1 grow cursor-pointer flex justify-center items-center border sm:text-[13px] text-[8px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]'>
                               {resource.site__name}
                             </p>
                             <div className='p-2 ml-2 scale-125 cursor-pointer'>
@@ -535,24 +530,19 @@ function Resources({
                     })
                   : resources.map((resource, index) => (
                       <div
+                        onClick={() => {
+                          window.open(resource?.site__base_url, "_blank");
+                        }}
                         key={index}
                         className='flex flex-col border p-2 rounded-[5px] mr-2 mb-2'
                       >
                         <img
-                          onClick={() => {
-                            createProxyAPI(resource.site);
-                          }}
                           src={resource.site__image}
                           alt={resource.site__category__name}
                           className='w-full h-[110px] object-cover hover:scale-105 duration-300 cursor-pointer'
                         />
                         <div className='mt-4 flex items-center'>
-                          <span
-                            onClick={() => {
-                              createProxyAPI(resource.site);
-                            }}
-                            className='p-1 grow cursor-pointer flex justify-center items-center border sm:text-[13px] text-[8px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]'
-                          >
+                          <span className='p-1 grow cursor-pointer flex justify-center items-center border sm:text-[13px] text-[8px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]'>
                             {resource.site__name}
                           </span>
                           <div className='p-2 ml-2 scale-125 cursor-pointer'>

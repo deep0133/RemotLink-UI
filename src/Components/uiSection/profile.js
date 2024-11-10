@@ -3,7 +3,7 @@ import { useState } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
-import profileIcon from "../../images/user-square.png";
+// import profileIcon from "../../images/user-square.png";
 import profilepic from "../../images/Profilepic.png";
 import mappin from "../../images/MapPin.png";
 import facebookicon from "../../images/Facebook.png";
@@ -46,6 +46,21 @@ function Profile({
     userDetailFetch();
   }, []);
 
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    const fetchUrl = async () => {
+      const userData = JSON.parse(localStorage.getItem("userdata"));
+      console.log("----------userData-----------:", userData);
+      if (userData && userData.profile_photo) {
+        const domain = await generateUrl();
+        setImageUrl(domain + "/" + userData.profile_photo);
+      }
+    };
+
+    fetchUrl();
+  }, []);
+
   return (
     <div>
       <>
@@ -69,11 +84,7 @@ function Profile({
             >
               <div className=' flex items-center'>
                 <div className='p-3 rounded-full bg-gray-100 mr-2 '>
-                  <img
-                    src={profileIcon}
-                    className=' h-5 w-5 '
-                    alt='book-icon'
-                  />
+                  <img src={imageUrl} className=' h-5 w-5' alt='book-icon' />
                 </div>
 
                 <span className=' whitespace-nowrap text-[#1F5095] font-semibold text-[15px]'>
@@ -85,11 +96,11 @@ function Profile({
             <div className='hidden sm:flex sm:px-[60px] py-8 border-b  h-[420px] sm:h-[200px] justify-between items-start bg-img'>
               <div className=' flex text-white flex-col sm:flex-row '>
                 <img
-                  src={profilepic}
+                  src={imageUrl}
                   alt='profilepic'
-                  className=' w-[141px] h-[141px]'
+                  className=' w-[141px] h-[141px] rounded-full'
                 />
-                <div className=' flex flex-col  mt-8'>
+                <div className=' flex flex-col  mt-8 ml-3'>
                   <span className='mb-[6px] text-[22px] font-semibold leading-[20px]'>
                     {userDetails?.first_name} {userDetails?.last_name}
                   </span>

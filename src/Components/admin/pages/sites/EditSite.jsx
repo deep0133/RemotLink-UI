@@ -140,14 +140,14 @@ const AddSection = ({
   useEffect(() => {
     setCurrentData((prev) => {
       return {
-        name: siteData.name,
-        url: siteData.base_url,
-        description: siteData.description,
+        name: siteData?.name,
+        base_url: siteData?.base_url,
+        description: siteData?.description,
         category:
           siteData &&
-          typeof siteData.category === "object" &&
+          typeof siteData?.category === "object" &&
           siteData.category &&
-          siteData.category.name
+          siteData.category?.name
             ? siteData.category.name
             : "",
       };
@@ -223,8 +223,8 @@ const AddSection = ({
             style={{ border: "1px rgba(34, 31, 185, 0.14) solid" }}
             className='w-full focus:outline-none focus:ring-4 ring-[rgba(16,_24,_40,_0.05)] bg-white text-gray-900 rounded-[5px] border px-3 py-2 text-sm font-medium font-Poppins leading-normal'
             type='text'
-            name='url'
-            value={currentData.url}
+            name='base_url'
+            value={currentData.base_url}
             onChange={onChangeHandler}
           />
         </div>

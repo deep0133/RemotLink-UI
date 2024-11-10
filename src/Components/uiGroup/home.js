@@ -225,12 +225,15 @@ function Home({ institutionDetails }) {
           </div>
         </Link>
 
-        <div className='w-[42px] h-[42px] flex items-center justify-center flex-col  mt-[22px]'>
+        <Link
+          to='/savedresources'
+          className='w-[42px] cursor-pointer h-[42px] flex items-center justify-center flex-col  mt-[22px]'
+        >
           <img className='pb-[7px]' src={Favorites_Icon} alt='Favorites Icon' />
           <h1 className='text-gray-600 text-center font-poppins text-xs font-medium'>
             My Favorites
           </h1>
-        </div>
+        </Link>
         <Link to='/searchview'>
           <div className='w-[42px] h-[42px] flex items-center justify-center flex-col  mt-[29px]'>
             <img className='pb-[7px]' src={Search_Icon} alt='Search Icon' />

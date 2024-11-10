@@ -31,7 +31,7 @@ function AccountSettings() {
         >
           Security
         </button>
-        <button
+        {/* <button
           className={`${
             activeTab === "three"
               ? "bg-[#F9F9FE]  rounded-lg py-2 pl-2 pr-10  text-[#1F5095]"
@@ -60,7 +60,7 @@ function AccountSettings() {
           onClick={() => setActiveTab("five")}
         >
           Setting Option 5
-        </button>
+        </button> */}
       </div>
       {activeTab === "personal" && <PersonalDetails />}
       {activeTab === "Security" && <Security />}
