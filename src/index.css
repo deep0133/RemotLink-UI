@@ -1,11 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 *::-webkit-scrollbar {
   width: 8px;
@@ -36,7 +39,6 @@
 }
 
 .background {
-  background-image: url(./images/Rectangle\ 1.png);
   width: 100%;
   height: 1019px;
   /* position: relative;
@@ -190,4 +192,63 @@
 
 .bg-img-mobile {
   background-image: url("./images/mobileprofile.svg");
+}
+
+.slick-list,
+.slick-track {
+  height: 100% !important;
+}
+
+.slick-slide > div {
+  height: 100%;
+}
+
+.slick-dots {
+  position: absolute;
+  z-index: 999;
+  bottom: 0;
+}
+
+.marquee {
+  /* height: 50px; */
+  overflow: hidden;
+  position: relative;
+  /* background: #fefefe; */
+  color: #333;
+  border: 1px solid #4a4a4a;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.marquee {
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.marquee-content {
+  display: flex;
+  animation: scroll-left 80s linear infinite;
+}
+
+.marquee-item {
+  flex: none;
+  padding: 0 20px; /* Adjust padding for spacing between the text */
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.pagination > .page-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
