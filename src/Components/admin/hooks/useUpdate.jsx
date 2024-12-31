@@ -53,6 +53,7 @@ export default function useUpdate() {
 
       const response = await fetch(url + api, {
         method: "PATCH",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -109,6 +110,7 @@ export default function useUpdate() {
 
       const response = await fetch(url + api, {
         method: "PATCH",
+        credentials: 'include',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -159,6 +161,7 @@ export default function useUpdate() {
 
       const response = await fetch(url + api, {
         method: "PATCH",
+        credentials: 'include',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -232,6 +235,7 @@ export default function useUpdate() {
 
       const response = await fetch(url + api, {
         method: "PATCH",
+        credentials: 'include',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -323,6 +327,7 @@ export default function useUpdate() {
 
       const response = await fetch(url + api, {
         method: "POST",
+        credentials: 'include',
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -33,7 +33,7 @@ function HelpAndSupport({
     try {
       const domain = await generateUrl();
 
-      const response = await fetch(`${domain}api/faq/`);
+      const response = await fetch(`${domain}api/faq/`,{credentials: 'include'});
       if (!response.ok) {
         if (response.status === 401) {
           await logutOutHandler();
@@ -61,6 +61,7 @@ function HelpAndSupport({
 
       const response = await fetch(domain + "api/institution/library/1/", {
         method: "GET",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

@@ -44,6 +44,7 @@ function Security() {
       const domain = await generateUrl();
       await fetch(domain + "api/user/change-password/", {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

@@ -24,6 +24,7 @@ export default function useDownload() {
 
       const response = await fetch(url + api, {
         method: "GET",
+        credentials: 'include',
         headers: {
           Authorization: `Bearer ${token}`,
         },

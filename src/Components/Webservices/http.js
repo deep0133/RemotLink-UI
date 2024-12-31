@@ -24,6 +24,7 @@ class Service {
     const options = {
       headers,
       method,
+      credentials: 'include',
     };
     if (data) {
       options.body = JSON.stringify({ ...data });

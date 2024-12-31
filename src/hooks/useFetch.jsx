@@ -83,6 +83,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "GET",
+        credentials: 'include',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -122,7 +123,8 @@ export default function useFetch() {
       const url = "https://" + domain + "." + baseUrl;
 
       const response = await fetch(url + api, {
-        method: "GEt",
+        method: "GET",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -158,6 +160,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "GET",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -191,6 +194,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "GET",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -231,6 +235,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "GET",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -270,6 +275,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "GET",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -305,6 +311,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "Get",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
@@ -345,6 +352,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "Get",
+        credentials: 'include',
         headers: headers,
       });
       if (!response.ok) {
@@ -426,6 +434,7 @@ export default function useFetch() {
     const token = localStorage.getItem("access_token");
     fetch(url + `api/sites/access-resources/${id}/`, {
       method: "POST",
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

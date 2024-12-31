@@ -146,6 +146,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "GET",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

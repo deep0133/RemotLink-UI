@@ -22,6 +22,7 @@ export default function useLogout() {
 
       const response = await fetch(url + api, {
         method: "Post",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

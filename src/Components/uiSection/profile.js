@@ -30,6 +30,7 @@ function Profile({
 
       const response = await fetch(domain + "api/user/current-user/", {
         method: "GET",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

@@ -25,6 +25,7 @@ export default function useFavourite() {
 
       const response = await fetch(url + api, {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -58,6 +59,7 @@ export default function useFavourite() {
 
       const response = await fetch(url + api, {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

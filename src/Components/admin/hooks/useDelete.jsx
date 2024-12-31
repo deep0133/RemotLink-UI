@@ -45,6 +45,7 @@ export default function useDelete() {
 
       const response = await fetch(url + api, {
         method: "DELETE",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
