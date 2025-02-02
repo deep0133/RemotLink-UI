@@ -1,6 +1,6 @@
 import { useState } from "react";
-import readSubdomainFromFile from "../utils/readSubdomainFromFile";
 import useLogout from "../../../hooks/useLogout";
+import generateUrl from "../utils/urlGenerate";
 export default function useFetch() {
   const [categoryLoading, setCetogoryLoading] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
@@ -127,23 +127,13 @@ export default function useFetch() {
 
   const { logutOutHandler } = useLogout();
 
-  const [subdomain, setSubdomain] = useState("");
-
   //  ------ Fetch Data -------
   const fetchData = async (api, setLoading, setData, addResult, loginLogs) => {
     setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
 
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
-
+      const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "GET",
         credentials: 'include',

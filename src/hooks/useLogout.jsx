@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import readSubdomainFromFile from "../Components/admin/utils/readSubdomainFromFile";
+import generateUrl from "../Components/admin/utils/urlGenerate";
 
 export default function useLogout() {
   const [loading, setLoading] = useState(false);
@@ -15,11 +15,7 @@ export default function useLogout() {
       const refresh_token = localStorage.getItem("refresh_token");
       if (!token) return;
       const api = `api/website/logout/`;
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      const domain = await readSubdomainFromFile();
-
-      const url = "https://" + domain + "." + baseUrl;
-
+      const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "Post",
         credentials: 'include',

@@ -13,6 +13,7 @@ import linkedinicon from "../../images/linkedin.png";
 import AccountSettings from "./Accountsettings/accountSettings";
 import Mobileaccountsettings from "../mobile/mobileaccountsettings";
 import generateUrl from "../admin/utils/urlGenerate";
+import { RxAvatar } from "react-icons/rx";
 
 function Profile({
   logutOutHandler,
@@ -52,10 +53,9 @@ function Profile({
   useEffect(() => {
     const fetchUrl = async () => {
       const userData = JSON.parse(localStorage.getItem("userdata"));
-      console.log("----------userData-----------:", userData);
       if (userData && userData.profile_photo) {
         const domain = await generateUrl();
-        setImageUrl(domain + "/" + userData.profile_photo);
+        setImageUrl(domain + userData.profile_photo);
       }
     };
 
@@ -85,7 +85,11 @@ function Profile({
             >
               <div className=' flex items-center'>
                 <div className='p-3 rounded-full bg-gray-100 mr-2 '>
-                  <img src={imageUrl} className=' h-5 w-5' alt='book-icon' />
+                  {!imageUrl ? (
+                    <img src={imageUrl} className=' h-5 w-5' alt='profile' />
+                  ) : (
+                    <RxAvatar className=' h-5 w-5' />
+                  )}
                 </div>
 
                 <span className=' whitespace-nowrap text-[#1F5095] font-semibold text-[15px]'>
@@ -96,24 +100,32 @@ function Profile({
             {/* web view hero image */}
             <div className='hidden sm:flex sm:px-[60px] py-8 border-b  h-[420px] sm:h-[200px] justify-between items-start bg-img'>
               <div className=' flex text-white flex-col sm:flex-row '>
-                <img
-                  src={imageUrl}
-                  alt='profilepic'
-                  className=' w-[141px] h-[141px] rounded-full'
-                />
+                {!imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt='profilepic'
+                    className=' w-[141px] h-[141px] rounded-full'
+                  />
+                ) : (
+                  <RxAvatar className=' w-[141px] opacity-50 h-[141px] rounded-full' />
+                )}
                 <div className=' flex flex-col  mt-8 ml-3'>
                   <span className='mb-[6px] text-[22px] font-semibold leading-[20px]'>
-                    {userDetails?.first_name} {userDetails?.last_name}
+                    {userDetails?.first_name || "first_name"}{" "}
+                    {userDetails?.last_name || "last_name"}
                   </span>
                   <span className='mb-4 text-[15px] font-medium leading-[20px]'>
-                    {userDetails?.description}
+                    {userDetails?.description || "description"}
                   </span>
                   <span className=' flex  items-center'>
                     {" "}
                     <span>
                       <img src={mappin} alt='mappin' />
                     </span>
-                    <span className=' ml-2'> {userDetails?.address}</span>
+                    <span className=' ml-2'>
+                      {" "}
+                      {userDetails?.address || "address"}
+                    </span>
                   </span>
                 </div>
               </div>
@@ -135,14 +147,17 @@ function Profile({
                     {userDetails?.first_name} {userDetails?.last_name}
                   </span>
                   <span className='mb-4 text-[15px] font-medium leading-[20px]'>
-                    {userDetails?.description}
+                    {userDetails?.description || "description"}
                   </span>
                   <span className=' flex  items-center'>
                     {" "}
                     <span>
                       <img src={mappin} alt='mappin' />
                     </span>
-                    <span className=' ml-2'> {userDetails?.address}</span>
+                    <span className=' ml-2'>
+                      {" "}
+                      {userDetails?.address || "address"}
+                    </span>
                   </span>
                 </div>
               </div>
@@ -187,7 +202,8 @@ function Profile({
                           Name
                         </span>
                         <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2'>
-                          {userDetails?.first_name} {userDetails?.last_name}
+                          {userDetails?.first_name}{" "}
+                          {userDetails?.last_name || "last_name"}
                         </span>
                       </div>
                       <div className='flex flex-col'>
@@ -196,7 +212,7 @@ function Profile({
                           Email
                         </span>
                         <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2'>
-                          {userDetails?.email}
+                          {userDetails?.email || "email"}
                         </span>
                       </div>
                       <div className='flex flex-col mt-4 sm:mt-0'>
@@ -204,7 +220,7 @@ function Profile({
                           Phone number
                         </span>
                         <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2'>
-                          {userDetails?.phone_number}
+                          {userDetails?.phone_number || "phone_number"}
                         </span>
                       </div>
                     </div>
@@ -220,7 +236,7 @@ function Profile({
                           College
                         </span>
                         <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2'>
-                          {userDetails?.institution?.name}
+                          {userDetails?.institution?.name || "institution_name"}
                         </span>
                       </div>
                       <div className='flex flex-col mb-4'>
@@ -228,7 +244,7 @@ function Profile({
                           Batch Year
                         </span>
                         <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2 '>
-                          {userDetails?.batch || "-"}
+                          {userDetails?.batch || "batch"}
                         </span>
                       </div>
                       <div className='flex flex-col'>
@@ -236,7 +252,7 @@ function Profile({
                           Course Name
                         </span>
                         <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-2'>
-                          {userDetails?.course}
+                          {userDetails?.course || "-"}
                         </span>
                       </div>
                     </div>
@@ -254,7 +270,7 @@ function Profile({
                         College
                       </span>
                       <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-2'>
-                        {userDetails?.institution?.name || "-"}
+                        {userDetails?.institution?.name || "institution_name"}
                       </span>
                     </div>
                     <div className='flex flex-col mb-4 mr-[43px]'>
@@ -262,7 +278,7 @@ function Profile({
                         Batch Year
                       </span>
                       <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-2 '>
-                        {userDetails?.batch || "-"}
+                        {userDetails?.batch || "batch"}
                       </span>
                     </div>
                     <div className='flex flex-col col-span-2'>
@@ -270,7 +286,7 @@ function Profile({
                         Course Name
                       </span>
                       <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-2'>
-                        {userDetails?.course || "-"}
+                        {userDetails?.course || "course"}
                       </span>
                     </div>
                   </div>
@@ -286,14 +302,15 @@ function Profile({
                           Address
                         </span>
                         <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-3'>
-                          {userDetails?.address}
+                          {userDetails?.address || "address"}
                         </span>
                         <span className=' text-[14px] font-medium text-[#A0A0A0] font-Poppins mt-4'>
                           State and Country
                         </span>
                         <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-3'>
-                          {userDetails?.country + " " + userDetails?.state ||
-                            "-"}
+                          {(userDetails?.state || "-") +
+                            " " +
+                            (userDetails?.country || "-")}
                         </span>
                       </div>
                     </div>

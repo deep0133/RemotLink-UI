@@ -5,9 +5,8 @@ import linkedin_icon from "../../images/linkedin.svg";
 import twitter_icon from "../../images/Vector.svg";
 import instagram_icon from "../../images/Group 427318261.svg";
 import Button from "../uiElemnts/button";
-import blank from "../../images/blankimg.svg";
 import { Link } from "react-router-dom";
-
+import instituteDefaultLogo from "../../images/instituteDefaultLogo.jpg";
 const Footer = ({ institutionDetails, domain }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -48,12 +47,16 @@ const Footer = ({ institutionDetails, domain }) => {
                 className='w-[57px] h-[76px]'
               />
             ) : (
-              <img src={blank} alt='blank' className='w-[57px] h-[76px]' />
+              <img
+                src={instituteDefaultLogo}
+                alt='blank'
+                className='w-[57px] h-[76px] mix-blend-color-burn object-contain'
+              />
             )}
             <h3 className=' text-white font-Poppins font-bold text-[18px] uppercase mt-6'>
               {institutionDetails.name
                 ? institutionDetails.name
-                : "Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital"}
+                : "Institution Name"}
             </h3>
             <p className='mt-6 font-normal text-white font-Poppins sm:font-medium sm:text-[18px] text-[15px] sm:leading-8 leading-[25px]'>
               {institutionDetails.tagline
@@ -70,16 +73,16 @@ const Footer = ({ institutionDetails, domain }) => {
               <li className='leading-6 text-wrap break-words mt-[19px] '>
                 {institutionDetails.address
                   ? institutionDetails.address
-                  : "The Principal Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital Wanadongari - Wadhamna Road, Hingna Nagpur - 441110 Maharashtra, India"}
+                  : "Address"}
               </li>
               <li className='flex leading-5 mt-[19px]'>
                 {institutionDetails.phone_number
                   ? institutionDetails.phone_number
-                  : "9178525763"}{" "}
+                  : "No contact available"}{" "}
                 :{" "}
                 {institutionDetails.second_phone_number
                   ? institutionDetails.second_phone_number
-                  : "9178525763"}
+                  : "No contact available"}
               </li>
               <li className='leading-5 mt-[19px]'>
                 {institutionDetails.email

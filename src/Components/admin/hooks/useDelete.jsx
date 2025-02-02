@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import readSubdomainFromFile from "../utils/readSubdomainFromFile";
 import useLogout from "../../../hooks/useLogout";
+import generateUrl from "../utils/urlGenerate";
 export default function useDelete() {
   const [deleteLoading, setDeleteLoading] = useState("");
   const [deleteMessage, setDeleteMessage] = useState("");
@@ -26,23 +26,13 @@ export default function useDelete() {
   const [deleteFaqLoading, setDeleteFaqLoading] = useState("");
   const [deleteFaqMsg, setDeleteFaqMsg] = useState("");
 
-  const [subdomain, setSubdomain] = useState("");
-
   const { logutOutHandler } = useLogout();
 
   const deleteRequest = async (api, setLoading, setMessage) => {
     setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
-
+      const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "DELETE",
         credentials: 'include',

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import readSubdomainFromFile from "../utils/readSubdomainFromFile";
 import useLogout from "../../../hooks/useLogout";
+import generateUrl from "../utils/urlGenerate";
 export default function useUpdate() {
   const navigate = useNavigate();
 
@@ -34,23 +34,13 @@ export default function useUpdate() {
   const [uploadUserTemplateMessage, setUploadUserTemplateMessage] =
     useState("");
 
-  const [subdomain, setSubdomain] = useState("");
-
   const { logutOutHandler } = useLogout();
 
   const request = async (api, formData) => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
-
+      const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "PATCH",
         credentials: 'include',
@@ -99,15 +89,7 @@ export default function useUpdate() {
         formDataObj.append(key, formData[key]);
       });
 
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
-
+      const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "PATCH",
         credentials: 'include',
@@ -149,16 +131,7 @@ export default function useUpdate() {
       Object.keys(formData).forEach((key) => {
         formDataObj.append(key, formData[key]);
       });
-
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
-
+      const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "PATCH",
         credentials: 'include',
@@ -223,16 +196,7 @@ export default function useUpdate() {
       Object.keys(formData).forEach((key) => {
         formDataObj.append(key, formData[key]);
       });
-
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
-
+      const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "PATCH",
         credentials: 'include',
@@ -316,15 +280,7 @@ export default function useUpdate() {
 
       formDataObj.append("file", file);
 
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
-
+      const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "POST",
         credentials: 'include',

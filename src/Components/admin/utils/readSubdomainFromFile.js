@@ -1,17 +1,17 @@
 import subdmonPath from "../../../subdomain.txt";
 
 let domain = null;
-const readSubdomainFromFile = async () => {
-  try {
-    if (!domain) {
-      const response = await fetch(subdmonPath);
 
-      const data = await response.text();
-      domain = data.trim();
-    }
+const readSubdomainFromFile = async () => {
+  if (domain) return domain;
+
+  try {
+    const response = await fetch(subdmonPath);
+    domain = (await response.text()).trim();
     return domain;
   } catch (error) {
-    // console.error("Error reading subdomain:", error);
+    console.error("Error reading subdomain:", error);
+    return null;
   }
 };
 

@@ -46,7 +46,7 @@ export default function BulkUser({
           setFile={setFile}
           error={["First Error", "Second Error", "Third Error"]}
           bulkUserTaskListData={
-            bulkUserTaskListData && bulkUserTaskListData.results
+            bulkUserTaskListData && bulkUserTaskListData?.results
           }
         />
         <Buttons
@@ -69,8 +69,8 @@ export default function BulkUser({
               : null
           }
           nextLink={
-            bulkUserTaskListData && bulkUserTaskListData.next
-              ? bulkUserTaskListData.next
+            bulkUserTaskListData && bulkUserTaskListData?.next
+              ? bulkUserTaskListData?.next
               : null
           }
           totalItems={totalItems}
@@ -121,7 +121,9 @@ const FileUpload = ({ setFile, bulkUserTaskListData }) => {
   };
 
   const progressValue =
-    Math.floor(Number(bulkUserTaskListData[0]?.progress)) || 0;
+    Math.floor(
+      Number((bulkUserTaskListData && bulkUserTaskListData[0]?.progress) || 0)
+    ) || 0;
 
   return (
     <div className='mt-6 relative'>
@@ -135,9 +137,7 @@ const FileUpload = ({ setFile, bulkUserTaskListData }) => {
           }}
           className='card-1 shrink-0 bg-[#FAFCFE] w-[500px] rounded-[5px] py-5 px-6 flex items-center'
         >
-          {/* <div className='w-10 h-10  flex justify-center items-center rounded-full shrink-0'> */}
           <DownloadIcon />
-          {/* </div> */}
           <div onClick={uploadFile} className='content'>
             <input
               ref={uploadRef}
@@ -169,19 +169,10 @@ const FileUpload = ({ setFile, bulkUserTaskListData }) => {
           </div>
           <div className='content shrink-0 w-full flex-1'>
             <div className='text-black text-opacity-90 text-base font-medium font-Poppins leading-relaxed'>
-              {/* Students IIM Banglore */}
               {bulkUserTaskListData && bulkUserTaskListData[0]
-                ? bulkUserTaskListData[0].task_id
+                ? bulkUserTaskListData[0]?.task_id
                 : ""}
             </div>
-            {/* <div className=' flex justify-between items-center w-full mt-1'>
-              <p className='text-black text-opacity-60 text-[13px] font-medium font-Poppins leading-tight'>
-                443KB . 56 seconds left
-              </p>
-              <p className="text-right text-yellow-600 text-sm font-medium font-['Outfit'] leading-tight">
-                4%
-              </p>
-            </div> */}
           </div>
 
           <div

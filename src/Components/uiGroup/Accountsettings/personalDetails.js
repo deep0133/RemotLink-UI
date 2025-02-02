@@ -1,10 +1,26 @@
-import React from "react";
+import React, { memo, useState } from "react";
 import profilepic from "../../../images/Profilepic.png";
 
-function PersonalDetails() {
+const PersonalDetails = memo(function PersonalDetails() {
+  const [userData, setUserData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_number: "",
+    description: "",
+  });
+
+  const changeHandler = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+  };
+
+  const submitFormHandler = () => {
+    console.log("-----profiel data-------:", userData);
+  };
   return (
     <div className=' flex flex-col flex-1'>
-      <div className=' flex items-center'>
+      <div className='flex items-center'>
         <img
           src={profilepic}
           alt='profilepic'
@@ -23,8 +39,10 @@ function PersonalDetails() {
             <input
               type='text'
               className=' border'
+              name='first_name'
+              value={userData?.first_name}
+              onChange={changeHandler}
               style={{ padding: "10px 14px 10px 14px" }}
-              value={"Ravi"}
             />
           </div>
           <div className=' flex flex-col grow'>
@@ -33,9 +51,11 @@ function PersonalDetails() {
             </h3>
             <input
               type='text'
-              className=' border'
+              className='border'
+              name='last_name'
+              value={userData?.last_name}
+              onChange={changeHandler}
               style={{ padding: "10px 14px 10px 14px" }}
-              value={"Mehra"}
             />
           </div>
         </div>
@@ -47,7 +67,9 @@ function PersonalDetails() {
             type='text'
             className=' border  w-auto'
             style={{ padding: "10px 14px 10px 14px" }}
-            value={"Ravi@gmail.com"}
+            name='email'
+            value={userData?.email}
+            onChange={changeHandler}
           />
         </div>
         <div className=' flex flex-col mt-6'>
@@ -58,7 +80,9 @@ function PersonalDetails() {
             type='text'
             className=' border  w-auto'
             style={{ padding: "10px 14px 10px 14px" }}
-            value={"+912756281919"}
+            name='phone_number'
+            value={userData?.phone_number}
+            onChange={changeHandler}
           />
         </div>
         <div className=' flex flex-col mt-6'>
@@ -70,16 +94,19 @@ function PersonalDetails() {
             className=' border  w-auto focus:outline-none'
             style={{ padding: "10px 14px 10px 14px" }}
             rows={3}
-            value={
-              "  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit perferendis corrupti voluptatibus magnam aspernatur nemo, quis repellat cum vero sapiente?"
-            }
+            name='description'
+            value={userData?.description}
+            onChange={changeHandler}
           />
         </div>
       </div>
 
       <div className=' flex justify-end mt-6 items-center'>
         <div className=' p-1  bg-slate-200 mr-4 rounded-lg'>
-          <button className=' border h-[36px] w-[117px] bg-[#3674CB] text-white text-[12px] font-semibold leading-5 rounded-lg '>
+          <button
+            onClick={submitFormHandler}
+            className=' border h-[36px] w-[117px] bg-[#3674CB] text-white text-[12px] font-semibold leading-5 rounded-lg '
+          >
             Save Changes
           </button>
         </div>
@@ -89,6 +116,6 @@ function PersonalDetails() {
       </div>
     </div>
   );
-}
+});
 
 export default PersonalDetails;

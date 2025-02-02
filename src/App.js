@@ -20,6 +20,7 @@ import AdminRoutes from "./Components/admin/AdminRoutes";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import AdminRoute from "./Components/AdminRoute";
 import AtoZResourcePage from "./Components/uiSection/AtoZResourcePage";
+import readSubdomainFromFile from "./Components/admin/utils/readSubdomainFromFile";
 
 function App() {
   const { institutionDetails, institutionDetailFetch } = useFetch();
@@ -30,15 +31,15 @@ function App() {
   const [loginModal, setLoginModal] = useState(false);
 
   useEffect(() => {
-    institutionDetailFetch();
-  }, []);
-
-  useEffect(() => {
+    readSubdomainFromFile().then((sub) => (document.title = sub));
     const fetchUrl = async () => {
       const url = await generateUrl();
       setDomain(url);
     };
     fetchUrl();
+    institutionDetailFetch();
+    handleFetctNotifications("api/announcement");
+    // eslint-disable-next-line
   }, []);
 
   const { logutOutHandler } = useLogout();
@@ -52,10 +53,6 @@ function App() {
 
   const { notificationLoading, notificationData, handleFetctNotifications } =
     clientUseFetch();
-
-  useEffect(() => {
-    handleFetctNotifications("api/announcement");
-  }, []);
 
   return (
     <>
