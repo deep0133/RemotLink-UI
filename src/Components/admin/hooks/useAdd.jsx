@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import readSubdomainFromFile from "../utils/readSubdomainFromFile";
 import useLogout from "../../../hooks/useLogout";
+import generateUrl from "../utils/urlGenerate";
 export default function useAdd() {
   const navigate = useNavigate();
 
@@ -32,20 +32,11 @@ export default function useAdd() {
   const [addFaqLoading, setAddFaqLoading] = useState(false);
   const [faqAddMessage, setFaqAddMessage] = useState("");
 
-  const [subdomain, setSubdomain] = useState("");
-
   const handleAdd = async (api, formData) => {
     setAddLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
+      const url = await generateUrl();
 
       const response = await fetch(url + api, {
         method: "POST",
@@ -79,14 +70,7 @@ export default function useAdd() {
     setAddNewUserLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
+      const url = await generateUrl();
 
       const response = await fetch(url + api, {
         method: "POST",
@@ -138,14 +122,7 @@ export default function useAdd() {
         formDataObj.append(key, formData[key]);
       });
 
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
+      const url = await generateUrl();
 
       const response = await fetch(url + api, {
         method: "POST",
@@ -178,15 +155,7 @@ export default function useAdd() {
     setAddNotificationLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
-
+      const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "POST",
         headers: {
@@ -219,15 +188,7 @@ export default function useAdd() {
     setMessageLoadingMsg(true);
     try {
       const token = localStorage.getItem("access_token");
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
-
+      const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "POST",
         headers: {
@@ -260,15 +221,7 @@ export default function useAdd() {
     setAddFaqLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
-
+      const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "POST",
         headers: {

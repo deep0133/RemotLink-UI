@@ -5,7 +5,7 @@ import menu_icn3 from "../../images/menu-04-purple.svg";
 import books from "../../images/book.svg";
 import generateUrl from "../admin/utils/urlGenerate";
 import { Link } from "react-router-dom";
-
+import instituteDefaultLogo from "../../images/instituteDefaultLogo.jpg";
 const Banner = ({ institutionDetails }) => {
   const navheading = `text-white light:text-[#0B2E78] purple:text-black font-AnekLatin light:font-Outfit purple:font-Sora text-base font-medium leading-normal pr-[35px] hover:underline light:hover:text-[#0B2E78] light:hover:underline purple:hover:text-[#6F1AB6] purple:hover:underline   `;
 
@@ -32,13 +32,17 @@ const Banner = ({ institutionDetails }) => {
               alt='banner'
             />
           ) : (
-            <div className='logo-pic  purple:logo-pic-purple w-[43px] h-[57.683px]'></div>
+            <img
+              src={instituteDefaultLogo}
+              className='object-contain w-[43px] h-[57.683px]'
+              alt='logo'
+            />
           )}
           <div className='mr-4'>
             <h1 className='text-white light:text-black purple:hidden font-Lusitana light:font-SourceSans text-base font-bold leading-6 max-[360px]:leading-4 w-44 min-[360px]:w-60 sm:w-72 lg:w-96 pl-3 md:pl-6 '>
               {institutionDetails.name
                 ? institutionDetails.name
-                : "Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital"}
+                : "Institution Name"}
             </h1>
           </div>
           <h1 className='hidden purple:block text-[#6F1AB6]  text-base font-Sora font-bold leading-6 w-40 min-[360px]:w-56 sm:w-72 lg:w-96 pl-3 md:pl-6'>
@@ -107,7 +111,7 @@ const Banner = ({ institutionDetails }) => {
             {/* Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital */}
             {institutionDetails.name
               ? institutionDetails.name
-              : "Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital"}
+              : "Institution Name"}
           </h1>
           <h1 className='w-3/4 lg:w-[992px] purple:w-3/4 purple:xl:w-[692px]  mt-3 purple:mt-5 text-white font-Lusitana purple:font-Sora  light:font-SourceSans light:italic text-[21px] purple:text-[18px] font-bold leading-20 capitalize '>
             {institutionDetails.tagline

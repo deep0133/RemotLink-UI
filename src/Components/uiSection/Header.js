@@ -7,7 +7,7 @@ import bell_icon from "../../images/Notification.svg";
 import Flag_icon from "../../images/United.svg";
 import down_icon from "../../images/chevron-down.svg";
 import user_pic from "../../images/photo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import profileIcon from "../../images/user-square.png";
 import bookIcon from "../../images/Group 1000003119.png";
 import messagequestion from "../../images/message-question.png";
@@ -21,7 +21,7 @@ import book from "../../images/book.png";
 import help_Icon from "../../images/message-question-white.svg";
 import generateUrl from "../admin/utils/urlGenerate";
 import MovingBanner from "../MovingBanner";
-
+import instituteDefaultLogo from "../../images/instituteDefaultLogo.jpg";
 const Header = ({
   logutOutHandler,
   institutionDetails,
@@ -31,6 +31,8 @@ const Header = ({
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [userdetail, setUserdetail] = useState("");
+
+  const navigate = useNavigate();
 
   const href = window.location.pathname;
   const toggleDropdown = () => {
@@ -86,18 +88,27 @@ const Header = ({
       </div>
       {/* larger screen header*/}
       <div className=' hidden md:flex px-[5%] justify-between flex-shrink-0 items-center border-r border-solid border-opacity-10 bg-white shadow-md h-[71px] w-full border-4 border-yellow-400'>
-        <div className='flex gap-3'>
+        <div
+          onClick={() => {
+            navigate("/");
+          }}
+          className='flex gap-3 cursor-pointer'
+        >
           <div className='flex shrink-0'>
             <img
-              src={url + institutionDetails?.logo}
+              src={
+                institutionDetails?.logo
+                  ? url + institutionDetails?.logo
+                  : instituteDefaultLogo
+              }
               alt='logo'
-              className='relative w-[30px] shrink-0 object-cover'
+              className='relative w-[30px] shrink-0 object-contain'
             />
           </div>
           <div className='text-blue-900 max-w-[227px] font-poppins line-clamp-2 text-base  font-semibold not-italic leading-normal '>
             {institutionDetails && institutionDetails.name
               ? institutionDetails.name
-              : "Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital"}
+              : "Institution Name"}
           </div>
         </div>
         <div className='hidden lg:flex grow mx-8 items-center justify-between rounded-md border border-solid border-gray-200 max-w-[552px] h-auto p-[14px] px-[28px] '>

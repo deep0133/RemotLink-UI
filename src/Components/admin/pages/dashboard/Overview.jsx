@@ -185,19 +185,19 @@ const Details = ({
 
   // formate ------- Hourly Data---------
   function formatChartData(hourlyData) {
-    const filteredData = hourlyData.filter((data) => {
+    const filteredData = hourlyData?.filter((data) => {
       const hour = parseInt(data.metric.split(":")[0], 10);
       return amPm.toLowerCase() === "am" ? hour < 12 : hour >= 12;
     });
 
     // Format the labels to display in 12-hour format with AM/PM suffix
-    let labels = filteredData.map((data) => {
+    let labels = filteredData?.map((data) => {
       const hour = parseInt(data.metric.split(":")[0], 10);
       const formattedHour = hour;
       return formattedHour + ":00" + amPm;
     });
 
-    const data = filteredData.map((data) => data.active_users);
+    const data = filteredData?.map((data) => data.active_users);
 
     const formattedData = {
       labels,
@@ -627,9 +627,11 @@ const Details = ({
                 overviewRecentlyUpdatedData.slice(0, 6).map((item) => {
                   return (
                     <RecentlyTopCard
-                      image={item && item.image ? item.image : null}
-                      title={item && item.name ? item.name : "---"}
-                      desc={item && item.description ? item.description : "---"}
+                      image={item && item.image ? item?.image : null}
+                      title={item && item.name ? item?.name : "---"}
+                      desc={
+                        item && item.description ? item?.description : "---"
+                      }
                     />
                   );
                 })}
@@ -644,9 +646,9 @@ const Details = ({
                 reportSiteData.results.slice(0, 6).map((item) => {
                   return (
                     <RecentlyTopCard
-                      image={item && item.site__image ? item.site__image : null}
-                      title={item && item.site__name ? item.site__name : "---"}
-                      desc={item && item.description ? item.description : "---"}
+                      image={item && (item?.site__image || null)}
+                      title={item && (item?.site__name || "---")}
+                      desc={item && (item?.description || "---")}
                     />
                   );
                 })
@@ -697,7 +699,7 @@ const Details = ({
               </div>
               <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
                 {/* Scopus */}
-                {databaseUsageStateData?.datasets[0].label}
+                {databaseUsageStateData?.datasets[0]?.label}
               </div>
             </label>
             <label htmlFor='dvl' className='flex gap-2'>
@@ -711,7 +713,7 @@ const Details = ({
               </div>
               <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
                 {/* DVL */}
-                {databaseUsageStateData?.datasets[1].label}
+                {databaseUsageStateData?.datasets[1]?.label}
               </div>
             </label>
             <label htmlFor='proQuest' className='flex gap-2'>
@@ -725,7 +727,7 @@ const Details = ({
               </div>
               <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
                 {/* ProQuest */}
-                {databaseUsageStateData?.datasets[2].label}
+                {databaseUsageStateData?.datasets[2]?.label}
               </div>
             </label>
           </div>
@@ -745,13 +747,13 @@ const Details = ({
           </div>
           {siteLoading && <Loader />}
           <div className='right card-container grid grid-cols-3 gap-3'>
-            {siteData && siteData.length > 0
+            {siteData && siteData?.length > 0
               ? siteData.map((site, index) => {
                   return (
                     <DataBaseCard
                       key={index}
-                      name={site.name}
-                      image={site.image}
+                      name={site?.name}
+                      image={site?.image}
                     />
                   );
                 })

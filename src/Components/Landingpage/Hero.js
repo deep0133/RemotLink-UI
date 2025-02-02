@@ -3,19 +3,15 @@ import abt_us1 from "../../images/Rectangle 522.png";
 import abt_us2 from "../../images/Rectangle 523.png";
 import Showcard from "./Showcard";
 
-import scenery from "../../images/Rectangle 550.png";
 import useFetch from "../../hooks/useFetch";
-import HomeSlider from "../uiGroup/HomeSlider";
+import scenery from "../../images/Rectangle 550.png";
 
 const Hero = () => {
-  const {
-    searchViewFilterData,
-    searchViewFilterLoading,
-    searchViewFilterationDataFetch,
-  } = useFetch();
+  const { searchViewFilterData, searchViewFilterationDataFetch } = useFetch();
 
   useEffect(() => {
     searchViewFilterationDataFetch();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -27,11 +23,18 @@ const Hero = () => {
               Our Commitment to Academic Excellence
             </h1>
             <p className='text-white  w-11/12 sm:w-[408px] min-[1211px]:w-[539px] font-feature-settings-[clig-off liga-off] font-Sora text-[16px] opacity-60  font-light leading-32 capitalize pt-8'>
-              At [Institute Name], we are dedicated to fostering a rich learning
+              {/* At [Institute Name], we are dedicated to fostering a rich learning
               environment through our comprehensive digital library. Our mission
               is to provide a diverse collection of resources, including
               journals, research papers, and educational materials, to support
-              the academic pursuits of our students and faculty.{" "}
+              the academic pursuits of our students and faculty.{" "} */}
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure,
+              nulla omnis! Quam vitae perspiciatis, suscipit similique aut,
+              aliquid adipisci unde deserunt veniam, dolore sapiente distinctio
+              incidunt et maxime! Facere, nobis? Eveniet modi amet reprehenderit
+              est voluptatum sint dolorum a at. Accusantium nemo odit iusto,
+              amet sit et dolorum vitae eligendi ipsam temporibus praesentium
+              vel? Aspernatur pariatur id doloremque animi corrupti.
             </p>
           </div>
           <div className='flex flex-col items-center justify-between mx-6 max-[520px]:w-11/12 '>
@@ -54,12 +57,21 @@ const Hero = () => {
             Quality Practical Medical Education
           </h1>
           <p className='w-11/12 md:w-[651px] text-white light:text-[#00000099] light:text-opacity-60 font-AnekLatin  light:font-S text-base font-medium leading-8 min-xl:text-center'>
-            Dvirtual Library (DVL) is a leading digital resource hub dedicated
+            {/* Dvirtual Library (DVL) is a leading digital resource hub dedicated
             to empowering excellence in medical education and research. With a
             rich history of serving the community, DVL provides access to a
             comprehensive database of over 25,000 records from 1,000+
             publishers, spanning diverse subjects in medicine, clinical
-            sciences, engineering, management, and more .
+            sciences, engineering, management, and more . */}
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur
+            nesciunt maxime voluptatem provident voluptatum labore ducimus
+            quasi, rerum quis, explicabo illum, vero aliquid nam exercitationem
+            possimus temporibus quam quo facilis? Eligendi praesentium dolorum
+            esse illum beatae doloribus recusandae magni ex ipsum, voluptates
+            amet ut ipsa, repellendus alias? Enim deserunt ex veniam neque
+            pariatur, sequi debitis tenetur possimus sit accusamus reiciendis!
+            Cumque est ut voluptate, porro quis quibusdam saepe ipsam, delectus
+            {}
           </p>
         </div>
         <div className='flex  items-center justify-center min-[1331px]:justify-between min-[1238px]:mt-24 flex-wrap mt-12'>
@@ -89,9 +101,13 @@ const Hero = () => {
             Access to Various resources
           </h1>
           <p className='w-11/12 sm:w-[320px] sm:max-lg:w-[540px] lg:w-[808px] text-white light:text-[#00000099] purple:text-[#696969] text-opacity-60 text-center font-AnekLatin light:font-SourceSans purple:font-Sora text-base font-medium leading-8 '>
-            Dvirtual Library (DVL) is a leading digital resource hub dedicated
+            {/* Dvirtual Library (DVL) is a leading digital resource hub dedicated
             to empowering excellence in medical education and research. With a
-            rich history of serving the{" "}
+            rich history of serving the{" "} */}
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, quis
+            alias cum temporibus mollitia tempore minima fuga a accusantium!
+            Impedit qui voluptates tempore sunt. Cumque repellat veniam adipisci
+            nostrum dicta! Unde nostrum porro sunt illum optio quos quis
           </p>
         </div>
         <div className='flex  items-center flex-wrap mt-[12px] mb-[24px] justify-center'>

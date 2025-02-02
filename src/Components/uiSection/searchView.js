@@ -119,7 +119,7 @@ function SearchView({
               height: "70px",
             }}
           >
-            <div className=' p-3 rounded-full   bg-gray-300 mr-2 '>
+            <div className='p-3 rounded-full   bg-gray-300 mr-2'>
               <img src={search} className=' h-5 w-5 ' alt='search' />
             </div>
 

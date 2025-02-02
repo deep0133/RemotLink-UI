@@ -16,7 +16,7 @@ import banr2 from "../../images/Group 2326.svg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
-
+import instituteDefaultLogo from "../../images/instituteDefaultLogo.jpg";
 const Landingfooter = ({ domain, institutionDetails }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -57,8 +57,8 @@ const Landingfooter = ({ domain, institutionDetails }) => {
                       />
                     ) : (
                       <img
-                        className='w-[57.161px] h-[76.68px]'
-                        src={banr}
+                        className='w-[57.161px] h-[76.68px] object-contain'
+                        src={instituteDefaultLogo}
                         alt='banner-logo'
                       />
                     )}
@@ -72,15 +72,14 @@ const Landingfooter = ({ domain, institutionDetails }) => {
                 <li className='purple:hidden max-w-[378px] text-white light:text-black font-Lusitana light:font-SourceSans font-bold text-[18px] leading-10 uppercase pt-[35px] pb-[10px]  mr-1'>
                   {institutionDetails.name
                     ? institutionDetails.name
-                    : "Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital"}
+                    : "Institution Name"}
                 </li>
                 <li className='hidden purple:block max-w-[408px] text-white font-Sora font-bold text-[18px] leading-10 uppercase pt-[35px] pb-[10px]'>
                   Indian Institute of Medical Sciences
                 </li>
                 <li className='text-white light:text-black font-AnekLatin light:font-SourceSans purple:font-Sora font-medium text-[16px] leading-8 mr-1 '>
-                  {institutionDetails.tagline
-                    ? institutionDetails.tagline
-                    : " Official Institute Library to access Digital material"}
+                  {institutionDetails?.tagline ||
+                    " Official Institute Library to access Digital material"}
                   <div className='w-11/12 h-[2px] bg-[#AE9F0F] light:bg-[#B1CAFF] purple:bg-[#B1CAFF]'></div>
                 </li>
               </ul>
@@ -93,25 +92,18 @@ const Landingfooter = ({ domain, institutionDetails }) => {
               <ul className='flex  items-start justify-between flex-col'>
                 <li>
                   <p className='whitespace-normal w-64 pt-[19px] pb-[29px] light:font-Outfit light:text-[#00000099]  light:text-opacity-80 purple:font-Sora purple:text-opacity-50 '>
-                    {institutionDetails.address
-                      ? institutionDetails.address
-                      : "The Principal Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital Wanadongari - Wadhamna Road, Hingna Nagpur - 441110 Maharashtra, India"}
+                    {institutionDetails?.address || "Address"}
                   </p>
                 </li>
                 <li className='flex light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50 '>
                   {" "}
-                  {institutionDetails.phone_number
-                    ? institutionDetails.phone_number
-                    : "9178525763"}
+                  {institutionDetails?.phone_number || "No contact available"}
                   <img className='pl-1 pr-1' src={Elipse} alt='dot icon' />
-                  {institutionDetails.second_phone_number
-                    ? institutionDetails.second_phone_number
-                    : "9178525763"}
+                  {institutionDetails?.second_phone_number ||
+                    "No other contact available"}
                 </li>
                 <li className='pt-[13px] light:font-Outfit light:text-[#00000099] light:text-opacity-80 purple:font-Sora purple:text-opacity-50 '>
-                  {institutionDetails.email
-                    ? institutionDetails.email
-                    : "sdddhch@sdmail.com"}
+                  {institutionDetails?.email || "sdddhch@sdmail.com"}
                 </li>
               </ul>
             </div>

@@ -151,10 +151,6 @@ const Details = ({
   const [databaseUsageWeekMonth, setDatabaseUsageWeekMonth] = useState("week");
 
   const [
-    subjectWiseDistributionWeekMonth,
-    setSubjectWiseDistributionWeekMonth,
-  ] = useState("month");
-  const [
     fullCircleChartSubjectWiseDisData,
     setFullCircleChartSubjectWiseDisData,
   ] = useState(null);
@@ -395,7 +391,7 @@ const Details = ({
                 </div>
                 <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
                   {/* Scopus */}
-                  {databaseUsageStateData?.datasets[0].label}
+                  {databaseUsageStateData?.datasets[0]?.label}
                 </div>
               </label>
               <label htmlFor='dvl' className='flex gap-2'>
@@ -409,7 +405,7 @@ const Details = ({
                 </div>
                 <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
                   {/* DVL */}
-                  {databaseUsageStateData?.datasets[1].label}
+                  {databaseUsageStateData?.datasets[1]?.label}
                 </div>
               </label>
               <label htmlFor='proQuest' className='flex gap-2'>
@@ -423,7 +419,7 @@ const Details = ({
                 </div>
                 <div className='text-gray-900 text-[13px] font-medium font-Poppins leading-snug'>
                   {/* ProQuest */}
-                  {databaseUsageStateData?.datasets[2].label}
+                  {databaseUsageStateData?.datasets[2]?.label}
                 </div>
               </label>
             </div>
@@ -508,21 +504,21 @@ const Details = ({
                     #{index + 1}
                   </div>
                   <div className='text-indigo-900 text-xs font-medium font-Poppins leading-7'>
-                    {item.title}
+                    {item?.title}
                   </div>
                   <div className='text-indigo-900 text-xs font-medium font-Poppins leading-7'>
-                    {item.subject}
+                    {item?.subject}
                   </div>
                   <div className='text-indigo-900 items-center justify-center flex gap-1 text-center text-xs font-medium font-Poppins leading-normal'>
-                    {item.access_rate}
+                    {item?.access_rate}
                     <progress
                       className=' w-3/5 h-2 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-bar]:bg-[#546eff82] [&::-webkit-progress-value]:bg-[#546FFF] [&::-moz-progress-bar]:bg-[#546FFF]'
                       max='100'
-                      value={item.access_rate}
+                      value={item?.access_rate}
                     ></progress>
                   </div>
                   <div className='text-indigo-900 text-center text-xs font-medium font-Poppins leading-normal'>
-                    {item.save_count}
+                    {item?.save_count}
                   </div>
                 </div>
               );

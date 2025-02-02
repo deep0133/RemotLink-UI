@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import readSubdomainFromFile from "../Components/admin/utils/readSubdomainFromFile";
+import generateUrl from "../Components/admin/utils/urlGenerate";
 import useLogout from "./useLogout";
 
 const selectRandomMessage = (messages) => {
@@ -17,7 +17,6 @@ export default function useFetch() {
   const [fetchLoading, setFetchLoading] = useState(false);
   const [resources, setResources] = useState([]);
   const [allSites, setAllSites] = useState([]);
-  const [messages, setMessages] = useState([]);
 
   const [proxy, setProxy] = useState("");
 
@@ -57,10 +56,9 @@ export default function useFetch() {
   const [aTOzResourceLoading, setATOzResourceLoading] = useState(false);
   const [aTOzResourceData, setATOzResourceData] = useState(null);
 
-  const [subdomain, setSubdomain] = useState("");
-
   useEffect(() => {
     handleSearchSite();
+    // eslint-disable-next-line
   }, [searchSite]);
 
   const { logutOutHandler } = useLogout();
@@ -70,16 +68,9 @@ export default function useFetch() {
     setFavLoading(true);
     try {
       const api = `api/user/favourites/`;
-
       const token = localStorage.getItem("access_token");
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
 
-      const url = "https://" + domain + "." + baseUrl;
+      const url = await generateUrl();
 
       const response = await fetch(url + api, {
         method: "GET",
@@ -112,14 +103,7 @@ export default function useFetch() {
       const token = localStorage.getItem("access_token");
       const api = "api/report/site/";
 
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
+      const url = await generateUrl();
 
       const response = await fetch(url + api, {
         method: "GEt",
@@ -147,14 +131,7 @@ export default function useFetch() {
     try {
       const token = localStorage.getItem("access_token");
       const api = "api/sites/";
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
+      const url = await generateUrl();
 
       const response = await fetch(url + api, {
         method: "GET",
@@ -180,14 +157,7 @@ export default function useFetch() {
     try {
       const token = localStorage.getItem("access_token");
       const api = `api/website/create-proxy/${id}`;
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
+      const url = await generateUrl();
 
       const response = await fetch(url + api, {
         method: "GET",
@@ -220,14 +190,7 @@ export default function useFetch() {
       setSearchLoader(true);
       const token = localStorage.getItem("access_token");
       const api = `api/sites/?search=${searchSite}`;
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
+      const url = await generateUrl();
 
       const response = await fetch(url + api, {
         method: "GET",
@@ -259,14 +222,7 @@ export default function useFetch() {
     try {
       const token = localStorage.getItem("access_token");
       const api = `api/message/`;
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
+      const url = await generateUrl();
 
       const response = await fetch(url + api, {
         method: "GET",
@@ -284,7 +240,6 @@ export default function useFetch() {
       }
 
       json = await response.json();
-      setMessages(json.results);
       return selectRandomMessage(json.results);
     } catch (error) {
       return "Error While Fetching Data from DB";
@@ -294,15 +249,7 @@ export default function useFetch() {
   const institutionDetailFetch = async () => {
     try {
       const api = `api/institution/detail`;
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
-
+      const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "Get",
         headers: {
@@ -325,14 +272,7 @@ export default function useFetch() {
   const fetchTemplate = async (api, loading, state, token = true) => {
     try {
       loading(true);
-      const baseUrl = process.env.REACT_APP_BACKEND_URL;
-      let domain = subdomain;
-      if (!subdomain) {
-        domain = await readSubdomainFromFile();
-        setSubdomain(domain);
-      }
-
-      const url = "https://" + domain + "." + baseUrl;
+      const url = await generateUrl();
 
       const headers = {
         "Content-Type": "application/json",
@@ -414,15 +354,7 @@ export default function useFetch() {
 
   // hit api to increase access_count:
   const increaseAccessCount = async (id) => {
-    const baseUrl = process.env.REACT_APP_BACKEND_URL;
-    let domain = subdomain;
-    if (!subdomain) {
-      domain = await readSubdomainFromFile();
-      setSubdomain(domain);
-    }
-
-    const url = "https://" + domain + "." + baseUrl;
-
+    const url = await generateUrl();
     const token = localStorage.getItem("access_token");
     fetch(url + `api/sites/access-resources/${id}/`, {
       method: "POST",

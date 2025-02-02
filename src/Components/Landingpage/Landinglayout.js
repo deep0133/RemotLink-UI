@@ -26,6 +26,7 @@ const Landinglayout = ({
   useEffect(() => {
     landingPageCategorialResourceFetch("access_count");
     landingPageFeaturedResourcesFetch();
+    // eslint-disable-next-line
   }, []);
 
   const { hash } = useLocation();
