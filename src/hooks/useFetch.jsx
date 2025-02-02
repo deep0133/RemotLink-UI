@@ -192,7 +192,6 @@ export default function useFetch() {
   const handleSearchSite = async () => {
     try {
       setSearchLoader(true);
-      const token = localStorage.getItem("access_token");
       const api = `api/sites/?search=${searchSite}`;
       const url = await generateUrl();
 
@@ -201,7 +200,6 @@ export default function useFetch() {
         credentials: 'include',
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       });
 
