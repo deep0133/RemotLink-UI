@@ -309,6 +309,35 @@ export default function useFetch() {
       loading(false);
     }
   };
+  const fetchTemplateSites = async (api, loading, state, token = true) => {
+    try {
+      loading(true);
+      const url = await generateUrl();
+
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+
+      const response = await fetch(url + api, {
+        method: "Get",
+        credentials: 'include',
+        headers: headers,
+      });
+      if (!response.ok) {
+        if (response.status === 401) {
+          await logutOutHandler();
+        }
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      state(data);
+    } catch (error) {
+      // console.error("Error fetching FAQs:", error.message);
+    } finally {
+      loading(false);
+    }
+  };
 
   const landingPageCategorialResourceFetch = async (param) => {
     await fetchTemplate(
@@ -353,7 +382,7 @@ export default function useFetch() {
   };
 
   const searchViewPageHandler = async (params) => {
-    await fetchTemplate(
+    await fetchTemplateSites(
       `api/sites/search/?query=${params}`,
       setSearchViewLoading,
       setSearchViewData

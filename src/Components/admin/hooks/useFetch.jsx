@@ -167,6 +167,45 @@ export default function useFetch() {
       setLoading(false);
     }
   };
+  const fetchDataAnnouncement = async (api, setLoading, setData, addResult, loginLogs) => {
+    setLoading(true);
+    try {
+ 
+
+      const url = await generateUrl();
+      const response = await fetch(url + api, {
+        method: "GET",
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+         
+        },
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          await logutOutHandler();
+        }
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! Status: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+      if (addResult) {
+        setData(data.results);
+      } else if (loginLogs) {
+        setData(data[0]);
+      } else {
+        setData(data);
+      }
+    } catch (error) {
+      // console.error("Error :", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Category Fetching....
   const handleFetctData = async (api, addResult = false) => {
@@ -209,7 +248,7 @@ export default function useFetch() {
 
   // Notification Fatching...
   const handleFetctNotifications = async (api) => {
-    await fetchData(api, setNotificationLoading, setNotificationData);
+    await fetchDataAnnouncement(api, setNotificationLoading, setNotificationData);
   };
 
   // Institutions Fatching...
