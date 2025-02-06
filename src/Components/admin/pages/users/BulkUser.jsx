@@ -10,6 +10,7 @@ import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import { Link } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import Pagination from "../../components/Pagination";
+import NoDataFound from "../../../noDataFound/NoDataFound";
 
 export default function BulkUser({
   templateLoading,
@@ -291,7 +292,9 @@ const Card = ({ data, fetchLoading, path }) => {
               );
             })
           ) : (
-            <div className='text-lg p-5'>No Data Found</div>
+            <div className='p-2 rounded-md'>
+              <NoDataFound />
+            </div>
           ))
         ) : (
           <Loader />

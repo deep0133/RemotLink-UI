@@ -11,6 +11,7 @@ import { NotificationRightMenu } from "../../data";
 import { LuLoader2 } from "react-icons/lu";
 // import Navigation from "../../components/RightCommonComponents/Navigation";
 import Loading from "../../components/Loader/Loader";
+import NoDataFound from "../../../noDataFound/NoDataFound";
 export default function LatestNews({
   data,
   fetchLoading,
@@ -129,7 +130,9 @@ const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
               );
             })
           ) : (
-            <div className='text-lg p-3'>No Data Found</div>
+            <div className='p-2 rounded-md'>
+              <NoDataFound />
+            </div>
           )
         ) : (
           <Loading />

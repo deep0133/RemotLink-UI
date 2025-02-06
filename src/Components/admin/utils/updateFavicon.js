@@ -1,4 +1,4 @@
-import defaultIcon from "../../../images/instituteDefaultLogo.jpg";
+import defaultIcon from "../../../images/instituteDefaultLogo.png";
 const updateFavicon = (faviconUrl) => {
   const link =
     document.querySelector("link[rel*='icon']") ||

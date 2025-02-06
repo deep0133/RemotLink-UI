@@ -6,7 +6,7 @@ import twitter_icon from "../../images/Vector.svg";
 import instagram_icon from "../../images/Group 427318261.svg";
 import Button from "../uiElemnts/button";
 import { Link } from "react-router-dom";
-import instituteDefaultLogo from "../../images/instituteDefaultLogo.jpg";
+import instituteDefaultLogo from "../../images/instituteDefaultLogo.png";
 const Footer = ({ institutionDetails, domain }) => {
   const [isVisible, setIsVisible] = useState(false);
 

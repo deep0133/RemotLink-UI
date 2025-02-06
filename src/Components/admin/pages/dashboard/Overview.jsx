@@ -20,6 +20,7 @@ import CardSkeletonLoading from "../../components/loading/CardSkeletonLoading";
 import VerticalLineSkeleton from "../../components/Loader/VerticalLineSkeleton";
 import getRandomColor from "../../utils/getRandomColors";
 import DataBaseCard from "../../components/Dashboard/DataBaseCard";
+import NoDataFound from "../../../noDataFound/NoDataFound";
 
 export default function Overview({
   weekMonth,
@@ -327,7 +328,7 @@ const Details = ({
       <div className='card-container mt-5 grid grid-cols-4 gap-5 '>
         {overviewCardDataLoading ? (
           Array.from([1, 2, 3, 4]).map((val, i) => {
-            return <CardSkeletonLoading />;
+            return <CardSkeletonLoading key={i} />;
           })
         ) : (
           <>
@@ -653,7 +654,9 @@ const Details = ({
                   );
                 })
               ) : (
-                <div className='p-5 ml-5'>No Data Found</div>
+                <div className='p-2 rounded-md'>
+                  <NoDataFound />
+                </div>
               )}
             </div>
           )}

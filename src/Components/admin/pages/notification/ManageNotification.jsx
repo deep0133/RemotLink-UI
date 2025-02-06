@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import Loading from "../../components/Loader/Loader";
 import { formatDate } from "../../utils/formateData";
 import Pagination from "../../components/Pagination";
+import NoDataFound from "../../../noDataFound/NoDataFound";
 export default function ManageNotification({
   data,
   fetchLoading,
@@ -164,7 +165,9 @@ const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
               );
             })
           ) : (
-            <div className='text-lg p-3'>No Data Found</div>
+            <div className='p-2 rounded-md'>
+              <NoDataFound />
+            </div>
           )
         ) : (
           <Loading />

@@ -58,7 +58,7 @@ const Landinglayout = ({
           setUnauthorizedUserSourcelink,
         }}
       />
-      <Landingfooter domain={domain} institutionDetails={institutionDetails} />
+      <Landingfooter domain={domain} institutionDetails={institutionDetails} />{" "}
     </>
   );
 };

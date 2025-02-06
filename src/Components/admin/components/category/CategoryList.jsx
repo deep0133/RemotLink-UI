@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { DeleteIcon, EditICon } from "../../assets/constants";
 import Loader from "../Loader/Loader.jsx";
+import NoDataFound from "../../../noDataFound/NoDataFound.jsx";
 const CategoryList = ({
   fetchLoading = false,
   data,
@@ -74,7 +75,9 @@ const CategoryList = ({
             );
           })
         ) : (
-          <div className='p-5 text-lg'>No Data Found</div>
+          <div className='p-2 rounded-md'>
+            <NoDataFound />
+          </div>
         )
       ) : (
         <Loader />

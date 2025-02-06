@@ -23,9 +23,9 @@ const Login = ({ unauthorizedUserSourcelink, loginModal, setLoginModal }) => {
       const subdomain = await generateUrl();
       const response = await fetch(subdomain + api, {
         method: "POST",
-        credentials: 'include',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(login_info),
+        credentials: "include",
       });
 
       if (!response.ok) {

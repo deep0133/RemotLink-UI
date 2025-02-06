@@ -43,7 +43,7 @@ export default function useUpdate() {
       const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "PATCH",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -92,7 +92,7 @@ export default function useUpdate() {
       const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "PATCH",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -134,7 +134,7 @@ export default function useUpdate() {
       const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "PATCH",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -199,7 +199,7 @@ export default function useUpdate() {
       const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "PATCH",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -211,9 +211,13 @@ export default function useUpdate() {
           await logutOutHandler();
         }
         const errorData = await response.json();
-        throw new Error(
-          errorData.detail || `HTTP error! Status: ${response.status}`
-        );
+        if (typeof errorData === "object") {
+          const keys = Object.keys(errorData);
+          throw new Error("These fields are required :" + keys);
+        } else
+          throw new Error(
+            errorData.detail || `HTTP error! Status: ${response.status}`
+          );
       }
       setUpdatInstiMessage((prev) => !prev);
       toast.success("Updated Successfully");
@@ -283,7 +287,7 @@ export default function useUpdate() {
       const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "POST",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           Authorization: `Bearer ${token}`,
         },

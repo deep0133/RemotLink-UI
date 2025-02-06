@@ -5,7 +5,7 @@ import menu_icn3 from "../../images/menu-04-purple.svg";
 import books from "../../images/book.svg";
 import generateUrl from "../admin/utils/urlGenerate";
 import { Link } from "react-router-dom";
-import instituteDefaultLogo from "../../images/instituteDefaultLogo.jpg";
+import instituteDefaultLogo from "../../images/instituteDefaultLogo.png";
 const Banner = ({ institutionDetails }) => {
   const navheading = `text-white light:text-[#0B2E78] purple:text-black font-AnekLatin light:font-Outfit purple:font-Sora text-base font-medium leading-normal pr-[35px] hover:underline light:hover:text-[#0B2E78] light:hover:underline purple:hover:text-[#6F1AB6] purple:hover:underline   `;
 
@@ -25,10 +25,10 @@ const Banner = ({ institutionDetails }) => {
     <>
       <div className='w-full border-b border-solid border-white border-opacity-20 bg-opacity-33 bg-[#16131E54] light:bg-brand light:bg-opacity-[68] purple:bg-primary shadow-md backdrop-blur-[8px] flex  items-center justify-between relative z-30'>
         <div className='flex  ml-6  md:max-xl:ml-16 xl:ml-32 items-center justify-center '>
-          {institutionDetails.logo ? (
+          {institutionDetails?.logo ? (
             <img
               className='w-[43px] h-[57.683px]'
-              src={url + institutionDetails.logo}
+              src={url + institutionDetails?.logo}
               alt='banner'
             />
           ) : (
@@ -40,8 +40,8 @@ const Banner = ({ institutionDetails }) => {
           )}
           <div className='mr-4'>
             <h1 className='text-white light:text-black purple:hidden font-Lusitana light:font-SourceSans text-base font-bold leading-6 max-[360px]:leading-4 w-44 min-[360px]:w-60 sm:w-72 lg:w-96 pl-3 md:pl-6 '>
-              {institutionDetails.name
-                ? institutionDetails.name
+              {institutionDetails?.name
+                ? institutionDetails?.name
                 : "Institution Name"}
             </h1>
           </div>
@@ -50,23 +50,23 @@ const Banner = ({ institutionDetails }) => {
           </h1>
         </div>
         <div className='hidden lg:block'>
-          <ul>
-            <l1 className={`${navheading}`}>
+          <ul className='flex '>
+            <li className={`${navheading}`}>
               {" "}
               <Link to={"/home"}>Home</Link>
-            </l1>
-            <l1 className={`${navheading}`}>
+            </li>
+            <li className={`${navheading}`}>
               {" "}
               <a href='#aboutSection'> About Us</a>
-            </l1>
-            <l1 className={`${navheading}`}>
+            </li>
+            <li className={`${navheading}`}>
               {" "}
               <a href='#categorySection'>Categories</a>{" "}
-            </l1>
-            <l1 className={`${navheading}`}>
+            </li>
+            <li className={`${navheading}`}>
               {" "}
               <a href='#featuredSection'> Featured</a>{" "}
-            </l1>
+            </li>
           </ul>
         </div>
         <div
@@ -85,10 +85,10 @@ const Banner = ({ institutionDetails }) => {
 
           {menu && (
             <ul className='flex flex-col lg:hidden p-5 space-y-3 rounded-md bg-white absolute top-12 right-0 z-50'>
-              <l1 className={`${navheading}`}> Home</l1>
-              <l1 className={`${navheading}`}>About Us</l1>
-              <l1 className={`${navheading}`}> Categories</l1>
-              <l1 className={`${navheading}`}> Featured</l1>
+              <li className={`${navheading}`}> Home</li>
+              <li className={`${navheading}`}>About Us</li>
+              <li className={`${navheading}`}> Categories</li>
+              <li className={`${navheading}`}> Featured</li>
             </ul>
           )}
         </div>
@@ -109,13 +109,13 @@ const Banner = ({ institutionDetails }) => {
         <div className='z-10 relative ml-6 min-[480px]:ml-12 md:ml-24  '>
           <h1 className='w-11/12 sm:w-3/4 xl:w-[992px]  purple:w-11/12 purple:sm:w-2/3 purple:xl:w-[725px] text-white font-Lusitana  light:font-SourceSans purple:font-Sora text-5xl max-[445px]:text-[40px] purple:text-[35px] font-bold leading-[68px] capitalize  mt-3 '>
             {/* Swargiya Dadasaheb Kalmegh Smruti Dental College & Hospital */}
-            {institutionDetails.name
-              ? institutionDetails.name
+            {institutionDetails?.name
+              ? institutionDetails?.name
               : "Institution Name"}
           </h1>
           <h1 className='w-3/4 lg:w-[992px] purple:w-3/4 purple:xl:w-[692px]  mt-3 purple:mt-5 text-white font-Lusitana purple:font-Sora  light:font-SourceSans light:italic text-[21px] purple:text-[18px] font-bold leading-20 capitalize '>
-            {institutionDetails.tagline
-              ? institutionDetails.tagline
+            {institutionDetails?.tagline
+              ? institutionDetails?.tagline
               : "Your gateway to a world of Dental information and research resources."}
           </h1>
           <div className=' mt-[66px] flex  items-start gap-6 justify-normal w-4/5 sm:w-[420px] min-[840px]:w-[661px] px-[18px] py-4 rounded-md border border-solid border-white border-opacity-45 opacity-60 purple:opacity-100 bg-gray-900 purple:bg-white  '>

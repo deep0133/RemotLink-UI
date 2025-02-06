@@ -6,46 +6,69 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import useLogout from "../../../hooks/useLogout";
+import useFetch from "../../../hooks/useFetch";
+import generateUrl from "../utils/urlGenerate";
 export default function PageLayout({ children }) {
   const [userData, setUserData] = useState(null);
+  const [proiflePhoto, setProfilePhoto] = useState(null);
+  const [domain, setDomain] = useState("");
 
   const { logutOutHandler } = useLogout();
+
+  const { institutionDetails, institutionDetailFetch } = useFetch();
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userdata");
     if (storedUserData) {
       setUserData(JSON.parse(storedUserData));
     }
+
+    institutionDetailFetch();
   }, []);
+
+  useEffect(() => {
+    if (!domain && userData) {
+      const fetchUrl = async () => {
+        const url = await generateUrl();
+
+        const iconLink = userData?.profile_photo
+          ? url + userData?.profile_photo
+          : null;
+
+        setProfilePhoto(iconLink);
+      };
+
+      fetchUrl();
+    }
+  }, [userData]);
 
   return (
     <section className='max-w-[1440px] min-w-[85rem] mx-auto relative bg-white flex'>
       <div className=''>
         <div className='left-side-menu w-[254px] sticky top-0 h-[708px] bg-white pt-8 pb-6 px-2 flex flex-col justify-between'>
-          <div>
-            <Header icon={<LogoIcon />} title={"AVAGS DIGITAL SERVICES"} />
+          <div className=''>
+            <Header
+              icon={institutionDetails?.logo}
+              title={institutionDetails?.name || "Institute Name"}
+            />
             <SidebarMenu />
           </div>
 
           <div className='project-manager bottom-0 px-3 mt-8 flex items-center gap-1'>
-            <DonaldTrump
-              url={
-                userData && userData.profile_photo ? userData.profile_photo : ""
-              }
-            />
+            <DonaldTrump url={proiflePhoto || ""} />
             <div className='content  flex justify-start gap-6 items-center flex-1 '>
               <div>
                 <h3 className='text-black line-clamp-1 text-nowrap text-xs font-semibold font-Poppins tracking-tight'>
                   {userData
                     ? userData.first_name
                       ? userData.first_name
-                      : "Donal"
-                    : "Donal"}{" "}
+                      : "Last_Name"
+                    : "Last_Name"}{" "}
                   {userData
                     ? userData.last_name
                       ? userData.last_name
-                      : "Trump"
-                    : "Trump"}
+                      : "Last_Name"
+                    : "Last_Name"}
                 </h3>
                 <p className='text-neutral-500 line-clamp-1 text-nowrap text-[11px] font-normal font-Poppins tracking-tight'>
                   {userData
@@ -73,8 +96,8 @@ export default function PageLayout({ children }) {
 
 const Header = ({ icon, title }) => {
   return (
-    <div className=' h-7 flex items-center gap-2 justify-center'>
-      {icon}
+    <div className=' h-7 flex items-center gap-2'>
+      {icon ? <img src={icon} alt='logo' /> : <LogoIcon />}
       <div className=' text-violet-800 text-[13px] font-semibold font-poppins'>
         {title}
       </div>

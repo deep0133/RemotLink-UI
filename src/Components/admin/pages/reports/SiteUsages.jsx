@@ -1,3 +1,4 @@
+import NoDataFound from "../../../noDataFound/NoDataFound";
 import { DeleteIcon, ExportIcon, ReportIcon } from "../../assets/constants";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Navigation from "../../components/Dashboard/RightCommonComponents/Navigation";
@@ -74,43 +75,47 @@ const SiteUsageList = ({ data }) => {
         </div>
       </div>
       <div className='card-container flex-1 w-full max-h-[380px] overflow-auto'>
-        {data && data.results?.length > 0
-          ? data.results.map((val, index) => {
-              return (
-                <div key={index} className='card list flex-1 flex p-2'>
-                  <div className='grid grid-cols-12 gap-5 w-full '>
-                    <div className='text-indigo-900 col-span-1 line-clamp-1 text-sm font-medium font-Poppins leading-7'>
-                      {index + 1}
-                    </div>
-                    <div className='text-indigo-900 inline text-nowrap line-clamp-1 col-span-2 text-sm font-medium font-Poppins leading-7'>
-                      {val.site__name}
-                    </div>
-                    <div className='text-indigo-900 line-clamp-1 text-nowrap col-span-3 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.site__base_url}
-                    </div>
-                    <div className='text-indigo-900 line-clamp-1 text-nowrap col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      {val.site__category__name
-                        ? val.site__category__name
-                        : "---"}
-                    </div>
+        {data && data.results?.length > 0 ? (
+          data.results.map((val, index) => {
+            return (
+              <div key={index} className='card list flex-1 flex p-2'>
+                <div className='grid grid-cols-12 gap-5 w-full '>
+                  <div className='text-indigo-900 col-span-1 line-clamp-1 text-sm font-medium font-Poppins leading-7'>
+                    {index + 1}
+                  </div>
+                  <div className='text-indigo-900 inline text-nowrap line-clamp-1 col-span-2 text-sm font-medium font-Poppins leading-7'>
+                    {val.site__name}
+                  </div>
+                  <div className='text-indigo-900 line-clamp-1 text-nowrap col-span-3 flex-1 text-sm font-medium font-Poppins leading-7'>
+                    {val.site__base_url}
+                  </div>
+                  <div className='text-indigo-900 line-clamp-1 text-nowrap col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
+                    {val.site__category__name
+                      ? val.site__category__name
+                      : "---"}
+                  </div>
 
-                    <div className='flex justify-center col-span-2'>
-                      <div className=' px-2 py-0.5 w-10 h-10 shrink-0 bg-indigo-500 bg-opacity-10 rounded-full justify-center items-center inline-flex'>
-                        <div className='text-center line-clamp-1 flex-shrink-0 text-indigo-500 text-xs font-medium font-Inter leading-[18px]'>
-                          {val.access_count}
-                        </div>
-                      </div>
-                    </div>
-                    <div className='text-indigo-900 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
-                      <div className=' mx-auto w-fit'>
-                        <DeleteIcon />
+                  <div className='flex justify-center col-span-2'>
+                    <div className=' px-2 py-0.5 w-10 h-10 shrink-0 bg-indigo-500 bg-opacity-10 rounded-full justify-center items-center inline-flex'>
+                      <div className='text-center line-clamp-1 flex-shrink-0 text-indigo-500 text-xs font-medium font-Inter leading-[18px]'>
+                        {val.access_count}
                       </div>
                     </div>
                   </div>
+                  <div className='text-indigo-900 col-span-2 flex-1 text-sm font-medium font-Poppins leading-7'>
+                    <div className=' mx-auto w-fit'>
+                      <DeleteIcon />
+                    </div>
+                  </div>
                 </div>
-              );
-            })
-          : "No Data Found"}
+              </div>
+            );
+          })
+        ) : (
+          <div className='p-2 rounded-md'>
+            <NoDataFound />
+          </div>
+        )}
       </div>
     </div>
   );

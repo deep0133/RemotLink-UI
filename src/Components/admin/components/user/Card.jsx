@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { DeleteIcon, EditICon } from "../../assets/constants";
 import { LuLoader2 } from "react-icons/lu";
 import Loader from "../../components/Loader/Loader";
+import NoDataFound from "../../../noDataFound/NoDataFound";
 const Card = ({
   data,
   path,
@@ -87,7 +88,9 @@ const Card = ({
               );
             })
           ) : (
-            <div className='text-lg p-5'>No Data Found</div>
+            <div className='p-2 rounded-md'>
+              <NoDataFound />
+            </div>
           ))
         ) : (
           <Loader />

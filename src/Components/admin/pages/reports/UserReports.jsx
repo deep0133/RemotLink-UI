@@ -9,6 +9,7 @@ import Loading from "../../components/Loader/Loader";
 
 import Buttons from "../../components/reports/Buttons";
 import Pagination from "../../components/Pagination";
+import NoDataFound from "../../../noDataFound/NoDataFound";
 export default function UserReports({
   data,
   fetchLoading,
@@ -151,7 +152,9 @@ const UserLogList = ({ data, openLogs, fetchLoading }) => {
               );
             })
           ) : (
-            <div className='text-lg p-3'> No Data Found</div>
+            <div className='p-2 rounded-md'>
+              <NoDataFound />
+            </div>
           )
         ) : (
           <Loading />

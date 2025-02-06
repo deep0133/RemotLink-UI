@@ -31,7 +31,6 @@ function App() {
   const [loginModal, setLoginModal] = useState(false);
 
   useEffect(() => {
-    readSubdomainFromFile().then((sub) => (document.title = sub));
     const fetchUrl = async () => {
       const url = await generateUrl();
       setDomain(url);
@@ -47,7 +46,13 @@ function App() {
   useEffect(() => {
     if (institutionDetails && institutionDetails.landing_page_theme) {
       changeTheme(institutionDetails?.landing_page_theme);
-      updateFavicon(domain + institutionDetails?.logo);
+      const iconLink = institutionDetails?.logo
+        ? domain + institutionDetails?.logo
+        : null;
+      readSubdomainFromFile().then((sub) => {
+        document.title = institutionDetails?.name || sub?.toUpperCase();
+      });
+      updateFavicon(iconLink);
     }
   }, [institutionDetails, domain]);
 
@@ -62,17 +67,18 @@ function App() {
           element={
             <Landinglayout
               {...{
-                institutionDetails,
+                institutionDetails: null,
                 domain,
                 setUnauthorizedUserSourcelink,
                 loginModal,
                 setLoginModal,
-                notificationLoading,
-                notificationData,
+                notificationLoading: false,
+                notificationData: {},
               }}
             />
           }
         />
+
         <Route
           path='/home'
           element={

@@ -11,6 +11,7 @@ import { NotificationRightMenu } from "../../data";
 import { LuLoader2 } from "react-icons/lu";
 import Loading from "../../components/Loader/Loader";
 import { formatDate } from "../../utils/formateData";
+import NoDataFound from "../../../noDataFound/NoDataFound";
 export default function ImportantLinks({
   data,
   fetchLoading,
@@ -130,7 +131,9 @@ const Card = ({ data, loading, deleteNotification, fetchLoading }) => {
               );
             })
           ) : (
-            <div className='text-lg p-3'>No Data Found</div>
+            <div className='p-2 rounded-md'>
+              <NoDataFound />
+            </div>
           )
         ) : (
           <Loading />

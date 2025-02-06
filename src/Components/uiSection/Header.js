@@ -21,7 +21,7 @@ import book from "../../images/book.png";
 import help_Icon from "../../images/message-question-white.svg";
 import generateUrl from "../admin/utils/urlGenerate";
 import MovingBanner from "../MovingBanner";
-import instituteDefaultLogo from "../../images/instituteDefaultLogo.jpg";
+import instituteDefaultLogo from "../../images/instituteDefaultLogo.png";
 const Header = ({
   logutOutHandler,
   institutionDetails,

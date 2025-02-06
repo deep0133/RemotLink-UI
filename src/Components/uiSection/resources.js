@@ -531,7 +531,16 @@ function Resources({
                   : resources.map((resource, index) => (
                       <div
                         onClick={() => {
-                          window.open(resource?.site__base_url, "_blank");
+                          // window.open(resource?.site__base_url, "_blank");
+                          fetch(resource?.site__base_url, {
+                            credentials: "include", // Send cookies/auth
+                          })
+                            .then((response) => response.blob())
+                            .then((blob) => {
+                              const blobUrl = URL.createObjectURL(blob);
+                              window.open(blobUrl, "_blank");
+                            })
+                            .catch((error) => console.error("Failed:", error));
                         }}
                         key={index}
                         className='flex flex-col border p-2 rounded-[5px] mr-2 mb-2'

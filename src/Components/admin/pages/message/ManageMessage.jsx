@@ -9,6 +9,7 @@ import Loader from "../../components/Loader/Loader";
 import Pagination from "../../components/Pagination";
 import Hero from "../../components/category/Hero";
 import { formatDate } from "../../utils/formateData";
+import NoDataFound from "../../../noDataFound/NoDataFound";
 export default function ManageMessage({
   data,
   sortHandler,
@@ -140,7 +141,9 @@ const Card = ({
               );
             })
           ) : (
-            <div className='text-lg p-5'>No Data Found</div>
+            <div className='p-2 rounded-md'>
+              <NoDataFound />
+            </div>
           ))
         ) : (
           <Loader />

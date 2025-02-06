@@ -16,7 +16,7 @@ import banr2 from "../../images/Group 2326.svg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
-import instituteDefaultLogo from "../../images/instituteDefaultLogo.jpg";
+import instituteDefaultLogo from "../../images/instituteDefaultLogo.png";
 const Landingfooter = ({ domain, institutionDetails }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -39,6 +39,8 @@ const Landingfooter = ({ domain, institutionDetails }) => {
   const handleBackToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  if (!institutionDetails) return "No Data found";
 
   return (
     <>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useLogout from "../../../hooks/useLogout";
 import generateUrl from "../utils/urlGenerate";
+import checkApi from "../../../hooks/helper";
 export default function useFetch() {
   const [categoryLoading, setCetogoryLoading] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
@@ -130,17 +131,20 @@ export default function useFetch() {
   //  ------ Fetch Data -------
   const fetchData = async (api, setLoading, setData, addResult, loginLogs) => {
     setLoading(true);
+
     try {
       const token = localStorage.getItem("access_token");
+
+      if (!token) return;
 
       const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "GET",
-        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        credentials: "include",
       });
 
       if (!response.ok) {

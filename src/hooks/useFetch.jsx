@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import generateUrl from "../Components/admin/utils/urlGenerate";
 import useLogout from "./useLogout";
+import checkApi from "./helper";
 
 const selectRandomMessage = (messages) => {
   try {
@@ -74,7 +75,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "GET",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -108,7 +109,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "GET",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -137,7 +138,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "GET",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -164,7 +165,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "GET",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -198,7 +199,6 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "GET",
-        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -231,7 +231,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "GET",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -258,7 +258,6 @@ export default function useFetch() {
       const url = await generateUrl();
       const response = await fetch(url + api, {
         method: "Get",
-        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
@@ -278,6 +277,7 @@ export default function useFetch() {
 
   const fetchTemplate = async (api, loading, state, token = true) => {
     try {
+      checkApi(api);
       loading(true);
       const url = await generateUrl();
 
@@ -292,7 +292,7 @@ export default function useFetch() {
 
       const response = await fetch(url + api, {
         method: "Get",
-        credentials: 'include',
+        credentials: "include",
         headers: headers,
       });
       if (!response.ok) {
@@ -320,12 +320,12 @@ export default function useFetch() {
   };
 
   const landingPageFeaturedResourcesFetch = async () => {
-    await fetchTemplate(
-      `api/sites/recent-subject-resources/`,
-      setFeatureResourceLoading,
-      setFeatureResourceData,
-      false
-    );
+    // await fetchTemplate(
+    //   `api/sites/recent-subject-resources/`,
+    //   setFeatureResourceLoading,
+    //   setFeatureResourceData,
+    //   false
+    // );
   };
 
   const homePageDiscoverRecentReadingFetch = async (time_period) => {
@@ -353,11 +353,11 @@ export default function useFetch() {
   };
 
   const searchViewPageHandler = async (params) => {
-    await fetchTemplate(
-      `api/sites/search/?query=${params}`,
-      setSearchViewLoading,
-      setSearchViewData
-    );
+    // await fetchTemplate(
+    //   `api/sites/search/?query=${params}`,
+    //   setSearchViewLoading,
+    //   setSearchViewData
+    // );
   };
 
   // hit api to increase access_count:
@@ -366,7 +366,7 @@ export default function useFetch() {
     const token = localStorage.getItem("access_token");
     fetch(url + `api/sites/access-resources/${id}/`, {
       method: "POST",
-      credentials: 'include',
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

@@ -38,6 +38,7 @@ const Categories = ({
           {keys &&
             keys.map((key, index) => (
               <button
+                key={index}
                 onClick={() => {
                   changeSubjects(key);
                 }}

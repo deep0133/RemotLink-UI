@@ -9,6 +9,7 @@ import SearchFilter from "../../components/category/SearchFilter";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import Pagination from "../../components/Pagination";
+import NoDataFound from "../../../noDataFound/NoDataFound";
 export default function ManageFaq({
   faqData,
   sortHandler,
@@ -155,7 +156,9 @@ const Card = ({
               );
             })
           ) : (
-            <div className='text-lg p-5'>No Data Found</div>
+            <div className='p-2 rounded-md'>
+              <NoDataFound />
+            </div>
           ))
         ) : (
           <Loader />
