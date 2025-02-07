@@ -193,7 +193,6 @@ export default function useFetch() {
   const handleSearchSite = async () => {
     try {
       setSearchLoader(true);
-      const token = localStorage.getItem("access_token");
       const api = `api/sites/?search=${searchSite}`;
       const url = await generateUrl();
 
@@ -201,7 +200,6 @@ export default function useFetch() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -309,6 +307,34 @@ export default function useFetch() {
       loading(false);
     }
   };
+  const fetchTemplateSites = async (api, loading, state, token = true) => {
+    try {
+      loading(true);
+      const url = await generateUrl();
+
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      const response = await fetch(url + api, {
+        method: "Get",
+        credentials: "include",
+        headers: headers,
+      });
+      if (!response.ok) {
+        if (response.status === 401) {
+          await logutOutHandler();
+        }
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      state(data);
+    } catch (error) {
+      // console.error("Error fetching FAQs:", error.message);
+    } finally {
+      loading(false);
+    }
+  };
 
   const landingPageCategorialResourceFetch = async (param) => {
     await fetchTemplate(
@@ -353,11 +379,11 @@ export default function useFetch() {
   };
 
   const searchViewPageHandler = async (params) => {
-    // await fetchTemplate(
-    //   `api/sites/search/?query=${params}`,
-    //   setSearchViewLoading,
-    //   setSearchViewData
-    // );
+    await fetchTemplateSites(
+      `api/sites/search/?query=${params}`,
+      setSearchViewLoading,
+      setSearchViewData
+    );
   };
 
   // hit api to increase access_count:
