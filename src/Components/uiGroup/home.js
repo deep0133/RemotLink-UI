@@ -373,14 +373,14 @@ function Home({ institutionDetails }) {
           <div className='basis-1/2 box-container grid grid-cols-2 lg:grid-cols-3 justify-between flex-row gap-5 md:mt-0 mt-8'>
             {myBox?.map((val, index, arr) => {
               return index === 0 ? (
-                <>
+                <div key={index}>
                   <div className='lg:block hidden'></div>
                   <div className='min-w-[135px] relative group border w-full h-[55px] rounded-[5px]  flex justify-center items-center text-[#1F5095] hover:text-white hover:bg-[#1F5095] duration-300 text-[17px] leading-[26px] font-medium'>
                     {val}
                     <div className='absolute group-hover:rotate-[-4.426deg] rounded-[5px] duration-300 min-w-[135px] w-full  h-[55px] rotate-0 origin-bottom-left inset-0 group-hover:bg-[#1F5095] opacity-10 z-0'></div>
                   </div>
                   <div className='lg:block hidden'></div>
-                </>
+                </div>
               ) : (
                 <>
                   {index === arr.length - 1 ? (
@@ -424,12 +424,15 @@ function Home({ institutionDetails }) {
         {/* ---------Popular Database Card-------------- */}
         <div className='bg-[#221FB9/0.2] w-full grow mt-4 px-10 grid-cols-2 grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5'>
           {fetchLoading
-            ? Array.from([1, 2, 3, 4, 5]).map((val, i) => {
+            ? Array.from([1, 2, 3, 4, 5]).map((val) => {
                 return <CardSkeleton key={val} />;
               })
             : resources && resources.length > 0
             ? resources?.map((val, i) => (
-                <div className='min-h-[122px] flex flex-col border p-2 rounded-[5px] '>
+                <div
+                  key={i}
+                  className='min-h-[122px] flex flex-col border p-2 rounded-[5px] '
+                >
                   <img
                     src={val.site__image ? val.site__image : newimg}
                     alt='cardimg'
@@ -476,6 +479,7 @@ function Home({ institutionDetails }) {
               {keys &&
                 keys?.map((key, index) => (
                   <button
+                    key={index}
                     onClick={() => {
                       changeSubjects(key, "recent");
                     }}

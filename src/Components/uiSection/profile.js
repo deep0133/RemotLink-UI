@@ -1,19 +1,16 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import Footer from "./Footer";
 // import profileIcon from "../../images/user-square.png";
-import profilepic from "../../images/Profilepic.png";
-import mappin from "../../images/MapPin.png";
+import { RxAvatar } from "react-icons/rx";
 import facebookicon from "../../images/Facebook.png";
 import instagramicon from "../../images/Instagrm.png";
+import mappin from "../../images/MapPin.png";
 import xicon from "../../images/X.png";
 import linkedinicon from "../../images/linkedin.png";
-import AccountSettings from "./Accountsettings/accountSettings";
-import Mobileaccountsettings from "../mobile/mobileaccountsettings";
 import generateUrl from "../admin/utils/urlGenerate";
-import { RxAvatar } from "react-icons/rx";
+import AccountSettings from "./Accountsettings/accountSettings";
 
 function Profile({
   logutOutHandler,
@@ -31,7 +28,7 @@ function Profile({
 
       const response = await fetch(domain + "api/user/current-user/", {
         method: "GET",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -51,16 +48,20 @@ function Profile({
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
-    const fetchUrl = async () => {
-      const userData = JSON.parse(localStorage.getItem("userdata"));
-      if (userData && userData.profile_photo) {
-        const domain = await generateUrl();
-        setImageUrl(domain + userData.profile_photo);
-      }
-    };
+    if (userDetails) {
+      const fetchUrl = async () => {
+        const url = await generateUrl();
 
-    fetchUrl();
-  }, []);
+        const imageLink = userDetails?.profile_photo
+          ? url + userDetails?.profile_photo
+          : null;
+
+        setImageUrl(imageLink);
+      };
+
+      fetchUrl();
+    }
+  }, [userDetails]);
 
   return (
     <div>
@@ -85,7 +86,7 @@ function Profile({
             >
               <div className=' flex items-center'>
                 <div className='p-3 rounded-full bg-gray-100 mr-2 '>
-                  {!imageUrl ? (
+                  {imageUrl ? (
                     <img src={imageUrl} className=' h-5 w-5' alt='profile' />
                   ) : (
                     <RxAvatar className=' h-5 w-5' />
@@ -100,7 +101,7 @@ function Profile({
             {/* web view hero image */}
             <div className='hidden sm:flex sm:px-[60px] py-8 border-b  h-[420px] sm:h-[200px] justify-between items-start bg-img'>
               <div className=' flex text-white flex-col sm:flex-row '>
-                {!imageUrl ? (
+                {imageUrl ? (
                   <img
                     src={imageUrl}
                     alt='profilepic'
@@ -129,22 +130,27 @@ function Profile({
                   </span>
                 </div>
               </div>
-              <button className=' shadow shadow-slate-300 border-4 w-[90px] h-[36px] rounded-md text-[12px] font-medium bg-white text-black '>
+              {/* <button className=' shadow shadow-slate-300 border-4 w-[90px] h-[36px] rounded-md text-[12px] font-medium bg-white text-black '>
                 {" "}
                 Edit Cover
-              </button>
+              </button> */}
             </div>
             {/* mobile view profile icon and hero image*/}
             <div className='flex px-8 py-8 border-b  h-[420px] sm:h-[200px] sm:hidden justify-between items-start bg-img-mobile'>
               <div className=' flex text-white flex-col sm:flex-row  mt-5'>
-                <img
-                  src={profilepic}
-                  alt='profilepic'
-                  className=' w-[141px] h-[141px]'
-                />
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    className=' w-[141px] h-[141px]'
+                    alt='profile'
+                  />
+                ) : (
+                  <RxAvatar className=' w-[141px] h-[141px]' />
+                )}
                 <div className=' flex flex-col'>
                   <span className='mb-[6px] text-[22px] font-semibold leading-[20px]'>
-                    {userDetails?.first_name} {userDetails?.last_name}
+                    {userDetails?.first_name || "first_name"}{" "}
+                    {userDetails?.last_name || "last_name"}
                   </span>
                   <span className='mb-4 text-[15px] font-medium leading-[20px]'>
                     {userDetails?.description || "description"}
@@ -202,7 +208,8 @@ function Profile({
                           Name
                         </span>
                         <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2'>
-                          {userDetails?.first_name}{" "}
+                          {userDetails?.first_name}
+                          {"first_name "}
                           {userDetails?.last_name || "last_name"}
                         </span>
                       </div>
@@ -381,11 +388,8 @@ function Profile({
             )}
             {activeTab === "Accountsettings" && (
               <>
-                <div className=' hidden sm:block px-[50px] py-10'>
-                  <AccountSettings />
-                </div>
-                <div className='sm:hidden block px-4 py-10'>
-                  <Mobileaccountsettings />
+                <div className='block px-4 sm:px-[50px] py-10'>
+                  <AccountSettings userDetails={userDetails} />
                 </div>
               </>
             )}

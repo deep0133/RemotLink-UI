@@ -6,11 +6,11 @@ import SettingsThree from "../../uiGroup/Accountsettings/settingsThree";
 import SettingsFour from "../../uiGroup/Accountsettings/settingsFour";
 import SettingsFive from "../../uiGroup/Accountsettings/settingsFive";
 
-function AccountSettings() {
+function AccountSettings({ userDetails }) {
   const [activeTab, setActiveTab] = useState("personal");
   return (
-    <div className=' flex justify-start'>
-      <div className=' flex flex-col mr-[100px] ml-4 '>
+    <div className=' flex justify-start flex-col md:flex-row'>
+      <div className=' flex flex-wrap gap-3 md:gap-0 md:flex-col mr-[100px] ml-4 '>
         <button
           className={`${
             activeTab === "personal"
@@ -62,7 +62,9 @@ function AccountSettings() {
           Setting Option 5
         </button> */}
       </div>
-      {activeTab === "personal" && <PersonalDetails />}
+      {activeTab === "personal" && (
+        <PersonalDetails userDetails={userDetails} />
+      )}
       {activeTab === "Security" && <Security />}
       {activeTab === "three" && <SettingsThree />}
       {activeTab === "four" && <SettingsFour />}

@@ -322,7 +322,11 @@ const Header = ({
           </div>
           <div className=' relative' onClick={toggleDropdown}>
             <img
-              src={user_pic}
+              src={
+                userdetail?.profile_photo
+                  ? domain + userdetail?.profile_photo
+                  : profileIcon
+              }
               alt='UserPicture'
               className='w-[38px] h-[38px] flex-shrink-0 rounded-full'
             />
@@ -334,7 +338,11 @@ const Header = ({
                       <span className=' mr-3'>
                         {" "}
                         <img
-                          src={profileIcon}
+                          src={
+                            userdetail?.profile_photo
+                              ? domain + userdetail?.profile_photo
+                              : profileIcon
+                          }
                           alt='icons'
                           className=' w-[22px] h-[22px]'
                         />

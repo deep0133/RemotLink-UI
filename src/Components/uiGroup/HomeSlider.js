@@ -26,7 +26,7 @@ const HomeSlider = ({ institutionDetails, url }) => {
   return (
     <div className='h-full md:-mr-2.5'>
       <Slider {...settings} className='slider h-full'>
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <div key={index} className='h-full'>
             <img
               src={url + image}

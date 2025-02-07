@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useLogout from "../../../hooks/useLogout";
 import generateUrl from "../utils/urlGenerate";
-import checkApi from "../../../hooks/helper";
 export default function useAdd() {
   const navigate = useNavigate();
 
@@ -35,9 +34,7 @@ export default function useAdd() {
 
   const handleAdd = async (api, formData) => {
     setAddLoading(true);
-    checkApi(api);
     try {
-      checkApi(api);
       const token = localStorage.getItem("access_token");
       const url = await generateUrl();
 
@@ -72,7 +69,6 @@ export default function useAdd() {
 
   const handleAddNewUser = async (api, formData) => {
     setAddNewUserLoading(true);
-    checkApi(api);
     try {
       const token = localStorage.getItem("access_token");
       const url = await generateUrl();
@@ -119,7 +115,6 @@ export default function useAdd() {
 
   const handleAddNewSite = async (api, formData) => {
     setAddNewSiteLoading(true);
-    checkApi(api);
     try {
       const token = localStorage.getItem("access_token");
 
@@ -161,7 +156,6 @@ export default function useAdd() {
 
   const handleAddNotification = async (api, formData) => {
     setAddNotificationLoading(true);
-    checkApi(api);
     try {
       const token = localStorage.getItem("access_token");
       const url = await generateUrl();
@@ -196,7 +190,6 @@ export default function useAdd() {
 
   const handleAddMessage = async (api, formData) => {
     setMessageLoadingMsg(true);
-    checkApi(api);
     try {
       const token = localStorage.getItem("access_token");
       const url = await generateUrl();
@@ -231,7 +224,6 @@ export default function useAdd() {
 
   const handleAddFaq = async (api, formData) => {
     setAddFaqLoading(true);
-    checkApi(api);
     try {
       const token = localStorage.getItem("access_token");
       const url = await generateUrl();

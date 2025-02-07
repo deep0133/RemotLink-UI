@@ -11,7 +11,6 @@ import generateUrl from "../utils/urlGenerate";
 export default function PageLayout({ children }) {
   const [userData, setUserData] = useState(null);
   const [proiflePhoto, setProfilePhoto] = useState(null);
-  const [domain, setDomain] = useState("");
 
   const { logutOutHandler } = useLogout();
 
@@ -24,10 +23,11 @@ export default function PageLayout({ children }) {
     }
 
     institutionDetailFetch();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    if (!domain && userData) {
+    if (userData) {
       const fetchUrl = async () => {
         const url = await generateUrl();
 
@@ -62,8 +62,8 @@ export default function PageLayout({ children }) {
                   {userData
                     ? userData.first_name
                       ? userData.first_name
-                      : "Last_Name"
-                    : "Last_Name"}{" "}
+                      : "First_Name"
+                    : "First_Name"}{" "}
                   {userData
                     ? userData.last_name
                       ? userData.last_name

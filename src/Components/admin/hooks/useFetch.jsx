@@ -1,7 +1,6 @@
 import { useState } from "react";
 import useLogout from "../../../hooks/useLogout";
 import generateUrl from "../utils/urlGenerate";
-import checkApi from "../../../hooks/helper";
 export default function useFetch() {
   const [categoryLoading, setCetogoryLoading] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
@@ -136,6 +135,7 @@ export default function useFetch() {
       const token = localStorage.getItem("access_token");
 
       if (!token) return;
+      if (!api) return;
 
       const url = await generateUrl();
       const response = await fetch(url + api, {
@@ -171,18 +171,22 @@ export default function useFetch() {
       setLoading(false);
     }
   };
-  const fetchDataAnnouncement = async (api, setLoading, setData, addResult, loginLogs) => {
+  const fetchDataAnnouncement = async (
+    api,
+    setLoading,
+    setData,
+    addResult,
+    loginLogs
+  ) => {
     setLoading(true);
     try {
- 
-
       const url = await generateUrl();
+      if (!api) return;
       const response = await fetch(url + api, {
         method: "GET",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-         
         },
       });
 
@@ -252,7 +256,11 @@ export default function useFetch() {
 
   // Notification Fatching...
   const handleFetctNotifications = async (api) => {
-    await fetchDataAnnouncement(api, setNotificationLoading, setNotificationData);
+    await fetchDataAnnouncement(
+      api,
+      setNotificationLoading,
+      setNotificationData
+    );
   };
 
   // Institutions Fatching...

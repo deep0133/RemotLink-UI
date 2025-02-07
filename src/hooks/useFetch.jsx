@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import generateUrl from "../Components/admin/utils/urlGenerate";
 import useLogout from "./useLogout";
-import checkApi from "./helper";
 
 const selectRandomMessage = (messages) => {
   try {
@@ -275,7 +274,6 @@ export default function useFetch() {
 
   const fetchTemplate = async (api, loading, state, token = true) => {
     try {
-      checkApi(api);
       loading(true);
       const url = await generateUrl();
 
@@ -288,6 +286,7 @@ export default function useFetch() {
         headers["Authorization"] = `Bearer ${tok}`;
       }
 
+      if (!api) return;
       const response = await fetch(url + api, {
         method: "Get",
         credentials: "include",
@@ -307,7 +306,7 @@ export default function useFetch() {
       loading(false);
     }
   };
-  const fetchTemplateSites = async (api, loading, state, token = true) => {
+  const fetchTemplateSites = async (api, loading, state) => {
     try {
       loading(true);
       const url = await generateUrl();
@@ -316,6 +315,7 @@ export default function useFetch() {
         "Content-Type": "application/json",
       };
 
+      if (!api) return;
       const response = await fetch(url + api, {
         method: "Get",
         credentials: "include",
