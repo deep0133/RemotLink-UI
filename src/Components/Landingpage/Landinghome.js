@@ -58,7 +58,7 @@ const Landinghome = ({
       <div
         style={{
           backgroundImage: `url(${
-            url + institutionDetails?.landing_page_image
+            institutionDetails?.landing_page_image ?  url + institutionDetails?.landing_page_image : ""
           })`,
         }}
         className='background w-full  overflow-y-scroll no-scrollbar'

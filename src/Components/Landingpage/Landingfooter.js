@@ -11,30 +11,12 @@ import instagram_icon2 from "../../images/Group 427318261_light.svg";
 import Elipse from "../../images/Ellipse 24.svg";
 import btn_icon from "../../images/Group 427318227.svg";
 import btn_icon2 from "../../images/Group 427318227_light.svg";
-import banr from "../../images/948b3ad28ed67e63c760b2ae2c01e709.png";
 import banr2 from "../../images/Group 2326.svg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 import instituteDefaultLogo from "../../images/instituteDefaultLogo.png";
 const Landingfooter = ({ domain, institutionDetails }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    // Add a scroll event listener to show/hide the button
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const threshold = 300; // You can adjust this threshold
-
-      setIsVisible(scrollY > threshold);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   const handleBackToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });

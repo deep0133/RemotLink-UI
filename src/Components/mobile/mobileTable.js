@@ -63,10 +63,20 @@ function MobileTable({ allSites }) {
                           {site.description}
                         </div>
                       </td>
-                      <td className='font-light  py-4 whitespace-nowrap '>
+                      <td className='font-light py-4 whitespace-nowrap '>
                         <div
                           onClick={() => {
-                            createProxyAPI(site.id);
+                            if(site?.base_url){
+                              let url = site.base_url;
+                              if (
+                                !url.startsWith("http://") &&
+                                !url.startsWith("https://")
+                              ) {
+                                url = "https://" + url;
+                              }
+                              window.open(url, "_target");
+                            }
+                           
                           }}
                           className=' border w-[74px] h-[30px] text-[#3076D8] text-[14px] rounded-md flex flex-row  justify-center items-center '
                         >

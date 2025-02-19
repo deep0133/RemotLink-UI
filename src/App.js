@@ -23,7 +23,7 @@ import AtoZResourcePage from "./Components/uiSection/AtoZResourcePage";
 import readSubdomainFromFile from "./Components/admin/utils/readSubdomainFromFile";
 
 function App() {
-  const { institutionDetails, institutionDetailFetch } = useFetch();
+  const { userDetailFetch, institutionDetails, institutionDetailFetch } = useFetch();
   const [unauthorizedUserSourcelink, setUnauthorizedUserSourcelink] =
     useState(null);
   const [domain, setDomain] = useState("");
@@ -36,6 +36,7 @@ function App() {
       setDomain(url);
     };
     fetchUrl();
+    userDetailFetch()
     institutionDetailFetch();
     handleFetctNotifications("api/announcement");
     // eslint-disable-next-line
@@ -44,6 +45,7 @@ function App() {
   const { logutOutHandler } = useLogout();
 
   useEffect(() => {
+
     if (institutionDetails && institutionDetails.landing_page_theme) {
       changeTheme(institutionDetails?.landing_page_theme);
       const iconLink = institutionDetails?.logo

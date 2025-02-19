@@ -14,6 +14,7 @@ import firstimg from "../../images/Group 1000003079.png";
 import secondimg from "../../images/Group 1000003080.png";
 import thirdimg from "../../images/Group 1000003081.png";
 import fourthimg from "../../images/Group 1000003082.png";
+import defaultImage from "../../images/defaultImage.jpg";
 import { useState } from "react";
 import Table from "../uiElemnts/table";
 import MobileTable from "../mobile/mobileTable";
@@ -207,27 +208,37 @@ function Resources({
             <>
               <div className='bg-[#221FB9/0.2] mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:py-6'>
                 {fetchLoading
-                  ? Array.from([1, 2, 3, 4]).map((val, i) => <CardSkeleton />)
+                  ? Array.from([1, 2, 3, 4]).map((val, i) => <CardSkeleton key={i} />)
                   : resources?.map((resource, index) => {
                       return (
                         <div
-                          key={index}
+                          key={"resources_"+index}
                           onClick={() => {
-                            window.open(resource?.site__base_url, "_blank");
+                            if (resource?.site__base_url) {
+                              let url = resource.site__base_url;
+                              if (
+                                !url.startsWith("http://") &&
+                                !url.startsWith("https://")
+                              ) {
+                                url = "https://" + url;
+                              }
+                              window.open(url, "_target");
+                            }
+                            
                           }}
-                          className='flex flex-col  border p-2 rounded-[5px]'
+                          className='flex flex-col p-2 rounded-[5px]'
                         >
                           <img
-                            src={resource.site__image}
-                            alt={resource.site__category__name}
+                            src={resource?.site__image || defaultImage}
+                            alt={resource?.site__category__name}
                             className='w-full h-[110px]  object-cover hover:scale-105 duration-300 cursor-pointer'
                           />
                           <div className=' mt-4 flex items-center '>
                             <p className='p-1 grow cursor-pointer flex justify-center items-center border sm:text-[13px] text-[8px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]'>
-                              {resource.site__name}
+                              {resource?.site__name}
                             </p>
                             <div className='p-2 ml-2 scale-125 cursor-pointer'>
-                              {!favData?.includes(resource.site) ? (
+                              {!favData?.includes(resource?.site) ? (
                                 <MdOutlineBookmarkBorder
                                   onClick={() =>
                                     handleAddToFavourite(resource.site)
@@ -266,7 +277,7 @@ function Resources({
                   >
                     {treandingResourceData &&
                       Object.keys(treandingResourceData)?.map((key, index) => (
-                        <option value={key}>e-{key.replace(/_/g, " ")}</option>
+                        <option value={index}>e-{key.replace(/_/g, " ")}</option>
                       ))}
                   </select>
                   <div
@@ -309,11 +320,20 @@ function Resources({
                       <div
                         key={index}
                         onClick={() => {
-                          window.open(
-                            val?.current_issue_url,
-                            "_blank",
-                            "noopener,noreferrer"
-                          );
+                          if (val?.current_issue_url) {
+                            let url = val?.current_issue_url
+                            if (
+                              !url.startsWith("http://") &&
+                              !url.startsWith("https://")
+                            ) {
+                              url = "https://" + url;
+                            }
+                            window.open(
+                              url,
+                              "_blank",
+                              "noopener,noreferrer"
+                            );
+                          }
                         }}
                         className='hidden cursor-pointer sm:flex rounded-xl bg-blue p-4 justify-between mt-2 bg-white'
                       >
@@ -402,11 +422,21 @@ function Resources({
                         <div
                           key={index}
                           onClick={() => {
-                            window.open(
-                              val?.current_issue_url,
-                              "_blank",
-                              "noopener,noreferrer"
-                            );
+                            if (val?.current_issue_url) {
+                              let url = val?.current_issue_url
+                              if (
+                                !url.startsWith("http://") &&
+                                !url.startsWith("https://")
+                              ) {
+                                url = "https://" + url;
+                              }
+                              window.open(
+                                url,
+                                "_blank",
+                                "noopener,noreferrer"
+                              );
+                            }
+                           
                           }}
                           className='sm:hidden cursor-pointer rounded-xl bg-blue py-4 px-2 flex mt-2 bg-white flex-col'
                         >
@@ -531,40 +561,40 @@ function Resources({
                   : resources.map((resource, index) => (
                       <div
                         onClick={() => {
-                          // window.open(resource?.site__base_url, "_blank");
-                          fetch(resource?.site__base_url, {
-                            credentials: "include", // Send cookies/auth
-                          })
-                            .then((response) => response.blob())
-                            .then((blob) => {
-                              const blobUrl = URL.createObjectURL(blob);
-                              window.open(blobUrl, "_blank");
-                            })
-                            .catch((error) => console.error("Failed:", error));
+                          if (resource?.site__base_url) {
+                            let url = resource.site__base_url;
+                            if (
+                              !url.startsWith("http://") &&
+                              !url.startsWith("https://")
+                            ) {
+                              url = "https://" + url;
+                            }
+                            window.open(url, "_target");
+                          }
                         }}
                         key={index}
                         className='flex flex-col border p-2 rounded-[5px] mr-2 mb-2'
                       >
                         <img
-                          src={resource.site__image}
-                          alt={resource.site__category__name}
+                          src={resource?.site__image || defaultImage}
+                          alt={resource?.site__category__name}
                           className='w-full h-[110px] object-cover hover:scale-105 duration-300 cursor-pointer'
                         />
                         <div className='mt-4 flex items-center'>
                           <span className='p-1 grow cursor-pointer flex justify-center items-center border sm:text-[13px] text-[8px] text-[#1F5095] bg-[#E9E9F7] rounded-[5px]'>
-                            {resource.site__name}
+                            {resource?.site__name}
                           </span>
                           <div className='p-2 ml-2 scale-125 cursor-pointer'>
-                            {!favData?.includes(resource.site) ? (
+                            {!favData?.includes(resource?.site) ? (
                               <MdOutlineBookmarkBorder
                                 onClick={() =>
-                                  handleAddToFavourite(resource.site)
+                                  handleAddToFavourite(resource?.site)
                                 }
                               />
                             ) : (
                               <MdBookmark
                                 onClick={() =>
-                                  handleRemoveToFavourite(resource.site)
+                                  handleRemoveToFavourite(resource?.site)
                                 }
                                 className='text-blue-600'
                               />

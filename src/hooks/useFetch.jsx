@@ -56,6 +56,9 @@ export default function useFetch() {
   const [aTOzResourceLoading, setATOzResourceLoading] = useState(false);
   const [aTOzResourceData, setATOzResourceData] = useState(null);
 
+  const [userDetails, setUserDetails] = useState("");
+  
+
   useEffect(() => {
     handleSearchSite();
     // eslint-disable-next-line
@@ -251,6 +254,7 @@ export default function useFetch() {
 
   const institutionDetailFetch = async () => {
     try {
+      if(institutionDetails) return
       const api = `api/institution/detail`;
       const url = await generateUrl();
       const response = await fetch(url + api, {
@@ -259,6 +263,7 @@ export default function useFetch() {
           "Content-Type": "application/json",
         },
       });
+
       if (!response.ok) {
         if (response.status === 401) {
           await logutOutHandler();
@@ -268,6 +273,7 @@ export default function useFetch() {
       const data = await response.json();
       setInstitutionDetails(data);
     } catch (error) {
+      console.log("-----------Error while fetching institutes------:",error)
       // console.error("Error fetching FAQs:", error.message);
     }
   };
@@ -425,6 +431,43 @@ export default function useFetch() {
     );
   };
 
+  const userDetailFetch = async () => {
+    try {
+      if(userDetails) return;
+      const domain = await generateUrl();
+      const token = localStorage.getItem("access_token");
+
+      if(!token) {
+        localStorage.removeItem("access_token")
+        localStorage.removeItem("refresh_token")
+        localStorage.removeItem("userdata")
+        return
+      }
+
+      const response = await fetch(domain + "api/user/current-user/", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if(response.status === 401){
+        localStorage.removeItem("access_token")
+        localStorage.removeItem("refresh_token")
+        localStorage.removeItem("userdata")
+        logutOutHandler()
+        return;
+      }
+
+      const json = await response.json();
+      setUserDetails(json);
+    } catch (error) {
+      console.log("----------user not logged in -------:",error)
+    }
+  };
+
   return {
     fetchLoading,
     proxy,
@@ -477,5 +520,8 @@ export default function useFetch() {
     aToZPageDataFetch,
     aTOzResourceLoading,
     aTOzResourceData,
+
+    userDetails,
+    userDetailFetch
   };
 }

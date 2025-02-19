@@ -3,6 +3,8 @@ import lightning from "../../images/lightning.png";
 import useFetch from "../../hooks/useFetch";
 import { LuLoader2 } from "react-icons/lu";
 import { MdBookmark, MdOutlineBookmarkBorder } from "react-icons/md";
+import defaultImage from "../../images/defaultImage.jpg";
+
 function Table({
   allSites,
   favData,
@@ -15,7 +17,7 @@ function Table({
     return date.toLocaleDateString("en-US", options);
   };
 
-  const { createProxyAPI, searchLoader } = useFetch();
+  const { searchLoader } = useFetch();
 
   return (
     <div className='flex flex-col'>
@@ -77,8 +79,8 @@ function Table({
                           </td>
                           <td className='text-sm text-gray-900 py-4 whitespace-nowrap flex flex-row items-center font-medium'>
                             <img
-                              src={site.image}
-                              className=' w-[25px] h-[25px] mr-2  '
+                              src={site?.image || defaultImage}
+                              className=' w-[25px] h-[25px] mr-2 object-contain '
                               alt={site?.name ? site.name : ""}
                             />{" "}
                             {site.name}
@@ -89,7 +91,17 @@ function Table({
                           <td className='font-light  py-4 whitespace-nowrap '>
                             <div
                               onClick={() => {
-                                createProxyAPI(site.id);
+                                // createProxyAPI(site.id);
+                                if (site?.base_url) {
+                                  let url = site.base_url;
+                                  if (
+                                    !url.startsWith("http://") &&
+                                    !url.startsWith("https://")
+                                  ) {
+                                    url = "https://" + url;
+                                  }
+                                  window.open(url, "_target");
+                                }
                               }}
                               className=' border w-[74px] h-[30px] cursor-pointer text-[#3076D8] text-[14px] rounded-md flex flex-row  justify-center items-center font-medium '
                             >

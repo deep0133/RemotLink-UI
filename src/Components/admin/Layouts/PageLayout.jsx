@@ -11,6 +11,7 @@ import generateUrl from "../utils/urlGenerate";
 export default function PageLayout({ children }) {
   const [userData, setUserData] = useState(null);
   const [proiflePhoto, setProfilePhoto] = useState(null);
+  const [domain,setDomain] = useState(null)
 
   const { logutOutHandler } = useLogout();
 
@@ -35,6 +36,7 @@ export default function PageLayout({ children }) {
           ? url + userData?.profile_photo
           : null;
 
+        setDomain(url)
         setProfilePhoto(iconLink);
       };
 
@@ -48,7 +50,8 @@ export default function PageLayout({ children }) {
         <div className='left-side-menu w-[254px] sticky top-0 h-[708px] bg-white pt-8 pb-6 px-2 flex flex-col justify-between'>
           <div className=''>
             <Header
-              icon={institutionDetails?.logo}
+            // institutionDetails?.landing_page_image ?  url + institutionDetails?.landing_page_image : ""
+              icon={ institutionDetails?.logo && domain + institutionDetails?.logo}
               title={institutionDetails?.name || "Institute Name"}
             />
             <SidebarMenu />
@@ -97,7 +100,7 @@ export default function PageLayout({ children }) {
 const Header = ({ icon, title }) => {
   return (
     <div className=' h-7 flex items-center gap-2'>
-      {icon ? <img src={icon} alt='logo' /> : <LogoIcon />}
+      {icon ? <img src={icon} className="h-full object-contain" alt='logo' /> : <LogoIcon />}
       <div className=' text-violet-800 text-[13px] font-semibold font-poppins'>
         {title}
       </div>

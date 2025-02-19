@@ -11,6 +11,7 @@ import xicon from "../../images/X.png";
 import linkedinicon from "../../images/linkedin.png";
 import generateUrl from "../admin/utils/urlGenerate";
 import AccountSettings from "./Accountsettings/accountSettings";
+import useFetch from "../../hooks/useFetch";
 
 function Profile({
   logutOutHandler,
@@ -19,27 +20,9 @@ function Profile({
   notificationData,
 }) {
   const [activeTab, setActiveTab] = useState("Profileoverview");
-  const [userDetails, setUserDetails] = useState("");
+  // const [, setUserDetails] = useState("");
 
-  const userDetailFetch = async () => {
-    try {
-      const domain = await generateUrl();
-      const token = localStorage.getItem("access_token");
-
-      const response = await fetch(domain + "api/user/current-user/", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const json = await response.json();
-      setUserDetails(json);
-    } catch (error) {
-      // console.error("Error fetching user details:", error);
-    }
-  };
+  const {userDetails,userDetailFetch} = useFetch()
 
   useEffect(() => {
     userDetailFetch();

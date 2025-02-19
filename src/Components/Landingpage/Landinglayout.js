@@ -24,8 +24,8 @@ const Landinglayout = ({
   } = useFetch();
 
   useEffect(() => {
-    landingPageCategorialResourceFetch("access_count");
-    landingPageFeaturedResourcesFetch();
+    // landingPageCategorialResourceFetch("access_count");
+    // landingPageFeaturedResourcesFetch();
     // eslint-disable-next-line
   }, []);
 
