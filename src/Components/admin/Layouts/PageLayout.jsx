@@ -1,7 +1,7 @@
 import { LoginIcon, LogoIcon } from "../assets/constants";
 import { sidebarData } from "../data";
 import { DonaldTrump } from "../assets/images/index";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
@@ -11,7 +11,7 @@ import generateUrl from "../utils/urlGenerate";
 export default function PageLayout({ children }) {
   const [userData, setUserData] = useState(null);
   const [proiflePhoto, setProfilePhoto] = useState(null);
-  const [domain,setDomain] = useState(null)
+  const [domain, setDomain] = useState(null);
 
   const { logutOutHandler } = useLogout();
 
@@ -36,7 +36,7 @@ export default function PageLayout({ children }) {
           ? url + userData?.profile_photo
           : null;
 
-        setDomain(url)
+        setDomain(url);
         setProfilePhoto(iconLink);
       };
 
@@ -50,16 +50,26 @@ export default function PageLayout({ children }) {
         <div className='left-side-menu w-[254px] sticky top-0 h-[708px] bg-white pt-8 pb-6 px-2 flex flex-col justify-between'>
           <div className=''>
             <Header
-            // institutionDetails?.landing_page_image ?  url + institutionDetails?.landing_page_image : ""
-              icon={ institutionDetails?.logo && domain + institutionDetails?.logo}
+              icon={
+                institutionDetails?.logo && domain + institutionDetails?.logo
+              }
               title={institutionDetails?.name || "Institute Name"}
             />
             <SidebarMenu />
           </div>
 
-          <div className='project-manager bottom-0 px-3 mt-8 flex items-center gap-1'>
+          <div className='project-manager bottom-0 px-3 flex items-center gap-1'>
+            <Link
+              to={"/Home"}
+              class='text-black line-clamp-1 text-nowrap text-xs font-semibold font-Poppins tracking-tight px-2'
+            >
+              Go to Home
+            </Link>
+          </div>
+
+          <div className='project-manager bottom-0 px-3 flex items-center gap-1'>
             <DonaldTrump url={proiflePhoto || ""} />
-            <div className='content  flex justify-start gap-6 items-center flex-1 '>
+            <div className='content flex justify-start gap-6 items-center flex-1 '>
               <div>
                 <h3 className='text-black line-clamp-1 text-nowrap text-xs font-semibold font-Poppins tracking-tight'>
                   {userData
@@ -99,12 +109,16 @@ export default function PageLayout({ children }) {
 
 const Header = ({ icon, title }) => {
   return (
-    <div className=' h-7 flex items-center gap-2'>
-      {icon ? <img src={icon} className="h-full object-contain" alt='logo' /> : <LogoIcon />}
+    <Link to={"/"} className=' w-fit h-7 flex items-center gap-2'>
+      {icon ? (
+        <img src={icon} className='h-full object-contain' alt='logo' />
+      ) : (
+        <LogoIcon />
+      )}
       <div className=' text-violet-800 text-[13px] font-semibold font-poppins'>
         {title}
       </div>
-    </div>
+    </Link>
   );
 };
 

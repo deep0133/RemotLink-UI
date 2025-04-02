@@ -17,7 +17,6 @@ import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 import instituteDefaultLogo from "../../images/instituteDefaultLogo.png";
 const Landingfooter = ({ domain, institutionDetails }) => {
-
   const handleBackToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -35,7 +34,7 @@ const Landingfooter = ({ domain, institutionDetails }) => {
                   <div className=' rounded-md bg-white purple:bg-secondary '>
                     {institutionDetails.logo ? (
                       <img
-                        className='w-[57.161px] h-[76.68px]'
+                        className='w-[57.161px] h-[76.68px] object-contain'
                         src={domain + institutionDetails.logo}
                         alt='instituet'
                       />

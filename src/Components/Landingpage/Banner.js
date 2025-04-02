@@ -27,7 +27,7 @@ const Banner = ({ institutionDetails }) => {
         <div className='flex  ml-6  md:max-xl:ml-16 xl:ml-32 items-center justify-center '>
           {institutionDetails?.logo ? (
             <img
-              className='w-[43px] h-[57.683px]'
+              className='w-[43px] h-[57.683px] object-contain'
               src={url + institutionDetails?.logo}
               alt='banner'
             />

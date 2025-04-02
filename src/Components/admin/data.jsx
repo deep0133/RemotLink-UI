@@ -65,21 +65,21 @@ export const DashBoardRightMenu = [
     name: "Overall",
     path: "/admin/dashboard",
   },
-  {
-    id: 2,
-    name: "User Categories",
-    path: "/admin/dashboard/usercategory",
-  },
-  {
-    id: 3,
-    name: "Categories",
-    path: "/admin/dashboard/categories",
-  },
-  {
-    id: 4,
-    name: "e-Resources",
-    path: "/admin/dashboard/resources",
-  },
+  // {
+  //   id: 2,
+  //   name: "User Categories",
+  //   path: "/admin/dashboard/usercategory",
+  // },
+  // {
+  //   id: 3,
+  //   name: "Categories",
+  //   path: "/admin/dashboard/categories",
+  // },
+  // {
+  //   id: 4,
+  //   name: "e-Resources",
+  //   path: "/admin/dashboard/resources",
+  // },
 ];
 
 export const CategroyRightMenu = [

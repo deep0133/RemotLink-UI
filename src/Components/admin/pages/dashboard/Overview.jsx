@@ -560,7 +560,7 @@ const Details = ({
 
       {/* -------- Section 4 ------------ : Categroy ---*/}
       <div className='category mt-5 gap-5 w-full flex py-3 bg-white rounded-[10px] border border-blue-800 border-opacity-10'>
-        <div className='left p-5 basis-[40%] flex flex-col border-r'>
+        {/* <div className='left p-5 basis-[40%] flex flex-col border-r'>
           <div className='text-violet-800 text-[22px] font-semibold font-Poppins leading-[33px]'>
             Categories
           </div>
@@ -582,12 +582,9 @@ const Details = ({
               <br />
               is the maximum in past 1 month
             </div>
-            {/* <div className='w-4 h-4 left-0 top-[2px] absolute bg-lime-600 rounded-[46px]'>
-                <div className='w-[11px] h-[11px] left-[2.70px] top-[2.32px] absolute' />
-              </div> */}
           </div>
-        </div>
-        <div className='right basis-3/5 p-5'>
+        </div> */}
+        <div className='right w-full badsis-3/5 p-5'>
           <div className='flex justify-between'>
             <div className=' flex'>
               <div
@@ -623,7 +620,7 @@ const Details = ({
           </div>
 
           {recentlyTop === "recently" && (
-            <div className='card-container grid grid-cols-2 gap-5 mt-5'>
+            <div className='card-container grid grid-cols-4 gap-5 mt-5'>
               {overviewRecentlyUpdatedData &&
                 overviewRecentlyUpdatedData.slice(0, 6).map((item) => {
                   return (
@@ -640,7 +637,7 @@ const Details = ({
           )}
 
           {recentlyTop === "top" && (
-            <div className='card-container grid grid-cols-2 gap-5 mt-5'>
+            <div className='card-container grid grid-cols-4 gap-5 mt-5'>
               {reportSiteData &&
               reportSiteData.results &&
               reportSiteData.results.length > 0 ? (
@@ -654,7 +651,7 @@ const Details = ({
                   );
                 })
               ) : (
-                <div className='p-2 rounded-md'>
+                <div className='p-2 rounded-md col-span-full'>
                   <NoDataFound />
                 </div>
               )}

@@ -46,7 +46,7 @@ export default function Dashboard() {
             />
           }
         />
-        <Route path='/usercategory' element={<UserCategory />} />
+        {/* <Route path='/usercategory' element={<UserCategory />} />
         <Route
           path='/categories'
           element={
@@ -59,7 +59,7 @@ export default function Dashboard() {
         <Route
           path='/resources'
           element={<Resources siteData={siteData} siteLoading={siteLoading} />}
-        />
+        /> */}
       </Routes>
     </>
   );
