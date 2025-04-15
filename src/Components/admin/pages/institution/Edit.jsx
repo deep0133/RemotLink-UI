@@ -4,6 +4,7 @@ import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import Hero from "../../components/category/Hero";
 import { LuLoader2 } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../components/Loader/Spinner";
 
 export default function Edit({ data, updateHandler, loading, domain }) {
   return (
@@ -344,13 +345,7 @@ const EditDetail = ({ data, updateHandler, loading, domain }) => {
           }}
           className='min-w-[118px] w-max shrink-0 px-[18px] py-2.5 bg-violet-800 rounded-[5px] border border-violet-800 text-white text-[13px] font-medium font-Poppins leading-normal'
         >
-          {loading ? (
-            <div className='animate-spin w-fit mx-auto'>
-              <LuLoader2 />
-            </div>
-          ) : (
-            "Save and update "
-          )}
+          {loading ? <Spinner /> : "Save and update "}
         </button>
       </div>
     </div>

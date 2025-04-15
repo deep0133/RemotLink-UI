@@ -188,6 +188,7 @@
 
 .bg-img {
   background-image: url("./images/profilebg.png");
+  background-size: cover;
 }
 
 .bg-img-mobile {
@@ -275,4 +276,14 @@
 
 .hover-scale:hover {
   transform: scale(1.05);
+}
+
+.custom-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -93,6 +93,11 @@ export const CategroyRightMenu = [
     name: "User Categories",
     path: "/admin/category/user",
   },
+  {
+    id: 3,
+    name: "Course Category",
+    path: "/admin/category/course-categories",
+  },
 ];
 
 export const ReportsRightMenu = [

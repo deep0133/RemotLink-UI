@@ -21,11 +21,11 @@ export default function AddCategory({
       <Hero
         name={hero_name}
         description={
-          "Streamline the process of adding new users to your system."
+          "Streamline the process of adding site category to your system."
         }
-        icon={<BulkUserIcon />}
-        btnText={"Bulk Add Users"}
-        btnLink={btnLink}
+        // icon={<BulkUserIcon />}
+        // btnText={"Bulk Add Users"}
+        // btnLink={btnLink}
       />
       <AddSection
         data={data}
@@ -119,7 +119,7 @@ const AddSection = ({
             onChange={(e) => {
               onChangeHandler(e);
             }}
-            className='w-[492px] px-3.5 py-2.5 focus:outline-none text-gray-900 text-sm font-medium font-Poppins leading-7 bg-white rounded-[5px]'
+            className=' px-3.5 py-2.5 focus:outline-none text-gray-900 text-sm font-medium font-Poppins leading-7 bg-white rounded-[5px]'
           ></textarea>
         </div>
       </div>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-// import profileIcon from "../../images/user-square.png";
 import { RxAvatar } from "react-icons/rx";
 import facebookicon from "../../images/Facebook.png";
 import instagramicon from "../../images/Instagrm.png";
@@ -20,9 +19,8 @@ function Profile({
   notificationData,
 }) {
   const [activeTab, setActiveTab] = useState("Profileoverview");
-  // const [, setUserDetails] = useState("");
 
-  const {userDetails,userDetailFetch} = useFetch()
+  const { userDetails, userDetailFetch } = useFetch();
 
   useEffect(() => {
     userDetailFetch();
@@ -35,11 +33,15 @@ function Profile({
       const fetchUrl = async () => {
         const url = await generateUrl();
 
-        const imageLink = userDetails?.profile_photo
-          ? url + userDetails?.profile_photo
-          : null;
+        if (userDetails?.profile_photo?.startsWith("https")) {
+          setImageUrl(userDetails?.profile_photo);
+        } else {
+          const imageLink = userDetails?.profile_photo
+            ? url + userDetails?.profile_photo
+            : null;
 
-        setImageUrl(imageLink);
+          setImageUrl(imageLink);
+        }
       };
 
       fetchUrl();
@@ -55,11 +57,11 @@ function Profile({
         <div className=' flex'>
           <div
             className=' md:block hidden'
-            style={{ position: "sticky", top: "0", height: "100vh" }}
+            style={{ position: "sticky", top: "0", height: "100dvh" }}
           >
             <Sidebar />
           </div>
-          <span className=' flex flex-col w-[100%] '>
+          <span className='flex flex-col w-[100%]'>
             <span
               className=' flex items-center  sm:px-[50px]  px-3 justify-between '
               style={{
@@ -95,8 +97,8 @@ function Profile({
                 )}
                 <div className=' flex flex-col  mt-8 ml-3'>
                   <span className='mb-[6px] text-[22px] font-semibold leading-[20px]'>
-                    {userDetails?.first_name || "first_name"}{" "}
-                    {userDetails?.last_name || "last_name"}
+                    {userDetails?.first_name ?? "first_name"}{" "}
+                    {userDetails?.last_name ?? "last_name"}
                   </span>
                   <span className='mb-4 text-[15px] font-medium leading-[20px]'>
                     {userDetails?.description || "description"}
@@ -150,7 +152,7 @@ function Profile({
                   </span>
                 </div>
               </div>
-              <button className=' shadow shadow-slate-300 border-4 w-[120px] h-[36px] rounded-md text-[12px] font-medium bg-white text-black '>
+              <button className=' shadow shadow-slate-300 w-[120px] h-[36px] rounded-md text-[12px] font-medium bg-white'>
                 Edit Cover
               </button>
             </div>
@@ -191,8 +193,7 @@ function Profile({
                           Name
                         </span>
                         <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] sm:mt-3 mt-2'>
-                          {userDetails?.first_name}
-                          {"first_name "}
+                          {userDetails?.first_name ?? "first_name"}{" "}
                           {userDetails?.last_name || "last_name"}
                         </span>
                       </div>
@@ -295,12 +296,11 @@ function Profile({
                           {userDetails?.address || "address"}
                         </span>
                         <span className=' text-[14px] font-medium text-[#A0A0A0] font-Poppins mt-4'>
-                          State and Country
+                          City and State
                         </span>
                         <span className='text-[14px] font-medium text-[#292D32] font-Poppins leading-[24px] mt-3'>
-                          {(userDetails?.state || "-") +
-                            " " +
-                            (userDetails?.country || "-")}
+                          {userDetails?.city || "- "}{" "}
+                          {userDetails?.state || "-"}
                         </span>
                       </div>
                     </div>

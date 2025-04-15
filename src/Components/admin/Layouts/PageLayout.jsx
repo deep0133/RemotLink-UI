@@ -59,15 +59,6 @@ export default function PageLayout({ children }) {
           </div>
 
           <div className='project-manager bottom-0 px-3 flex items-center gap-1'>
-            <Link
-              to={"/Home"}
-              class='text-black line-clamp-1 text-nowrap text-xs font-semibold font-Poppins tracking-tight px-2'
-            >
-              Go to Home
-            </Link>
-          </div>
-
-          <div className='project-manager bottom-0 px-3 flex items-center gap-1'>
             <DonaldTrump url={proiflePhoto || ""} />
             <div className='content flex justify-start gap-6 items-center flex-1 '>
               <div>

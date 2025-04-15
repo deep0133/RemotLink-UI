@@ -88,6 +88,36 @@ export default function Category() {
               pagination={false}
               sortHandler={(order) => {
                 handleFetctUserCategoryData(
+                  "api/user/category/?ordering=" + order + "name"
+                );
+              }}
+              filterHandler={(date, type) => {
+                handleFetctUserCategoryData(
+                  "api/user/category/?created_at__" + type + "=" + date
+                );
+              }}
+            />
+          }
+        />
+        <Route
+          path='/course-categories'
+          element={
+            <SiteUserCategory
+              data={userCategoryData}
+              name='Course'
+              title={"Course Category Details "}
+              btnLink={"/admin/category/add/usercategory"}
+              deleteLoading={deleteLoading}
+              handleDeleteCategory={(id) => {
+                handleDelete("api/user/category/delete/" + id);
+              }}
+              fetchLoading={userCategoryLoading}
+              searchHandler={(key) => {
+                handleFetctUserCategoryData("api/user/category/" + key);
+              }}
+              pagination={false}
+              sortHandler={(order) => {
+                handleFetctUserCategoryData(
                   "api/sites/categories/?ordering=" + order + "name"
                 );
               }}

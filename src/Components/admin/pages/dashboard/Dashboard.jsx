@@ -1,10 +1,7 @@
-import { Route, Routes } from "react-router-dom";
-import Overview from "./Overview";
-import UserCategory from "./UserCategory";
-import Category from "./Category";
-import Resources from "./Resources";
-import useFetch from "../../hooks/useFetch";
 import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
+import Overview from "./Overview";
 
 export default function Dashboard() {
   const {
@@ -20,14 +17,15 @@ export default function Dashboard() {
 
   useEffect(() => {
     handleFetchOverallDashboardCard("api/dashboard/?metrics=" + weekMonth);
+    // eslint-disable-next-line
   }, [weekMonth]);
 
-  const { reportSiteLoading, reportSiteData, handleFetctSiteReports } =
-    useFetch();
+  const { handleFetctSiteReports } = useFetch();
 
   useEffect(() => {
     handleFetctSites("api/sites/");
     handleFetctSiteReports("api/report/site/");
+    // eslint-disable-next-line
   }, []);
 
   return (

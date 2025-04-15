@@ -1,32 +1,34 @@
 import React, { useRef } from "react";
 // import home_image from "../../images/Rectangle 5.png";
-import { useState, useEffect } from "react";
-import cardimage from "../../images/Rectangle 25.png";
+import { useEffect, useState } from "react";
 import newimg from "../../images/economic.png";
+import cardimage from "../../images/Rectangle 25.png";
 // import bookmarkicon from "../../images/Group 1000002939.png";
-import arrow from "../../images/bi_arrow-left-short.svg";
 import firstimg from "../../images/Rectangle 33.png";
 import secimg from "../../images/Rectangle 34.png";
 import thirdimg from "../../images/Rectangle 35.png";
 
 import { Link, useNavigate } from "react-router-dom";
+import {
+  default as Favorites_Icon,
+  default as Resources_Icon,
+} from "../../images/book-saved.svg";
 import Home_Icon from "../../images/category-2.svg";
-import Resources_Icon from "../../images/book-saved.svg";
-import Favorites_Icon from "../../images/book-saved.svg";
-import Search_Icon from "../../images/search-normal.svg";
 import help_Icon from "../../images/message-question.svg";
 import question_Icon from "../../images/Question.svg";
+import Search_Icon from "../../images/search-normal.svg";
 
-import useFetch from "../../hooks/useFetch";
-import useFavourite from "../../hooks/useFavourite";
-import CardSkeleton from "../Loader/CardSkeleton";
 import { MdBookmark, MdOutlineBookmarkBorder } from "react-icons/md";
-import HomeSlider from "./HomeSlider";
-import generateUrl from "../admin/utils/urlGenerate";
 import Slider from "react-slick";
+import useFavourite from "../../hooks/useFavourite";
+import useFetch from "../../hooks/useFetch";
 import capitalizeLetter from "../admin/utils/capitalizeLetter";
+import generateUrl from "../admin/utils/urlGenerate";
+import CardSkeleton from "../Loader/CardSkeleton";
+import HomeSlider from "./HomeSlider";
 
 import { IoChevronBackOutline } from "react-icons/io5";
+import Sidebar from "../uiSection/Sidebar";
 
 function Home({ institutionDetails }) {
   const [active, setActive] = useState("week");
@@ -200,7 +202,7 @@ function Home({ institutionDetails }) {
   return (
     <div className='sm:flex w-full'>
       {/* sidenav bar */}
-      <div
+      {/* <div
         style={{ position: "sticky", top: "0", height: "100vh" }}
         className='hidden md:flex w-[96px] flex-shrink-0 flex-col items-center p-4 border border-solid border-color-p3 shadow-md no-scrollbar '
       >
@@ -259,7 +261,8 @@ function Home({ institutionDetails }) {
             </h1>
           </div>
         </Link>
-      </div>
+      </div> */}
+      <Sidebar />
       <div className=' w-full md:w-[calc(100%-96px)]'>
         {/* ---------Hero----------------- */}
         <div className='flex md:flex-row flex-col justify-between bg-[#3A424D] border-2 min-h-[334px] md:mt-[62px] w-full relative'>

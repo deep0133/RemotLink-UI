@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import { AiTwotoneMessage } from "react-icons/ai";
 import { EditICon } from "../../assets/constants";
-import { LuLoader2 } from "react-icons/lu";
+import Spinner from "../../components/Loader/Spinner";
 
 export default function Edit({
   data,
@@ -19,7 +19,7 @@ export default function Edit({
     setId(last);
 
     if (data) {
-      const founded = data.results.find(
+      const founded = data?.results?.find(
         (msg) => String(msg.id) === String(last)
       );
       if (founded) {
@@ -97,13 +97,7 @@ const EditMsg = ({ loading, msg, setMsg, id, updateFunctionHandler }) => {
             }}
             className='min-w-[118px] w-max shrink-0 px-[18px] py-2.5 bg-violet-800 rounded-[5px] border border-violet-800 text-white text-[13px] font-medium font-Poppins leading-normal'
           >
-            {loading ? (
-              <div className='animate-spin w-fit mx-auto'>
-                <LuLoader2 />
-              </div>
-            ) : (
-              "Update Quote"
-            )}
+            {loading ? <Spinner /> : "Update Quote"}
           </button>
         </div>
       </div>

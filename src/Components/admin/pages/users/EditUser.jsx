@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../components/Dashboard/RightCommonComponents/Header";
+import { BsGenderMale } from "react-icons/bs";
+import { LuLoader2 } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 import {
   AvatarIcon,
   CategoryIcon,
-  DeleteIcon,
   EditICon,
   EmailIcon,
   LocationIcon,
   PhoneIcon,
-  ThreeDots,
 } from "../../assets/constants";
-import { LuLoader2 } from "react-icons/lu";
+import Header from "../../components/Dashboard/RightCommonComponents/Header";
 import useFetch from "../../hooks/useFetch";
-import { BsGenderMale } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import Spinner from "../../components/Loader/Spinner";
 export default function EditUser({
   head_title,
   data,
@@ -32,7 +31,7 @@ export default function EditUser({
     const last = url[url.length - 1];
     setId(last);
 
-    const founded = data.results.find(
+    const founded = data?.results?.find(
       (user) => String(user.id) === String(last)
     );
     if (founded) {
@@ -541,13 +540,7 @@ const AddSection = ({
           }}
           className='min-w-[118px] w-max shrink-0 px-[18px] py-2.5 bg-violet-800 rounded-[5px] border border-violet-800 text-white text-[13px] font-medium font-Poppins leading-normal'
         >
-          {loading ? (
-            <div className='animate-spin w-fit mx-auto'>
-              <LuLoader2 />
-            </div>
-          ) : (
-            "Add New User"
-          )}
+          {loading ? <Spinner /> : "Save Details"}
         </button>
       </div>
     </div>

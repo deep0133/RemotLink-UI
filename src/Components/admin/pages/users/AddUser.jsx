@@ -23,9 +23,7 @@ export default function AddUser({
       <Header icon={<CategoryIcon />} title={head_title} subTitle={"Users"} />
       <Hero
         name={hero_name}
-        description={
-          "Streamline the process of adding new users to your system."
-        }
+        description={"Streamline the process of adding new user to your system"}
         icon={<BulkUserIcon />}
         btnText={"Bulk Add Users"}
         btnLink={"/admin/users/bulkuser"}

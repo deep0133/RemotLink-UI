@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import Landinghome from "./Landinghome";
-import Landingheader from "./Landingheader";
-import Landingfooter from "./Landingfooter";
-import useFetch from "../../hooks/useFetch";
 import { useLocation } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
+import Landingfooter from "./Landingfooter";
+import Landingheader from "./Landingheader";
+import Landinghome from "./Landinghome";
 
 const Landinglayout = ({
   institutionDetails,
@@ -15,19 +15,11 @@ const Landinglayout = ({
   notificationData,
 }) => {
   const {
-    landingPageCategorialResourceFetch,
     catgorialResource,
     catgorialResourceLoading,
     featureResourceLoading,
     featureResourceData,
-    landingPageFeaturedResourcesFetch,
   } = useFetch();
-
-  useEffect(() => {
-    // landingPageCategorialResourceFetch("access_count");
-    // landingPageFeaturedResourcesFetch();
-    // eslint-disable-next-line
-  }, []);
 
   const { hash } = useLocation();
 

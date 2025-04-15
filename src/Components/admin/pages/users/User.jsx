@@ -119,6 +119,7 @@ export default function User() {
               data={usersData}
               updateUserLoading={updateUserLoading}
               updateFunctionHandler={(id, data) => {
+                console.log("------edit user details ------:", data);
                 handleUpdateUser("api/user/update/" + id, data);
               }}
             />

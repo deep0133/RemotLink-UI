@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-  CategoryIcon,
-  DeleteIcon,
-  EditICon,
-  FileIcon,
-  ThreeDots,
-} from "../../assets/constants";
-import Header from "../../components/Dashboard/RightCommonComponents/Header";
-import { LuLoader2 } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import { CategoryIcon, EditICon, FileIcon } from "../../assets/constants";
+import Header from "../../components/Dashboard/RightCommonComponents/Header";
+import Spinner from "../../components/Loader/Spinner";
 export default function EditCategory({
   title,
   data,
@@ -25,7 +19,7 @@ export default function EditCategory({
     let url = window.location.pathname.split("/");
     const id = url[url.length - 1];
     setId(id);
-    const foundCategory = data.find(
+    const foundCategory = data?.find(
       (category) => category.id.toString() === id.toString()
     );
 
@@ -184,13 +178,7 @@ const SiteEditSection = ({
             updateLoading ? "cursor-not-allowed bg-opacity-75" : ""
           } bg-violet-800 rounded-[5px] border border-violet-800 text-white text-[13px] font-medium font-Poppins leading-normal`}
         >
-          {updateLoading ? (
-            <div className='animate-spin w-fit mx-auto'>
-              <LuLoader2 />
-            </div>
-          ) : (
-            submitText
-          )}
+          {updateLoading ? <Spinner /> : submitText}
         </button>
       </div>
     </div>
